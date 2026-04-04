@@ -692,6 +692,11 @@ body{font-family:'EB Garamond',serif;background:var(--offwhite);color:var(--text
 .footer-bottom p{font-family:'EB Garamond',serif;font-size:0.78rem;color:rgba(255,252,248,0.28);font-style:italic;}
 
 /* TOAST */
+.tier-rec-card{border:1.5px solid rgba(184,150,12,0.2);border-radius:12px;padding:1rem 0.8rem;text-align:center;cursor:pointer;transition:all 0.25s;background:#fff;}
+.tier-rec-card:hover{border-color:var(--gold);box-shadow:0 6px 20px rgba(184,150,12,0.15);transform:translateY(-3px);}
+.tier-rec-card.recommended{border-color:var(--crimson);background:rgba(139,0,0,0.03);}
+.tier-rec-card.recommended::before{content:'✦ Recommended';display:block;font-family:'Cinzel',serif;font-size:0.42rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--crimson);margin-bottom:0.4rem;}
+
 .toast{position:fixed;bottom:2.5rem;left:50%;transform:translateX(-50%) translateY(16px);background:rgba(255,252,248,0.98);border:1px solid rgba(184,150,12,0.22);border-left:3px solid var(--gold2);border-radius:50px;padding:0.82rem 2rem;font-family:'EB Garamond',serif;font-size:0.92rem;color:var(--text);z-index:9999;opacity:0;transition:opacity 0.3s,transform 0.3s;pointer-events:none;box-shadow:0 10px 30px rgba(0,0,0,0.08);white-space:nowrap;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
@@ -1199,7 +1204,7 @@ body{font-family:'EB Garamond',serif;background:var(--offwhite);color:var(--text
           <div class="ff"><label>Marital Status *</label><select id="s_ms"><option value="">Select</option><option>Never Married</option><option>Divorced</option><option>Widowed</option><option>Awaiting Divorce</option></select></div>
           <div class="ff"><label>Religion</label><input value="Hindu" readonly style="color:var(--muted);font-style:italic;"></div>
           <div class="ff"><label>Caste</label><input value="Reddy" readonly style="color:var(--muted);font-style:italic;"></div>
-          <div class="ff"><label>Sub-Caste / Gotra *</label><input id="s_gotra" type="text" placeholder="e.g. Kapu, Kamma, etc."></div>
+          <div class="ff"><label>Sub-Caste / Gotra *</label><select id="s_gotra"><option value="">Select</option><option>Motati</option><option>Gudati</option><option>Pakanati</option><option>Gone</option><option>Chittepu</option><option>Bhumanchi</option><option>Pedakanti</option><option>Velama</option><option>Mudiraj</option><option>Gajula</option><option>Niyogi</option><option>Vaidiki</option><option>Turpu Kapu</option><option>Telaga</option><option>Other</option></select></div>
           <div class="ff"><label>Nakshatra *</label><select id="s_nak"><option value="">Select</option><option>Ashwini</option><option>Bharani</option><option>Krittika</option><option>Rohini</option><option>Mrigashira</option><option>Ardra</option><option>Punarvasu</option><option>Pushya</option><option>Ashlesha</option><option>Magha</option><option>Purva Phalguni</option><option>Uttara Phalguni</option><option>Hasta</option><option>Chitra</option><option>Swati</option><option>Vishakha</option><option>Anuradha</option><option>Jyeshtha</option><option>Mula</option><option>Purva Ashadha</option><option>Uttara Ashadha</option><option>Shravana</option><option>Dhanishtha</option><option>Shatabhisha</option><option>Purva Bhadrapada</option><option>Uttara Bhadrapada</option><option>Revati</option></select></div>
           <div class="ff"><label>Rashi (Moon Sign) *</label><select id="s_rashi"><option value="">Select</option><option>Mesha (Aries)</option><option>Vrishabha (Taurus)</option><option>Mithuna (Gemini)</option><option>Karka (Cancer)</option><option>Simha (Leo)</option><option>Kanya (Virgo)</option><option>Tula (Libra)</option><option>Vrishchika (Scorpio)</option><option>Dhanu (Sagittarius)</option><option>Makara (Capricorn)</option><option>Kumbha (Aquarius)</option><option>Meena (Pisces)</option></select></div>
         </div>
@@ -1210,8 +1215,8 @@ body{font-family:'EB Garamond',serif;background:var(--offwhite);color:var(--text
           <div class="ff"><label>Mobile Number *</label><input id="s_mob" type="tel" placeholder="+91 98765 43210"></div>
           <div class="ff"><label>Email Address *</label><input id="s_email" type="email" placeholder="your@email.com"></div>
           <div class="ff"><label>City *</label><input id="s_city" type="text" placeholder="e.g. Hyderabad"></div>
-          <div class="ff"><label>State *</label><select id="s_state"><option value="">Select</option><option>Telangana</option><option>Andhra Pradesh</option><option>Karnataka</option><option>Tamil Nadu</option><option>Maharashtra</option><option>Delhi</option><option>Gujarat</option><option>Other</option></select></div>
-          <div class="ff"><label>Country *</label><select id="s_country"><option value="">Select</option><option>India</option><option>USA</option><option>UK</option><option>Canada</option><option>Australia</option><option>UAE</option><option>Singapore</option><option>Other</option></select></div>
+          <div class="ff"><label>State *</label><select id="s_state"><option value="">Select</option><optgroup label="South India"><option>Telangana</option><option>Andhra Pradesh</option><option>Karnataka</option><option>Tamil Nadu</option><option>Kerala</option></optgroup><optgroup label="Other Indian States"><option>Maharashtra</option><option>Delhi</option><option>Gujarat</option><option>Rajasthan</option><option>Uttar Pradesh</option><option>Madhya Pradesh</option><option>Punjab</option><option>Haryana</option><option>Bihar</option><option>West Bengal</option><option>Odisha</option><option>Assam</option><option>Jharkhand</option><option>Chhattisgarh</option><option>Uttarakhand</option><option>Himachal Pradesh</option><option>Jammu &amp; Kashmir</option><option>Goa</option><option>Other Indian State</option></optgroup><optgroup label="USA"><option>California</option><option>Texas</option><option>New York</option><option>New Jersey</option><option>Illinois</option><option>Washington</option><option>Georgia</option><option>Florida</option><option>Other US State</option></optgroup><optgroup label="Other Countries"><option>UK</option><option>Canada</option><option>Australia</option><option>UAE</option><option>Singapore</option><option>New Zealand</option><option>Germany</option><option>Netherlands</option><option>Other</option></optgroup></select></div>
+          <div class="ff"><label>Country *</label><select id="s_country"><option value="">Select</option><optgroup label="Most Popular"><option>India</option><option>USA</option><option>UK</option><option>Canada</option><option>Australia</option><option>UAE</option><option>Singapore</option><option>New Zealand</option></optgroup><optgroup label="Europe"><option>Germany</option><option>Netherlands</option><option>France</option><option>Sweden</option><option>Switzerland</option><option>Italy</option><option>Spain</option><option>Belgium</option><option>Other Europe</option></optgroup><optgroup label="Middle East"><option>Qatar</option><option>Kuwait</option><option>Bahrain</option><option>Oman</option><option>Saudi Arabia</option></optgroup><optgroup label="Asia Pacific"><option>Malaysia</option><option>Japan</option><option>Hong Kong</option><option>New Zealand</option></optgroup><optgroup label="Other"><option>South Africa</option><option>Other</option></optgroup></select></div>
           <div class="ff"><label>Residential Status</label><select id="s_res"><option>Permanent Resident</option><option>NRI</option><option>Student Abroad</option><option>Work Visa</option></select></div>
         </div>
       </div>
@@ -1236,15 +1241,25 @@ body{font-family:'EB Garamond',serif;background:var(--offwhite);color:var(--text
 
     <!-- Step 3 -->
     <div class="form-step" id="fs3" style="position:relative;z-index:1;">
-      <div class="form-sec"><div class="form-sec-title"><span>🏠</span> Family Background</div><div class="g2"><div class="ff"><label>Family Type</label><select id="s_ft"><option>Nuclear Family</option><option>Joint Family</option></select></div><div class="ff"><label>Family Values</label><select id="s_fv"><option>Orthodox</option><option>Traditional</option><option>Moderate</option><option>Liberal</option></select></div><div class="ff"><label>Family Status</label><select id="s_fst"><option>Middle Class</option><option>Upper Middle Class</option><option>Rich / Affluent</option><option>Wealthy</option></select></div><div class="ff"><label>Native Place / District *</label><input id="s_native" type="text" placeholder="e.g. Nalgonda, Warangal"></div></div></div>
-      <div class="form-sec"><div class="form-sec-title"><span>👨‍👩‍👧</span> Parents</div><div class="g2"><div class="ff"><label>Father's Name</label><input id="s_fn" type="text" placeholder="Father's full name"></div><div class="ff"><label>Father's Status</label><select id="s_fas"><option value="">Select</option><option>Employed</option><option>Business</option><option>Retired</option><option>Farmer</option><option>Passed Away</option></select></div><div class="ff"><label>Father's Occupation</label><input id="s_fo" type="text" placeholder="e.g. Farmer, Businessman"></div><div class="ff"><label>Mother's Name</label><input id="s_mn" type="text" placeholder="Mother's full name"></div><div class="ff"><label>Mother's Status</label><select id="s_mas"><option value="">Select</option><option>Homemaker</option><option>Employed</option><option>Retired</option><option>Passed Away</option></select></div><div class="ff"><label>Mother's Native</label><input id="s_mm" type="text" placeholder="Mother's native / gotra"></div></div></div>
-      <div class="form-sec"><div class="form-sec-title"><span>👫</span> Siblings &amp; Property</div><div class="g2"><div class="ff"><label>Brothers</label><select id="s_br"><option>0</option><option>1</option><option>2</option><option>3</option><option>4+</option></select></div><div class="ff"><label>Brothers Married</label><select id="s_brm"><option>0</option><option>1</option><option>2</option><option>3</option><option>4+</option></select></div><div class="ff"><label>Sisters</label><select id="s_sr"><option>0</option><option>1</option><option>2</option><option>3</option><option>4+</option></select></div><div class="ff"><label>Sisters Married</label><select id="s_srm"><option>0</option><option>1</option><option>2</option><option>3</option><option>4+</option></select></div><div class="ff"><label>Own Property</label><select id="s_prop"><option>Own House</option><option>Rented</option><option>Family Property</option><option>Agricultural Land</option></select></div><div class="ff"><label>Property Value</label><select id="s_pval"><option>Below 10 Lakhs</option><option>10–50 Lakhs</option><option>50L – 1 Crore</option><option>1–5 Crores</option><option>Above 5 Crores</option></select></div></div></div>
+      <div class="form-sec"><div class="form-sec-title"><span>🏠</span> Family Background</div><div class="g2"><div class="ff"><label>Family Type</label><select id="s_ft"><option>Nuclear Family</option><option>Joint Family</option></select></div><div class="ff"><label>Family Values</label><select id="s_fv"><option>Orthodox</option><option>Traditional</option><option>Moderate</option><option>Liberal</option></select></div><div class="ff"><label>Family Status</label><select id="s_fst" onchange="showTierRecommendation(this.value)"><option value="">Select</option><option>Middle Class</option><option>Upper Middle Class</option><option>Rich / Affluent</option><option>Wealthy</option></select></div><div class="ff"><label>Native Place / District *</label><input id="s_native" type="text" placeholder="e.g. Nalgonda, Warangal"></div></div></div>
+      <div class="form-sec"><div class="form-sec-title"><span>👨‍👩‍👧</span> Parents</div><div class="g2">
+        <div class="ff"><label>Father's Name</label><input id="s_fn" type="text" placeholder="Father's full name"></div>
+        <div class="ff"><label>Father's Mobile</label><input id="s_fmob" type="tel" placeholder="+91 98765 43210"></div>
+        <div class="ff"><label>Father's Status</label><select id="s_fas" onchange="toggleFatherOcc()"><option value="">Select</option><option>Employed</option><option>Business</option><option>Retired</option><option>Farmer</option><option>Passed Away</option></select></div>
+        <div class="ff" id="s_fo_wrap"><label>Father's Occupation</label><input id="s_fo" type="text" placeholder="e.g. Govt Officer, Business"></div>
+        <div class="ff"><label>Father's Gotra / Sub-Caste</label><select id="s_fg"><option value="">Select</option><option>Motati</option><option>Gudati</option><option>Pakanati</option><option>Gone</option><option>Chittepu</option><option>Bhumanchi</option><option>Pedakanti</option><option>Velama</option><option>Mudiraj</option><option>Gajula</option><option>Niyogi</option><option>Vaidiki</option><option>Turpu Kapu</option><option>Telaga</option><option>Other</option></select></div>
+        <div class="ff"><label>Mother's Name</label><input id="s_mn" type="text" placeholder="Mother's full name"></div>
+        <div class="ff"><label>Mother's Mobile</label><input id="s_mmob" type="tel" placeholder="+91 98765 43210"></div>
+        <div class="ff"><label>Mother's Status</label><select id="s_mas" onchange="toggleMotherOcc()"><option value="">Select</option><option>Homemaker</option><option>Employed</option><option>Business</option><option>Retired</option><option>Passed Away</option></select></div>
+        <div class="ff" id="s_mo_wrap" style="display:none;"><label>Mother's Occupation</label><input id="s_mo" type="text" placeholder="e.g. Teacher, Doctor"></div>
+      </div></div>
+      <div class="form-sec"><div class="form-sec-title"><span>👫</span> Siblings &amp; Property</div><div class="g2"><div class="ff"><label>Brothers</label><select id="s_br"><option>0</option><option>1</option><option>2</option><option>3</option><option>4+</option></select></div><div class="ff"><label>Brothers Married</label><select id="s_brm"><option>0</option><option>1</option><option>2</option><option>3</option><option>4+</option></select></div><div class="ff"><label>Sisters</label><select id="s_sr"><option>0</option><option>1</option><option>2</option><option>3</option><option>4+</option></select></div><div class="ff"><label>Sisters Married</label><select id="s_srm"><option>0</option><option>1</option><option>2</option><option>3</option><option>4+</option></select></div><div class="ff"><label>Own Property</label><select id="s_prop" onchange="togglePropVal()"><option>Own House</option><option>Rented</option><option>Family Property</option><option>Agricultural Land</option><option>I do not wish to disclose</option></select></div><div class="ff" id="s_pval_wrap"><label>Property Value</label><select id="s_pval"><option>Below 10 Lakhs</option><option>10–50 Lakhs</option><option>50L – 1 Crore</option><option>1–5 Crores</option><option>Above 5 Crores</option></select></div></div></div>
       <div class="step-nav"><button class="btn-step back" onclick="goStep(2)">← Back</button><button class="btn-step next" onclick="goStep(4)">Next: Preferences →</button></div>
     </div>
 
     <!-- Step 4 -->
     <div class="form-step" id="fs4" style="position:relative;z-index:1;">
-      <div class="form-sec"><div class="form-sec-title"><span>💑</span> Partner Preferences</div><div class="g2"><div class="ff"><label>Preferred Age From</label><input id="pp_af" type="number" placeholder="e.g. 22"></div><div class="ff"><label>Preferred Age To</label><input id="pp_at" type="number" placeholder="e.g. 30"></div><div class="ff"><label>Min Height</label><select id="pp_hf"><option value="">Any</option><option>5'0"</option><option>5'2"</option><option>5'4"</option><option>5'5"</option><option>5'6"</option><option>5'7"</option><option>5'8"</option><option>5'10"</option><option>6'0"</option></select></div><div class="ff"><label>Expected Education</label><select id="pp_edu"><option value="">Any</option><option>Graduate &amp; Above</option><option>Post Graduate</option><option>Professional Degree</option><option>Doctorate</option></select></div><div class="ff"><label>Expected Profession</label><input id="pp_occ" type="text" placeholder="e.g. Doctor, Engineer, Any"></div><div class="ff"><label>Expected Income</label><select id="pp_inc"><option value="">Any</option><option>4 L+</option><option>6 L+</option><option>10 L+</option><option>20 L+</option><option>50 L+</option></select></div><div class="ff"><label>Preferred State</label><select id="pp_st"><option value="">Any</option><option>Telangana</option><option>Andhra Pradesh</option><option>Karnataka</option><option>Tamil Nadu</option></select></div><div class="ff"><label>NRI Acceptable?</label><select id="pp_nri"><option>Open to NRI</option><option>Prefer India-based</option><option>No Preference</option></select></div></div><div class="ff" style="margin-top:0.5rem;"><label>Other Expectations</label><textarea id="pp_note" placeholder="Any specific expectations about partner or family…" rows="3"></textarea></div></div>
+      <div class="form-sec"><div class="form-sec-title"><span>💑</span> Partner Preferences</div><div class="g2"><div class="ff"><label>Preferred Age From</label><input id="pp_af" type="number" placeholder="e.g. 22"></div><div class="ff"><label>Preferred Age To</label><input id="pp_at" type="number" placeholder="e.g. 30"></div><div class="ff"><label>Min Height</label><select id="pp_hf"><option value="">Any</option><option>5'0"</option><option>5'2"</option><option>5'4"</option><option>5'5"</option><option>5'6"</option><option>5'7"</option><option>5'8"</option><option>5'10"</option><option>6'0"</option></select></div><div class="ff"><label>Expected Education</label><select id="pp_edu"><option value="">Any</option><option>Graduate &amp; Above</option><option>Post Graduate</option><option>Professional Degree</option><option>Doctorate</option></select></div><div class="ff"><label>Expected Profession</label><input id="pp_occ" type="text" placeholder="e.g. Doctor, Engineer, Any"></div><div class="ff"><label>Expected Income</label><select id="pp_inc"><option value="">Any</option><option>4 L+</option><option>6 L+</option><option>10 L+</option><option>20 L+</option><option>50 L+</option></select></div><div class="ff"><label>Preferred Location</label><input id="pp_st" type="text" placeholder="e.g. Hyderabad, London, Singapore, Any"></div><div class="ff"><label>NRI Acceptable?</label><select id="pp_nri"><option>Open to NRI</option><option>Prefer India-based</option><option>No Preference</option></select></div></div><div class="ff" style="margin-top:0.5rem;"><label>Other Expectations</label><textarea id="pp_note" placeholder="Any specific expectations about partner or family…" rows="3"></textarea></div></div>
       <div class="step-nav"><button class="btn-step back" onclick="goStep(3)">← Back</button><button class="btn-step next" onclick="goStep(5)">Next: Membership →</button></div>
     </div>
 
@@ -1274,6 +1289,43 @@ body{font-family:'EB Garamond',serif;background:var(--offwhite);color:var(--text
         <div class="chk-row"><input type="checkbox" id="tcAgree"><label for="tcAgree">I agree to all Terms &amp; Conditions. I confirm I belong to the <strong>Reddy community, Hindu religion</strong>. I understand the post-engagement payment and 3-account viewing restriction.</label></div>
         <button class="btn-prim" onclick="doRegister()">Complete Registration</button>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     MEMBERSHIP RECOMMENDATION POPUP
+══════════════════════════════════════ -->
+<div class="overlay" id="tierRecOv" onclick="bgC(event,'tierRecOv')">
+  <div class="modal-lux" style="max-width:580px;max-height:92vh;overflow-y:auto;">
+    <div class="m-head">
+      <div class="m-title" id="tierRecTitle">Recommended Membership</div>
+      <div class="m-sub" id="tierRecSub">Based on your family status</div>
+      <button class="m-close" onclick="closeOv('tierRecOv')">✕</button>
+    </div>
+    <div class="m-body">
+      <div id="tierRecMsg" style="font-family:'EB Garamond',serif;font-size:0.92rem;color:var(--muted);line-height:1.8;margin-bottom:1.4rem;padding:0.8rem 1rem;background:rgba(253,246,216,0.5);border-left:3px solid var(--gold2);border-radius:4px;"></div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.8rem;margin-bottom:1rem;">
+        <div class="tier-rec-card" id="trc_VIP" onclick="pickTierFromPopup('VIP')">
+          <div style="font-size:1.4rem;margin-bottom:0.3rem;">👑</div>
+          <div style="font-family:'Cinzel',serif;font-size:0.58rem;font-weight:700;color:var(--crimson);">VIP</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:0.85rem;color:var(--gold);">₹15,000/yr</div>
+          <div style="font-family:'EB Garamond',serif;font-size:0.72rem;color:var(--muted);margin-top:0.3rem;line-height:1.5;">Browse verified profiles · Express interest · Bureau matchmaking</div>
+        </div>
+        <div class="tier-rec-card" id="trc_VVIP" onclick="pickTierFromPopup('VVIP')">
+          <div style="font-size:1.4rem;margin-bottom:0.3rem;">💎</div>
+          <div style="font-family:'Cinzel',serif;font-size:0.58rem;font-weight:700;color:var(--crimson);">VVIP</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:0.85rem;color:var(--gold);">₹30,000/yr</div>
+          <div style="font-family:'EB Garamond',serif;font-size:0.72rem;color:var(--muted);margin-top:0.3rem;line-height:1.5;">All VIP + Priority search · Dedicated manager · NRI access</div>
+        </div>
+        <div class="tier-rec-card" id="trc_Elite" onclick="pickTierFromPopup('Elite')">
+          <div style="font-size:1.4rem;margin-bottom:0.3rem;">🔱</div>
+          <div style="font-family:'Cinzel',serif;font-size:0.58rem;font-weight:700;color:var(--crimson);">Elite</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:0.85rem;color:var(--gold);">₹1,00,000/yr</div>
+          <div style="font-family:'EB Garamond',serif;font-size:0.72rem;color:var(--muted);margin-top:0.3rem;line-height:1.5;">All VVIP + Exclusive pool · White-glove service · Global NRI</div>
+        </div>
+      </div>
+      <button class="btn-prim" onclick="closeOv('tierRecOv')" style="background:transparent;border:1.5px solid rgba(184,150,12,0.35);color:var(--muted);box-shadow:none;">I'll decide later</button>
     </div>
   </div>
 </div>
@@ -1346,9 +1398,41 @@ body{font-family:'EB Garamond',serif;background:var(--offwhite);color:var(--text
       <div class="pv-sec-title">Basic Information</div>
       <div class="pv-grid" id="pvBasicGrid"></div>
     </div>
+    <div class="pv-card" id="pvContactCard">
+      <div class="pv-sec-title">Contact &amp; Location</div>
+      <div class="pv-grid" id="pvContactGrid"></div>
+    </div>
+    <div class="pv-card" id="pvPhysCard">
+      <div class="pv-sec-title">Physical Details</div>
+      <div class="pv-grid" id="pvPhysGrid"></div>
+    </div>
+    <div class="pv-card" id="pvEduCard">
+      <div class="pv-sec-title">Education &amp; Career</div>
+      <div class="pv-grid" id="pvEduGrid"></div>
+    </div>
+    <div class="pv-card" id="pvLifeCard">
+      <div class="pv-sec-title">Lifestyle</div>
+      <div class="pv-grid" id="pvLifeGrid"></div>
+    </div>
     <div class="pv-card" id="pvAstroCard">
       <div class="pv-sec-title">Spiritual &amp; Astrological</div>
       <div class="pv-grid" id="pvAstroGrid"></div>
+    </div>
+    <div class="pv-card" id="pvFamBgCard">
+      <div class="pv-sec-title">Family Background</div>
+      <div class="pv-grid" id="pvFamBgGrid"></div>
+    </div>
+    <div class="pv-card" id="pvParentCard">
+      <div class="pv-sec-title">Parents Information</div>
+      <div class="pv-grid" id="pvParentGrid"></div>
+    </div>
+    <div class="pv-card" id="pvSibCard">
+      <div class="pv-sec-title">Siblings &amp; Property</div>
+      <div class="pv-grid" id="pvSibGrid"></div>
+    </div>
+    <div class="pv-card" id="pvPrefCard">
+      <div class="pv-sec-title">Partner Preferences</div>
+      <div class="pv-grid" id="pvPrefGrid"></div>
     </div>
     <div class="pv-card" id="pvFamCard">
       <div class="pv-sec-title">Family Details</div>
@@ -1748,7 +1832,46 @@ async function doRegister(){
     rashi:document.getElementById('s_rashi').value||'—',
     nak:document.getElementById('s_nak').value||'—',
     fn:document.getElementById('s_fn').value.trim()||'—',
+    fmob:document.getElementById('s_fmob').value.trim()||'—',
+    fas:document.getElementById('s_fas').value||'—',
+    fo:document.getElementById('s_fo').value.trim()||'—',
+    fg:document.getElementById('s_fg').value||'—',
     mn:document.getElementById('s_mn').value.trim()||'—',
+    mmob:document.getElementById('s_mmob').value.trim()||'—',
+    mas:document.getElementById('s_mas').value||'—',
+    mo:document.getElementById('s_mo').value.trim()||'—',
+    prop:document.getElementById('s_prop').value||'—',
+    pval:document.getElementById('s_prop').value==='I do not wish to disclose'?'—':document.getElementById('s_pval').value||'—',
+    pploc:document.getElementById('pp_st').value.trim()||'Any',
+    wt:document.getElementById('s_wt').value||'—',
+    cx:document.getElementById('s_cx').value||'—',
+    bt:document.getElementById('s_bt').value||'—',
+    bl:document.getElementById('s_bg').value||'—',
+    da:document.getElementById('s_da').value||'No',
+    col:document.getElementById('s_col').value.trim()||'—',
+    emp:document.getElementById('s_emp').value||'—',
+    co:document.getElementById('s_co').value.trim()||'—',
+    smk:document.getElementById('s_smk').value||'Never',
+    drk:document.getElementById('s_drk').value||'Never',
+    ft:document.getElementById('s_ft').value||'—',
+    fv:document.getElementById('s_fv').value||'—',
+    fst:document.getElementById('s_fst').value||'—',
+    br:document.getElementById('s_br').value||'0',
+    brm:document.getElementById('s_brm').value||'0',
+    sr:document.getElementById('s_sr').value||'0',
+    srm:document.getElementById('s_srm').value||'0',
+    res:document.getElementById('s_res').value||'—',
+    pob:document.getElementById('s_pob').value.trim()||'—',
+    mt:document.getElementById('s_mt').value||'—',
+    ms:document.getElementById('s_ms').value||'—',
+    pp_af:document.getElementById('pp_af').value||'—',
+    pp_at:document.getElementById('pp_at').value||'—',
+    pp_hf:document.getElementById('pp_hf').value||'Any',
+    pp_edu:document.getElementById('pp_edu').value||'Any',
+    pp_occ:document.getElementById('pp_occ').value.trim()||'Any',
+    pp_inc:document.getElementById('pp_inc').value||'Any',
+    pp_nri:document.getElementById('pp_nri').value||'No Preference',
+    pp_note:document.getElementById('pp_note').value.trim()||'—',
     about:document.getElementById('s_about').value.trim()||'—',
     photoURL:'',createdAt:new Date().toISOString()
   };
@@ -1879,7 +2002,7 @@ function renderCard(){
         <div class="pc-sub">${p.prof} · ${p.city}, ${p.country} · ${p.nat}</div>
         <div class="pc-div"><span>✦</span></div>
         <div class="det-grid">
-          <div><div class="di-l">Age</div><div class="di-v">${p.age} Years</div></div>
+          <div><div class="di-l">Age</div><div class="di-v">${p.age} Years${p.dob&&p.dob!=='—'?` <span style="font-size:0.78rem;color:var(--muted)">(DOB: ${new Date(p.dob).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})})</span>`:''}</div></div>
           <div><div class="di-l">Height</div><div class="di-v">${p.ht}</div></div>
           <div><div class="di-l">Education</div><div class="di-v">${p.edu}</div></div>
           <div><div class="di-l">Annual Income</div><div class="di-v">₹${p.inc}/yr</div></div>
@@ -1980,13 +2103,75 @@ function renderMyProfile(){
   }
   document.getElementById('pvName').textContent=u.name;
   document.getElementById('pvTierBadge').textContent='🪔 '+u.tier+' Account';
-  document.getElementById('pvMeta').textContent=u.prof+' · '+u.city+', '+u.country;
-  const bItems=[['Age',u.age+' years'],['Height',u.ht],['Education',u.edu||'—'],['Profession',u.prof],['Annual Income','₹'+u.inc+'/yr'],['Diet',u.diet||'—'],['City',u.city+', '+u.country],['Mobile',u.mob],['Email',u.email]];
-  document.getElementById('pvBasicGrid').innerHTML=bItems.map(([l,v])=>`<div class="pv-item"><div class="pvi-l">${l}</div><div class="pvi-v">${v}</div></div>`).join('');
-  const aItems=[['Gotra / Sub-Caste',u.gotra||'—'],['Rashi',u.rashi||'—'],['Nakshatra',u.nak||'—'],['Native Place',u.nat||'—']];
-  document.getElementById('pvAstroGrid').innerHTML=aItems.map(([l,v])=>`<div class="pv-item"><div class="pvi-l">${l}</div><div class="pvi-v">${v}</div></div>`).join('');
-  const fItems=[["Father's Name",u.fn||'—'],["Mother's Name",u.mn||'—']];
-  document.getElementById('pvFamGrid').innerHTML=fItems.map(([l,v])=>`<div class="pv-item"><div class="pvi-l">${l}</div><div class="pvi-v">${v}</div></div>`).join('')+(u.about&&u.about!=='—'?`<div class="pv-item" style="grid-column:1/-1"><div class="pvi-l">About</div><div class="pvi-v" style="font-style:italic;">${u.about}</div></div>`:'');
+  document.getElementById('pvMeta').textContent=(u.prof||'—')+' · '+(u.city||'—')+', '+(u.country||'—');
+
+  function pvGrid(id,items){
+    const el=document.getElementById(id);if(!el)return;
+    const rows=items.filter(([,v])=>v&&v!=='—'&&String(v).trim()!='');
+    const card=el.closest('.pv-card');
+    if(!rows.length){if(card)card.style.display='none';return;}
+    if(card)card.style.display='';
+    el.innerHTML=rows.map(([l,v])=>`<div class="pv-item"><div class="pvi-l">${l}</div><div class="pvi-v">${v}</div></div>`).join('');
+  }
+
+  const dobStr=u.dob&&u.dob!=='—'?new Date(u.dob).toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'}):'—';
+  pvGrid('pvBasicGrid',[
+    ['Full Name',u.name],['Gender',u.g],['Age',u.age?u.age+' years':'—'],
+    ['Date of Birth',dobStr],['Place of Birth',u.pob],['Mother Tongue',u.mt],
+    ['Marital Status',u.ms],['Religion','Hindu'],['Caste','Reddy'],
+    ['Sub-Caste / Gotra',u.gotra],['Username',u.u],['Membership Tier',u.tier],
+  ]);
+  pvGrid('pvContactGrid',[
+    ['Mobile',u.mob],['Email',u.email],['City',u.city],
+    ['State',u.state],['Country',u.country],['Residential Status',u.res],
+  ]);
+  pvGrid('pvPhysGrid',[
+    ['Height',u.ht],['Weight',u.wt?u.wt+' kg':'—'],['Complexion',u.cx],
+    ['Body Type',u.bt],['Blood Group',u.bl],['Differently Abled',u.da],
+  ]);
+  pvGrid('pvEduGrid',[
+    ['Qualification',u.edu],['College / University',u.col],
+    ['Employed In',u.emp],['Occupation',u.prof],
+    ['Company / Organisation',u.co],['Annual Income',u.inc?'₹'+u.inc+'/yr':'—'],
+  ]);
+  pvGrid('pvLifeGrid',[
+    ['Diet',u.diet],['Smoking',u.smk],['Drinking',u.drk],
+  ]);
+  pvGrid('pvAstroGrid',[
+    ['Sub-Caste / Gotra',u.gotra],['Nakshatra',u.nak],
+    ['Rashi (Moon Sign)',u.rashi],['Native Place',u.nat],
+  ]);
+  pvGrid('pvFamBgGrid',[
+    ['Family Type',u.ft],['Family Values',u.fv],
+    ['Family Status',u.fst],['Native District',u.nat],
+  ]);
+  pvGrid('pvParentGrid',[
+    ["Father's Name",u.fn],["Father's Mobile",u.fmob],
+    ["Father's Status",u.fas],["Father's Occupation",u.fo],
+    ["Father's Gotra",u.fg],["Mother's Name",u.mn],
+    ["Mother's Mobile",u.mmob],["Mother's Status",u.mas],
+    ["Mother's Occupation",u.mo],
+  ]);
+  pvGrid('pvSibGrid',[
+    ['Brothers',u.br],['Brothers Married',u.brm],
+    ['Sisters',u.sr],['Sisters Married',u.srm],
+    ['Own Property',u.prop],['Property Value',u.pval],
+  ]);
+  pvGrid('pvPrefGrid',[
+    ['Preferred Age',u.pp_af&&u.pp_at?u.pp_af+' – '+u.pp_at+' years':'—'],
+    ['Min Height',u.pp_hf],['Expected Education',u.pp_edu],
+    ['Expected Profession',u.pp_occ],['Expected Income',u.pp_inc],
+    ['Preferred Location',u.pploc],['NRI Acceptable',u.pp_nri],
+    ['Other Expectations',u.pp_note],
+  ]);
+  const fItems=[];
+  if(u.about&&u.about!=='—')fItems.push(['About Me',u.about]);
+  pvGrid('pvFamGrid',fItems.length?fItems:[['—','—']]);
+  const famEl=document.getElementById('pvFamGrid');
+  if(famEl&&u.about&&u.about!=='—'){
+    famEl.innerHTML=`<div class="pv-item" style="grid-column:1/-1"><div class="pvi-l">About Me</div><div class="pvi-v" style="font-style:italic;">${u.about}</div></div>`;
+    famEl.closest('.pv-card').style.display='';
+  } else if(famEl){famEl.closest('.pv-card').style.display='none';}
 }
 
 // ═══════════ TIMER ═══════════
@@ -2174,7 +2359,7 @@ function renderLikedPage(){
           <div class="pc-sub">${p.prof} · ${p.city}, ${p.country} · ${p.nat}</div>
           <div class="pc-div"><span>✦</span></div>
           <div class="det-grid">
-            <div><div class="di-l">Age</div><div class="di-v">${p.age} Years</div></div>
+            <div><div class="di-l">Age</div><div class="di-v">${p.age} Years${p.dob&&p.dob!=='—'?` <span style="font-size:0.78rem;color:var(--muted)">(DOB: ${new Date(p.dob).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})})</span>`:''}</div></div>
             <div><div class="di-l">Height</div><div class="di-v">${p.ht}</div></div>
             <div><div class="di-l">Education</div><div class="di-v">${p.edu||'—'}</div></div>
             <div><div class="di-l">Annual Income</div><div class="di-v">₹${p.inc}/yr</div></div>
@@ -2278,6 +2463,49 @@ window.showPage=function(id,skipHistory){
   closeMobMenu();closeDashMenu();
   return _origShowPage(id,skipHistory);
 };
+
+// ═══════════ FORM HELPERS ═══════════
+function togglePropVal(){
+  const v=document.getElementById('s_prop').value;
+  const wrap=document.getElementById('s_pval_wrap');
+  if(wrap)wrap.style.display=v==='I do not wish to disclose'?'none':'';
+}
+function toggleFatherOcc(){
+  const v=document.getElementById('s_fas').value;
+  const wrap=document.getElementById('s_fo_wrap');
+  if(wrap)wrap.style.display=(v==='Employed'||v==='Business'||v==='Farmer')?'':'none';
+}
+function toggleMotherOcc(){
+  const v=document.getElementById('s_mas').value;
+  const wrap=document.getElementById('s_mo_wrap');
+  if(wrap)wrap.style.display=(v==='Employed'||v==='Business')?'':'none';
+}
+
+const TIER_REC={
+  'Middle Class':{rec:'VIP',msg:'For Middle Class families, the VIP tier is the ideal starting point — it provides full profile visibility, bureau matchmaking, and access to our verified member pool at ₹15,000/year.'},
+  'Upper Middle Class':{rec:'VVIP',msg:'For Upper Middle Class families, the VVIP tier is highly recommended — it includes all VIP benefits plus priority search results, a dedicated relationship manager, and NRI profile access at ₹30,000/year.'},
+  'Rich / Affluent':{rec:'Elite',msg:'For Affluent families, the Elite tier is the perfect fit — it offers exclusive access to the most prominent profiles, white-glove service, and a global NRI pool at ₹1,00,000/year.'},
+  'Wealthy':{rec:'Elite',msg:'For Wealthy families, the Elite tier provides an exclusive, discreet, and premium matchmaking experience with access to India\'s most distinguished Reddy families at ₹1,00,000/year.'},
+};
+function showTierRecommendation(status){
+  if(!status||!TIER_REC[status])return;
+  const r=TIER_REC[status];
+  document.getElementById('tierRecTitle').textContent='Recommended for '+status+' Families';
+  document.getElementById('tierRecSub').textContent='Based on your family background';
+  document.getElementById('tierRecMsg').textContent=r.msg;
+  ['VIP','VVIP','Elite'].forEach(t=>{
+    const el=document.getElementById('trc_'+t);
+    if(el)el.classList.toggle('recommended',t===r.rec);
+  });
+  openOv('tierRecOv');
+}
+function pickTierFromPopup(t){
+  pickTier(t);
+  closeOv('tierRecOv');
+  // scroll to membership step
+  goStep(5);
+  toast('✅ '+t+' tier selected. Review the T&C and complete registration.');
+}
 
 // ═══════════ IMAGE INJECTION ═══════════
 
