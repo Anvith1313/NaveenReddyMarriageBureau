@@ -961,7 +961,7 @@ body{font-family:'EB Garamond',serif;background:var(--offwhite);color:var(--text
   <!-- Firebase SDK -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged }
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, sendEmailVerification }
       from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
     import { getFirestore, collection, doc, setDoc, getDoc, getDocs, updateDoc, query, where }
       from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
@@ -987,7 +987,7 @@ body{font-family:'EB Garamond',serif;background:var(--offwhite);color:var(--text
     const rtdb = getDatabase(app);
     const storage = getStorage(app);
     window.FB = { auth, db, rtdb, storage,
-      signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged,
+      signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, sendEmailVerification,
       collection, doc, setDoc, getDoc, getDocs, updateDoc, query, where,
       dbRef, get, set, onValue,
       stRef, uploadBytes, getDownloadURL
@@ -1275,6 +1275,26 @@ body{font-family:'EB Garamond',serif;background:var(--offwhite);color:var(--text
         <button class="btn-prim" onclick="doRegister()">Complete Registration</button>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PAGE: EMAIL VERIFICATION
+══════════════════════════════════════ -->
+<div id="pgVerify" class="page" style="display:none;min-height:100vh;background:var(--offwhite);display:flex;align-items:center;justify-content:center;padding:2rem;">
+  <div style="max-width:460px;width:100%;background:#fff;border:1px solid var(--border);border-radius:24px;padding:3rem 2.5rem;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.07);position:relative;">
+    <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--crimson),var(--gold2),var(--crimson));border-radius:24px 24px 0 0;"></div>
+    <div style="font-size:3rem;margin-bottom:1rem;">📧</div>
+    <div style="font-family:'Cinzel',serif;font-size:0.7rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--crimson);margin-bottom:0.5rem;">Verify Your Email</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1rem;font-style:italic;color:var(--muted);margin-bottom:0.4rem;">A verification link has been sent to</div>
+    <div style="font-family:'Cinzel',serif;font-size:0.6rem;font-weight:600;color:var(--gold);letter-spacing:0.08em;margin-bottom:1.6rem;" id="verifyEmailDisplay">your email</div>
+    <div style="font-family:'EB Garamond',serif;font-size:0.88rem;color:var(--muted);line-height:1.8;margin-bottom:1.8rem;">
+      Click the link in the email to verify your account.<br>
+      Once verified, come back here and click the button below.
+    </div>
+    <button class="btn-prim" onclick="checkVerification()" style="margin-bottom:0.8rem;">✅ I've Verified My Email</button>
+    <button class="btn-sec" onclick="resendVerification()" style="width:100%;padding:0.7rem;background:transparent;border:1.5px solid rgba(184,150,12,0.35);border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.5rem;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);transition:all 0.25s;margin-bottom:0.6rem;">Resend Verification Email</button>
+    <div style="font-family:'EB Garamond',serif;font-size:0.78rem;font-style:italic;color:rgba(107,83,64,0.5);">Check your spam/junk folder if you don't see it.</div>
   </div>
 </div>
 
@@ -1650,6 +1670,13 @@ async function doLogin(){
       const cred=await signInWithEmailAndPassword(auth,email,p);
       const uid=cred.user.uid;
       const {getDoc,doc,db}=window.FB;
+      if(!cred.user.emailVerified){
+        document.getElementById('verifyEmailDisplay').textContent=email;
+        ST.user={email,uid:cred.user.uid};
+        showPage('pgVerify');
+        if(btn){btn.textContent='Sign In';btn.disabled=false;}
+        return;
+      }
       const snap=await getDoc(doc(db,'users',uid));
       const prof=snap.exists()?{...snap.data(),uid}:{email,uid,name:email,tier:'VIP',em:'👤'};
       ST.user=prof;
@@ -1727,18 +1754,57 @@ async function doRegister(){
   };
   try{
     if(window.FIREBASE_READY){
-      const {createUserWithEmailAndPassword,auth,setDoc,doc,db}=window.FB;
+      const {createUserWithEmailAndPassword,auth,setDoc,doc,db,sendEmailVerification}=window.FB;
       const cred=await createUserWithEmailAndPassword(auth,email,pass);
       np.uid=cred.user.uid;
       await setDoc(doc(db,'users',cred.user.uid),np);
+      await sendEmailVerification(cred.user);
+      ST.user=np;
+      document.getElementById('verifyEmailDisplay').textContent=email;
+      showPage('pgVerify');
+      toast('✅ Verification email sent! Please check your inbox.');
+    } else {
+      ST.profiles.push(np);ST.user=np;
+      _applyLogin(np);
+      toast('Registration successful! Welcome to Reddy Elite Matrimony.');
     }
-    ST.profiles.push(np);ST.user=np;
-    _applyLogin(np);
-    toast('Registration successful! Welcome to Reddy Elite Matrimony.');
   }catch(e){
     const msg=e.code==='auth/email-already-in-use'?'This email is already registered. Please login.':e.code==='auth/weak-password'?'Password must be at least 6 characters.':'Registration failed: '+e.message;
     toast(msg);
     if(btn){btn.textContent='Complete Registration';btn.disabled=false;}
+  }
+}
+
+// ═══════════ EMAIL VERIFICATION ═══════════
+async function checkVerification(){
+  if(!window.FIREBASE_READY){toast('Firebase not ready.');return;}
+  const btn=document.querySelector('#pgVerify .btn-prim');
+  if(btn){btn.textContent='Checking…';btn.disabled=true;}
+  try{
+    const {auth,getDoc,doc,db}=window.FB;
+    await auth.currentUser.reload();
+    if(auth.currentUser.emailVerified){
+      const uid=auth.currentUser.uid;
+      const snap=await getDoc(doc(db,'users',uid));
+      const prof=snap.exists()?{...snap.data(),uid}:ST.user;
+      ST.user=prof;
+      toast('✅ Email verified! Welcome to Reddy Elite Matrimony.');
+      _applyLogin(prof);
+    } else {
+      toast('Not verified yet. Please click the link in your email first.');
+    }
+  }catch(e){toast('Error checking verification: '+e.message);}
+  if(btn){btn.textContent='✅ I\'ve Verified My Email';btn.disabled=false;}
+}
+async function resendVerification(){
+  if(!window.FIREBASE_READY){toast('Firebase not ready.');return;}
+  try{
+    const {auth,sendEmailVerification}=window.FB;
+    await sendEmailVerification(auth.currentUser);
+    toast('📧 Verification email resent! Check your inbox.');
+  }catch(e){
+    const msg=e.code==='auth/too-many-requests'?'Too many attempts. Please wait a few minutes and try again.':'Failed to resend: '+e.message;
+    toast(msg);
   }
 }
 
