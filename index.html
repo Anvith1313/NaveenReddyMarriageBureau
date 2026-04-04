@@ -958,10 +958,37 @@ body{font-family:'EB Garamond',serif;background:var(--offwhite);color:var(--text
 .bd-back:hover{border-color:var(--gold);color:var(--gold);}
 
 </style>
-  <!-- Firebase: Replace config when ready (firebase.google.com) -->
-  <script>
-    window.FIREBASE_READY = false;
-    window.FB = null;
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged }
+      from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
+    import { getFirestore, collection, doc, setDoc, getDoc, getDocs, updateDoc, query, where }
+      from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+    import { getDatabase, ref as dbRef, get, set, onValue }
+      from "https://www.gstatic.com/firebasejs/12.11.0/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDWg8XpuuQGp-aPYMW-ESiUh74Gj-hdKHg",
+      authDomain: "reddy-elite-matrimony.firebaseapp.com",
+      databaseURL: "https://reddy-elite-matrimony-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "reddy-elite-matrimony",
+      storageBucket: "reddy-elite-matrimony.firebasestorage.app",
+      messagingSenderId: "178761286445",
+      appId: "1:178761286445:web:c83d9456a359565e3649a4"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db   = getFirestore(app);
+    const rtdb = getDatabase(app);
+    window.FB = { auth, db, rtdb,
+      signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged,
+      collection, doc, setDoc, getDoc, getDocs, updateDoc, query, where,
+      dbRef, get, set, onValue
+    };
+    window.FIREBASE_READY = true;
+    console.log("✅ Firebase initialized");
   </script>
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
