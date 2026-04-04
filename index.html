@@ -978,14 +978,19 @@ body{font-family:'EB Garamond',serif;background:var(--offwhite);color:var(--text
       appId: "1:178761286445:web:c83d9456a359565e3649a4"
     };
 
-    const app = initializeApp(firebaseConfig);
+    import { getStorage, ref as stRef, uploadBytes, getDownloadURL }
+      from "https://www.gstatic.com/firebasejs/12.11.0/firebase-storage.js";
+
+    const app  = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db   = getFirestore(app);
     const rtdb = getDatabase(app);
-    window.FB = { auth, db, rtdb,
+    const storage = getStorage(app);
+    window.FB = { auth, db, rtdb, storage,
       signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged,
       collection, doc, setDoc, getDoc, getDocs, updateDoc, query, where,
-      dbRef, get, set, onValue
+      dbRef, get, set, onValue,
+      stRef, uploadBytes, getDownloadURL
     };
     window.FIREBASE_READY = true;
     console.log("✅ Firebase initialized");
@@ -1617,24 +1622,60 @@ function updateBackBars(){
 function setNL(id){document.querySelectorAll('.nav-link').forEach(b=>b.classList.remove('active'));document.getElementById(id)?.classList.add('active');}
 
 // ═══════════ AUTH ═══════════
-function doLogin(){
-  const u=document.getElementById('lu').value.trim();
+async function doLogin(){
+  const emailOrUser=document.getElementById('lu').value.trim();
   const p=document.getElementById('lp').value;
-  if(!u||!p){toast('Please enter your credentials.');return;}
-  if(u===ADMIN_U&&p===ADMIN_P){window.location.href='nrmb_admin_final.html';return;}
-  const prof=ST.profiles.find(x=>x.u===u);
-  if(!prof){toast('Username not found. Please register first.');return;}
-  ST.user=prof;
-  document.getElementById('acctName').textContent=prof.name.split(' ')[0];
+  if(!emailOrUser||!p){toast('Please enter your credentials.');return;}
+  const btn=document.querySelector('#pgLogin .btn-prim');
+  if(btn){btn.textContent='Signing in…';btn.disabled=true;}
+  try{
+    let email=emailOrUser;
+    // If not an email, look up email from Firestore by username
+    if(!emailOrUser.includes('@')){
+      if(window.FIREBASE_READY){
+        const {getDocs,collection,query,where,db}=window.FB;
+        const q=query(collection(db,'users'),where('u','==',emailOrUser));
+        const snap=await getDocs(q);
+        if(snap.empty){toast('Username not found. Please register first.');if(btn){btn.textContent='Sign In';btn.disabled=false;}return;}
+        email=snap.docs[0].data().email;
+      } else {
+        // fallback local
+        const prof=ST.profiles.find(x=>x.u===emailOrUser);
+        if(!prof){toast('Username not found.');if(btn){btn.textContent='Sign In';btn.disabled=false;}return;}
+        _applyLogin(prof);if(btn){btn.textContent='Sign In';btn.disabled=false;}return;
+      }
+    }
+    if(window.FIREBASE_READY){
+      const {signInWithEmailAndPassword,auth}=window.FB;
+      const cred=await signInWithEmailAndPassword(auth,email,p);
+      const uid=cred.user.uid;
+      const {getDoc,doc,db}=window.FB;
+      const snap=await getDoc(doc(db,'users',uid));
+      const prof=snap.exists()?{...snap.data(),uid}:{email,uid,name:email,tier:'VIP',em:'👤'};
+      ST.user=prof;
+      _applyLogin(prof);
+    }
+  }catch(e){
+    const msg=e.code==='auth/wrong-password'||e.code==='auth/invalid-credential'?'Incorrect password.':e.code==='auth/user-not-found'?'No account found with this email.':'Login failed: '+e.message;
+    toast(msg);
+  }
+  if(btn){btn.textContent='Sign In';btn.disabled=false;}
+}
+function _applyLogin(prof){
+  document.getElementById('acctName').textContent=(prof.name||'Member').split(' ')[0];
   const nlLikedEl=document.getElementById('nlLiked');if(nlLikedEl)nlLikedEl.style.display='flex';
-  document.getElementById('acctTier').textContent=prof.tier+' Account';
-  document.getElementById('dashWelcome').textContent='Welcome, '+prof.name.split(' ')[0];
+  document.getElementById('acctTier').textContent=(prof.tier||'VIP')+' Account';
+  document.getElementById('dashWelcome').textContent='Welcome, '+(prof.name||'Member').split(' ')[0];
   updateLikedBadge();
   document.getElementById('dashHero').style.backgroundImage=`url('data:image/jpeg;base64,${IMGS.bg1}')`;
   renderMyProfile();
   showPage('pgDash');
+  if(window.FIREBASE_READY)_loadProfilesFromFirestore();
 }
-function doLogout(){ST.user=null;showPage('pgHome');}
+async function doLogout(){
+  if(window.FIREBASE_READY){try{await window.FB.signOut(window.FB.auth);}catch(e){}}
+  ST.user=null;ST.profiles=[];showPage('pgHome');
+}
 
 // ═══════════ REGISTRATION ═══════════
 let regTier=null;
@@ -1648,29 +1689,31 @@ function goStep(n){
   for(let i=1;i<=5;i++){const s=document.getElementById('si'+i);s.classList.remove('active','done');if(i===n)s.classList.add('active');else if(i<n)s.classList.add('done');}
   window.scrollTo(0,180);
 }
-function doRegister(){
+async function doRegister(){
   if(!regTier){toast('Please select a membership tier.');return;}
   if(!document.getElementById('tcAgree').checked){toast('Please accept the Terms & Conditions.');return;}
   const g=document.querySelector('input[name=gender]:checked')?.value||'Male';
   const name=document.getElementById('s_name').value.trim();
   const dob=document.getElementById('s_dob').value;
-  const age=dob?new Date().getFullYear()-new Date(dob).getFullYear():25;
+  const age=dob?Math.floor((Date.now()-new Date(dob))/(365.25*24*3600*1000)):25;
   const u=document.getElementById('s_user').value.trim();
+  const email=document.getElementById('s_email').value.trim();
+  const pass=document.getElementById('s_pwd')?.value||'';
   if(!name){toast('Please enter your name.');return;}
-  if(ST.profiles.find(x=>x.u===u)){toast('Username already taken. Please choose another.');return;}
+  if(!email){toast('Please enter your email.');return;}
+  if(!pass||pass.length<6){toast('Please enter a password (min 6 characters).');return;}
+  const btn=document.querySelector('#pgSignup .btn-prim');
+  if(btn){btn.textContent='Registering…';btn.disabled=true;}
   const np={
-    u,name,age,g,
+    u,name,age,g,dob:dob||'—',
     ht:document.getElementById('s_ht').value||"5'5\"",
     prof:document.getElementById('s_occ').value.trim()||'—',
     inc:document.getElementById('s_inc').value||'—',
-    city:(document.getElementById('s_city').value.trim()||'—'),
+    city:document.getElementById('s_city').value.trim()||'—',
     state:document.getElementById('s_state').value||'Telangana',
     country:document.getElementById('s_country').value||'India',
-    tier:regTier,
-    mob:document.getElementById('s_mob').value.trim(),
-    email:document.getElementById('s_email').value.trim(),
-    em:g==='Male'?'👨':'👩',
-    bg:g==='Male'?'#e3f2fd':'#fce4ec',
+    tier:regTier,mob:document.getElementById('s_mob').value.trim(),email,
+    em:g==='Male'?'👨':'👩',bg:g==='Male'?'#e3f2fd':'#fce4ec',
     nat:document.getElementById('s_native').value.trim()||'—',
     edu:document.getElementById('s_edu').value||'—',
     diet:document.getElementById('s_diet').value||'—',
@@ -1680,16 +1723,51 @@ function doRegister(){
     fn:document.getElementById('s_fn').value.trim()||'—',
     mn:document.getElementById('s_mn').value.trim()||'—',
     about:document.getElementById('s_about').value.trim()||'—',
+    photoURL:'',createdAt:new Date().toISOString()
   };
-  ST.profiles.push(np);ST.user=np;
-  document.getElementById('acctName').textContent=name.split(' ')[0];
-  const nlLikedEl2=document.getElementById('nlLiked');if(nlLikedEl2)nlLikedEl2.style.display='flex';
-  document.getElementById('acctTier').textContent=regTier+' Account';
-  document.getElementById('dashWelcome').textContent='Welcome, '+name.split(' ')[0];
-  document.getElementById('dashHero').style.backgroundImage=`url('data:image/jpeg;base64,${IMGS.bg1}')`;
-  renderMyProfile();
-  toast('Registration successful! Welcome to NRMB.');
-  setTimeout(()=>showPage('pgDash'),1200);
+  try{
+    if(window.FIREBASE_READY){
+      const {createUserWithEmailAndPassword,auth,setDoc,doc,db}=window.FB;
+      const cred=await createUserWithEmailAndPassword(auth,email,pass);
+      np.uid=cred.user.uid;
+      await setDoc(doc(db,'users',cred.user.uid),np);
+    }
+    ST.profiles.push(np);ST.user=np;
+    _applyLogin(np);
+    toast('Registration successful! Welcome to Reddy Elite Matrimony.');
+  }catch(e){
+    const msg=e.code==='auth/email-already-in-use'?'This email is already registered. Please login.':e.code==='auth/weak-password'?'Password must be at least 6 characters.':'Registration failed: '+e.message;
+    toast(msg);
+    if(btn){btn.textContent='Complete Registration';btn.disabled=false;}
+  }
+}
+
+// ═══════════ FIREBASE LOADERS ═══════════
+async function _loadProfilesFromFirestore(){
+  if(!window.FIREBASE_READY||!ST.user)return;
+  try{
+    const {getDocs,collection,db}=window.FB;
+    const snap=await getDocs(collection(db,'users'));
+    ST.profiles=snap.docs.map(d=>({...d.data(),uid:d.id}));
+    loadProfiles();
+    toast('Profiles loaded.');
+  }catch(e){console.warn('Could not load profiles:',e);}
+}
+async function uploadProfilePhoto(file){
+  if(!window.FIREBASE_READY||!ST.user){toast('Please login first.');return;}
+  if(!file){toast('No file selected.');return;}
+  if(file.size>5*1024*1024){toast('Image must be under 5MB.');return;}
+  toast('Uploading photo…');
+  try{
+    const {storage,stRef,uploadBytes,getDownloadURL,updateDoc,doc,db}=window.FB;
+    const ref=stRef(storage,`profiles/${ST.user.uid||ST.user.u}/photo`);
+    await uploadBytes(ref,file);
+    const url=await getDownloadURL(ref);
+    ST.user.photoURL=url;
+    if(ST.user.uid)await updateDoc(doc(db,'users',ST.user.uid),{photoURL:url});
+    renderMyProfile();
+    toast('✅ Profile photo updated!');
+  }catch(e){toast('Upload failed: '+e.message);}
 }
 
 // ═══════════ BROWSE ═══════════
@@ -1812,7 +1890,23 @@ function sendChat(){
 // ═══════════ MY PROFILE ═══════════
 function renderMyProfile(){
   const u=ST.user;if(!u)return;
-  document.getElementById('pvAvatar').textContent=u.em;
+  const avatarEl=document.getElementById('pvAvatar');
+  if(u.photoURL){
+    avatarEl.innerHTML=`<img src="${u.photoURL}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" alt="${u.name}">`;
+  } else {
+    avatarEl.textContent=u.em;
+    // Add upload button if not already there
+    const wrap=avatarEl.parentElement;
+    if(wrap&&!wrap.querySelector('.photo-upload-btn')){
+      const lbl=document.createElement('label');
+      lbl.className='photo-upload-btn';
+      lbl.title='Upload profile photo';
+      lbl.style.cssText='position:absolute;bottom:0;right:0;background:var(--crimson);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:0.8rem;box-shadow:0 2px 8px rgba(0,0,0,0.2);';
+      lbl.innerHTML='📷<input type="file" accept="image/*" style="display:none;" onchange="uploadProfilePhoto(this.files[0])">';
+      wrap.style.position='relative';
+      wrap.appendChild(lbl);
+    }
+  }
   document.getElementById('pvName').textContent=u.name;
   document.getElementById('pvTierBadge').textContent='🪔 '+u.tier+' Account';
   document.getElementById('pvMeta').textContent=u.prof+' · '+u.city+', '+u.country;
