@@ -695,12 +695,106 @@ body{font-family:'EB Garamond',serif;background:var(--offwhite);color:var(--text
 .toast{position:fixed;bottom:2.5rem;left:50%;transform:translateX(-50%) translateY(16px);background:rgba(255,252,248,0.98);border:1px solid rgba(184,150,12,0.22);border-left:3px solid var(--gold2);border-radius:50px;padding:0.82rem 2rem;font-family:'EB Garamond',serif;font-size:0.92rem;color:var(--text);z-index:9999;opacity:0;transition:opacity 0.3s,transform 0.3s;pointer-events:none;box-shadow:0 10px 30px rgba(0,0,0,0.08);white-space:nowrap;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
+/* ═══════════════════════════════════
+   HAMBURGER / MOBILE NAV
+═══════════════════════════════════ */
+.mob-hamburger{
+  display:none;flex-direction:column;justify-content:center;align-items:center;
+  gap:5px;background:none;border:none;cursor:pointer;
+  width:40px;height:40px;padding:4px;border-radius:8px;
+  transition:background 0.2s;flex-shrink:0;
+}
+.mob-hamburger:hover{background:rgba(184,150,12,0.08);}
+.mob-hamburger span{display:block;width:22px;height:2px;background:var(--crimson);border-radius:2px;transition:all 0.3s;}
+.mob-hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.mob-hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0);}
+.mob-hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+.mob-nav-overlay{
+  display:none;position:fixed;inset:0;z-index:497;
+  background:rgba(0,0,0,0.38);backdrop-filter:blur(2px);
+}
+.mob-nav-overlay.open{display:block;}
+
+.mob-nav-panel{
+  position:fixed;top:var(--nav-h);left:0;right:0;z-index:498;
+  background:rgba(255,252,248,0.99);
+  border-bottom:2px solid rgba(184,150,12,0.18);
+  box-shadow:0 12px 40px rgba(0,0,0,0.14);
+  padding:1rem 1.6rem 1.6rem;
+  transform:translateY(-110%);opacity:0;
+  transition:transform 0.32s cubic-bezier(0.4,0,0.2,1),opacity 0.28s;
+  pointer-events:none;
+}
+.mob-nav-panel.open{transform:translateY(0);opacity:1;pointer-events:all;}
+
+.mob-nav-links{display:flex;flex-direction:column;}
+.mob-nav-link{
+  background:none;border:none;cursor:pointer;
+  font-family:'Cinzel',serif;font-size:0.72rem;font-weight:600;
+  letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--muted);padding:0.85rem 0;text-align:left;
+  border-bottom:1px solid rgba(184,150,12,0.1);
+  transition:color 0.2s,padding-left 0.2s;
+}
+.mob-nav-link:last-child{border-bottom:none;}
+.mob-nav-link:hover,.mob-nav-link.mob-active{color:var(--crimson);padding-left:0.4rem;}
+.mob-nav-btns{display:flex;gap:0.8rem;margin-top:1rem;}
+.mob-nav-btns .btn-nav-in,.mob-nav-btns .btn-nav-up{flex:1;text-align:center;padding:0.65rem 1rem;font-size:0.58rem;}
+
+/* Dash mobile panel */
+.mob-dash-panel{
+  position:fixed;top:var(--nav-h);left:0;right:0;z-index:498;
+  background:rgba(255,252,248,0.99);
+  border-bottom:2px solid rgba(184,150,12,0.18);
+  box-shadow:0 12px 40px rgba(0,0,0,0.14);
+  padding:1rem 1.6rem 1.6rem;
+  transform:translateY(-110%);opacity:0;
+  transition:transform 0.32s cubic-bezier(0.4,0,0.2,1),opacity 0.28s;
+  pointer-events:none;
+}
+.mob-dash-panel.open{transform:translateY(0);opacity:1;pointer-events:all;}
+.mob-dash-links{display:flex;flex-direction:column;}
+.mob-dash-link{
+  background:none;border:none;cursor:pointer;
+  font-family:'Cinzel',serif;font-size:0.72rem;font-weight:600;
+  letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--muted);padding:0.85rem 0;text-align:left;
+  border-bottom:1px solid rgba(184,150,12,0.1);
+  display:flex;align-items:center;gap:0.6rem;
+  transition:color 0.2s,padding-left 0.2s;
+}
+.mob-dash-link:last-child{border-bottom:none;}
+.mob-dash-link:hover{color:var(--crimson);padding-left:0.4rem;}
+.mob-dash-link.signout{color:var(--crimson2);}
+
 @media(max-width:768px){
+  /* Nav */
   .navbar,.dash-topbar{padding:0 1.2rem;}
   .nav-links{display:none;}
-  #pgLogin.active{padding-right:1.2rem;justify-content:center;}
-  .login-glass{padding:2rem 1.6rem;}
+  .nav-right{display:none;}
+  .dt-right{display:none;}
+  .mob-hamburger{display:flex;}
+  .nav-left .nav-brand-text .nb-main{font-size:0.62rem;}
+  .nav-left .nav-brand-text .nb-sub{font-size:0.56rem;}
+
+  /* Login */
+  #pgLogin.active{padding:1rem;justify-content:center;align-items:center;}
+  .login-glass{padding:2rem 1.4rem;margin:0 0.5rem;width:100%;max-width:100%;}
+
+  /* Hero */
+  .hero-content{padding:0 1.2rem;}
+  .hero-h2{font-size:clamp(0.6rem,2.8vw,0.8rem);}
+  .hero-btns{gap:0.6rem;}
+  .hbtn{padding:0.75rem 1.4rem;font-size:0.58rem;}
+
+  /* Stats */
+  .stats-bar{padding:1.2rem 1rem;gap:0.8rem;}
+  .stat-n{font-size:1.8rem;}
+
+  /* Grids */
   .features-grid,.stories-grid{padding:0 1.2rem 3rem;}
+  .features-grid{grid-template-columns:1fr;}
   .about-wrap{grid-template-columns:1fr;padding:0 1.2rem 3rem;}
   .about-ornament{display:none;}
   .footer-grid{grid-template-columns:1fr;}
@@ -708,8 +802,28 @@ body{font-family:'EB Garamond',serif;background:var(--offwhite);color:var(--text
   .g2,.g3{grid-template-columns:1fr;}
   .reg-wrap{padding:2rem 1.2rem 4rem;}
   .det-grid{grid-template-columns:1fr;}
-  .stats-bar{padding:1.5rem 2rem;}
-  .filter-bar{padding:1.1rem 1.2rem;}
+
+  /* Section headers */
+  .sec-hd{padding:3rem 1.2rem 1.8rem;}
+
+  /* Filter */
+  .filter-bar{padding:1rem 1rem;}
+  .fb-row{gap:0.9rem;}
+  .fb-i,.fb-s{min-width:70px;font-size:0.9rem;}
+
+  /* Dashboard */
+  .dash-hero{height:110px;}
+  .dw-name{font-size:1.2rem;}
+
+  /* Profile area */
+  .profile-area{padding:1.5rem 0.8rem;}
+  .pc-name{font-size:1.5rem;}
+
+  /* Back bar */
+  .back-bar{padding:0.55rem 1.2rem;}
+
+  /* Branches */
+  .branches-grid{grid-template-columns:repeat(2,1fr);}
 }
 
 /* ── SWIGGY-STYLE HEART BOOKMARK ── */
@@ -801,7 +915,7 @@ body{font-family:'EB Garamond',serif;background:var(--offwhite);color:var(--text
   gap:1.5rem;max-width:1000px;margin:0 auto;padding:0 2rem 2rem;
   position:relative;z-index:1;
 }
-@media(max-width:768px){.branches-grid{grid-template-columns:repeat(2,1fr);}}
+/* branches mobile handled in main media query */
 .branch-card{
   background:#fff;
   border:1px solid rgba(184,150,12,0.18);
@@ -875,7 +989,25 @@ body{font-family:'EB Garamond',serif;background:var(--offwhite);color:var(--text
     <button class="btn-nav-in" onclick="showPage('pgLogin')">Login</button>
     <button class="btn-nav-up" onclick="showPage('pgSignup')">Sign Up</button>
   </div>
+  <button class="mob-hamburger" id="mobMenuBtn" aria-label="Menu" onclick="toggleMobMenu()">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+<div class="mob-nav-overlay" id="mobNavOverlay" onclick="closeMobMenu()"></div>
+<div class="mob-nav-panel" id="mobNavPanel">
+  <div class="mob-nav-links">
+    <button class="mob-nav-link mob-active" onclick="showPage('pgHome');setNL('nlHome');closeMobMenu()">Home</button>
+    <button class="mob-nav-link" onclick="showPage('pgAbout');setNL('nlAbout');closeMobMenu()">About</button>
+    <button class="mob-nav-link" onclick="showPage('pgMembership');setNL('nlMem');closeMobMenu()">Membership</button>
+    <button class="mob-nav-link" onclick="showPage('pgBranches');setNL('nlBranch');closeMobMenu()">Our Branches</button>
+    <button class="mob-nav-link" onclick="showPage('pgStories');setNL('nlStories');closeMobMenu()">Happy Stories</button>
+    <button class="mob-nav-link" onclick="showPage('pgContact');setNL('nlContact');closeMobMenu()">Contact</button>
+  </div>
+  <div class="mob-nav-btns">
+    <button class="btn-nav-in" onclick="showPage('pgLogin');closeMobMenu()">Login</button>
+    <button class="btn-nav-up" onclick="showPage('pgSignup');closeMobMenu()">Sign Up</button>
+  </div>
+</div>
 
 <!-- ══════ DASHBOARD TOPBAR ══════ -->
 <nav class="dash-topbar" id="dashNav" style="display:none;">
@@ -896,7 +1028,19 @@ body{font-family:'EB Garamond',serif;background:var(--offwhite);color:var(--text
     </div>
     <button class="signout-btn" onclick="doLogout()">Sign Out</button>
   </div>
+  <button class="mob-hamburger" id="dashMenuBtn" aria-label="Menu" onclick="toggleDashMenu()">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+<div class="mob-nav-overlay" id="dashNavOverlay" onclick="closeDashMenu()"></div>
+<div class="mob-dash-panel" id="mobDashPanel">
+  <div class="mob-dash-links">
+    <button class="mob-dash-link" onclick="showPage('pgDash');closeDashMenu()"><span>🏠</span>Home</button>
+    <button class="mob-dash-link" onclick="showPage('pgMyProfile');closeDashMenu()"><span>👤</span>My Profile</button>
+    <button class="mob-dash-link" onclick="showPage('pgLiked');closeDashMenu()"><span>🤍</span>Liked</button>
+    <button class="mob-dash-link signout" onclick="doLogout();closeDashMenu()"><span>🚪</span>Sign Out</button>
+  </div>
+</div>
 
 <!-- ══════════════════════════════════════
      PAGE: HOME
@@ -1902,6 +2046,46 @@ function openEngagementPayment(name,email,mob,tier){
 }
 
 window.ST=ST;window.showCongrats=showCongrats;
+
+// ═══════════ MOBILE MENU ═══════════
+function toggleMobMenu(){
+  const btn=document.getElementById('mobMenuBtn');
+  const panel=document.getElementById('mobNavPanel');
+  const overlay=document.getElementById('mobNavOverlay');
+  const isOpen=panel.classList.contains('open');
+  btn.classList.toggle('open',!isOpen);
+  panel.classList.toggle('open',!isOpen);
+  overlay.classList.toggle('open',!isOpen);
+  document.body.style.overflow=isOpen?'':'hidden';
+}
+function closeMobMenu(){
+  document.getElementById('mobMenuBtn')?.classList.remove('open');
+  document.getElementById('mobNavPanel')?.classList.remove('open');
+  document.getElementById('mobNavOverlay')?.classList.remove('open');
+  document.body.style.overflow='';
+}
+function toggleDashMenu(){
+  const btn=document.getElementById('dashMenuBtn');
+  const panel=document.getElementById('mobDashPanel');
+  const overlay=document.getElementById('dashNavOverlay');
+  const isOpen=panel.classList.contains('open');
+  btn.classList.toggle('open',!isOpen);
+  panel.classList.toggle('open',!isOpen);
+  overlay.classList.toggle('open',!isOpen);
+  document.body.style.overflow=isOpen?'':'hidden';
+}
+function closeDashMenu(){
+  document.getElementById('dashMenuBtn')?.classList.remove('open');
+  document.getElementById('mobDashPanel')?.classList.remove('open');
+  document.getElementById('dashNavOverlay')?.classList.remove('open');
+  document.body.style.overflow='';
+}
+// Close mobile menus on page change
+const _origShowPage=window.showPage;
+window.showPage=function(id,skipHistory){
+  closeMobMenu();closeDashMenu();
+  return _origShowPage(id,skipHistory);
+};
 
 // ═══════════ IMAGE INJECTION ═══════════
 
