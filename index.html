@@ -1287,7 +1287,7 @@ body{font-family:'EB Garamond',serif;background:var(--offwhite);color:var(--text
     <div style="font-size:3rem;margin-bottom:1rem;">📧</div>
     <div style="font-family:'Cinzel',serif;font-size:0.7rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--crimson);margin-bottom:0.5rem;">Verify Your Email</div>
     <div style="font-family:'Cormorant Garamond',serif;font-size:1rem;font-style:italic;color:var(--muted);margin-bottom:0.4rem;">A verification link has been sent to</div>
-    <div style="font-family:'Cinzel',serif;font-size:0.6rem;font-weight:600;color:var(--gold);letter-spacing:0.08em;margin-bottom:1.6rem;" id="verifyEmailDisplay">your email</div>
+    <div style="font-family:'EB Garamond',serif;font-size:1rem;font-weight:600;color:var(--gold);letter-spacing:0.02em;text-transform:none;margin-bottom:1.6rem;" id="verifyEmailDisplay">your email</div>
     <div style="font-family:'EB Garamond',serif;font-size:0.88rem;color:var(--muted);line-height:1.8;margin-bottom:1.8rem;">
       Click the link in the email to verify your account.<br>
       Once verified, come back here and click the button below.
@@ -1758,11 +1758,16 @@ async function doRegister(){
       const cred=await createUserWithEmailAndPassword(auth,email,pass);
       np.uid=cred.user.uid;
       await setDoc(doc(db,'users',cred.user.uid),np);
-      await sendEmailVerification(cred.user);
+      try{
+        await sendEmailVerification(cred.user);
+        console.log('✅ Verification email sent to',email);
+      }catch(verr){
+        console.error('❌ Verification email error:',verr.code, verr.message);
+      }
       ST.user=np;
       document.getElementById('verifyEmailDisplay').textContent=email;
       showPage('pgVerify');
-      toast('✅ Verification email sent! Please check your inbox.');
+      toast('✅ Account created! Check your inbox for a verification link.');
     } else {
       ST.profiles.push(np);ST.user=np;
       _applyLogin(np);
