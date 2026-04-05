@@ -7,11 +7,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cinzel:wght@400;500;600;700;900&display=swap" rel="stylesheet">
 <style>
 :root{
-  --gold:#b8960c;--gold2:#d4af37;--gold3:#f0d060;--gold4:#fdf6d8;
+  --gold:#7c3d52;--gold2:#a0445e;--gold3:#c87090;--gold4:#fdf0f3;
   --crimson:#8b0000;--crimson2:#a50000;
   --white:#fff;--offwhite:#fefcf8;--cream:#fdf8f0;
   --text:#1a0f00;--muted:#6b5340;
-  --border:rgba(184,150,12,0.16);
+  --border:rgba(160,68,94,0.16);
   --nav-h:68px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -1049,11 +1049,15 @@ body{font-size:17px;}
 /* ── EDIT PROFILE REQUEST ── */
 .edit-req-banner{background:rgba(253,246,216,0.6);border:1px solid rgba(184,150,12,0.25);border-radius:10px;padding:0.7rem 1rem;font-family:'EB Garamond',serif;font-size:0.88rem;color:var(--muted);margin-top:0.5rem;}
 
-/* ── BRANCH ICON/MAP STYLES ── */
-.branch-city-icon{font-size:2.5rem;padding:1.2rem 1.4rem 0.5rem;text-align:center;display:block;}
-.branch-city{font-family:'Cinzel',serif;font-size:0.85rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--crimson);padding:0 1.4rem 0.2rem;text-align:center;}
-.branch-state{font-family:'Cormorant Garamond',serif;font-size:0.82rem;font-style:italic;color:var(--muted);padding:0 1.4rem 0.5rem;text-align:center;}
-.branch-tap{font-family:'Cinzel',serif;font-size:0.42rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);padding:0.5rem 1.4rem 1rem;text-align:center;border-top:1px solid var(--border);}
+/* ── BRANCH CARD ELEGANT STYLES ── */
+.branch-card{background:#fff;border:1px solid rgba(160,68,94,0.16);border-radius:20px;padding:0;cursor:pointer;transition:all 0.3s;text-align:center;position:relative;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.05);}
+.branch-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--crimson),var(--gold2));transform:scaleX(0);transition:transform 0.35s;border-radius:20px 20px 0 0;z-index:2;}
+.branch-card:hover::before{transform:scaleX(1);}
+.branch-card:hover{box-shadow:0 18px 48px rgba(139,0,0,0.1);transform:translateY(-5px);}
+.branch-city-icon{font-size:2.2rem;padding:1.5rem 1.4rem 0.6rem;text-align:center;display:block;}
+.branch-city{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;font-style:italic;color:var(--crimson);padding:0 1.4rem 0.15rem;text-align:center;}
+.branch-state{font-family:'Cinzel',serif;font-size:0.44rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold2);padding:0 1.4rem 0.6rem;text-align:center;}
+.branch-tap{font-family:'EB Garamond',serif;font-size:0.82rem;font-style:italic;color:var(--muted);padding:0.6rem 1.4rem 1.1rem;text-align:center;border-top:1px solid rgba(160,68,94,0.1);}
 .bdet-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem;padding-bottom:1rem;border-bottom:1px solid var(--border);}
 .bdet-icon{font-size:2.4rem;}
 .bdet-city{font-family:'Cinzel',serif;font-size:1rem;font-weight:700;color:var(--crimson);}
@@ -1239,7 +1243,7 @@ body{font-size:17px;}
           <p>Serving the Reddy community with trust, honour and dedication since 2000. Making happy marriages happen throughout Telangana and beyond.</p>
         </div>
         
-        <div class="fg-col"><h4>Contact</h4><ul><li><a href="mailto:support@naveenreddy.com">support@naveenreddy.com</a></li><li><a href="tel:+914023456789">+91 40 2345 6789</a></li><li><button onclick="showPage('pgPrivacy')">Privacy Policy</button></li><li><button onclick="showPage('pgTerms')">Terms &amp; Conditions</button></li></ul></div>
+        <div class="fg-col"><h4>Contact</h4><ul><li><a href="mailto:naveenreddy0033@yahoo.com">naveenreddy0033@yahoo.com</a></li><li><a href="tel:+917207999985">+91 72079 99985</a></li><li><a href="tel:+919848221166">+91 98482 21166</a></li><li><button onclick="showPage('pgBranches')">Our Branch Offices</button></li><li><button onclick="showPage('pgPrivacy')">Privacy Policy</button></li><li><button onclick="showPage('pgTerms')">Terms &amp; Conditions</button></li></ul></div>
       </div>
       <div class="footer-bottom">
         <p>© 2025 Naveen Reddy Marriage Bureau. All rights reserved. · Exclusively for Reddy Community · Hindu Religion.</p>
@@ -1620,7 +1624,18 @@ body{font-size:17px;}
   <div class="signup-hero" id="contactHero"><div class="sh-text"><div class="sh-title">Contact Us</div><div class="sh-bc">Home | Contact</div></div></div>
   <div class="sec-hd"><div class="sec-tag">Get in Touch</div><div class="sec-title">We Are Here for You</div></div>
   <div class="contact-wrap">
-    <div class="contact-grid"><div class="ci-card"><span class="ci-icon">📍</span><div class="ci-lbl">Office</div><div class="ci-val">Hyderabad, Telangana, India</div></div><div class="ci-card"><span class="ci-icon">📞</span><div class="ci-lbl">Phone</div><div class="ci-val">+91 40 2345 6789</div></div><div class="ci-card"><span class="ci-icon">✉</span><div class="ci-lbl">Email</div><div class="ci-val">support@naveenreddy.com</div></div><div class="ci-card"><span class="ci-icon">🕐</span><div class="ci-lbl">Hours</div><div class="ci-val">Mon–Sat: 10 AM – 6 PM</div></div></div>
+    <div class="contact-grid">
+      <div class="ci-card"><span class="ci-icon">📍</span><div class="ci-lbl">Head Office</div><div class="ci-val">G-6 Amruthaville, Opp. Yashoda Hospital,<br>Somajiguda, Hyderabad — 500 082</div></div>
+      <div class="ci-card"><span class="ci-icon">📞</span><div class="ci-lbl">Phone &amp; Mobile</div><div class="ci-val">+91 72079 99985<br>+91 98482 21166</div></div>
+      <div class="ci-card"><span class="ci-icon">✉</span><div class="ci-lbl">Email</div><div class="ci-val">naveenreddy0033@yahoo.com</div></div>
+      <div class="ci-card" onclick="showPage('pgBranches')" style="cursor:pointer;">
+        <span class="ci-icon">🗺</span>
+        <div class="ci-lbl">All Branch Offices</div>
+        <div class="ci-val" style="color:var(--crimson);font-weight:500;">Somajiguda · Kothapet<br>Warangal · Karimnagar<br><span style="font-family:'Cinzel',serif;font-size:0.48rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold2);">Tap to view maps →</span></div>
+      </div>
+      <div class="ci-card"><span class="ci-icon">🕐</span><div class="ci-lbl">Working Hours</div><div class="ci-val">Mon–Sun: 10:00 AM – 6:30 PM<br><em style="color:var(--gold2);">Tuesday: Weekly Off</em></div></div>
+      <div class="ci-card"><span class="ci-icon">👤</span><div class="ci-lbl">Head of Bureau</div><div class="ci-val">Mr. Naveen Reddy Ravula</div></div>
+    </div>
     <div class="form-sec"><div class="form-sec-title"><span>💬</span> Send a Message</div><div class="g2"><div class="ff"><label>Your Name</label><input type="text" placeholder="Full name"></div><div class="ff"><label>Mobile / Email</label><input type="text" placeholder="Contact details"></div></div><div class="ff"><label>Message</label><textarea rows="4" placeholder="Your query or message…"></textarea></div><button class="btn-prim" style="width:auto;padding:0.85rem 2.5rem;" onclick="toast('Your message has been sent. We will respond shortly.')">Send Message</button></div>
   </div>
 </div>
@@ -2492,8 +2507,7 @@ const BRANCHES = {
     phone:'+91 72079 99985',
     mobile:'+91 98482 21166',
     email:'naveenreddy0033@yahoo.com',
-    hours:'Mon – Sat: 10:00 AM – 6:30 PM',
-    sunday:'Every Tuesday: Weekly Off',
+    hours:'Mon–Sun: 10:00 AM – 6:30 PM (Tuesday: Weekly Off)',
     manager:'Mr. Naveen Reddy Ravula',
     maps:'https://maps.app.goo.gl/GBsdFySAJ2pNANFw9?g_st=iw',
     note:'Head Office. All membership tiers available. Please call before visiting. All profiles from all branches accessible here.'
@@ -2502,24 +2516,22 @@ const BRANCHES = {
     icon:'🏙',city:'Kothapet',type:'Branch Office',state:'Dilsukhnagar, Hyderabad',
     address:'Flat No. 501, PVT Market, Kothapet, Dilsukhnagar, Hyderabad',
     landmark:'PVT Market, Kothapet',
-    phone:'888 555 9579',
+    phone:'+91 88855 59579',
     mobile:'+91 98482 21166',
     email:'naveenreddy0033@yahoo.com',
-    hours:'Mon – Sat: 10:00 AM – 6:30 PM',
-    sunday:'Every Tuesday: Weekly Off',
+    hours:'Mon–Sun: 10:00 AM – 6:30 PM (Tuesday: Weekly Off)',
     manager:'Mr. Naveen Reddy Ravula',
     maps:'https://maps.app.goo.gl/6C4dPXwkttzKMNBz6?g_st=iw',
-    note:'Profiles registered here are accessible at all branches. Please call before visiting.'
+    note:'All profiles from all branches accessible here. Please call before visiting.'
   },
   wgl:{
     icon:'🌿',city:'Warangal',type:'Branch Office',state:'Hanamkonda, Telangana',
     address:'Beside Petrol Pump, Subedari Main Road, Hanamkonda, Warangal',
     landmark:'Beside Petrol Pump, Subedari Main Road',
-    phone:'95055 51788 / 98482 21166',
+    phone:'+91 95055 51788',
     mobile:'+91 98482 21166',
     email:'naveenreddy0033@yahoo.com',
-    hours:'Mon – Sat: 10:00 AM – 6:30 PM',
-    sunday:'Every Tuesday: Weekly Off',
+    hours:'Mon–Sun: 10:00 AM – 6:30 PM (Tuesday: Weekly Off)',
     manager:'Mr. Naveen Reddy Ravula',
     maps:'https://maps.app.goo.gl/bj8mt4JVapUFrNM59?g_st=iw',
     note:'All profiles from all branches accessible here. Please call before visiting.'
@@ -2528,11 +2540,10 @@ const BRANCHES = {
     icon:'🏺',city:'Karimnagar',type:'Branch Office',state:'Telangana',
     address:'Near Kaman Chowrastha, Bus Stand Road, Karimnagar',
     landmark:'Near Kaman Chowrastha, Bus Stand Road',
-    phone:'78933 33726 / 98482 21166',
+    phone:'+91 78933 33726',
     mobile:'+91 98482 21166',
     email:'naveenreddy0033@yahoo.com',
-    hours:'Mon – Sat: 10:00 AM – 6:30 PM',
-    sunday:'Every Tuesday: Weekly Off',
+    hours:'Mon–Sun: 10:00 AM – 6:30 PM (Tuesday: Weekly Off)',
     manager:'Mr. Naveen Reddy Ravula',
     maps:'https://maps.app.goo.gl/WbRFfUuturMsxWxJ8?g_st=iw',
     note:'All profiles from all branches accessible here. Please call before visiting.'
@@ -2553,9 +2564,8 @@ function openBranch(key){
       <div class="bdet-item"><div class="bdet-lbl">📞 Landline</div><div class="bdet-val">${b.phone}</div></div>
       <div class="bdet-item"><div class="bdet-lbl">📱 Mobile</div><div class="bdet-val">${b.mobile}</div></div>
       <div class="bdet-item" style="grid-column:1/-1"><div class="bdet-lbl">✉ Email</div><div class="bdet-val">${b.email}</div></div>
-      <div class="bdet-item"><div class="bdet-lbl">🕐 Working Hours</div><div class="bdet-val" style="font-size:0.9rem;">${b.hours}</div></div>
-      <div class="bdet-item"><div class="bdet-lbl">☀ Sunday</div><div class="bdet-val" style="font-size:0.9rem;">${b.sunday}</div></div>
-      <div class="bdet-item"><div class="bdet-lbl">👤 Branch Manager</div><div class="bdet-val">${b.manager}</div></div>
+      <div class="bdet-item" style="grid-column:1/-1"><div class="bdet-lbl">🕐 Working Hours</div><div class="bdet-val" style="font-size:0.95rem;">${b.hours}</div></div>
+      <div class="bdet-item"><div class="bdet-lbl">👤 Head of Bureau</div><div class="bdet-val">${b.manager}</div></div>
       <div class="bdet-item" style="grid-column:1/-1;border:none;"><div class="bdet-lbl">ℹ Note</div><div style="font-family:'EB Garamond',serif;font-size:0.88rem;color:var(--muted);font-style:italic;margin-top:0.1rem;">${b.note}</div></div>
       ${b.maps?`<div class="bdet-item" style="grid-column:1/-1;border:none;padding-top:0;"><a href="${b.maps}" target="_blank" rel="noopener" class="bdet-map-btn">📍 Open in Google Maps</a></div>`:''}
     </div>`;
