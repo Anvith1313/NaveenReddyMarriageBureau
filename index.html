@@ -962,6 +962,109 @@ body{font-family:'EB Garamond',serif;background:var(--offwhite);color:var(--text
 .bd-back{background:none;border:1.5px solid rgba(184,150,12,0.3);border-radius:50px;padding:0.5rem 1.4rem;cursor:pointer;font-family:'Cinzel',serif;font-size:0.48rem;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);transition:all 0.25s;margin-top:0.5rem;}
 .bd-back:hover{border-color:var(--gold);color:var(--gold);}
 
+/* ── GLOBAL FONT SIZE INCREASE ── */
+body{font-size:17px;}
+.nav-link{font-size:0.6rem;}
+.btn-nav-in,.btn-nav-up{font-size:0.58rem;padding:0.52rem 1.5rem;}
+.form-sec-title{font-size:1.1rem;}
+.ff label{font-size:0.95rem;}
+.ff input,.ff select,.ff textarea{font-size:1rem;}
+.step-nav .btn-step{font-size:0.62rem;}
+.feat-text,.story-text,.about-text p,.sec-sub{font-size:1rem;}
+
+/* ── IMPROVED BACK BUTTON ── */
+.back-home-btn{
+  font-size:0.6rem !important;
+  color:var(--crimson) !important;
+  background:rgba(139,0,0,0.06) !important;
+  border:1px solid rgba(139,0,0,0.18) !important;
+  border-radius:50px !important;
+  padding:0.35rem 1rem !important;
+}
+.back-home-btn:hover{background:rgba(139,0,0,0.1) !important;color:var(--crimson) !important;}
+
+/* ── CASTE/COMMUNITY COLOR FIX ── */
+.hero-tag{color:rgba(255,248,220,0.96) !important;text-shadow:0 2px 8px rgba(0,0,0,0.5);}
+.hero-tag::before,.hero-tag::after{background:rgba(255,248,220,0.7)!important;}
+.btn-nav-in{color:var(--crimson) !important;border-color:rgba(139,0,0,0.3) !important;}
+.btn-nav-in:hover{border-color:var(--crimson) !important;background:rgba(139,0,0,0.06) !important;}
+.hbtn.outline{border-color:rgba(255,255,255,0.7) !important;color:#fff !important;}
+.sec-tag{color:var(--crimson) !important;}
+.sec-tag::before,.sec-tag::after{background:var(--crimson) !important;}
+.story-year{color:var(--crimson) !important;}
+
+/* ── SEARCHABLE SELECT WRAPPER ── */
+.srch-wrap{position:relative;}
+.srch-wrap input.srch-input{
+  width:100%;background:rgba(253,246,216,0.18);
+  border:1px solid rgba(184,150,12,0.25);border-radius:8px;
+  padding:0.55rem 0.8rem 0.55rem 2rem;
+  font-family:'EB Garamond',serif;font-size:1rem;color:var(--text);
+  outline:none;transition:border-color .3s;
+}
+.srch-wrap input.srch-input:focus{border-color:var(--gold2);}
+.srch-wrap::before{content:'🔍';position:absolute;left:0.55rem;top:50%;transform:translateY(-50%);font-size:0.7rem;pointer-events:none;opacity:0.5;}
+.srch-wrap .srch-dropdown{
+  position:absolute;top:calc(100% + 4px);left:0;right:0;z-index:999;
+  max-height:220px;overflow-y:auto;background:#fff;
+  border:1px solid rgba(184,150,12,0.25);border-radius:8px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.1);display:none;
+}
+.srch-wrap .srch-dropdown.open{display:block;}
+.srch-wrap .srch-opt{padding:0.55rem 0.85rem;font-family:'EB Garamond',serif;font-size:0.95rem;cursor:pointer;color:var(--text);}
+.srch-wrap .srch-opt:hover,.srch-wrap .srch-opt.highlighted{background:rgba(253,246,216,0.7);color:var(--crimson);}
+.srch-wrap .srch-opt.srch-group{font-family:'Cinzel',serif;font-size:0.5rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);padding:0.4rem 0.85rem 0.2rem;pointer-events:none;background:rgba(253,246,216,0.3);}
+
+/* ── INCOME DISPLAY ── */
+.income-display{font-family:'Cormorant Garamond',serif;font-size:0.9rem;font-style:italic;color:var(--gold);margin-top:0.25rem;min-height:1.2em;}
+
+/* ── BIODATA STYLES ── */
+.biodata-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1rem;}
+.biodata-sheet{
+  background:#fff;max-width:620px;width:100%;max-height:92vh;overflow-y:auto;
+  border:2px solid #c0392b;font-family:Georgia,serif;padding:1.5rem;
+  position:relative;
+}
+.bio-header{text-align:center;border-bottom:1px solid #c0392b;padding-bottom:0.8rem;margin-bottom:0.8rem;}
+.bio-meta{display:flex;justify-content:space-between;font-size:0.75rem;color:#c0392b;font-style:italic;margin-bottom:0.4rem;}
+.bio-logo-area{margin:0.3rem 0;}
+.bio-bureau{font-family:'Times New Roman',serif;font-size:1.3rem;font-weight:700;color:#c0392b;letter-spacing:0.04em;}
+.bio-sub{font-size:0.75rem;color:#555;letter-spacing:0.1em;text-transform:uppercase;}
+.bio-address{font-size:0.7rem;color:#c0392b;font-style:italic;text-decoration:underline;margin-top:0.3rem;}
+.bio-row{display:flex;gap:0.5rem;margin-bottom:0.35rem;font-size:0.85rem;}
+.bio-lbl{color:#c0392b;font-style:italic;font-weight:600;min-width:160px;flex-shrink:0;}
+.bio-val{color:#111;}
+.bio-two{display:grid;grid-template-columns:1fr 1fr;gap:0.4rem 1rem;}
+.bio-sec-title{font-style:italic;font-weight:700;text-decoration:underline;color:#c0392b;margin:0.8rem 0 0.4rem;font-size:0.9rem;}
+.bio-footer{text-align:right;font-style:italic;color:#c0392b;font-size:0.78rem;margin-top:0.8rem;padding-top:0.6rem;border-top:1px solid #eee;}
+.bio-close-btn{position:sticky;bottom:0.5rem;margin:0.8rem auto 0;display:block;padding:0.6rem 2rem;background:var(--crimson);color:#fff;border:none;border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.52rem;font-weight:600;letter-spacing:0.14em;}
+@media print{.bio-close-btn{display:none;}.biodata-overlay{position:absolute;background:none;}}
+
+/* ── PHOTOS SECTION ── */
+.photos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:0.8rem;margin-top:0.8rem;}
+.photo-thumb{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;border:1px solid var(--border);}
+.photo-add-btn{width:100%;aspect-ratio:1;border:2px dashed rgba(184,150,12,0.35);border-radius:10px;background:rgba(253,246,216,0.3);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.3rem;font-family:'Cinzel',serif;font-size:0.44rem;color:var(--muted);transition:all 0.2s;}
+.photo-add-btn:hover{border-color:var(--gold);background:rgba(253,246,216,0.6);}
+
+/* ── EDIT PROFILE REQUEST ── */
+.edit-req-banner{background:rgba(253,246,216,0.6);border:1px solid rgba(184,150,12,0.25);border-radius:10px;padding:0.7rem 1rem;font-family:'EB Garamond',serif;font-size:0.88rem;color:var(--muted);margin-top:0.5rem;}
+
+/* ── BRANCH ICON/MAP STYLES ── */
+.branch-city-icon{font-size:2.5rem;padding:1.2rem 1.4rem 0.5rem;text-align:center;display:block;}
+.branch-city{font-family:'Cinzel',serif;font-size:0.85rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--crimson);padding:0 1.4rem 0.2rem;text-align:center;}
+.branch-state{font-family:'Cormorant Garamond',serif;font-size:0.82rem;font-style:italic;color:var(--muted);padding:0 1.4rem 0.5rem;text-align:center;}
+.branch-tap{font-family:'Cinzel',serif;font-size:0.42rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);padding:0.5rem 1.4rem 1rem;text-align:center;border-top:1px solid var(--border);}
+.bdet-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem;padding-bottom:1rem;border-bottom:1px solid var(--border);}
+.bdet-icon{font-size:2.4rem;}
+.bdet-city{font-family:'Cinzel',serif;font-size:1rem;font-weight:700;color:var(--crimson);}
+.bdet-type{font-family:'Cormorant Garamond',serif;font-size:0.88rem;font-style:italic;color:var(--muted);}
+.bdet-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;}
+.bdet-item{border-bottom:1px solid rgba(184,150,12,0.12);padding-bottom:0.6rem;}
+.bdet-lbl{font-family:'Cinzel',serif;font-size:0.44rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:0.2rem;}
+.bdet-val{font-family:'EB Garamond',serif;font-size:0.98rem;color:var(--text);}
+.bdet-map-btn{display:inline-flex;align-items:center;gap:0.4rem;margin-top:0.4rem;padding:0.35rem 0.9rem;background:var(--crimson);color:#fff;border-radius:50px;font-family:'Cinzel',serif;font-size:0.44rem;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;font-weight:600;transition:opacity .2s;}
+.bdet-map-btn:hover{opacity:0.85;}
+
 </style>
   <!-- Firebase SDK -->
   <script type="module">
@@ -1133,14 +1236,14 @@ body{font-family:'EB Garamond',serif;background:var(--offwhite);color:var(--text
       <div class="footer-grid">
         <div class="fg-brand">
           <div class="fb-logo"><img id="footLogo" src="" alt="NRMB" style="width:38px;height:38px;object-fit:contain;"><span class="fb-name">Naveen Reddy Marriage Bureau</span></div>
-          <p>Serving the Reddy community with trust, honour and dedication since 2000. Making happy marriages happen across Telangana, Andhra Pradesh and the world.</p>
+          <p>Serving the Reddy community with trust, honour and dedication since 2000. Making happy marriages happen throughout Telangana and beyond.</p>
         </div>
         
         <div class="fg-col"><h4>Contact</h4><ul><li><a href="mailto:support@naveenreddy.com">support@naveenreddy.com</a></li><li><a href="tel:+914023456789">+91 40 2345 6789</a></li><li><button onclick="showPage('pgPrivacy')">Privacy Policy</button></li><li><button onclick="showPage('pgTerms')">Terms &amp; Conditions</button></li></ul></div>
       </div>
       <div class="footer-bottom">
         <p>© 2025 Naveen Reddy Marriage Bureau. All rights reserved. · Exclusively for Reddy Community · Hindu Religion.</p>
-        <p>Governing Law: Hyderabad, Telangana, India</p>
+        <p>Head of Bureau: Mr. Naveen Reddy Ravula · +91 98482 21166 · Governing Law: Hyderabad, Telangana, India</p>
       </div>
     </footer>
   </div>
@@ -1193,7 +1296,7 @@ body{font-family:'EB Garamond',serif;background:var(--offwhite);color:var(--text
 
     <!-- Step 1 -->
     <div class="form-step active" id="fs1" style="position:relative;z-index:1;">
-      <div class="form-sec"><div class="form-sec-title"><span>👤</span> I am a</div><div class="ff"><div class="radio-row"><label class="r-opt"><input type="radio" name="gender" value="Male" id="gMale" checked><span>I'm a Man</span></label><label class="r-opt"><input type="radio" name="gender" value="Female" id="gFemale"><span>I'm a Woman</span></label></div></div></div>
+      <div class="form-sec"><div class="form-sec-title"><span>👤</span> Profile For</div><div class="ff"><div class="radio-row"><label class="r-opt"><input type="radio" name="gender" value="Male" id="gMale" checked><span>Male</span></label><label class="r-opt"><input type="radio" name="gender" value="Female" id="gFemale"><span>Female</span></label></div></div></div>
       <div class="form-sec">
         <div class="form-sec-title"><span>📋</span> Basic Information</div>
         <div class="g2">
@@ -1201,12 +1304,12 @@ body{font-family:'EB Garamond',serif;background:var(--offwhite);color:var(--text
           <div class="ff"><label>Date of Birth *</label><input id="s_dob" type="date"></div>
           <div class="ff"><label>Place of Birth</label><input id="s_pob" type="text" placeholder="e.g. Hyderabad"></div>
           <div class="ff"><label>Mother Tongue *</label><select id="s_mt"><option value="">Select</option><option>Telugu</option><option>Kannada</option><option>Tamil</option><option>Hindi</option><option>Other</option></select></div>
-          <div class="ff"><label>Marital Status *</label><select id="s_ms"><option value="">Select</option><option>Never Married</option><option>Divorced</option><option>Widowed</option><option>Awaiting Divorce</option></select></div>
+          <div class="ff"><label>Marital Status *</label><select id="s_ms"><option value="">Select</option><option>Never Married</option><option>Divorced</option><option>Divorced (2nd Time)</option><option>Divorced (3rd Time)</option><option>Widowed</option><option>Awaiting Divorce</option></select></div>
           <div class="ff"><label>Religion</label><input value="Hindu" readonly style="color:var(--muted);font-style:italic;"></div>
           <div class="ff"><label>Caste</label><input value="Reddy" readonly style="color:var(--muted);font-style:italic;"></div>
-          <div class="ff"><label>Sub-Caste / Gotra *</label><select id="s_gotra"><option value="">Select</option><option>Motati</option><option>Gudati</option><option>Pakanati</option><option>Gone</option><option>Chittepu</option><option>Bhumanchi</option><option>Pedakanti</option><option>Velama</option><option>Mudiraj</option><option>Gajula</option><option>Niyogi</option><option>Vaidiki</option><option>Turpu Kapu</option><option>Telaga</option><option>Other</option></select></div>
-          <div class="ff"><label>Nakshatra *</label><select id="s_nak"><option value="">Select</option><option>Ashwini</option><option>Bharani</option><option>Krittika</option><option>Rohini</option><option>Mrigashira</option><option>Ardra</option><option>Punarvasu</option><option>Pushya</option><option>Ashlesha</option><option>Magha</option><option>Purva Phalguni</option><option>Uttara Phalguni</option><option>Hasta</option><option>Chitra</option><option>Swati</option><option>Vishakha</option><option>Anuradha</option><option>Jyeshtha</option><option>Mula</option><option>Purva Ashadha</option><option>Uttara Ashadha</option><option>Shravana</option><option>Dhanishtha</option><option>Shatabhisha</option><option>Purva Bhadrapada</option><option>Uttara Bhadrapada</option><option>Revati</option></select></div>
-          <div class="ff"><label>Rashi (Moon Sign) *</label><select id="s_rashi"><option value="">Select</option><option>Mesha (Aries)</option><option>Vrishabha (Taurus)</option><option>Mithuna (Gemini)</option><option>Karka (Cancer)</option><option>Simha (Leo)</option><option>Kanya (Virgo)</option><option>Tula (Libra)</option><option>Vrishchika (Scorpio)</option><option>Dhanu (Sagittarius)</option><option>Makara (Capricorn)</option><option>Kumbha (Aquarius)</option><option>Meena (Pisces)</option></select></div>
+          <div class="ff"><label>Sub-Caste / Gotra *</label><input id="s_gotra" list="gotraList" placeholder="Type or search gotra…"><datalist id="gotraList"><option>Motati</option><option>Gudati</option><option>Pakanati</option><option>Gone</option><option>Chittepu</option><option>Bhumanchi</option><option>Pedakanti</option><option>Velama</option><option>Mudiraj</option><option>Gajula</option><option>Niyogi</option><option>Vaidiki</option><option>Turpu Kapu</option><option>Telaga</option><option>Konukanula</option><option>Cherukunutla</option><option>Chegolla</option><option>Other</option></datalist></div>
+          <div class="ff"><label>Nakshatra *</label><input id="s_nak" list="nakList" placeholder="Type or search nakshatra…"><datalist id="nakList"><option>Ashwini</option><option>Bharani</option><option>Krittika</option><option>Rohini</option><option>Mrigashira</option><option>Ardra</option><option>Punarvasu</option><option>Pushya</option><option>Ashlesha</option><option>Magha</option><option>Purva Phalguni</option><option>Uttara Phalguni</option><option>Hasta</option><option>Chitra</option><option>Swati</option><option>Vishakha</option><option>Anuradha</option><option>Jyeshtha</option><option>Mula</option><option>Purva Ashadha</option><option>Uttara Ashadha</option><option>Shravana</option><option>Dhanishtha</option><option>Shatabhisha</option><option>Purva Bhadrapada</option><option>Uttara Bhadrapada</option><option>Revati</option></datalist></div>
+          <div class="ff"><label>Rashi (Moon Sign) *</label><input id="s_rashi" list="rashiList" placeholder="Type or search rashi…"><datalist id="rashiList"><option>Mesha (Aries)</option><option>Vrishabha (Taurus)</option><option>Mithuna (Gemini)</option><option>Karka (Cancer)</option><option>Simha (Leo)</option><option>Kanya (Virgo)</option><option>Tula (Libra)</option><option>Vrishchika (Scorpio)</option><option>Dhanu (Sagittarius)</option><option>Makara (Capricorn)</option><option>Kumbha (Aquarius)</option><option>Meena (Pisces)</option></datalist></div>
         </div>
       </div>
       <div class="form-sec">
@@ -1215,8 +1318,8 @@ body{font-family:'EB Garamond',serif;background:var(--offwhite);color:var(--text
           <div class="ff"><label>Mobile Number *</label><input id="s_mob" type="tel" placeholder="+91 98765 43210"></div>
           <div class="ff"><label>Email Address *</label><input id="s_email" type="email" placeholder="your@email.com"></div>
           <div class="ff"><label>City *</label><input id="s_city" type="text" placeholder="e.g. Hyderabad"></div>
-          <div class="ff"><label>State *</label><select id="s_state"><option value="">Select</option><optgroup label="South India"><option>Telangana</option><option>Andhra Pradesh</option><option>Karnataka</option><option>Tamil Nadu</option><option>Kerala</option></optgroup><optgroup label="Other Indian States"><option>Maharashtra</option><option>Delhi</option><option>Gujarat</option><option>Rajasthan</option><option>Uttar Pradesh</option><option>Madhya Pradesh</option><option>Punjab</option><option>Haryana</option><option>Bihar</option><option>West Bengal</option><option>Odisha</option><option>Assam</option><option>Jharkhand</option><option>Chhattisgarh</option><option>Uttarakhand</option><option>Himachal Pradesh</option><option>Jammu &amp; Kashmir</option><option>Goa</option><option>Other Indian State</option></optgroup><optgroup label="USA"><option>California</option><option>Texas</option><option>New York</option><option>New Jersey</option><option>Illinois</option><option>Washington</option><option>Georgia</option><option>Florida</option><option>Other US State</option></optgroup><optgroup label="Other Countries"><option>UK</option><option>Canada</option><option>Australia</option><option>UAE</option><option>Singapore</option><option>New Zealand</option><option>Germany</option><option>Netherlands</option><option>Other</option></optgroup></select></div>
-          <div class="ff"><label>Country *</label><select id="s_country"><option value="">Select</option><optgroup label="Most Popular"><option>India</option><option>USA</option><option>UK</option><option>Canada</option><option>Australia</option><option>UAE</option><option>Singapore</option><option>New Zealand</option></optgroup><optgroup label="Europe"><option>Germany</option><option>Netherlands</option><option>France</option><option>Sweden</option><option>Switzerland</option><option>Italy</option><option>Spain</option><option>Belgium</option><option>Other Europe</option></optgroup><optgroup label="Middle East"><option>Qatar</option><option>Kuwait</option><option>Bahrain</option><option>Oman</option><option>Saudi Arabia</option></optgroup><optgroup label="Asia Pacific"><option>Malaysia</option><option>Japan</option><option>Hong Kong</option><option>New Zealand</option></optgroup><optgroup label="Other"><option>South Africa</option><option>Other</option></optgroup></select></div>
+          <div class="ff"><label>State *</label><input id="s_state" list="stateList" placeholder="Type to search state / region…"><datalist id="stateList"><option>Telangana</option><option>Andhra Pradesh</option><option>Karnataka</option><option>Tamil Nadu</option><option>Kerala</option><option>Maharashtra</option><option>Delhi</option><option>Gujarat</option><option>Rajasthan</option><option>Uttar Pradesh</option><option>Madhya Pradesh</option><option>Punjab</option><option>Haryana</option><option>Bihar</option><option>West Bengal</option><option>Odisha</option><option>Assam</option><option>Jharkhand</option><option>Chhattisgarh</option><option>Uttarakhand</option><option>Himachal Pradesh</option><option>Jammu &amp; Kashmir</option><option>Goa</option><option>California</option><option>Texas</option><option>New York</option><option>New Jersey</option><option>Illinois</option><option>Washington</option><option>Georgia</option><option>Florida</option><option>England (UK)</option><option>Other</option></datalist></div>
+          <div class="ff"><label>Country *</label><input id="s_country" list="countryList" placeholder="Type to search country…"><datalist id="countryList"><option>India</option><option>USA</option><option>UK</option><option>Canada</option><option>Australia</option><option>UAE</option><option>Singapore</option><option>New Zealand</option><option>Germany</option><option>Netherlands</option><option>France</option><option>Sweden</option><option>Switzerland</option><option>Italy</option><option>Spain</option><option>Belgium</option><option>Qatar</option><option>Kuwait</option><option>Bahrain</option><option>Oman</option><option>Saudi Arabia</option><option>Malaysia</option><option>Japan</option><option>Hong Kong</option><option>Ireland</option><option>South Africa</option><option>Other</option></datalist></div>
           <div class="ff"><label>Residential Status</label><select id="s_res"><option>Permanent Resident</option><option>NRI</option><option>Student Abroad</option><option>Work Visa</option></select></div>
         </div>
       </div>
@@ -1232,8 +1335,20 @@ body{font-family:'EB Garamond',serif;background:var(--offwhite);color:var(--text
 
     <!-- Step 2 -->
     <div class="form-step" id="fs2" style="position:relative;z-index:1;">
-      <div class="form-sec"><div class="form-sec-title"><span>📏</span> Physical Attributes</div><div class="g3"><div class="ff"><label>Height *</label><select id="s_ht"><option value="">Select</option><option>4'10" (147cm)</option><option>5'0" (152cm)</option><option>5'1" (154cm)</option><option>5'2" (157cm)</option><option>5'3" (160cm)</option><option>5'4" (162cm)</option><option>5'5" (165cm)</option><option>5'6" (167cm)</option><option>5'7" (170cm)</option><option>5'8" (172cm)</option><option>5'9" (175cm)</option><option>5'10" (177cm)</option><option>5'11" (180cm)</option><option>6'0" (182cm)</option><option>6'1" (185cm)</option><option>6'2" (187cm)</option></select></div><div class="ff"><label>Weight (kg)</label><input id="s_wt" type="number" placeholder="65"></div><div class="ff"><label>Complexion</label><select id="s_cx"><option value="">Select</option><option>Very Fair</option><option>Fair</option><option>Wheatish</option><option>Wheatish Brown</option><option>Dark</option></select></div><div class="ff"><label>Body Type</label><select id="s_bt"><option value="">Select</option><option>Slim</option><option>Athletic</option><option>Average</option><option>Heavy</option></select></div><div class="ff"><label>Blood Group</label><select id="s_bg"><option value="">Select</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>O+</option><option>O-</option><option>AB+</option><option>AB-</option></select></div><div class="ff"><label>Differently Abled</label><select id="s_da"><option>No</option><option>Yes</option></select></div></div></div>
-      <div class="form-sec"><div class="form-sec-title"><span>🎓</span> Education &amp; Career</div><div class="g2"><div class="ff"><label>Highest Qualification *</label><select id="s_edu"><option value="">Select</option><option>B.Tech / B.E.</option><option>B.Sc / B.Com / B.A.</option><option>M.Tech / M.E.</option><option>M.Sc / M.Com / M.A.</option><option>M.B.A.</option><option>MBBS</option><option>MD / MS</option><option>CA / CMA / CS</option><option>LLB / LLM</option><option>Ph.D.</option><option>Diploma</option><option>Other</option></select></div><div class="ff"><label>College / University</label><input id="s_col" type="text" placeholder="e.g. Osmania University"></div><div class="ff"><label>Employed In *</label><select id="s_emp"><option value="">Select</option><option>Government / PSU</option><option>Private Sector</option><option>Business / Self-Employed</option><option>Defence</option><option>Civil Services</option><option>IT / Software</option><option>Teaching / Professor</option><option>Agriculture</option><option>Not Working</option><option>Other</option></select></div><div class="ff"><label>Occupation *</label><input id="s_occ" type="text" placeholder="e.g. Software Engineer"></div><div class="ff"><label>Company / Organisation</label><input id="s_co" type="text" placeholder="e.g. TCS, Govt of TS"></div><div class="ff"><label>Annual Income *</label><select id="s_inc"><option value="">Select</option><option>Below 1 Lakh</option><option>1–4 Lakhs</option><option>4–6 Lakhs</option><option>6–10 Lakhs</option><option>10–15 Lakhs</option><option>15–20 Lakhs</option><option>20–30 Lakhs</option><option>30–50 Lakhs</option><option>50 Lakhs – 1 Crore</option><option>Above 1 Crore</option></select></div></div></div>
+      <div class="form-sec"><div class="form-sec-title"><span>📏</span> Physical Attributes</div><div class="g3"><div class="ff"><label>Height *</label><input id="s_ht" list="heightList" placeholder="e.g. 5'6&quot; (167cm)"><datalist id="heightList"><option>4'10" (147cm)</option><option>4'11" (149cm)</option><option>5'0" (152cm)</option><option>5'1" (154cm)</option><option>5'2" (157cm)</option><option>5'3" (160cm)</option><option>5'4" (162cm)</option><option>5'5" (165cm)</option><option>5'6" (167cm)</option><option>5'7" (170cm)</option><option>5'8" (172cm)</option><option>5'9" (175cm)</option><option>5'10" (177cm)</option><option>5'11" (180cm)</option><option>6'0" (182cm)</option><option>6'1" (185cm)</option><option>6'2" (187cm)</option><option>6'3" (190cm)</option><option>6'4" (193cm)</option><option>6'5" (195cm)</option><option>6'6" (198cm)</option><option>6'7" (200cm)</option><option>6'8" (203cm)</option><option>6'9" (205cm)</option><option>6'10" (208cm)</option><option>6'11" (210cm)</option><option>7'0" (213cm)</option><option>7'6" (228cm)</option><option>8'0" (243cm)</option></datalist></div><div class="ff"><label>Weight (kg)</label><input id="s_wt" type="number" placeholder="65"></div><div class="ff"><label>Complexion</label><select id="s_cx"><option value="">Select</option><option>Very Fair</option><option>Fair</option><option>Wheatish</option><option>Wheatish Brown</option><option>Dark</option></select></div><div class="ff"><label>Body Type</label><select id="s_bt"><option value="">Select</option><option>Slim</option><option>Athletic</option><option>Average</option><option>Heavy</option></select></div><div class="ff"><label>Blood Group</label><select id="s_bg"><option value="">Select</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>O+</option><option>O-</option><option>AB+</option><option>AB-</option></select></div><div class="ff"><label>Differently Abled</label><select id="s_da"><option>No</option><option>Yes</option></select></div></div></div>
+      <div class="form-sec"><div class="form-sec-title"><span>🎓</span> Education &amp; Career</div><div class="g2">
+        <div class="ff"><label>Highest Qualification *</label><select id="s_edu" onchange="onEduChange()"><option value="">Select</option><option>10th / SSC</option><option>Intermediate / 12th</option><option>Diploma</option><option>B.Tech / B.E.</option><option>B.Sc / B.Com / B.A.</option><option>MBBS</option><option>LLB</option><option>CA / CMA / CS</option><option>M.Tech / M.E.</option><option>M.Sc / M.Com / M.A.</option><option>M.B.A.</option><option>MD / MS</option><option>MS (USA/UK)</option><option>LLM</option><option>Ph.D.</option><option>Other</option></select></div>
+        <div class="ff"><label>SSC / 10th School Name</label><input id="s_school" type="text" placeholder="e.g. Delhi Public School, Nacharam"></div>
+        <div class="ff"><label>Intermediate / 12th College</label><input id="s_inter" type="text" placeholder="e.g. Sri Chaitanya Junior College"></div>
+        <div class="ff" id="s_engcol_wrap"><label>Engineering / Degree College</label><input id="s_engcol" type="text" placeholder="e.g. Osmania University, IIT"></div>
+        <div class="ff" id="s_pgcol_wrap"><label>PG / MS / Higher Education College</label><input id="s_col" type="text" placeholder="e.g. UTD Dallas, IIT Bombay"></div>
+        <div class="ff"><label>Employed In *</label><select id="s_emp"><option value="">Select</option><option>Government / PSU</option><option>Private Sector</option><option>Business / Self-Employed</option><option>Defence</option><option>Civil Services</option><option>IT / Software</option><option>Teaching / Professor</option><option>Agriculture</option><option>Not Working</option><option>Other</option></select></div>
+        <div class="ff"><label>Occupation *</label><input id="s_occ" type="text" placeholder="e.g. Software Engineer, Director"></div>
+        <div class="ff"><label>Company / Organisation</label><input id="s_co" type="text" placeholder="e.g. TCS, HCL, Govt of TS"></div>
+        <div class="ff"><label>Place of Work / Business</label><input id="s_workplace" type="text" placeholder="e.g. Hyderabad, Salt Lake City"></div>
+        <div class="ff"><label>Annual Income * <small style="font-weight:normal;color:var(--muted);font-style:italic;">(enter in ₹, e.g. 600000)</small></label><input id="s_inc" type="number" min="0" placeholder="e.g. 600000 for 6 Lakhs" oninput="formatIncome(this)"><div class="income-display" id="incDisplay"></div></div>
+        <div class="ff" id="s_visa_wrap" style="display:none;"><label>Visa Status</label><input id="s_visa" type="text" placeholder="e.g. H1B (I-140 Approved), PR, Citizen"></div>
+      </div></div>
       <div class="form-sec"><div class="form-sec-title"><span>🌿</span> Lifestyle</div><div class="g3"><div class="ff"><label>Diet *</label><select id="s_diet"><option value="">Select</option><option>Vegetarian</option><option>Non-Vegetarian</option><option>Eggetarian</option><option>Vegan</option></select></div><div class="ff"><label>Smoking</label><select id="s_smk"><option>Never</option><option>Occasionally</option><option>Regularly</option></select></div><div class="ff"><label>Drinking</label><select id="s_drk"><option>Never</option><option>Occasionally</option><option>Regularly</option></select></div></div></div>
       <div class="form-sec"><div class="form-sec-title"><span>📝</span> About Yourself</div><div class="ff"><label>About Me</label><textarea id="s_about" placeholder="Describe yourself, your interests, hobbies, values and what you seek in a life partner…" rows="4"></textarea></div></div>
       <div class="step-nav"><button class="btn-step back" onclick="goStep(1)">← Back</button><button class="btn-step next" onclick="goStep(3)">Next: Family →</button></div>
@@ -1244,16 +1359,16 @@ body{font-family:'EB Garamond',serif;background:var(--offwhite);color:var(--text
       <div class="form-sec"><div class="form-sec-title"><span>🏠</span> Family Background</div><div class="g2"><div class="ff"><label>Family Type</label><select id="s_ft"><option>Nuclear Family</option><option>Joint Family</option></select></div><div class="ff"><label>Family Values</label><select id="s_fv"><option>Orthodox</option><option>Traditional</option><option>Moderate</option><option>Liberal</option></select></div><div class="ff"><label>Family Status</label><select id="s_fst" onchange="showTierRecommendation(this.value)"><option value="">Select</option><option>Middle Class</option><option>Upper Middle Class</option><option>Rich / Affluent</option><option>Wealthy</option></select></div><div class="ff"><label>Native Place / District *</label><input id="s_native" type="text" placeholder="e.g. Nalgonda, Warangal"></div></div></div>
       <div class="form-sec"><div class="form-sec-title"><span>👨‍👩‍👧</span> Parents</div><div class="g2">
         <div class="ff"><label>Father's Name</label><input id="s_fn" type="text" placeholder="Father's full name"></div>
-        <div class="ff"><label>Father's Mobile</label><input id="s_fmob" type="tel" placeholder="+91 98765 43210"></div>
         <div class="ff"><label>Father's Status</label><select id="s_fas" onchange="toggleFatherOcc()"><option value="">Select</option><option>Employed</option><option>Business</option><option>Retired</option><option>Farmer</option><option>Passed Away</option></select></div>
-        <div class="ff" id="s_fo_wrap"><label>Father's Occupation</label><input id="s_fo" type="text" placeholder="e.g. Govt Officer, Business"></div>
-        <div class="ff"><label>Father's Gotra / Sub-Caste</label><select id="s_fg"><option value="">Select</option><option>Motati</option><option>Gudati</option><option>Pakanati</option><option>Gone</option><option>Chittepu</option><option>Bhumanchi</option><option>Pedakanti</option><option>Velama</option><option>Mudiraj</option><option>Gajula</option><option>Niyogi</option><option>Vaidiki</option><option>Turpu Kapu</option><option>Telaga</option><option>Other</option></select></div>
+        <div class="ff" id="s_fo_wrap"><label>Father's Occupation / Profession</label><input id="s_fo" type="text" placeholder="e.g. Govt Officer, Business"></div>
+        <div class="ff"><label>Father's Sub-Caste / Gotra</label><input id="s_fg" list="fGotraList" placeholder="Type gotra…"><datalist id="fGotraList"><option>Motati</option><option>Gudati</option><option>Pakanati</option><option>Gone</option><option>Chittepu</option><option>Bhumanchi</option><option>Pedakanti</option><option>Konukanula</option><option>Cherukunutla</option><option>Chegolla</option><option>Other</option></datalist></div>
         <div class="ff"><label>Mother's Name</label><input id="s_mn" type="text" placeholder="Mother's full name"></div>
-        <div class="ff"><label>Mother's Mobile</label><input id="s_mmob" type="tel" placeholder="+91 98765 43210"></div>
         <div class="ff"><label>Mother's Status</label><select id="s_mas" onchange="toggleMotherOcc()"><option value="">Select</option><option>Homemaker</option><option>Employed</option><option>Business</option><option>Retired</option><option>Passed Away</option></select></div>
-        <div class="ff" id="s_mo_wrap" style="display:none;"><label>Mother's Occupation</label><input id="s_mo" type="text" placeholder="e.g. Teacher, Doctor"></div>
+        <div class="ff" id="s_mo_wrap" style="display:none;"><label>Mother's Occupation / Profession</label><input id="s_mo" type="text" placeholder="e.g. Teacher, Doctor, Director"></div>
+        <div class="ff"><label>Parent / Guardian Mobile 1</label><input id="s_pgmob1" type="tel" placeholder="+91 98765 43210"></div>
+        <div class="ff"><label>Parent / Guardian Mobile 2 <small style="color:var(--muted);font-style:italic;">(optional)</small></label><input id="s_pgmob2" type="tel" placeholder="+91 98765 43210"></div>
       </div></div>
-      <div class="form-sec"><div class="form-sec-title"><span>👫</span> Siblings &amp; Property</div><div class="g2"><div class="ff"><label>Brothers</label><select id="s_br"><option>0</option><option>1</option><option>2</option><option>3</option><option>4+</option></select></div><div class="ff"><label>Brothers Married</label><select id="s_brm"><option>0</option><option>1</option><option>2</option><option>3</option><option>4+</option></select></div><div class="ff"><label>Sisters</label><select id="s_sr"><option>0</option><option>1</option><option>2</option><option>3</option><option>4+</option></select></div><div class="ff"><label>Sisters Married</label><select id="s_srm"><option>0</option><option>1</option><option>2</option><option>3</option><option>4+</option></select></div><div class="ff"><label>Own Property</label><select id="s_prop" onchange="togglePropVal()"><option>Own House</option><option>Rented</option><option>Family Property</option><option>Agricultural Land</option><option>I do not wish to disclose</option></select></div><div class="ff" id="s_pval_wrap"><label>Property Value</label><select id="s_pval"><option>Below 10 Lakhs</option><option>10–50 Lakhs</option><option>50L – 1 Crore</option><option>1–5 Crores</option><option>Above 5 Crores</option></select></div></div></div>
+      <div class="form-sec"><div class="form-sec-title"><span>👫</span> Siblings &amp; Property</div><div class="g2"><div class="ff"><label>Brothers</label><select id="s_br"><option>0</option><option>1</option><option>2</option><option>3</option><option>4+</option></select></div><div class="ff"><label>Brothers Married</label><select id="s_brm"><option>0</option><option>1</option><option>2</option><option>3</option><option>4+</option></select></div><div class="ff"><label>Sisters</label><select id="s_sr"><option>0</option><option>1</option><option>2</option><option>3</option><option>4+</option></select></div><div class="ff"><label>Sisters Married</label><select id="s_srm"><option>0</option><option>1</option><option>2</option><option>3</option><option>4+</option></select></div><div class="ff" style="grid-column:1/-1;"><label>Total Property Value <small style="color:var(--muted);font-weight:normal;font-style:italic;">(optional — leave blank if you prefer not to disclose)</small></label><input id="s_pval" type="text" placeholder="e.g. 2 Crores, 50 Lakhs, Agricultural land, Not applicable"></div></div></div>
       <div class="step-nav"><button class="btn-step back" onclick="goStep(2)">← Back</button><button class="btn-step next" onclick="goStep(4)">Next: Preferences →</button></div>
     </div>
 
@@ -1388,7 +1503,17 @@ body{font-family:'EB Garamond',serif;background:var(--offwhite);color:var(--text
   <div class="my-profile-wrap">
     <div class="mpw-title">
       My Profile
-      <button class="back-dash" onclick="showPage('pgDash')">← Back to Dashboard</button>
+      <button class="back-dash" onclick="showPage('pgDash')">← Dashboard</button>
+    </div>
+    <!-- Action buttons row -->
+    <div style="display:flex;gap:0.7rem;flex-wrap:wrap;margin-bottom:1.2rem;position:relative;z-index:1;">
+      <button onclick="openBiodataView()" style="padding:0.6rem 1.4rem;background:linear-gradient(135deg,var(--crimson),var(--crimson2));border:none;border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.5rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,248,220,0.96);box-shadow:0 4px 14px rgba(139,0,0,0.22);">📄 View Biodata</button>
+      <button onclick="openEditProfileRequest()" style="padding:0.6rem 1.4rem;background:transparent;border:1.5px solid rgba(184,150,12,0.35);border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.5rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);">✏ Edit Profile</button>
+    </div>
+    <!-- Photos section -->
+    <div class="pv-card" id="pvPhotosCard">
+      <div class="pv-sec-title">📸 My Photos <small style="font-family:'EB Garamond',serif;font-weight:normal;font-style:italic;font-size:0.85rem;color:var(--muted);text-transform:none;letter-spacing:0;">(max 5 photos)</small></div>
+      <div class="photos-grid" id="pvPhotosGrid"></div>
     </div>
     <div class="pv-card" id="pvMainCard">
       <div class="pv-card-header">
@@ -1453,6 +1578,7 @@ body{font-family:'EB Garamond',serif;background:var(--offwhite);color:var(--text
       <p>Naveen Reddy Marriage Bureau was established in 2000 in Hyderabad, Telangana, with a single sacred mission — to facilitate blessed unions within the Reddy community with honour, trust and absolute privacy.</p>
       <p>For over two decades, we have been the most trusted name in Reddy matrimony. Our personalised, high-touch approach to matchmaking sets us apart from digital platforms.</p>
       <p>Every profile is personally verified. Every match is made with care. Every union we facilitate carries our name and honour.</p>
+      <p><strong style="color:var(--crimson);">One Network, Four Branches:</strong> All profiles registered at any branch — Somajiguda, Kothapet, Warangal or Karimnagar — are accessible through every branch. You can visit any office closest to you, regardless of where your profile was registered. Our entire member database is unified throughout Telangana.</p>
     </div>
     <div class="about-ornament"><div class="orn-circle"><img id="abtLogo" src="" alt="NRMB"></div></div>
   </div>
@@ -1507,42 +1633,42 @@ body{font-family:'EB Garamond',serif;background:var(--offwhite);color:var(--text
   <div class="signup-hero" id="branchesHero"><div class="sh-text"><div class="sh-title">Our Branches</div><div class="sh-bc">Home | Our Branches</div></div></div>
   <div class="back-bar"><button class="back-bar-btn back-home-btn" onclick="goBack()" style="display:none;">← Back</button><span class="back-bar-sep back-bar-btn" style="display:none;">›</span><span class="back-bar-current">Our Branches</span></div>
   <div class="sec-hd">
-    <div class="sec-tag">Serving You Across Telangana &amp; Andhra Pradesh</div>
+    <div class="sec-tag">Serving You Throughout Telangana</div>
     <div class="sec-title">Our Branch Offices</div>
-    <div class="sec-sub" style="font-family:'Cormorant Garamond',serif;font-size:1rem;font-style:italic;color:var(--muted);margin-top:0.8rem;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.9;">
-      We are honoured to serve the Reddy community across four key locations.<br>
-      <strong style="color:var(--crimson);">Please select the branch closest to you</strong> to view its complete details, contact information and visiting hours.
+    <div class="sec-sub" style="font-family:'Cormorant Garamond',serif;font-size:1rem;font-style:italic;color:var(--muted);margin-top:0.8rem;max-width:660px;margin-left:auto;margin-right:auto;line-height:1.9;">
+      All profiles registered at <em>any branch</em> are accessible through every branch — you can visit <strong style="color:var(--crimson);">any office</strong> regardless of where your profile was registered.<br>
+      <strong style="color:var(--crimson);">Please call the branch before visiting.</strong>
     </div>
   </div>
 
-  <!-- 4 Branch cards (collapsed) -->
-  <div id="branchGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.5rem;max-width:1000px;margin:0 auto;padding:0 2rem 2rem;position:relative;z-index:1;">
+  <!-- 4 Branch cards -->
+  <div id="branchGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:1.5rem;max-width:1020px;margin:0 auto;padding:0 2rem 2rem;position:relative;z-index:1;">
 
     <div class="branch-card" onclick="openBranch('hyd')">
       <div class="branch-city-icon">🏛</div>
-      <div class="branch-city">Hyderabad</div>
-      <div class="branch-state">Telangana — Head Office</div>
+      <div class="branch-city">Somajiguda</div>
+      <div class="branch-state">Hyderabad — Head Office</div>
+      <div class="branch-tap">Tap to view details →</div>
+    </div>
+
+    <div class="branch-card" onclick="openBranch('ktp')">
+      <div class="branch-city-icon">🏙</div>
+      <div class="branch-city">Kothapet</div>
+      <div class="branch-state">Dilsukhnagar, Hyderabad</div>
       <div class="branch-tap">Tap to view details →</div>
     </div>
 
     <div class="branch-card" onclick="openBranch('wgl')">
       <div class="branch-city-icon">🌿</div>
       <div class="branch-city">Warangal</div>
-      <div class="branch-state">Telangana</div>
+      <div class="branch-state">Hanamkonda, Telangana</div>
       <div class="branch-tap">Tap to view details →</div>
     </div>
 
-    <div class="branch-card" onclick="openBranch('viz')">
-      <div class="branch-city-icon">🌊</div>
-      <div class="branch-city">Visakhapatnam</div>
-      <div class="branch-state">Andhra Pradesh</div>
-      <div class="branch-tap">Tap to view details →</div>
-    </div>
-
-    <div class="branch-card" onclick="openBranch('vjw')">
+    <div class="branch-card" onclick="openBranch('krm')">
       <div class="branch-city-icon">🏺</div>
-      <div class="branch-city">Vijayawada</div>
-      <div class="branch-state">Andhra Pradesh</div>
+      <div class="branch-city">Karimnagar</div>
+      <div class="branch-state">Telangana</div>
       <div class="branch-tap">Tap to view details →</div>
     </div>
 
@@ -1785,7 +1911,11 @@ function _applyLogin(prof){
 }
 async function doLogout(){
   if(window.FIREBASE_READY){try{await window.FB.signOut(window.FB.auth);}catch(e){}}
-  ST.user=null;ST.profiles=[];showPage('pgHome');
+  ST.user=null;ST.profiles=[];
+  // Hide liked nav link on logout
+  const nlLikedEl=document.getElementById('nlLiked');
+  if(nlLikedEl)nlLikedEl.style.display='none';
+  showPage('pgHome');
 }
 
 // ═══════════ REGISTRATION ═══════════
@@ -1819,7 +1949,7 @@ async function doRegister(){
     u,name,age,g,dob:dob||'—',
     ht:document.getElementById('s_ht').value||"5'5\"",
     prof:document.getElementById('s_occ').value.trim()||'—',
-    inc:document.getElementById('s_inc').value||'—',
+    inc:document.getElementById('s_inc').value||'',
     city:document.getElementById('s_city').value.trim()||'—',
     state:document.getElementById('s_state').value||'Telangana',
     country:document.getElementById('s_country').value||'India',
@@ -1827,21 +1957,27 @@ async function doRegister(){
     em:g==='Male'?'👨':'👩',bg:g==='Male'?'#e3f2fd':'#fce4ec',
     nat:document.getElementById('s_native').value.trim()||'—',
     edu:document.getElementById('s_edu').value||'—',
+    school:document.getElementById('s_school').value.trim()||'—',
+    inter:document.getElementById('s_inter').value.trim()||'—',
+    engcol:document.getElementById('s_engcol').value.trim()||'—',
     diet:document.getElementById('s_diet').value||'—',
     gotra:document.getElementById('s_gotra').value.trim()||'—',
     rashi:document.getElementById('s_rashi').value||'—',
     nak:document.getElementById('s_nak').value||'—',
     fn:document.getElementById('s_fn').value.trim()||'—',
-    fmob:document.getElementById('s_fmob').value.trim()||'—',
+    pgmob1:document.getElementById('s_pgmob1').value.trim()||'—',
+    pgmob2:document.getElementById('s_pgmob2').value.trim()||'—',
+    fmob:document.getElementById('s_pgmob1').value.trim()||'—',
     fas:document.getElementById('s_fas').value||'—',
     fo:document.getElementById('s_fo').value.trim()||'—',
     fg:document.getElementById('s_fg').value||'—',
     mn:document.getElementById('s_mn').value.trim()||'—',
-    mmob:document.getElementById('s_mmob').value.trim()||'—',
+    mmob:document.getElementById('s_pgmob2').value.trim()||'—',
     mas:document.getElementById('s_mas').value||'—',
     mo:document.getElementById('s_mo').value.trim()||'—',
-    prop:document.getElementById('s_prop').value||'—',
-    pval:document.getElementById('s_prop').value==='I do not wish to disclose'?'—':document.getElementById('s_pval').value||'—',
+    pval:document.getElementById('s_pval').value.trim()||'—',
+    workplace:document.getElementById('s_workplace').value.trim()||'—',
+    visa:document.getElementById('s_visa').value.trim()||'—',
     pploc:document.getElementById('pp_st').value.trim()||'Any',
     wt:document.getElementById('s_wt').value||'—',
     cx:document.getElementById('s_cx').value||'—',
@@ -2005,9 +2141,9 @@ function renderCard(){
           <div><div class="di-l">Age</div><div class="di-v">${p.age} Years${p.dob&&p.dob!=='—'?` <span style="font-size:0.78rem;color:var(--muted)">(DOB: ${new Date(p.dob).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})})</span>`:''}</div></div>
           <div><div class="di-l">Height</div><div class="di-v">${p.ht}</div></div>
           <div><div class="di-l">Education</div><div class="di-v">${p.edu}</div></div>
-          <div><div class="di-l">Annual Income</div><div class="di-v">₹${p.inc}/yr</div></div>
+          <div><div class="di-l">Annual Income</div><div class="di-v">${p.inc?formatIncomeDisplay(p.inc):'—'}</div></div>
           <div><div class="di-l">Native</div><div class="di-v">${p.nat}</div></div>
-          <div><div class="di-l">Diet</div><div class="di-v">${p.diet}</div></div>
+          <div><div class="di-l">Diet</div><div class="di-v">${p.diet||'—'}</div></div>
           <div><div class="di-l">Rashi</div><div class="di-v">${p.rashi}</div></div>
           <div><div class="di-l">Nakshatra</div><div class="di-v">${p.nak}</div></div>
           ${contactOk?`<div style="grid-column:1/-1"><div class="di-l">📞 Mobile</div><div class="di-v">${p.mob}</div></div>`:''}
@@ -2107,11 +2243,13 @@ function renderMyProfile(){
 
   function pvGrid(id,items){
     const el=document.getElementById(id);if(!el)return;
-    const rows=items.filter(([,v])=>v&&v!=='—'&&String(v).trim()!='');
     const card=el.closest('.pv-card');
-    if(!rows.length){if(card)card.style.display='none';return;}
+    if(!items.length){if(card)card.style.display='none';return;}
     if(card)card.style.display='';
-    el.innerHTML=rows.map(([l,v])=>`<div class="pv-item"><div class="pvi-l">${l}</div><div class="pvi-v">${v}</div></div>`).join('');
+    el.innerHTML=items.map(([l,v])=>{
+      const val=(v&&v!=='—'&&String(v).trim()!=='')?v:'<span style="color:rgba(107,83,64,0.35);font-style:italic;">— not filled —</span>';
+      return `<div class="pv-item"><div class="pvi-l">${l}</div><div class="pvi-v">${val}</div></div>`;
+    }).join('');
   }
 
   const dobStr=u.dob&&u.dob!=='—'?new Date(u.dob).toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'}):'—';
@@ -2130,9 +2268,16 @@ function renderMyProfile(){
     ['Body Type',u.bt],['Blood Group',u.bl],['Differently Abled',u.da],
   ]);
   pvGrid('pvEduGrid',[
-    ['Qualification',u.edu],['College / University',u.col],
+    ['Highest Qualification',u.edu],
+    ['SSC / 10th School',u.school],
+    ['Inter / 12th College',u.inter],
+    ['Engineering / Degree College',u.engcol],
+    ['PG / Higher Education College',u.col],
     ['Employed In',u.emp],['Occupation',u.prof],
-    ['Company / Organisation',u.co],['Annual Income',u.inc?'₹'+u.inc+'/yr':'—'],
+    ['Company / Organisation',u.co],
+    ['Place of Work',u.workplace],
+    ['Annual Income',u.inc?formatIncomeDisplay(u.inc):'—'],
+    ['Visa Status',u.visa],
   ]);
   pvGrid('pvLifeGrid',[
     ['Diet',u.diet],['Smoking',u.smk],['Drinking',u.drk],
@@ -2146,16 +2291,18 @@ function renderMyProfile(){
     ['Family Status',u.fst],['Native District',u.nat],
   ]);
   pvGrid('pvParentGrid',[
-    ["Father's Name",u.fn],["Father's Mobile",u.fmob],
-    ["Father's Status",u.fas],["Father's Occupation",u.fo],
-    ["Father's Gotra",u.fg],["Mother's Name",u.mn],
-    ["Mother's Mobile",u.mmob],["Mother's Status",u.mas],
-    ["Mother's Occupation",u.mo],
+    ["Father's Name",u.fn],
+    ["Father's Status",u.fas],["Father's Occupation",u.fo||u.fp],
+    ["Father's Sub-Caste / Gotra",u.fg],
+    ["Mother's Name",u.mn],
+    ["Mother's Status",u.mas],["Mother's Occupation",u.mo],
+    ["Parent / Guardian Mobile 1",u.pgmob1||u.fmob],
+    ["Parent / Guardian Mobile 2",u.pgmob2||u.mmob],
   ]);
   pvGrid('pvSibGrid',[
     ['Brothers',u.br],['Brothers Married',u.brm],
     ['Sisters',u.sr],['Sisters Married',u.srm],
-    ['Own Property',u.prop],['Property Value',u.pval],
+    ['Total Property Value',u.pval],
   ]);
   pvGrid('pvPrefGrid',[
     ['Preferred Age',u.pp_af&&u.pp_at?u.pp_af+' – '+u.pp_at+' years':'—'],
@@ -2164,14 +2311,148 @@ function renderMyProfile(){
     ['Preferred Location',u.pploc],['NRI Acceptable',u.pp_nri],
     ['Other Expectations',u.pp_note],
   ]);
-  const fItems=[];
-  if(u.about&&u.about!=='—')fItems.push(['About Me',u.about]);
-  pvGrid('pvFamGrid',fItems.length?fItems:[['—','—']]);
+  pvGrid('pvFamGrid', u.about&&u.about!=='—' ? [['About Me',u.about]] : []);
   const famEl=document.getElementById('pvFamGrid');
   if(famEl&&u.about&&u.about!=='—'){
     famEl.innerHTML=`<div class="pv-item" style="grid-column:1/-1"><div class="pvi-l">About Me</div><div class="pvi-v" style="font-style:italic;">${u.about}</div></div>`;
     famEl.closest('.pv-card').style.display='';
   } else if(famEl){famEl.closest('.pv-card').style.display='none';}
+
+  // Photos section
+  renderMyPhotos();
+}
+
+function renderMyPhotos(){
+  const u=ST.user; if(!u) return;
+  const grid=document.getElementById('pvPhotosGrid'); if(!grid) return;
+  const photos=u.photos||[];
+  let html='';
+  photos.forEach((url,i)=>{
+    html+=`<div style="position:relative;"><img src="${url}" class="photo-thumb" alt="Photo ${i+1}"><button onclick="deleteMyPhoto(${i})" style="position:absolute;top:4px;right:4px;background:rgba(139,0,0,0.85);border:none;border-radius:50%;width:22px;height:22px;cursor:pointer;color:#fff;font-size:0.6rem;display:flex;align-items:center;justify-content:center;">✕</button></div>`;
+  });
+  if(photos.length<5){
+    html+=`<label class="photo-add-btn"><span style="font-size:1.4rem;">📷</span><span>Add Photo</span><input type="file" accept="image/*" style="display:none;" onchange="uploadMyPhoto(this.files[0])"></label>`;
+  }
+  grid.innerHTML=html;
+  const card=document.getElementById('pvPhotosCard');
+  if(card)card.style.display='';
+}
+
+async function uploadMyPhoto(file){
+  if(!file)return;
+  if(!ST.user){toast('Please log in first.');return;}
+  const photos=ST.user.photos||[];
+  if(photos.length>=5){toast('Maximum 5 photos allowed.');return;}
+  if(file.size>5*1024*1024){toast('Photo must be under 5MB.');return;}
+  toast('Uploading…');
+  try{
+    const {storage,stRef,uploadBytes,getDownloadURL,updateDoc,doc,db}=window.FB;
+    const idx=photos.length;
+    const ref=stRef(storage,`profiles/${ST.user.uid||ST.user.u}/photos/photo_${idx}_${Date.now()}`);
+    await uploadBytes(ref,file);
+    const url=await getDownloadURL(ref);
+    photos.push(url);
+    ST.user.photos=photos;
+    if(ST.user.uid)await updateDoc(doc(db,'users',ST.user.uid),{photos});
+    renderMyPhotos();
+    toast('✅ Photo uploaded!');
+  }catch(e){toast('Upload failed: '+e.message);}
+}
+
+async function deleteMyPhoto(idx){
+  if(!confirm('Remove this photo?'))return;
+  const photos=ST.user.photos||[];
+  photos.splice(idx,1);
+  ST.user.photos=photos;
+  if(window.FIREBASE_READY&&ST.user.uid){
+    try{const {updateDoc,doc,db}=window.FB;await updateDoc(doc(db,'users',ST.user.uid),{photos});}catch(e){}
+  }
+  renderMyPhotos();
+  toast('Photo removed.');
+}
+
+function openBiodataView(){
+  if(!ST.user){toast('Please log in.');return;}
+  const el=document.createElement('div');
+  el.className='biodata-overlay';
+  el.id='biodataOverlay';
+  el.onclick=(e)=>{if(e.target===el)el.remove();};
+  el.innerHTML=generateBiodata(ST.user);
+  document.body.appendChild(el);
+}
+
+function generateBiodata(p){
+  const tier=p.tier||'VIP';
+  const slId=tier.toUpperCase()+' '+String(10000+Math.floor(Math.random()*9000));
+  const gender=p.g==='Female'?'Bride':'Groom';
+  const dobStr=p.dob&&p.dob!=='—'?new Date(p.dob).toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'}):p.dob||'—';
+  const inc=p.inc?formatIncomeDisplay(p.inc):(p.sal||'—');
+  function row(label,val,label2,val2){
+    if(label2&&val2) return `<div class="bio-two"><div class="bio-row"><span class="bio-lbl">${label}</span><span class="bio-val">: ${val||'—'}</span></div><div class="bio-row"><span class="bio-lbl">${label2}</span><span class="bio-val">: ${val2||'—'}</span></div></div>`;
+    return `<div class="bio-row"><span class="bio-lbl">${label}</span><span class="bio-val">: ${val||'—'}</span></div>`;
+  }
+  return `<div class="biodata-sheet">
+    <div class="bio-header">
+      <div class="bio-meta"><span><em>Since 2000</em></span><span><strong>Sl No : ${slId}</strong></span></div>
+      <div class="bio-bureau">NAVEEN REDDY</div>
+      <div class="bio-sub">MARRIAGE BUREAU</div>
+      <div class="bio-address">Corporate office: <u>Somajiguda</u>, Branches: <u>Kothapet</u>, <u>Warangal</u>, <u>Karimnagar</u></div>
+    </div>
+    ${row('Name of the '+gender,p.name)}
+    ${row('Date of Birth',dobStr,'Height',p.ht||'—')}
+    ${p.pob&&p.pob!=='—'?row('Time and Place of Birth',p.pob):''}
+    ${row('Complexion / Color',p.cx||'—','Gotram',p.gotra||p.fg||'—')}
+    ${row('Sub Caste',p.gotra||'—','Star',p.nak||'—')}
+    ${row('Native Dist',p.nat||'—','Raasi',p.rashi||'—')}
+    ${row('Settled Place',p.city||'—')}
+    ${p.school&&p.school!=='—'?row('SSC School Name',p.school):''}
+    ${p.inter&&p.inter!=='—'?row('Inter College Name',p.inter):''}
+    ${p.engcol&&p.engcol!=='—'?row('Engineering College Name',p.engcol):''}
+    ${p.col&&p.col!=='—'?row('PG / MS College',p.col):''}
+    ${row('Occupation',p.prof||p.occ||'—')}
+    ${p.co&&p.co!=='—'?row('Company Name',p.co):''}
+    ${p.workplace&&p.workplace!=='—'?row('Place of Job/Business',p.workplace):''}
+    ${inc&&inc!=='—'?row('Annual Income',inc):''}
+    ${p.visa&&p.visa!=='—'?row('Visa Status',p.visa):''}
+
+    <div class="bio-sec-title">FAMILY MEMBERS DETAILS</div>
+    ${row("Father's Profession",p.fo||p.fp||'—')}
+    ${row("Mother's Profession",p.mo||'—')}
+    ${row('Brothers',p.br&&p.br!=='0'?p.br+' (Married: '+(p.brm||'0')+')':(p.sr&&p.sr!=='0'?'No Brothers':'—'))}
+    ${row('Sisters',p.sr&&p.sr!=='0'?p.sr+' (Married: '+(p.srm||'0')+')':(p.br&&p.br!=='0'?'No Sisters':'—'))}
+    ${(p.br==='0'&&p.sr==='0')?'<div class="bio-row"><span class="bio-lbl"> </span><span class="bio-val">: No Siblings</span></div>':''}
+
+    <div class="bio-sec-title">CHOICE PREFERRED</div>
+    ${row('Complexion / Color',p.pp_cx||'Fair','Age Gap',p.pp_af&&p.pp_at?(parseInt(p.pp_at)-parseInt(p.pp_af))+' Years Gap Acceptable':'—')}
+    ${p.pp_hf&&p.pp_hf!=='Any'?row('Height',p.pp_hf+' &amp; Above'):''}
+    ${p.pp_edu&&p.pp_edu!=='Any'?row('Qualification',p.pp_edu):''}
+    ${p.pp_note&&p.pp_note!=='—'?row('Other Preferences',p.pp_note):''}
+
+    <div class="bio-footer">Relationship : Father / Guardian &nbsp;&nbsp; Contact : ${p.pgmob1||p.fmob||'—'}</div>
+    <div style="text-align:center;margin-top:0.6rem;display:flex;gap:0.6rem;justify-content:center;">
+      <button class="bio-close-btn" onclick="window.print()">🖨 Print</button>
+      <button class="bio-close-btn" onclick="document.getElementById('biodataOverlay').remove()" style="background:transparent;border:1px solid var(--crimson);color:var(--crimson);">Close</button>
+    </div>
+  </div>`;
+}
+
+function formatIncomeDisplay(val){
+  const n=parseFloat(val);
+  if(isNaN(n)||n<=0)return val||'—';
+  if(n>=10000000) return '₹'+(n/10000000).toFixed(2).replace(/\.?0+$/,'')+' Crore/yr';
+  if(n>=100000)   return '₹'+(n/100000).toFixed(2).replace(/\.?0+$/,'')+' Lakhs/yr';
+  if(n>=1000)     return '₹'+(n/1000).toFixed(1).replace(/\.?0+$/,'')+' Thousand/yr';
+  return '₹'+n+'/yr';
+}
+
+function formatIncome(el){
+  const display=document.getElementById('incDisplay');
+  if(!display)return;
+  display.textContent=el.value?formatIncomeDisplay(el.value):'';
+}
+
+function openEditProfileRequest(){
+  toast('Edit request feature — send your updates to the bureau and admin will apply them.');
 }
 
 // ═══════════ TIMER ═══════════
@@ -2205,52 +2486,56 @@ function toast(msg){const el=document.getElementById('toastEl');el.textContent=m
 // ═══════════ BRANCHES ═══════════
 const BRANCHES = {
   hyd:{
-    icon:'🏛',city:'Hyderabad',type:'Head Office',state:'Telangana',
-    address:'Plot No. 42, Road No. 12, Banjara Hills, Hyderabad — 500 034',
-    landmark:'Near GVK One Mall, Banjara Hills',
-    phone:'+91 40 2345 6789',
-    mobile:'+91 98765 00001',
-    email:'hyderabad@naveenreddy.com',
-    hours:'Monday – Saturday: 10:00 AM – 6:00 PM',
-    sunday:'Sunday: 11:00 AM – 3:00 PM (By Appointment)',
-    manager:'Mr. Naveen Reddy',
-    note:'Head Office. All membership tiers available. Walk-in welcome.'
+    icon:'🏛',city:'Somajiguda',type:'Corporate Head Office',state:'Hyderabad, Telangana',
+    address:'G-6 Amruthaville, Opp. Yashoda Hospital, Somajiguda, Hyderabad — 500 082',
+    landmark:'Opposite Yashoda Hospital, Somajiguda',
+    phone:'+91 72079 99985',
+    mobile:'+91 98482 21166',
+    email:'naveenreddy0033@yahoo.com',
+    hours:'Mon – Sat: 10:00 AM – 6:30 PM',
+    sunday:'Every Tuesday: Weekly Off',
+    manager:'Mr. Naveen Reddy Ravula',
+    maps:'https://maps.app.goo.gl/GBsdFySAJ2pNANFw9?g_st=iw',
+    note:'Head Office. All membership tiers available. Please call before visiting. All profiles from all branches accessible here.'
+  },
+  ktp:{
+    icon:'🏙',city:'Kothapet',type:'Branch Office',state:'Dilsukhnagar, Hyderabad',
+    address:'Flat No. 501, PVT Market, Kothapet, Dilsukhnagar, Hyderabad',
+    landmark:'PVT Market, Kothapet',
+    phone:'888 555 9579',
+    mobile:'+91 98482 21166',
+    email:'naveenreddy0033@yahoo.com',
+    hours:'Mon – Sat: 10:00 AM – 6:30 PM',
+    sunday:'Every Tuesday: Weekly Off',
+    manager:'Mr. Naveen Reddy Ravula',
+    maps:'https://maps.app.goo.gl/6C4dPXwkttzKMNBz6?g_st=iw',
+    note:'Profiles registered here are accessible at all branches. Please call before visiting.'
   },
   wgl:{
-    icon:'🌿',city:'Warangal',type:'Branch Office',state:'Telangana',
-    address:'H.No. 8-2-56, Hanamkonda Road, Warangal — 506 001',
-    landmark:'Near District Court, Hanamkonda',
-    phone:'+91 870 234 5678',
-    mobile:'+91 98765 00002',
-    email:'warangal@naveenreddy.com',
-    hours:'Monday – Saturday: 10:00 AM – 5:30 PM',
-    sunday:'Sunday: Closed',
-    manager:'Mrs. Sunitha Reddy',
-    note:'Serving Warangal, Karimnagar and surrounding districts.'
+    icon:'🌿',city:'Warangal',type:'Branch Office',state:'Hanamkonda, Telangana',
+    address:'Beside Petrol Pump, Subedari Main Road, Hanamkonda, Warangal',
+    landmark:'Beside Petrol Pump, Subedari Main Road',
+    phone:'95055 51788 / 98482 21166',
+    mobile:'+91 98482 21166',
+    email:'naveenreddy0033@yahoo.com',
+    hours:'Mon – Sat: 10:00 AM – 6:30 PM',
+    sunday:'Every Tuesday: Weekly Off',
+    manager:'Mr. Naveen Reddy Ravula',
+    maps:'https://maps.app.goo.gl/bj8mt4JVapUFrNM59?g_st=iw',
+    note:'All profiles from all branches accessible here. Please call before visiting.'
   },
-  viz:{
-    icon:'🌊',city:'Visakhapatnam',type:'Branch Office',state:'Andhra Pradesh',
-    address:'Door No. 14-5, MVP Colony, Sector 7, Visakhapatnam — 530 017',
-    landmark:'Near Steel Plant Main Gate, MVP Colony',
-    phone:'+91 891 234 5678',
-    mobile:'+91 98765 00003',
-    email:'vizag@naveenreddy.com',
-    hours:'Monday – Saturday: 10:00 AM – 6:00 PM',
-    sunday:'Sunday: 10:00 AM – 1:00 PM',
-    manager:'Mr. Ravi Kumar Reddy',
-    note:'Serving Visakhapatnam, Srikakulam and East Godavari districts.'
-  },
-  vjw:{
-    icon:'🏺',city:'Vijayawada',type:'Branch Office',state:'Andhra Pradesh',
-    address:'D.No. 29-14-56, MG Road, Vijayawada — 520 010',
-    landmark:'Near Kanaka Durga Temple Road, MG Road',
-    phone:'+91 866 234 5678',
-    mobile:'+91 98765 00004',
-    email:'vijayawada@naveenreddy.com',
-    hours:'Monday – Saturday: 10:00 AM – 5:30 PM',
-    sunday:'Sunday: Closed',
-    manager:'Mrs. Padmavathi Reddy',
-    note:'Serving Vijayawada, Guntur, Krishna and West Godavari districts.'
+  krm:{
+    icon:'🏺',city:'Karimnagar',type:'Branch Office',state:'Telangana',
+    address:'Near Kaman Chowrastha, Bus Stand Road, Karimnagar',
+    landmark:'Near Kaman Chowrastha, Bus Stand Road',
+    phone:'78933 33726 / 98482 21166',
+    mobile:'+91 98482 21166',
+    email:'naveenreddy0033@yahoo.com',
+    hours:'Mon – Sat: 10:00 AM – 6:30 PM',
+    sunday:'Every Tuesday: Weekly Off',
+    manager:'Mr. Naveen Reddy Ravula',
+    maps:'https://maps.app.goo.gl/WbRFfUuturMsxWxJ8?g_st=iw',
+    note:'All profiles from all branches accessible here. Please call before visiting.'
   }
 };
 
@@ -2272,6 +2557,7 @@ function openBranch(key){
       <div class="bdet-item"><div class="bdet-lbl">☀ Sunday</div><div class="bdet-val" style="font-size:0.9rem;">${b.sunday}</div></div>
       <div class="bdet-item"><div class="bdet-lbl">👤 Branch Manager</div><div class="bdet-val">${b.manager}</div></div>
       <div class="bdet-item" style="grid-column:1/-1;border:none;"><div class="bdet-lbl">ℹ Note</div><div style="font-family:'EB Garamond',serif;font-size:0.88rem;color:var(--muted);font-style:italic;margin-top:0.1rem;">${b.note}</div></div>
+      ${b.maps?`<div class="bdet-item" style="grid-column:1/-1;border:none;padding-top:0;"><a href="${b.maps}" target="_blank" rel="noopener" class="bdet-map-btn">📍 Open in Google Maps</a></div>`:''}
     </div>`;
   document.getElementById('branchDetail').scrollIntoView({behavior:'smooth',block:'start'});
 }
@@ -2362,7 +2648,7 @@ function renderLikedPage(){
             <div><div class="di-l">Age</div><div class="di-v">${p.age} Years${p.dob&&p.dob!=='—'?` <span style="font-size:0.78rem;color:var(--muted)">(DOB: ${new Date(p.dob).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})})</span>`:''}</div></div>
             <div><div class="di-l">Height</div><div class="di-v">${p.ht}</div></div>
             <div><div class="di-l">Education</div><div class="di-v">${p.edu||'—'}</div></div>
-            <div><div class="di-l">Annual Income</div><div class="di-v">₹${p.inc}/yr</div></div>
+            <div><div class="di-l">Annual Income</div><div class="di-v">${p.inc?formatIncomeDisplay(p.inc):'—'}</div></div>
             <div><div class="di-l">Native</div><div class="di-v">${p.nat}</div></div>
             <div><div class="di-l">Diet</div><div class="di-v">${p.diet||'—'}</div></div>
             <div><div class="di-l">Rashi</div><div class="di-v">${p.rashi||'—'}</div></div>
@@ -2465,10 +2751,20 @@ window.showPage=function(id,skipHistory){
 };
 
 // ═══════════ FORM HELPERS ═══════════
-function togglePropVal(){
-  const v=document.getElementById('s_prop').value;
-  const wrap=document.getElementById('s_pval_wrap');
-  if(wrap)wrap.style.display=v==='I do not wish to disclose'?'none':'';
+function onEduChange(){
+  const v=document.getElementById('s_edu').value;
+  // Show PG college only if PG/PhD level selected
+  const pgLevels=['M.Tech / M.E.','M.Sc / M.Com / M.A.','M.B.A.','MD / MS','MS (USA/UK)','LLM','Ph.D.'];
+  const isPG=pgLevels.includes(v);
+  const pgWrap=document.getElementById('s_pgcol_wrap');
+  if(pgWrap)pgWrap.style.display=isPG?'':'none';
+  // Show engineering col for BTech level+
+  const engLevels=['B.Tech / B.E.','MBBS','LLB','CA / CMA / CS','M.Tech / M.E.','M.Sc / M.Com / M.A.','M.B.A.','MD / MS','MS (USA/UK)','LLM','Ph.D.'];
+  const engWrap=document.getElementById('s_engcol_wrap');
+  if(engWrap)engWrap.style.display=engLevels.includes(v)?'':'none';
+  // Show visa field for USA/abroad contexts
+  const visaWrap=document.getElementById('s_visa_wrap');
+  if(visaWrap)visaWrap.style.display='';
 }
 function toggleFatherOcc(){
   const v=document.getElementById('s_fas').value;
@@ -2490,24 +2786,52 @@ const TIER_REC={
 function showTierRecommendation(status){
   if(!status||!TIER_REC[status])return;
   const r=TIER_REC[status];
-  document.getElementById('tierRecTitle').textContent='Recommended for '+status+' Families';
-  document.getElementById('tierRecSub').textContent='Based on your family background';
-  document.getElementById('tierRecMsg').textContent=r.msg;
-  ['VIP','VVIP','Elite'].forEach(t=>{
-    const el=document.getElementById('trc_'+t);
-    if(el)el.classList.toggle('recommended',t===r.rec);
-  });
-  openOv('tierRecOv');
+  // Silently pre-select recommended tier
+  pickTier(r.rec);
+  // Show subtle inline notification near step bar
+  const bar=document.querySelector('.step-bar');
+  if(bar){
+    let notif=document.getElementById('tierNotif');
+    if(!notif){notif=document.createElement('div');notif.id='tierNotif';notif.style.cssText='margin:0.5rem 0 0;padding:0.5rem 1rem;background:rgba(253,246,216,0.7);border:1px solid rgba(184,150,12,0.25);border-radius:8px;font-family:\'EB Garamond\',serif;font-size:0.88rem;color:var(--muted);text-align:center;';bar.parentNode.insertBefore(notif,bar.nextSibling);}
+    notif.innerHTML=`💡 <strong>${r.rec}</strong> tier recommended for ${status} families — pre-selected on Membership step.`;
+  }
 }
 function pickTierFromPopup(t){
   pickTier(t);
   closeOv('tierRecOv');
-  // scroll to membership step
-  goStep(5);
-  toast('✅ '+t+' tier selected. Review the T&C and complete registration.');
+  toast('✅ '+t+' tier selected.');
 }
 
 // ═══════════ IMAGE INJECTION ═══════════
+
+// ═══════════ MOBILE BROWSER BACK (History API) ═══════════
+(function(){
+  // Override showPage to push browser history state
+  const _sp=window.showPage;
+  window.showPage=function(id,skipHistory){
+    if(!skipHistory&&id!==document.querySelector('.page.active')?.id){
+      history.pushState({page:id},'','#'+id);
+    }
+    return _sp(id,skipHistory);
+  };
+  // Handle browser back/forward
+  window.addEventListener('popstate',function(e){
+    const pg=e.state?.page||(location.hash.replace('#','')||'pgHome');
+    _sp(pg,true);
+  });
+  // Set initial state
+  if(!location.hash){
+    history.replaceState({page:'pgHome'},'','#pgHome');
+  }
+})();
+
+// ═══════════ LIKED NAV VISIBILITY ═══════════
+// Liked nav link is already hidden by default; show only after login (handled in _applyLogin)
+// Hide bookmark buttons for non-logged-in users
+document.addEventListener('DOMContentLoaded',function(){
+  // Initial state - hide bookmark actions if not logged in
+  // (cards are rendered only after login so this is mostly handled)
+});
 
 </script>
 </body>
