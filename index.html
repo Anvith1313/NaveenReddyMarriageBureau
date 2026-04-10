@@ -1118,6 +1118,15 @@ body{font-size:17px;}
 </head>
 <body>
 
+<!-- ══════ LANDING PAGE REDIRECT — remove this block to disable ══════ -->
+<script>
+  if(!sessionStorage.getItem('nrmb_lp')){
+    sessionStorage.setItem('nrmb_lp','1');
+    window.location.replace('landing.html');
+  }
+</script>
+<!-- ══════ END LANDING PAGE REDIRECT ══════ -->
+
 <!-- ══════ PUBLIC NAVBAR ══════ -->
 <nav class="navbar" id="mainNav">
   <div class="nav-left" onclick="showPage('pgHome')">

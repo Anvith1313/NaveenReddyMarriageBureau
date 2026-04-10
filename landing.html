@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Welcome — Naveen Reddy Marriage Bureau</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<style>
+:root{
+  --gold:#7c3d52;--gold2:#a0445e;--gold3:#c87090;
+  --dark:#1a0f00;--dark2:#2c1018;--dark3:#3d1f2a;
+  --cream:#fdf8f0;--offwhite:#fefcf8;--warm:#f0e4d0;
+  --muted:#6b5340;--border:#d4b896;--border2:rgba(212,184,150,0.3);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'EB Garamond',serif;
+  background:var(--dark);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  cursor:default;
+}
+
+/* ─── SCROLL PROGRESS ─── */
+#progressBar{
+  position:fixed;top:0;left:0;height:2.5px;width:0%;
+  background:linear-gradient(90deg,var(--gold),var(--gold2),var(--gold3));
+  z-index:9999;transition:width 0.08s linear;
+}
+
+/* ─── SKIP PILL ─── */
+#skipPill{
+  position:fixed;top:1.2rem;right:1.4rem;z-index:9998;
+  background:rgba(44,16,24,0.75);backdrop-filter:blur(10px);
+  border:1px solid var(--border2);
+  color:var(--border);font-family:'EB Garamond',serif;font-size:0.82rem;
+  padding:0.45rem 1.1rem;border-radius:50px;
+  cursor:pointer;letter-spacing:0.08em;
+  transition:background 0.2s,border-color 0.2s;
+  text-decoration:none;display:inline-block;
+}
+#skipPill:hover{background:rgba(124,61,82,0.6);border-color:rgba(212,184,150,0.6);}
+
+
+/* ════════════════════════════════════════
+   HERO SECTION
+════════════════════════════════════════ */
+.hero-section{
+  position:relative;height:100vh;min-height:580px;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;background:var(--dark2);
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 70% 60% at 25% 50%, rgba(160,68,94,0.22) 0%,transparent 65%),
+    radial-gradient(ellipse 70% 60% at 75% 50%, rgba(124,61,82,0.2) 0%,transparent 65%),
+    radial-gradient(ellipse 80% 40% at 50% 0%,  rgba(44,16,24,0.9)  0%,transparent 60%),
+    linear-gradient(165deg,#140a04 0%,#2c1018 40%,#3d1f2a 70%,#1a0f00 100%);
+}
+.hero-pattern{
+  position:absolute;inset:0;opacity:1;
+  background-image:
+    radial-gradient(circle at 1.5px 1.5px, rgba(212,184,150,0.055) 1px, transparent 0);
+  background-size:28px 28px;
+}
+/* corner brackets */
+.hc{position:absolute;width:90px;height:90px;opacity:0.25;}
+.hc.tl{top:22px;left:22px; border-top:1.5px solid var(--border);border-left:1.5px solid var(--border);}
+.hc.tr{top:22px;right:22px;border-top:1.5px solid var(--border);border-right:1.5px solid var(--border);}
+.hc.bl{bottom:22px;left:22px; border-bottom:1.5px solid var(--border);border-left:1.5px solid var(--border);}
+.hc.br{bottom:22px;right:22px;border-bottom:1.5px solid var(--border);border-right:1.5px solid var(--border);}
+
+.hero-content{
+  position:relative;z-index:10;
+  text-align:center;padding:2rem 1.5rem;max-width:720px;
+}
+.h-glyph{
+  font-size:1.8rem;color:var(--border);opacity:0.6;
+  letter-spacing:0.6em;margin-bottom:1.8rem;display:block;
+}
+.h-since{
+  font-size:0.78rem;color:var(--border);opacity:0.7;
+  letter-spacing:0.22em;text-transform:uppercase;margin-bottom:1.8rem;
+}
+.h-welcome{
+  font-family:'EB Garamond',serif;font-style:italic;
+  font-size:clamp(1.15rem,2.8vw,1.6rem);
+  color:rgba(212,184,150,0.85);margin-bottom:0.4rem;
+  letter-spacing:0.04em;
+}
+.h-name{
+  font-family:'Cinzel',serif;
+  font-size:clamp(2.6rem,8vw,5.8rem);
+  color:#fff;line-height:1;font-weight:600;
+  letter-spacing:0.04em;margin-bottom:0.3rem;
+}
+.h-bureau{
+  font-family:'Cinzel',serif;
+  font-size:clamp(1rem,3.2vw,1.7rem);
+  color:var(--gold2);letter-spacing:0.28em;
+  text-transform:uppercase;margin-bottom:1.8rem;
+}
+.h-rule{
+  width:70px;height:1px;
+  background:linear-gradient(90deg,transparent,var(--border),transparent);
+  margin:0 auto 1.6rem;
+}
+.h-desc{
+  font-size:clamp(0.95rem,2.2vw,1.15rem);
+  color:rgba(212,184,150,0.65);line-height:1.9;
+  font-style:italic;margin-bottom:3rem;
+}
+.scroll-hint{
+  display:flex;flex-direction:column;align-items:center;gap:0.4rem;
+  color:var(--border);opacity:0.5;font-size:0.8rem;letter-spacing:0.12em;
+}
+.scroll-arrow{font-size:1.3rem;animation:bounceY 1.6s ease-in-out infinite;}
+@keyframes bounceY{0%,100%{transform:translateY(0);}50%{transform:translateY(9px);}}
+
+
+/* ════════════════════════════════════════
+   PARALLAX / ORBIT SECTION
+════════════════════════════════════════ */
+.parallax-section{height:600vh;position:relative;}
+
+.sticky-container{
+  position:sticky;top:0;height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--offwhite);overflow:hidden;
+}
+.sticky-bg{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 70% at 50% 55%,
+    rgba(240,228,208,0.9) 0%, rgba(254,252,248,1) 70%);
+}
+/* Soft orbit guide rings */
+.o-ring{
+  position:absolute;border-radius:50%;
+  border:1px solid rgba(124,61,82,0.08);
+}
+
+.orbit-wrapper{
+  position:relative;width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+}
+
+/* ── Couple silhouette ── */
+.couple-container{
+  position:relative;z-index:5;
+  display:flex;flex-direction:column;align-items:center;
+  pointer-events:none;
+}
+.couple-svg{
+  width:clamp(160px,18vw,240px);height:auto;
+  filter:drop-shadow(0 6px 22px rgba(124,61,82,0.18));
+}
+.couple-lbl{
+  margin-top:0.6rem;font-family:'Cinzel',serif;
+  font-size:0.72rem;color:var(--gold);letter-spacing:0.18em;opacity:0.55;
+  text-transform:uppercase;
+}
+
+/* ── Info boxes ── */
+.info-box{
+  position:absolute;
+  width:clamp(148px,16vw,210px);
+  background:rgba(255,255,255,0.94);
+  border:1.5px solid rgba(212,184,150,0.5);
+  border-radius:14px;
+  padding:1.1rem 1.2rem;
+  text-align:center;
+  opacity:0;
+  box-shadow:0 4px 24px rgba(44,24,16,0.07),0 1px 4px rgba(124,61,82,0.06);
+  pointer-events:none;
+  will-change:transform,opacity,filter;
+  backdrop-filter:blur(6px);
+}
+.ib-icon{font-size:1.7rem;display:block;margin-bottom:0.45rem;line-height:1;}
+.ib-title{
+  font-family:'Playfair Display',serif;
+  font-size:0.9rem;color:var(--gold);font-weight:700;
+  margin-bottom:0.3rem;line-height:1.3;
+}
+.ib-text{font-size:0.78rem;color:var(--muted);line-height:1.5;font-style:italic;}
+
+/* section footer hint */
+.s-label{
+  position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
+  text-align:center;z-index:20;pointer-events:none;
+}
+.s-label p{
+  font-size:0.75rem;color:var(--muted);
+  letter-spacing:0.1em;text-transform:uppercase;opacity:0.45;
+}
+
+
+/* ════════════════════════════════════════
+   CTA SECTION
+════════════════════════════════════════ */
+.cta-section{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(165deg,#140a04 0%,#2c1018 45%,#3d1f2a 75%,#1a0f00 100%);
+  position:relative;overflow:hidden;
+}
+.cta-rings{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+.cta-ring{
+  position:absolute;border-radius:50%;
+  border:1px solid rgba(212,184,150,0.06);
+}
+.cta-content{
+  position:relative;z-index:10;
+  text-align:center;padding:3rem 2rem;max-width:600px;
+}
+.cta-orn{font-size:2.8rem;display:block;margin-bottom:1.6rem;}
+.cta-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2rem,5.5vw,3.8rem);
+  color:#fff;line-height:1.2;margin-bottom:0.6rem;
+}
+.cta-title em{color:var(--gold2);font-style:italic;}
+.cta-sub{
+  font-size:clamp(1rem,2.4vw,1.2rem);
+  color:rgba(212,184,150,0.72);
+  line-height:1.85;font-style:italic;margin-bottom:2.8rem;
+}
+.cta-btn{
+  display:inline-block;
+  padding:1.1rem 3.2rem;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:#fff;text-decoration:none;
+  font-family:'Cinzel',serif;font-size:1rem;
+  letter-spacing:0.1em;border-radius:50px;
+  box-shadow:0 4px 32px rgba(160,68,94,0.38);
+  transition:transform 0.25s ease,box-shadow 0.25s ease;
+  position:relative;overflow:hidden;
+}
+.cta-btn::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,0.12),transparent);
+  border-radius:50px;
+}
+.cta-btn:hover{transform:translateY(-3px);box-shadow:0 8px 44px rgba(160,68,94,0.5);}
+.cta-hint{
+  margin-top:1.8rem;font-size:0.78rem;
+  color:rgba(212,184,150,0.35);letter-spacing:0.08em;
+}
+
+/* ── Double-tap ripple ── */
+.tap-ripple{
+  position:fixed;border-radius:50%;pointer-events:none;
+  border:2px solid rgba(160,68,94,0.55);
+  transform:scale(0);z-index:9999;
+}
+
+/* ── Responsive ── */
+@media(max-width:640px){
+  .hc{width:50px;height:50px;}
+  .o-ring{display:none;}
+  .info-box{width:130px;padding:0.75rem 0.85rem;}
+  .ib-icon{font-size:1.4rem;}
+  .ib-title{font-size:0.78rem;}
+  .ib-text{font-size:0.68rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- Progress bar -->
+<div id="progressBar"></div>
+
+<!-- Skip pill (always visible) -->
+<a href="./index.html" id="skipPill" onclick="sessionStorage.setItem('nrmb_lp','1')">Enter Site ›</a>
+
+
+<!-- ══════════════════════════════════
+     HERO SECTION
+══════════════════════════════════ -->
+<section class="hero-section" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-pattern"></div>
+  <div class="hc tl"></div><div class="hc tr"></div>
+  <div class="hc bl"></div><div class="hc br"></div>
+
+  <div class="hero-content">
+    <span class="h-glyph">❧&nbsp;&nbsp;✦&nbsp;&nbsp;❧</span>
+    <p class="h-since">Est. 2000 &nbsp;·&nbsp; Trusted Across Telangana &amp; Andhra Pradesh</p>
+    <p class="h-welcome">Welcome to</p>
+    <h1 class="h-name">Naveen Reddy</h1>
+    <h2 class="h-bureau">Marriage Bureau</h2>
+    <div class="h-rule"></div>
+    <p class="h-desc">
+      Where two souls begin their journey as one.<br>
+      Elite matchmaking with trust, dignity &amp; care.
+    </p>
+    <div class="scroll-hint">
+      <span>Scroll to explore</span>
+      <div class="scroll-arrow">↓</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════
+     PARALLAX ORBIT SECTION
+══════════════════════════════════ -->
+<section class="parallax-section" id="parallaxSection">
+  <div class="sticky-container">
+    <div class="sticky-bg"></div>
+
+    <!-- decorative guide rings -->
+    <div class="o-ring" style="width:640px;height:640px;"></div>
+    <div class="o-ring" style="width:960px;height:960px;"></div>
+    <div class="o-ring" style="width:300px;height:300px;"></div>
+
+    <div class="orbit-wrapper">
+
+      <!-- ── INFO BOXES ── -->
+      <!-- Box 0 — first to appear (top of couple) -->
+      <div class="info-box" data-i="0">
+        <span class="ib-icon">🕊️</span>
+        <div class="ib-title">Trusted Matchmaking</div>
+        <div class="ib-text">Where hearts find their perfect match with dignity</div>
+      </div>
+
+      <!-- Box 1 -->
+      <div class="info-box" data-i="1">
+        <span class="ib-icon">💍</span>
+        <div class="ib-title">Est. 2000</div>
+        <div class="ib-text">Two decades of bringing families together with care</div>
+      </div>
+
+      <!-- Box 2 -->
+      <div class="info-box" data-i="2">
+        <span class="ib-icon">✨</span>
+        <div class="ib-title">500+ Matches</div>
+        <div class="ib-text">Successful unions across generations of families</div>
+      </div>
+
+      <!-- Box 3 -->
+      <div class="info-box" data-i="3">
+        <span class="ib-icon">🏛️</span>
+        <div class="ib-title">Multiple Branches</div>
+        <div class="ib-text">Serving Hyderabad, Nalgonda, Suryapet &amp; beyond</div>
+      </div>
+
+      <!-- Box 4 -->
+      <div class="info-box" data-i="4">
+        <span class="ib-icon">🔒</span>
+        <div class="ib-title">100% Confidential</div>
+        <div class="ib-text">Your privacy is our most sacred commitment</div>
+      </div>
+
+      <!-- Box 5 -->
+      <div class="info-box" data-i="5">
+        <span class="ib-icon">👨‍👩‍👧‍👦</span>
+        <div class="ib-title">1000+ Families</div>
+        <div class="ib-text">Trusted across Telangana &amp; Andhra Pradesh</div>
+      </div>
+
+      <!-- Box 6 -->
+      <div class="info-box" data-i="6">
+        <span class="ib-icon">🌟</span>
+        <div class="ib-title">Elite Membership</div>
+        <div class="ib-text">VIP · VVIP · Elite — tailored to your needs</div>
+      </div>
+
+      <!-- Box 7 — last to appear (bottom of couple) -->
+      <div class="info-box" data-i="7">
+        <span class="ib-icon">❤️</span>
+        <div class="ib-title">Your Journey Awaits</div>
+        <div class="ib-text">Register today and find your perfect partner</div>
+      </div>
+
+
+      <!-- ── COUPLE SILHOUETTE (center · z-index: 5) ── -->
+      <div class="couple-container">
+        <div class="couple-frame">
+          <svg class="couple-svg" viewBox="0 0 230 370" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+            <!-- Soft halo ring behind couple -->
+            <circle cx="115" cy="178" r="98" fill="rgba(240,228,208,0.18)"
+              stroke="rgba(124,61,82,0.12)" stroke-width="1.5" stroke-dasharray="6 5"/>
+
+            <!-- ═══ GROOM (left) ═══ -->
+            <!-- Head -->
+            <circle cx="78" cy="64" r="25" fill="#5a2d40"/>
+            <!-- Hair -->
+            <path d="M55,60 Q54,38 78,36 Q102,34 103,60" fill="#3a1822"/>
+            <!-- Neck -->
+            <rect x="72" y="87" width="12" height="13" rx="3" fill="#c09878"/>
+            <!-- Suit body -->
+            <path d="M52,100 L65,96 L78,100 L91,96 L104,100 L108,188 L48,188 Z" fill="#5a2d40"/>
+            <!-- Lapels -->
+            <path d="M65,96 L74,124 L78,100 L82,124 L91,96" fill="#3a1822"/>
+            <!-- Shirt + tie -->
+            <rect x="75" y="100" width="6" height="26" rx="2" fill="#d4c4a0"/>
+            <!-- Left arm (relaxed) -->
+            <path d="M52,108 Q42,128 38,162" stroke="#5a2d40" stroke-width="13"
+              fill="none" stroke-linecap="round"/>
+            <!-- Right arm (towards bride) -->
+            <path d="M104,108 Q114,128 116,155" stroke="#5a2d40" stroke-width="13"
+              fill="none" stroke-linecap="round"/>
+            <!-- Legs -->
+            <rect x="54" y="186" width="20" height="82" rx="7" fill="#4a2535"/>
+            <rect x="80" y="186" width="20" height="82" rx="7" fill="#4a2535"/>
+            <!-- Shoes -->
+            <ellipse cx="64"  cy="271" rx="14" ry="7" fill="#2a1510"/>
+            <ellipse cx="90"  cy="271" rx="14" ry="7" fill="#2a1510"/>
+
+            <!-- ═══ BRIDE (right) ═══ -->
+            <!-- Head -->
+            <circle cx="155" cy="61" r="23" fill="#c4a078"/>
+            <!-- Hair (bun style) -->
+            <path d="M134,56 Q133,32 155,30 Q177,28 179,56 Q184,74 175,86" fill="#3a1822"/>
+            <!-- Hair bun on top -->
+            <ellipse cx="156" cy="32" rx="12" ry="8" fill="#3a1822"/>
+            <!-- Veil (flowing right) -->
+            <path d="M175,56 Q192,95 186,172" stroke="rgba(212,184,150,0.55)"
+              stroke-width="5" fill="none" stroke-linecap="round"/>
+            <!-- Neck -->
+            <rect x="149" y="82" width="12" height="13" rx="3" fill="#c4a078"/>
+            <!-- Dress bodice -->
+            <path d="M131,95 L141,90 L155,95 L169,90 L181,95 L185,145 L127,145 Z" fill="#8c4a60"/>
+            <!-- Neckline detail -->
+            <path d="M141,90 Q155,106 169,90" fill="none"
+              stroke="rgba(212,184,150,0.5)" stroke-width="1.5"/>
+            <!-- Dress skirt (flowing) -->
+            <path d="M125,143 Q113,222 109,272 L200,272 Q194,222 181,143 Z" fill="#8c4a60"/>
+            <!-- Dress ruffles -->
+            <path d="M129,163 Q155,175 181,163" fill="none"
+              stroke="rgba(212,184,150,0.45)" stroke-width="1.5"/>
+            <path d="M121,202 Q155,216 189,202" fill="none"
+              stroke="rgba(212,184,150,0.45)" stroke-width="1.5"/>
+            <path d="M114,240 Q155,256 196,240" fill="none"
+              stroke="rgba(212,184,150,0.4)"  stroke-width="1.5"/>
+            <!-- Right arm (flowing) -->
+            <path d="M181,105 Q193,128 196,160" stroke="#8c4a60" stroke-width="12"
+              fill="none" stroke-linecap="round"/>
+            <!-- Left arm (towards groom) -->
+            <path d="M131,105 Q119,126 116,155" stroke="#8c4a60" stroke-width="12"
+              fill="none" stroke-linecap="round"/>
+
+            <!-- ═══ JOINED HANDS (center) ═══ -->
+            <circle cx="116" cy="155" r="12" fill="#7c3d52"/>
+            <path d="M113,157 Q116,162 119,157" fill="none"
+              stroke="rgba(212,184,150,0.6)" stroke-width="1.5"/>
+
+            <!-- ═══ HEART above ═══ -->
+            <path d="M115,11 Q114,7 111,7 Q106,7 106,12 Q106,17 115,25 Q124,17 124,12 Q124,7 119,7 Q116,7 115,11 Z"
+              fill="#a0445e"/>
+
+            <!-- Subtle accent dots -->
+            <circle cx="38"  cy="162" r="3" fill="rgba(212,184,150,0.35)"/>
+            <circle cx="195" cy="162" r="3" fill="rgba(212,184,150,0.35)"/>
+          </svg>
+        </div>
+        <div class="couple-lbl">❧ &nbsp;N R M B&nbsp; ❧</div>
+      </div>
+
+    </div><!-- /orbit-wrapper -->
+
+    <div class="s-label"><p>Keep scrolling to explore</p></div>
+  </div><!-- /sticky-container -->
+</section>
+
+
+<!-- ══════════════════════════════════
+     CTA SECTION
+══════════════════════════════════ -->
+<section class="cta-section" id="ctaSection">
+  <div class="cta-rings">
+    <div class="cta-ring" style="width:280px;height:280px;"></div>
+    <div class="cta-ring" style="width:480px;height:480px;"></div>
+    <div class="cta-ring" style="width:680px;height:680px;"></div>
+    <div class="cta-ring" style="width:880px;height:880px;"></div>
+  </div>
+  <div class="cta-content">
+    <span class="cta-orn">💑</span>
+    <h2 class="cta-title">Begin Your<br><em>Journey Together</em></h2>
+    <p class="cta-sub">
+      Every great love story has a beginning.<br>
+      Let Naveen Reddy Marriage Bureau write yours.
+    </p>
+    <a href="./index.html" class="cta-btn" id="enterBtn"
+       onclick="sessionStorage.setItem('nrmb_lp','1')">
+      Enter the Bureau &nbsp;&nbsp;→
+    </a>
+    <p class="cta-hint">Double-tap anywhere to skip straight in</p>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════
+     SCRIPTS
+══════════════════════════════════════════════════════ -->
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+/* ─── SCROLL PROGRESS ─── */
+ScrollTrigger.create({
+  trigger:'body',start:'top top',end:'bottom bottom',
+  onUpdate:s=>{ document.getElementById('progressBar').style.width=(s.progress*100)+'%'; }
+});
+
+/* ─── HERO ENTRANCE ─── */
+const heroTl = gsap.timeline({ delay:0.25 });
+heroTl
+  .from('.h-glyph',   {opacity:0,y:-16,duration:0.8,ease:'power2.out'})
+  .from('.h-since',   {opacity:0,y:12, duration:0.6,ease:'power2.out'},'-=0.3')
+  .from('.h-welcome', {opacity:0,y:18, duration:0.7,ease:'power2.out'},'-=0.2')
+  .from('.h-name',    {opacity:0,y:28, duration:0.9,ease:'power2.out'},'-=0.3')
+  .from('.h-bureau',  {opacity:0,y:16, duration:0.7,ease:'power2.out'},'-=0.4')
+  .from('.h-rule',    {scaleX:0,       duration:0.6,ease:'power2.out'},'-=0.2')
+  .from('.h-desc',    {opacity:0,y:14, duration:0.7,ease:'power2.out'},'-=0.2')
+  .from('.scroll-hint',{opacity:0,     duration:0.6},                  '-=0.1')
+  .from('.hc',        {opacity:0,scale:0.5,stagger:0.08,duration:0.5}, 0.4);
+
+
+/* ─── 3D ORBIT ANIMATION ─── */
+const boxes      = document.querySelectorAll('.info-box');
+const mobile     = window.innerWidth < 640;
+const orbitX     = mobile ? 200 : 340;   // horizontal orbit radius
+const orbitY     = mobile ? 360 : 480;   // total vertical travel
+
+gsap.set(boxes,{opacity:0,x:0,y:0,scale:0.85});
+
+const orbitTl = gsap.timeline({
+  scrollTrigger:{
+    trigger:'#parallaxSection',
+    start:'top top',
+    end:'bottom bottom',
+    scrub:1.5,
+  }
+});
+
+boxes.forEach((box, i) => {
+  const delay = i * 0.32;
+
+  orbitTl.to(box, {
+    duration: 2,
+    ease: 'none',
+    onUpdate: function () {
+      const p     = this.progress();           // 0 → 1 within this box's 2s window
+      const angle = p * Math.PI * 2;           // full 360° orbit
+
+      // Spiral path: sine = left/right, cosine = front/back depth
+      const xPos  = Math.sin(angle) * orbitX;
+      const yPos  = -(orbitY * 0.5) + p * orbitY;  // top → bottom
+      const scale = 0.82 + Math.cos(angle) * 0.18;
+      const behind = Math.cos(angle) < 0;
+
+      // Layer switching: behind couple vs in front
+      box.style.zIndex = behind ? '2' : '10';
+      box.style.filter = behind
+        ? 'blur(1.8px) brightness(0.62)'
+        : 'blur(0px) brightness(1)';
+
+      gsap.set(box, {
+        x: xPos,
+        y: yPos,
+        scale: scale,
+        opacity: p < 0.07 || p > 0.93 ? 0 : 1,
+      });
+    }
+  }, delay);
+});
+
+
+/* ─── CTA SECTION ENTRANCE ─── */
+gsap.from('.cta-orn', {
+  scrollTrigger:{trigger:'#ctaSection',start:'top 78%'},
+  scale:0,opacity:0,duration:0.9,ease:'back.out(1.7)'
+});
+gsap.from('.cta-title', {
+  scrollTrigger:{trigger:'#ctaSection',start:'top 74%'},
+  y:38,opacity:0,duration:0.9,ease:'power3.out',delay:0.18
+});
+gsap.from('.cta-sub', {
+  scrollTrigger:{trigger:'#ctaSection',start:'top 70%'},
+  y:22,opacity:0,duration:0.8,ease:'power2.out',delay:0.42
+});
+gsap.from('.cta-btn', {
+  scrollTrigger:{trigger:'#ctaSection',start:'top 66%'},
+  scale:0.75,opacity:0,duration:0.7,ease:'back.out(2)',delay:0.6
+});
+
+
+/* ─── DOUBLE-TAP / DOUBLE-CLICK TO SKIP ─── */
+let lastTouch = 0, lastClick = 0;
+
+function doRipple(x, y) {
+  const r = document.createElement('div');
+  r.className = 'tap-ripple';
+  r.style.cssText = `width:64px;height:64px;left:${x-32}px;top:${y-32}px;`;
+  document.body.appendChild(r);
+  gsap.fromTo(r,
+    {scale:0,opacity:0.85},
+    {scale:4.5,opacity:0,duration:0.65,ease:'power2.out',onComplete:()=>r.remove()}
+  );
+}
+
+function goToSite() {
+  sessionStorage.setItem('nrmb_lp','1');
+  gsap.to('body',{opacity:0,duration:0.35,ease:'power2.in',
+    onComplete:()=>{ window.location.href='./index.html'; }
+  });
+}
+
+document.addEventListener('touchend', function(e) {
+  const now = Date.now();
+  if (now - lastTouch < 330) {
+    const t = e.changedTouches[0];
+    doRipple(t.clientX, t.clientY);
+    setTimeout(goToSite, 380);
+  }
+  lastTouch = now;
+});
+
+document.addEventListener('dblclick', function(e) {
+  doRipple(e.clientX, e.clientY);
+  setTimeout(goToSite, 380);
+});
+
+
+/* ─── RESIZE: refresh ScrollTrigger ─── */
+let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => ScrollTrigger.refresh(), 250);
+});
+</script>
+</body>
+</html>
