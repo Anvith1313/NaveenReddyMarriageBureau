@@ -9,11 +9,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <style>
-/*
-  THEME — Champagne gold + blush rose + warm ivory
-  Pulled from the couple photo: bride's deep red/gold lehenga,
-  groom's cream sherwani, terracotta pots, golden afternoon light.
-*/
 :root{
   --champ : #c4a050;
   --champ2: #e8c878;
@@ -22,12 +17,8 @@
   --terra : #c07840;
   --dark  : #0f0906;
   --dark2 : #1c1008;
-  --dark3 : #2a1a0e;
   --ivory : #fdf8ef;
-  --cream : #f5edd8;
-  --warm  : #ede0c4;
-  --muted : #7a5a38;
-  --bdr   : rgba(196,160,80,0.35);
+  --muted : #5a3e26;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
@@ -42,19 +33,19 @@ body{font-family:'EB Garamond',serif;background:var(--dark);overflow-x:hidden;-w
 /* ── skip pill ── */
 #skip{
   position:fixed;top:1.1rem;right:1.3rem;z-index:9998;
-  background:rgba(15,9,6,0.72);backdrop-filter:blur(14px);
-  border:1px solid var(--bdr);
+  background:rgba(15,9,6,0.68);backdrop-filter:blur(14px);
+  border:1px solid rgba(196,160,80,0.35);
   color:var(--champ2);font-family:'EB Garamond',serif;font-size:0.82rem;
   padding:0.42rem 1.15rem;border-radius:50px;
   letter-spacing:0.08em;text-decoration:none;display:inline-block;
-  transition:background 0.2s,border-color 0.2s;
+  transition:background 0.2s;
 }
-#skip:hover{background:rgba(196,104,120,0.35);border-color:rgba(232,200,120,0.6);}
+#skip:hover{background:rgba(196,104,120,0.35);}
 
 
-/* ════════════════════════════════════════
+/* ════════════════════════════════════════════
    HERO SECTION
-════════════════════════════════════════ */
+════════════════════════════════════════════ */
 .hero{
   position:relative;height:100vh;min-height:580px;
   display:flex;align-items:center;justify-content:center;overflow:hidden;
@@ -62,9 +53,9 @@ body{font-family:'EB Garamond',serif;background:var(--dark);overflow-x:hidden;-w
 .hero-bg{
   position:absolute;inset:0;
   background:
-    radial-gradient(ellipse 60% 50% at 20% 55%, rgba(196,104,120,0.2)  0%,transparent 62%),
-    radial-gradient(ellipse 55% 45% at 80% 50%, rgba(192,120,64,0.14)  0%,transparent 60%),
-    radial-gradient(ellipse 70% 35% at 50% 100%,rgba(196,160,80,0.1)  0%,transparent 55%),
+    radial-gradient(ellipse 60% 50% at 20% 55%, rgba(196,104,120,0.22) 0%,transparent 62%),
+    radial-gradient(ellipse 55% 45% at 80% 50%, rgba(192,120,64,0.15)  0%,transparent 60%),
+    radial-gradient(ellipse 70% 35% at 50% 100%,rgba(196,160,80,0.12) 0%,transparent 55%),
     linear-gradient(168deg,#0a0604 0%,#1c1008 32%,#2a1a0e 62%,#0f0906 100%);
 }
 .hero-dots{
@@ -74,7 +65,6 @@ body{font-family:'EB Garamond',serif;background:var(--dark);overflow-x:hidden;-w
     radial-gradient(circle at 14px 14px, rgba(196,104,120,0.04) 1px,transparent 0);
   background-size:24px 24px,48px 48px;
 }
-/* corner brackets */
 .hc{position:absolute;width:78px;height:78px;opacity:0.22;}
 .hc.tl{top:20px;left:20px; border-top:1.5px solid var(--champ);border-left:1.5px solid var(--champ);}
 .hc.tr{top:20px;right:20px;border-top:1.5px solid var(--champ);border-right:1.5px solid var(--champ);}
@@ -85,147 +75,117 @@ body{font-family:'EB Garamond',serif;background:var(--dark);overflow-x:hidden;-w
   position:relative;z-index:10;text-align:center;
   padding:2rem 1.5rem;max-width:720px;
 }
-.h-glyph{
-  font-size:1.65rem;color:var(--champ);opacity:0.6;
-  letter-spacing:0.55em;margin-bottom:1.7rem;display:block;
-}
-.h-since{
-  font-size:0.78rem;letter-spacing:0.22em;text-transform:uppercase;
-  color:rgba(196,160,80,0.62);margin-bottom:1.7rem;
-}
-.h-welcome{
-  font-family:'EB Garamond',serif;font-style:italic;
-  font-size:clamp(1.1rem,2.6vw,1.5rem);
-  color:rgba(232,160,176,0.82);margin-bottom:0.3rem;letter-spacing:0.04em;
-}
-.h-name{
-  font-family:'Cinzel',serif;
-  font-size:clamp(2.5rem,7.5vw,5.5rem);
-  color:#fff;line-height:1;font-weight:600;letter-spacing:0.05em;margin-bottom:0.25rem;
-}
-.h-bureau{
-  font-family:'Cinzel',serif;
-  font-size:clamp(0.92rem,2.9vw,1.55rem);
-  color:var(--champ2);letter-spacing:0.28em;text-transform:uppercase;margin-bottom:1.8rem;
-}
-.h-rule{
-  width:66px;height:1px;
-  background:linear-gradient(90deg,transparent,var(--champ),transparent);
-  margin:0 auto 1.5rem;
-}
-.h-desc{
-  font-size:clamp(0.92rem,2.1vw,1.12rem);
-  color:rgba(196,160,80,0.58);line-height:1.9;font-style:italic;margin-bottom:3rem;
-}
-.scroll-hint{
-  display:flex;flex-direction:column;align-items:center;gap:0.4rem;
-  color:rgba(232,200,120,0.42);font-size:0.78rem;letter-spacing:0.12em;
-}
+.h-glyph{font-size:1.65rem;color:var(--champ);opacity:0.6;letter-spacing:0.55em;margin-bottom:1.7rem;display:block;}
+.h-since{font-size:0.78rem;letter-spacing:0.22em;text-transform:uppercase;color:rgba(196,160,80,0.62);margin-bottom:1.7rem;}
+.h-welcome{font-family:'EB Garamond',serif;font-style:italic;font-size:clamp(1.1rem,2.6vw,1.5rem);color:rgba(232,160,176,0.82);margin-bottom:0.3rem;letter-spacing:0.04em;}
+.h-name{font-family:'Cinzel',serif;font-size:clamp(2.5rem,7.5vw,5.5rem);color:#fff;line-height:1;font-weight:600;letter-spacing:0.05em;margin-bottom:0.25rem;}
+.h-bureau{font-family:'Cinzel',serif;font-size:clamp(0.92rem,2.9vw,1.55rem);color:var(--champ2);letter-spacing:0.28em;text-transform:uppercase;margin-bottom:1.8rem;}
+.h-rule{width:66px;height:1px;background:linear-gradient(90deg,transparent,var(--champ),transparent);margin:0 auto 1.5rem;}
+.h-desc{font-size:clamp(0.92rem,2.1vw,1.12rem);color:rgba(196,160,80,0.58);line-height:1.9;font-style:italic;margin-bottom:3rem;}
+.scroll-hint{display:flex;flex-direction:column;align-items:center;gap:0.4rem;color:rgba(232,200,120,0.42);font-size:0.78rem;letter-spacing:0.12em;}
 .sa{font-size:1.3rem;animation:bY 1.65s ease-in-out infinite;}
 @keyframes bY{0%,100%{transform:translateY(0);}50%{transform:translateY(10px);}}
 
 
-/* ════════════════════════════════════════
+/* ════════════════════════════════════════════
    PARALLAX / ORBIT SECTION
-════════════════════════════════════════ */
+════════════════════════════════════════════ */
 .parallax-section{height:600vh;position:relative;}
 
 .sticky-container{
   position:sticky;top:0;height:100vh;
-  display:flex;align-items:center;justify-content:center;overflow:hidden;
-}
-/* Warm ivory-cream background — airy & romantic */
-.sticky-bg{
-  position:absolute;inset:0;
-  background:
-    radial-gradient(ellipse 90% 50% at 50% 0%,  rgba(196,104,120,0.06) 0%,transparent 55%),
-    radial-gradient(ellipse 60% 30% at 50% 100%, rgba(192,120,64,0.06)  0%,transparent 55%),
-    radial-gradient(ellipse 30% 80% at 0%   50%, rgba(196,160,80,0.04)  0%,transparent 65%),
-    radial-gradient(ellipse 30% 80% at 100% 50%, rgba(196,160,80,0.04)  0%,transparent 65%),
-    #fdf8ef;
-}
-/* Subtle decorative orbit guide rings */
-.o-ring{
-  position:absolute;border-radius:50%;pointer-events:none;
-  border:1px solid rgba(196,160,80,0.1);
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
 }
 
+/* ── FULL-SCREEN couple photo ── */
+.bg-photo{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;
+  /* Centre the couple — they sit roughly at centre of the frame */
+  object-position:center center;
+  z-index:0;
+  display:block;
+}
+
+/* ── Overlay: darkens edges, keeps couple bright ── */
+.bg-overlay{
+  position:absolute;inset:0;z-index:1;
+  background:
+    /* top dark fade for box readability */
+    linear-gradient(to bottom,
+      rgba(15,9,6,0.55) 0%,
+      rgba(15,9,6,0.15) 18%,
+      transparent       38%,
+      transparent       62%,
+      rgba(15,9,6,0.15) 82%,
+      rgba(15,9,6,0.55) 100%),
+    /* side dark fade */
+    linear-gradient(to right,
+      rgba(15,9,6,0.45) 0%,
+      transparent       18%,
+      transparent       82%,
+      rgba(15,9,6,0.45) 100%);
+}
+
+/* Decorative orbit guide rings (very subtle) */
+.o-ring{
+  position:absolute;border-radius:50%;pointer-events:none;z-index:2;
+  border:1px solid rgba(196,160,80,0.14);
+}
+
+/* ── Orbit wrapper — z-index 2, full size, flex-centred ── */
 .orbit-wrapper{
-  position:relative;width:100%;height:100%;
+  position:relative;z-index:2;
+  width:100%;height:100%;
   display:flex;align-items:center;justify-content:center;
 }
 
-
-/* ── COUPLE CONTAINER — z-index:5 is critical (sits between back & front boxes) ── */
+/*
+  COUPLE CONTAINER — IMPORTANT:
+  z-index:5  →  sits BETWEEN back boxes (z:1) and front boxes (z:10)
+  Zero size  →  invisible anchor; the real couple is the bg-photo behind
+*/
 .couple-container{
   position:relative;
   z-index:5;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
+  width:0;height:0;
   pointer-events:none;
-}
-/* Soft warm glow behind the photo */
-.couple-glow{
-  position:absolute;
-  inset:-28px;
-  border-radius:20px;
-  background:radial-gradient(ellipse at 50% 50%,rgba(196,160,80,0.14),transparent 70%);
-  pointer-events:none;z-index:0;filter:blur(12px);
-}
-/* Full photo — no crop, no oval */
-.couple-photo{
-  position:relative;z-index:1;
-  width:clamp(240px,24vw,320px);
-  height:auto;
-  display:block;
-  border-radius:16px;
-  /* Layered border: champagne gold inner + soft blush outer */
-  box-shadow:
-    0 0 0 2.5px rgba(196,160,80,0.55),
-    0 0 0 6px   rgba(196,160,80,0.12),
-    0 0 0 7px   rgba(196,104,120,0.1),
-    0 12px 60px rgba(15,9,6,0.32),
-    0 4px 18px  rgba(15,9,6,0.16);
-}
-.couple-lbl{
-  margin-top:0.9rem;font-family:'Cinzel',serif;
-  font-size:0.7rem;color:var(--blush);letter-spacing:0.18em;opacity:0.55;
 }
 
 /* ── INFO BOXES ── */
 .info-box{
   position:absolute;
-  width:clamp(140px,13.5vw,194px);
-  background:rgba(253,248,239,0.93);
-  border:1.5px solid rgba(196,160,80,0.45);
+  width:clamp(140px,13vw,190px);
+  /* Fully opaque so text is always readable regardless of what's behind */
+  background:rgba(253,248,239,0.96);
+  border:1.5px solid rgba(196,160,80,0.5);
   border-radius:14px;
   padding:0.95rem 1.05rem;
-  text-align:center;opacity:0;
-  box-shadow:0 4px 22px rgba(15,9,6,0.07),0 1px 6px rgba(196,104,120,0.06);
+  text-align:center;
+  opacity:0;
+  /* NO text blur — only brightness changes for depth effect */
+  box-shadow:0 4px 24px rgba(15,9,6,0.22),0 1px 6px rgba(0,0,0,0.12);
   pointer-events:none;
-  will-change:transform,opacity,filter;
-  backdrop-filter:blur(8px);
+  will-change:transform,opacity;
+  backdrop-filter:none; /* disabled — causes blur on content */
 }
 .info-box .ib-icon{font-size:1.55rem;display:block;margin-bottom:0.4rem;line-height:1;}
-.info-box .ib-title{
-  font-family:'Playfair Display',serif;
-  font-size:0.86rem;color:var(--blush);font-weight:700;
-  margin-bottom:0.25rem;line-height:1.3;
-}
+.info-box .ib-title{font-family:'Playfair Display',serif;font-size:0.86rem;color:var(--blush);font-weight:700;margin-bottom:0.25rem;line-height:1.3;}
 .info-box .ib-text{font-size:0.74rem;color:var(--muted);line-height:1.5;font-style:italic;}
 
 /* bottom hint */
 .s-label{
-  position:absolute;bottom:1.7rem;left:50%;transform:translateX(-50%);
+  position:absolute;bottom:1.5rem;left:50%;transform:translateX(-50%);
   z-index:20;pointer-events:none;text-align:center;
 }
-.s-label p{font-size:0.72rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;opacity:0.38;}
+.s-label p{font-size:0.72rem;color:rgba(253,248,239,0.45);letter-spacing:0.1em;text-transform:uppercase;}
 
 
-/* ════════════════════════════════════════
+/* ════════════════════════════════════════════
    CTA SECTION
-════════════════════════════════════════ */
+════════════════════════════════════════════ */
 .cta-section{
   min-height:100vh;display:flex;align-items:center;justify-content:center;
   background:linear-gradient(168deg,#0a0604 0%,#1c1008 38%,#2a1a0e 68%,#0f0906 100%);
@@ -233,25 +193,12 @@ body{font-family:'EB Garamond',serif;background:var(--dark);overflow-x:hidden;-w
 }
 .cta-rings{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
 .cr{position:absolute;border-radius:50%;border:1px solid rgba(196,160,80,0.06);}
-.cta-glow{
-  position:absolute;
-  background:radial-gradient(ellipse,rgba(196,104,120,0.08) 0%,transparent 65%);
-  width:700px;height:700px;border-radius:50%;
-}
-.cta-content{
-  position:relative;z-index:10;text-align:center;padding:3rem 2rem;max-width:570px;
-}
+.cta-glow{position:absolute;background:radial-gradient(ellipse,rgba(196,104,120,0.08) 0%,transparent 65%);width:700px;height:700px;border-radius:50%;}
+.cta-content{position:relative;z-index:10;text-align:center;padding:3rem 2rem;max-width:570px;}
 .cta-orn{font-size:2.5rem;display:block;margin-bottom:1.5rem;}
-.cta-title{
-  font-family:'Playfair Display',serif;
-  font-size:clamp(1.9rem,5vw,3.5rem);
-  color:#fff;line-height:1.22;margin-bottom:0.5rem;
-}
+.cta-title{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,5vw,3.5rem);color:#fff;line-height:1.22;margin-bottom:0.5rem;}
 .cta-title em{color:var(--champ2);font-style:italic;}
-.cta-sub{
-  font-size:clamp(0.96rem,2.2vw,1.16rem);
-  color:rgba(196,160,80,0.62);line-height:1.88;font-style:italic;margin-bottom:2.8rem;
-}
+.cta-sub{font-size:clamp(0.96rem,2.2vw,1.16rem);color:rgba(196,160,80,0.62);line-height:1.88;font-style:italic;margin-bottom:2.8rem;}
 .cta-btn{
   display:inline-block;padding:1.05rem 3rem;
   background:linear-gradient(135deg,var(--blush),var(--terra));
@@ -264,11 +211,7 @@ body{font-family:'EB Garamond',serif;background:var(--dark);overflow-x:hidden;-w
 .cta-btn:hover{transform:translateY(-3px);box-shadow:0 8px 42px rgba(196,104,120,0.52);}
 .cta-hint{margin-top:1.7rem;font-size:0.75rem;color:rgba(196,160,80,0.3);letter-spacing:0.08em;}
 
-/* ripple */
-.tap-ripple{
-  position:fixed;border-radius:50%;pointer-events:none;
-  border:2px solid rgba(196,160,80,0.55);transform:scale(0);z-index:9999;
-}
+.tap-ripple{position:fixed;border-radius:50%;pointer-events:none;border:2px solid rgba(196,160,80,0.55);transform:scale(0);z-index:9999;}
 
 /* ── Responsive ── */
 @media(max-width:640px){
@@ -278,7 +221,6 @@ body{font-family:'EB Garamond',serif;background:var(--dark);overflow-x:hidden;-w
   .info-box .ib-icon{font-size:1.25rem;}
   .info-box .ib-title{font-size:0.74rem;}
   .info-box .ib-text{font-size:0.64rem;}
-  .couple-photo{width:clamp(150px,40vw,210px);}
 }
 </style>
 </head>
@@ -288,15 +230,14 @@ body{font-family:'EB Garamond',serif;background:var(--dark);overflow-x:hidden;-w
 <a href="./index.html" id="skip" onclick="sessionStorage.setItem('nrmb_lp','1')">Enter Site ›</a>
 
 
-<!-- ══════════════════════════════════════════
+<!-- ═════════════════════════════════════════
      HERO
-══════════════════════════════════════════ -->
+═════════════════════════════════════════ -->
 <section class="hero" id="hero">
   <div class="hero-bg"></div>
   <div class="hero-dots"></div>
   <div class="hc tl"></div><div class="hc tr"></div>
   <div class="hc bl"></div><div class="hc br"></div>
-
   <div class="hero-content">
     <span class="h-glyph">❧&nbsp;&nbsp;✦&nbsp;&nbsp;❧</span>
     <p class="h-since">Est. 2000 &nbsp;·&nbsp; Trusted Across Telangana &amp; Andhra Pradesh</p>
@@ -304,10 +245,7 @@ body{font-family:'EB Garamond',serif;background:var(--dark);overflow-x:hidden;-w
     <h1 class="h-name">Naveen Reddy</h1>
     <h2 class="h-bureau">Marriage Bureau</h2>
     <div class="h-rule"></div>
-    <p class="h-desc">
-      Where two souls begin their journey as one.<br>
-      Elite matchmaking with trust, dignity &amp; care.
-    </p>
+    <p class="h-desc">Where two souls begin their journey as one.<br>Elite matchmaking with trust, dignity &amp; care.</p>
     <div class="scroll-hint">
       <span>Scroll to explore</span>
       <div class="sa">↓</div>
@@ -316,14 +254,21 @@ body{font-family:'EB Garamond',serif;background:var(--dark);overflow-x:hidden;-w
 </section>
 
 
-<!-- ══════════════════════════════════════════
+<!-- ═════════════════════════════════════════
      PARALLAX ORBIT SECTION
-══════════════════════════════════════════ -->
+═════════════════════════════════════════ -->
 <section class="parallax-section" id="parallaxSection">
   <div class="sticky-container">
-    <div class="sticky-bg"></div>
-    <div class="o-ring" style="width:560px;height:560px;"></div>
-    <div class="o-ring" style="width:840px;height:840px;"></div>
+
+    <!-- FULL-SCREEN couple photo (the actual background) -->
+    <img src="./couple.jpg" class="bg-photo" alt="couple">
+
+    <!-- Edge darkening overlay -->
+    <div class="bg-overlay"></div>
+
+    <!-- Subtle guide rings -->
+    <div class="o-ring" style="width:500px;height:500px;"></div>
+    <div class="o-ring" style="width:760px;height:760px;"></div>
 
     <div class="orbit-wrapper">
 
@@ -346,7 +291,7 @@ body{font-family:'EB Garamond',serif;background:var(--dark);overflow-x:hidden;-w
       <div class="info-box">
         <span class="ib-icon">🏛️</span>
         <div class="ib-title">Multiple Branches</div>
-        <div class="ib-text">Serving Hyderabad, Nalgonda, Suryapet &amp; beyond</div>
+        <div class="ib-text">Hyderabad, Nalgonda, Suryapet &amp; beyond</div>
       </div>
       <div class="info-box">
         <span class="ib-icon">🔒</span>
@@ -369,18 +314,12 @@ body{font-family:'EB Garamond',serif;background:var(--dark);overflow-x:hidden;-w
         <div class="ib-text">Register today and find your perfect partner</div>
       </div>
 
-
-      <!-- COUPLE PHOTO — z-index:5 (in CSS above), centre of everything -->
-      <div class="couple-container">
-        <div class="couple-glow"></div>
-        <img
-          src="./couple.jpg"
-          class="couple-photo"
-          alt="couple"
-          onerror="this.style.display='none';"
-        >
-        <div class="couple-lbl">❧ &nbsp;N R M B&nbsp; ❧</div>
-      </div>
+      <!--
+        COUPLE CONTAINER — z-index:5 (between back boxes z:1 and front boxes z:10)
+        Zero size — the real couple is the full-screen bg-photo above.
+        This element is the invisible anchor point for the orbit centre.
+      -->
+      <div class="couple-container"></div>
 
     </div><!-- /orbit-wrapper -->
     <div class="s-label"><p>Keep scrolling</p></div>
@@ -388,9 +327,9 @@ body{font-family:'EB Garamond',serif;background:var(--dark);overflow-x:hidden;-w
 </section>
 
 
-<!-- ══════════════════════════════════════════
+<!-- ═════════════════════════════════════════
      CTA SECTION
-══════════════════════════════════════════ -->
+═════════════════════════════════════════ -->
 <section class="cta-section" id="ctaSection">
   <div class="cta-rings">
     <div class="cr" style="width:250px;height:250px;"></div>
@@ -402,48 +341,51 @@ body{font-family:'EB Garamond',serif;background:var(--dark);overflow-x:hidden;-w
   <div class="cta-content">
     <span class="cta-orn">💑</span>
     <h2 class="cta-title">Begin Your<br><em>Journey Together</em></h2>
-    <p class="cta-sub">
-      Every great love story has a beginning.<br>
-      Let Naveen Reddy Marriage Bureau write yours.
-    </p>
-    <a href="./index.html" class="cta-btn"
-       onclick="sessionStorage.setItem('nrmb_lp','1')">
-      Enter the Bureau &nbsp;&nbsp;→
-    </a>
+    <p class="cta-sub">Every great love story has a beginning.<br>Let Naveen Reddy Marriage Bureau write yours.</p>
+    <a href="./index.html" class="cta-btn" onclick="sessionStorage.setItem('nrmb_lp','1')">Enter the Bureau &nbsp;&nbsp;→</a>
     <p class="cta-hint">Double-tap anywhere to skip straight in</p>
   </div>
 </section>
 
 
-<!-- ════════════════════════════════════════════════
+<!-- ═══════════════════════════════════════════════════
      SCRIPTS
-════════════════════════════════════════════════ -->
+═══════════════════════════════════════════════════ -->
 <script>
 gsap.registerPlugin(ScrollTrigger);
 
 /* ── progress bar ── */
 ScrollTrigger.create({
-  trigger:'body',start:'top top',end:'bottom bottom',
-  onUpdate:s=>{ document.getElementById('pb').style.width=(s.progress*100)+'%'; }
+  trigger:'body', start:'top top', end:'bottom bottom',
+  onUpdate: s => { document.getElementById('pb').style.width = (s.progress * 100) + '%'; }
 });
 
 /* ── hero entrance ── */
 gsap.timeline({delay:0.2})
-  .from('.h-glyph',   {opacity:0,y:-14,duration:0.8,ease:'power2.out'})
-  .from('.h-since',   {opacity:0,y:10, duration:0.6,ease:'power2.out'},'-=0.3')
-  .from('.h-welcome', {opacity:0,y:16, duration:0.7,ease:'power2.out'},'-=0.2')
-  .from('.h-name',    {opacity:0,y:26, duration:0.9,ease:'power2.out'},'-=0.35')
-  .from('.h-bureau',  {opacity:0,y:14, duration:0.7,ease:'power2.out'},'-=0.4')
-  .from('.h-rule',    {scaleX:0,       duration:0.6,ease:'power2.out'},'-=0.2')
-  .from('.h-desc',    {opacity:0,y:12, duration:0.7,ease:'power2.out'},'-=0.2')
-  .from('.scroll-hint',{opacity:0,     duration:0.6},                   '-=0.1')
-  .from('.hc',{opacity:0,scale:0.4,stagger:0.08,duration:0.4},          0.3);
+  .from('.h-glyph',    {opacity:0, y:-14, duration:0.8, ease:'power2.out'})
+  .from('.h-since',    {opacity:0, y:10,  duration:0.6, ease:'power2.out'}, '-=0.3')
+  .from('.h-welcome',  {opacity:0, y:16,  duration:0.7, ease:'power2.out'}, '-=0.2')
+  .from('.h-name',     {opacity:0, y:26,  duration:0.9, ease:'power2.out'}, '-=0.35')
+  .from('.h-bureau',   {opacity:0, y:14,  duration:0.7, ease:'power2.out'}, '-=0.4')
+  .from('.h-rule',     {scaleX:0,         duration:0.6, ease:'power2.out'}, '-=0.2')
+  .from('.h-desc',     {opacity:0, y:12,  duration:0.7, ease:'power2.out'}, '-=0.2')
+  .from('.scroll-hint',{opacity:0,        duration:0.6},                    '-=0.1')
+  .from('.hc', {opacity:0, scale:0.4, stagger:0.08, duration:0.4},          0.3);
 
 
-/* ══════════════════════════════════════════════════════
-   3-D ORBIT — EXACT original code from the brief
-   .couple-container has z-index:5 in CSS (between layers)
-══════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════
+   3-D ORBIT
+   Boxes orbit around the couple (who fills the full screen).
+   Path mapped to the couple's actual head→feet position on screen.
+   xRadius  = how far left/right from centre the box swings
+   halfVert = half the vertical distance from head to feet
+═══════════════════════════════════════════════════════════════ */
+
+// Couple occupies roughly centre of screen; their head-to-feet
+// span is ~75% of viewport height. We orbit within that range.
+const xRadius = window.innerWidth  * 0.30;  // horizontal orbital swing
+const halfVert = window.innerHeight * 0.38;  // top(head) → bottom(feet)
+
 gsap.set('.info-box', {opacity:0, x:0, y:0, scale:0.85});
 
 const boxes = document.querySelectorAll('.info-box');
@@ -458,30 +400,28 @@ const tl = gsap.timeline({
 });
 
 boxes.forEach((box, i) => {
-    const delay = i * 0.3; // Stagger the boxes
+    const delay = i * 0.3;
 
     tl.to(box, {
         duration: 2,
         ease: "none",
         onUpdate: function() {
-            // Progress goes from 0 to 1
             let progress = this.progress();
 
-            // SPIRAL MATH
-            // x moves in a sine wave (left to right to left)
-            // z moves in a cosine wave (large to small)
-            const xPos = Math.sin(progress * Math.PI * 2) * 400;
-            const yPos = -500 + (progress * 1000); // Moves from top to bottom
+            // SPIRAL MATH (original)
+            // Orbit radius scaled to viewport so boxes stay near the couple
+            const xPos  = Math.sin(progress * Math.PI * 2) * xRadius;
+            // Vertical: starts at couple's HEAD level, exits at FEET level
+            const yPos  = -halfVert + (progress * halfVert * 2);
             const scale = 0.8 + Math.cos(progress * Math.PI * 2) * 0.2;
 
-            // LAYER SWITCHING
-            // If Cosine is negative, the box is in the "back" half of the circle
+            // LAYER SWITCHING — NO blur on text, only brightness
             if (Math.cos(progress * Math.PI * 2) < 0) {
-                box.style.zIndex = "1"; // Behind the couple
-                box.style.filter = "blur(2px) brightness(0.8)";
+                box.style.zIndex = "1";   // Behind couple
+                box.style.filter = "brightness(0.72)";   // Dim — but text stays sharp
             } else {
-                box.style.zIndex = "10"; // In front of the couple
-                box.style.filter = "blur(0px) brightness(1)";
+                box.style.zIndex = "10";  // In front of couple
+                box.style.filter = "brightness(1)";
             }
 
             gsap.set(box, {
@@ -496,35 +436,34 @@ boxes.forEach((box, i) => {
 
 
 /* ── CTA entrance ── */
-gsap.from('.cta-orn',  {scrollTrigger:{trigger:'#ctaSection',start:'top 78%'},scale:0,opacity:0,duration:0.85,ease:'back.out(1.7)'});
-gsap.from('.cta-title',{scrollTrigger:{trigger:'#ctaSection',start:'top 74%'},y:36,opacity:0,duration:0.9,ease:'power3.out',delay:0.18});
-gsap.from('.cta-sub',  {scrollTrigger:{trigger:'#ctaSection',start:'top 70%'},y:20,opacity:0,duration:0.8,ease:'power2.out',delay:0.42});
-gsap.from('.cta-btn',  {scrollTrigger:{trigger:'#ctaSection',start:'top 66%'},scale:0.75,opacity:0,duration:0.65,ease:'back.out(2)',delay:0.62});
+gsap.from('.cta-orn',  {scrollTrigger:{trigger:'#ctaSection',start:'top 78%'}, scale:0,  opacity:0, duration:0.85, ease:'back.out(1.7)'});
+gsap.from('.cta-title',{scrollTrigger:{trigger:'#ctaSection',start:'top 74%'}, y:36, opacity:0, duration:0.9,  ease:'power3.out', delay:0.18});
+gsap.from('.cta-sub',  {scrollTrigger:{trigger:'#ctaSection',start:'top 70%'}, y:20, opacity:0, duration:0.8,  ease:'power2.out', delay:0.42});
+gsap.from('.cta-btn',  {scrollTrigger:{trigger:'#ctaSection',start:'top 66%'}, scale:0.75, opacity:0, duration:0.65, ease:'back.out(2)', delay:0.62});
 
 
 /* ── DOUBLE-TAP / DOUBLE-CLICK TO SKIP ── */
 let lastT = 0;
-
 function doRipple(x, y) {
   const r = document.createElement('div');
   r.className = 'tap-ripple';
   r.style.cssText = `width:62px;height:62px;left:${x-31}px;top:${y-31}px;`;
   document.body.appendChild(r);
-  gsap.fromTo(r,{scale:0,opacity:0.85},{scale:5,opacity:0,duration:0.6,ease:'power2.out',onComplete:()=>r.remove()});
+  gsap.fromTo(r, {scale:0,opacity:0.85}, {scale:5,opacity:0,duration:0.6,ease:'power2.out',onComplete:()=>r.remove()});
 }
 function goSite() {
   sessionStorage.setItem('nrmb_lp','1');
   gsap.to('body',{opacity:0,duration:0.3,ease:'power2.in',onComplete:()=>{window.location.href='./index.html';}});
 }
-document.addEventListener('touchend',function(e){
-  const now=Date.now();
-  if(now-lastT<330){doRipple(e.changedTouches[0].clientX,e.changedTouches[0].clientY);setTimeout(goSite,380);}
-  lastT=now;
+document.addEventListener('touchend', function(e) {
+  const now = Date.now();
+  if (now - lastT < 330) { doRipple(e.changedTouches[0].clientX, e.changedTouches[0].clientY); setTimeout(goSite, 380); }
+  lastT = now;
 });
-document.addEventListener('dblclick',function(e){doRipple(e.clientX,e.clientY);setTimeout(goSite,380);});
+document.addEventListener('dblclick', function(e) { doRipple(e.clientX, e.clientY); setTimeout(goSite, 380); });
 
 let rt;
-window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>ScrollTrigger.refresh(),250);});
+window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => ScrollTrigger.refresh(), 250); });
 </script>
 </body>
 </html>
