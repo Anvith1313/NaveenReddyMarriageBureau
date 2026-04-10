@@ -9,29 +9,25 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <style>
-/* ═══════════════════════════════════════════════════════════════
-   THEME — pulled from the couple photo:
-   Ocean blue (#1b4f72), Terracotta (#c0622a), Sage green (#3d6b2c),
-   Golden afternoon (#c4921a), Ivory (#fdf8ef)
-═══════════════════════════════════════════════════════════════ */
+/*
+  THEME — Champagne gold + blush rose + warm ivory
+  Pulled from the couple photo: bride's deep red/gold lehenga,
+  groom's cream sherwani, terracotta pots, golden afternoon light.
+*/
 :root{
-  --ocean:  #1b4f72;
-  --ocean2: #2e86c1;
-  --ocean3: #5dade2;
-  --terra:  #c0622a;
-  --terra2: #e07840;
-  --sage:   #3d6b2c;
-  --sage2:  #6aaa4a;
-  --gold:   #c4921a;
-  --gold2:  #e8b830;
-  --ivory:  #fdf8ef;
-  --cream:  #f5edd8;
-  --dark:   #070f18;
-  --dark2:  #0d1f30;
-  --dark3:  #142838;
-  --muted:  #5a4a2e;
-  --bdr:    rgba(196,146,26,0.35);
-  --bdr2:   rgba(29,79,114,0.25);
+  --champ : #c4a050;
+  --champ2: #e8c878;
+  --blush : #c46878;
+  --blush2: #e8a0b0;
+  --terra : #c07840;
+  --dark  : #0f0906;
+  --dark2 : #1c1008;
+  --dark3 : #2a1a0e;
+  --ivory : #fdf8ef;
+  --cream : #f5edd8;
+  --warm  : #ede0c4;
+  --muted : #7a5a38;
+  --bdr   : rgba(196,160,80,0.35);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
@@ -40,26 +36,25 @@ body{font-family:'EB Garamond',serif;background:var(--dark);overflow-x:hidden;-w
 /* ── progress bar ── */
 #pb{
   position:fixed;top:0;left:0;height:2.5px;width:0%;z-index:9999;
-  background:linear-gradient(90deg,var(--ocean2),var(--gold),var(--terra2),var(--ocean2));
+  background:linear-gradient(90deg,var(--blush),var(--champ),var(--blush2),var(--champ2));
   transition:width 0.08s;
 }
 /* ── skip pill ── */
 #skip{
   position:fixed;top:1.1rem;right:1.3rem;z-index:9998;
-  background:rgba(7,15,24,0.7);backdrop-filter:blur(14px);
+  background:rgba(15,9,6,0.72);backdrop-filter:blur(14px);
   border:1px solid var(--bdr);
-  color:var(--gold2);font-family:'EB Garamond',serif;font-size:0.82rem;
+  color:var(--champ2);font-family:'EB Garamond',serif;font-size:0.82rem;
   padding:0.42rem 1.15rem;border-radius:50px;
   letter-spacing:0.08em;text-decoration:none;display:inline-block;
   transition:background 0.2s,border-color 0.2s;
 }
-#skip:hover{background:rgba(29,79,114,0.55);border-color:rgba(196,146,26,0.6);}
+#skip:hover{background:rgba(196,104,120,0.35);border-color:rgba(232,200,120,0.6);}
 
 
-/* ══════════════════════════════════════════════════
+/* ════════════════════════════════════════
    HERO SECTION
-   — Feel: standing at the Mediterranean coast at dusk
-══════════════════════════════════════════════════ */
+════════════════════════════════════════ */
 .hero{
   position:relative;height:100vh;min-height:580px;
   display:flex;align-items:center;justify-content:center;overflow:hidden;
@@ -67,247 +62,223 @@ body{font-family:'EB Garamond',serif;background:var(--dark);overflow-x:hidden;-w
 .hero-bg{
   position:absolute;inset:0;
   background:
-    /* warm ocean glow left */
-    radial-gradient(ellipse 60% 50% at 18% 55%, rgba(29,79,114,0.32) 0%,transparent 65%),
-    /* terracotta warmth right */
-    radial-gradient(ellipse 55% 45% at 82% 50%, rgba(192,98,42,0.18) 0%,transparent 60%),
-    /* golden horizon centre-bottom */
-    radial-gradient(ellipse 70% 35% at 50% 100%, rgba(196,146,26,0.14) 0%,transparent 55%),
-    /* deep night ocean base */
-    linear-gradient(168deg, #040c14 0%, #0d1f30 30%, #142838 60%, #080f18 100%);
+    radial-gradient(ellipse 60% 50% at 20% 55%, rgba(196,104,120,0.2)  0%,transparent 62%),
+    radial-gradient(ellipse 55% 45% at 80% 50%, rgba(192,120,64,0.14)  0%,transparent 60%),
+    radial-gradient(ellipse 70% 35% at 50% 100%,rgba(196,160,80,0.1)  0%,transparent 55%),
+    linear-gradient(168deg,#0a0604 0%,#1c1008 32%,#2a1a0e 62%,#0f0906 100%);
 }
-/* Subtle star/dot texture */
 .hero-dots{
   position:absolute;inset:0;
   background-image:
-    radial-gradient(circle at 1.5px 1.5px, rgba(196,146,26,0.07) 1px, transparent 0),
-    radial-gradient(circle at 14px 14px, rgba(93,173,226,0.04) 1px, transparent 0);
-  background-size:24px 24px, 48px 48px;
+    radial-gradient(circle at 1.5px 1.5px,rgba(196,160,80,0.07) 1px,transparent 0),
+    radial-gradient(circle at 14px 14px, rgba(196,104,120,0.04) 1px,transparent 0);
+  background-size:24px 24px,48px 48px;
 }
-/* Corner brackets */
+/* corner brackets */
 .hc{position:absolute;width:78px;height:78px;opacity:0.22;}
-.hc.tl{top:20px;left:20px; border-top:1.5px solid var(--gold);border-left:1.5px solid var(--gold);}
-.hc.tr{top:20px;right:20px;border-top:1.5px solid var(--gold);border-right:1.5px solid var(--gold);}
-.hc.bl{bottom:20px;left:20px; border-bottom:1.5px solid var(--gold);border-left:1.5px solid var(--gold);}
-.hc.br{bottom:20px;right:20px;border-bottom:1.5px solid var(--gold);border-right:1.5px solid var(--gold);}
+.hc.tl{top:20px;left:20px; border-top:1.5px solid var(--champ);border-left:1.5px solid var(--champ);}
+.hc.tr{top:20px;right:20px;border-top:1.5px solid var(--champ);border-right:1.5px solid var(--champ);}
+.hc.bl{bottom:20px;left:20px; border-bottom:1.5px solid var(--champ);border-left:1.5px solid var(--champ);}
+.hc.br{bottom:20px;right:20px;border-bottom:1.5px solid var(--champ);border-right:1.5px solid var(--champ);}
 
 .hero-content{
-  position:relative;z-index:10;
-  text-align:center;padding:2rem 1.5rem;max-width:720px;
+  position:relative;z-index:10;text-align:center;
+  padding:2rem 1.5rem;max-width:720px;
 }
 .h-glyph{
-  font-size:1.65rem;color:var(--gold);opacity:0.55;
+  font-size:1.65rem;color:var(--champ);opacity:0.6;
   letter-spacing:0.55em;margin-bottom:1.7rem;display:block;
 }
 .h-since{
   font-size:0.78rem;letter-spacing:0.22em;text-transform:uppercase;
-  color:rgba(196,146,26,0.65);margin-bottom:1.7rem;
+  color:rgba(196,160,80,0.62);margin-bottom:1.7rem;
 }
 .h-welcome{
   font-family:'EB Garamond',serif;font-style:italic;
   font-size:clamp(1.1rem,2.6vw,1.5rem);
-  color:rgba(93,173,226,0.78);margin-bottom:0.3rem;letter-spacing:0.04em;
+  color:rgba(232,160,176,0.82);margin-bottom:0.3rem;letter-spacing:0.04em;
 }
 .h-name{
   font-family:'Cinzel',serif;
   font-size:clamp(2.5rem,7.5vw,5.5rem);
-  color:#fff;line-height:1;font-weight:600;
-  letter-spacing:0.05em;margin-bottom:0.25rem;
+  color:#fff;line-height:1;font-weight:600;letter-spacing:0.05em;margin-bottom:0.25rem;
 }
 .h-bureau{
   font-family:'Cinzel',serif;
   font-size:clamp(0.92rem,2.9vw,1.55rem);
-  color:var(--terra2);letter-spacing:0.28em;text-transform:uppercase;margin-bottom:1.8rem;
+  color:var(--champ2);letter-spacing:0.28em;text-transform:uppercase;margin-bottom:1.8rem;
 }
 .h-rule{
   width:66px;height:1px;
-  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  background:linear-gradient(90deg,transparent,var(--champ),transparent);
   margin:0 auto 1.5rem;
 }
 .h-desc{
   font-size:clamp(0.92rem,2.1vw,1.12rem);
-  color:rgba(196,146,26,0.58);line-height:1.9;font-style:italic;margin-bottom:3rem;
+  color:rgba(196,160,80,0.58);line-height:1.9;font-style:italic;margin-bottom:3rem;
 }
 .scroll-hint{
   display:flex;flex-direction:column;align-items:center;gap:0.4rem;
-  color:rgba(93,173,226,0.45);font-size:0.78rem;letter-spacing:0.12em;
+  color:rgba(232,200,120,0.42);font-size:0.78rem;letter-spacing:0.12em;
 }
 .sa{font-size:1.3rem;animation:bY 1.65s ease-in-out infinite;}
 @keyframes bY{0%,100%{transform:translateY(0);}50%{transform:translateY(10px);}}
 
 
-/* ══════════════════════════════════════════════════
+/* ════════════════════════════════════════
    PARALLAX / ORBIT SECTION
-   — Feel: open coastal garden, afternoon light
-══════════════════════════════════════════════════ */
-.pxs{height:600vh;position:relative;}
+════════════════════════════════════════ */
+.parallax-section{height:600vh;position:relative;}
 
-.sticky{
+.sticky-container{
   position:sticky;top:0;height:100vh;
   display:flex;align-items:center;justify-content:center;overflow:hidden;
 }
-/* Airy outdoor-garden background */
+/* Warm ivory-cream background — airy & romantic */
 .sticky-bg{
   position:absolute;inset:0;
   background:
-    /* sky-blue at top */
-    radial-gradient(ellipse 100% 40% at 50% 0%, rgba(93,173,226,0.12) 0%,transparent 60%),
-    /* warm sage at edges */
-    radial-gradient(ellipse 30% 80% at 0%   50%, rgba(61,107,44,0.06) 0%,transparent 70%),
-    radial-gradient(ellipse 30% 80% at 100% 50%, rgba(61,107,44,0.06) 0%,transparent 70%),
-    /* warm terracotta glow at bottom */
-    radial-gradient(ellipse 60% 30% at 50% 100%, rgba(192,98,42,0.06) 0%,transparent 60%),
-    /* ivory base */
+    radial-gradient(ellipse 90% 50% at 50% 0%,  rgba(196,104,120,0.06) 0%,transparent 55%),
+    radial-gradient(ellipse 60% 30% at 50% 100%, rgba(192,120,64,0.06)  0%,transparent 55%),
+    radial-gradient(ellipse 30% 80% at 0%   50%, rgba(196,160,80,0.04)  0%,transparent 65%),
+    radial-gradient(ellipse 30% 80% at 100% 50%, rgba(196,160,80,0.04)  0%,transparent 65%),
     #fdf8ef;
 }
-/* Decorative orbit guide rings */
-.oring{
+/* Subtle decorative orbit guide rings */
+.o-ring{
   position:absolute;border-radius:50%;pointer-events:none;
-  border:1px solid rgba(29,79,114,0.08);
+  border:1px solid rgba(196,160,80,0.1);
 }
 
-.owrap{
+.orbit-wrapper{
   position:relative;width:100%;height:100%;
   display:flex;align-items:center;justify-content:center;
 }
 
-/* ── Couple photo centre piece ── */
-.couple{
-  position:relative;z-index:5;
-  display:flex;flex-direction:column;align-items:center;
+
+/* ── COUPLE CONTAINER — z-index:5 is critical (sits between back & front boxes) ── */
+.couple-container{
+  position:relative;
+  z-index:5;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
   pointer-events:none;
 }
-/* Soft golden halo */
-.couple-halo{
+/* Soft warm glow behind the photo */
+.couple-glow{
   position:absolute;
-  width:calc(100% + 60px);height:calc(100% + 80px);
-  top:-40px;left:-30px;
-  border-radius:50%;
-  background:radial-gradient(ellipse at 50% 42%,rgba(196,146,26,0.1),transparent 68%);
-  pointer-events:none;z-index:0;
+  inset:-28px;
+  border-radius:20px;
+  background:radial-gradient(ellipse at 50% 50%,rgba(196,160,80,0.14),transparent 70%);
+  pointer-events:none;z-index:0;filter:blur(12px);
 }
-.couple-frame{
+/* Full photo — no crop, no oval */
+.couple-photo{
   position:relative;z-index:1;
-  width:clamp(170px,17vw,235px);
-  aspect-ratio:2/3;
-  /* Oval portrait — matches classic wedding portrait style */
-  border-radius:50% 50% 46% 46% / 36% 36% 58% 58%;
-  overflow:hidden;
-  box-shadow:
-    0 0 0 3px rgba(196,146,26,0.5),
-    0 0 0 7px rgba(196,146,26,0.12),
-    0 0 0 8px rgba(29,79,114,0.1),
-    0 12px 55px rgba(7,15,24,0.28),
-    0 4px 16px rgba(7,15,24,0.14);
-}
-.couple-img{
-  width:100%;height:100%;
-  object-fit:cover;
-  /* Couple is centre-right of the landscape photo, upper portion */
-  /* Adjust these two values if the crop feels off:
-     First  = horizontal (0%=left … 100%=right)
-     Second = vertical   (0%=top  … 100%=bottom) */
-  object-position:50% 14%;
-  /* Zoom in so the couple fills the oval */
-  transform:scale(1.55);
-  transform-origin:50% 14%;
+  width:clamp(240px,24vw,320px);
+  height:auto;
   display:block;
+  border-radius:16px;
+  /* Layered border: champagne gold inner + soft blush outer */
+  box-shadow:
+    0 0 0 2.5px rgba(196,160,80,0.55),
+    0 0 0 6px   rgba(196,160,80,0.12),
+    0 0 0 7px   rgba(196,104,120,0.1),
+    0 12px 60px rgba(15,9,6,0.32),
+    0 4px 18px  rgba(15,9,6,0.16);
 }
 .couple-lbl{
   margin-top:0.9rem;font-family:'Cinzel',serif;
-  font-size:0.7rem;color:var(--ocean);letter-spacing:0.18em;opacity:0.5;
+  font-size:0.7rem;color:var(--blush);letter-spacing:0.18em;opacity:0.55;
 }
 
-/* ── Info boxes ── */
-.ibox{
+/* ── INFO BOXES ── */
+.info-box{
   position:absolute;
-  width:clamp(138px,13.5vw,196px);
+  width:clamp(140px,13.5vw,194px);
   background:rgba(253,248,239,0.93);
-  border:1.5px solid rgba(196,146,26,0.45);
+  border:1.5px solid rgba(196,160,80,0.45);
   border-radius:14px;
   padding:0.95rem 1.05rem;
   text-align:center;opacity:0;
-  box-shadow:
-    0 4px 22px rgba(7,15,24,0.07),
-    0 1px 6px rgba(29,79,114,0.06);
+  box-shadow:0 4px 22px rgba(15,9,6,0.07),0 1px 6px rgba(196,104,120,0.06);
   pointer-events:none;
   will-change:transform,opacity,filter;
   backdrop-filter:blur(8px);
 }
-.ii{font-size:1.55rem;display:block;margin-bottom:0.4rem;line-height:1;}
-.it{
+.info-box .ib-icon{font-size:1.55rem;display:block;margin-bottom:0.4rem;line-height:1;}
+.info-box .ib-title{
   font-family:'Playfair Display',serif;
-  font-size:0.86rem;color:var(--ocean);font-weight:700;
+  font-size:0.86rem;color:var(--blush);font-weight:700;
   margin-bottom:0.25rem;line-height:1.3;
 }
-.id{font-size:0.74rem;color:var(--muted);line-height:1.5;font-style:italic;}
+.info-box .ib-text{font-size:0.74rem;color:var(--muted);line-height:1.5;font-style:italic;}
 
-/* Bottom scroll hint */
-.slbl{
+/* bottom hint */
+.s-label{
   position:absolute;bottom:1.7rem;left:50%;transform:translateX(-50%);
   z-index:20;pointer-events:none;text-align:center;
 }
-.slbl p{font-size:0.72rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;opacity:0.38;}
+.s-label p{font-size:0.72rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;opacity:0.38;}
 
 
-/* ══════════════════════════════════════════════════
+/* ════════════════════════════════════════
    CTA SECTION
-══════════════════════════════════════════════════ */
-.cta{
+════════════════════════════════════════ */
+.cta-section{
   min-height:100vh;display:flex;align-items:center;justify-content:center;
-  background:linear-gradient(168deg,#04090f 0%,#0d1f30 38%,#142838 68%,#080f18 100%);
+  background:linear-gradient(168deg,#0a0604 0%,#1c1008 38%,#2a1a0e 68%,#0f0906 100%);
   position:relative;overflow:hidden;
 }
 .cta-rings{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
-.cr{position:absolute;border-radius:50%;border:1px solid rgba(196,146,26,0.055);}
+.cr{position:absolute;border-radius:50%;border:1px solid rgba(196,160,80,0.06);}
 .cta-glow{
   position:absolute;
-  background:radial-gradient(ellipse,rgba(29,79,114,0.1) 0%,transparent 65%);
+  background:radial-gradient(ellipse,rgba(196,104,120,0.08) 0%,transparent 65%);
   width:700px;height:700px;border-radius:50%;
 }
 .cta-content{
   position:relative;z-index:10;text-align:center;padding:3rem 2rem;max-width:570px;
 }
-.co{font-size:2.5rem;display:block;margin-bottom:1.5rem;}
-.ct{
+.cta-orn{font-size:2.5rem;display:block;margin-bottom:1.5rem;}
+.cta-title{
   font-family:'Playfair Display',serif;
   font-size:clamp(1.9rem,5vw,3.5rem);
   color:#fff;line-height:1.22;margin-bottom:0.5rem;
 }
-.ct em{color:var(--terra2);font-style:italic;}
-.cs{
+.cta-title em{color:var(--champ2);font-style:italic;}
+.cta-sub{
   font-size:clamp(0.96rem,2.2vw,1.16rem);
-  color:rgba(196,146,26,0.65);line-height:1.88;font-style:italic;margin-bottom:2.8rem;
+  color:rgba(196,160,80,0.62);line-height:1.88;font-style:italic;margin-bottom:2.8rem;
 }
-.cb{
+.cta-btn{
   display:inline-block;padding:1.05rem 3rem;
-  background:linear-gradient(135deg,var(--ocean),var(--ocean2));
+  background:linear-gradient(135deg,var(--blush),var(--terra));
   color:#fff;text-decoration:none;
   font-family:'Cinzel',serif;font-size:0.96rem;letter-spacing:0.1em;
-  border-radius:50px;
-  box-shadow:0 4px 30px rgba(29,79,114,0.4);
-  transition:transform 0.25s,box-shadow 0.25s;
-  position:relative;overflow:hidden;
+  border-radius:50px;box-shadow:0 4px 30px rgba(196,104,120,0.38);
+  transition:transform 0.25s,box-shadow 0.25s;position:relative;overflow:hidden;
 }
-.cb::before{content:'';position:absolute;inset:0;border-radius:50px;background:linear-gradient(135deg,rgba(255,255,255,0.1),transparent);}
-.cb:hover{transform:translateY(-3px);box-shadow:0 8px 42px rgba(29,79,114,0.55);}
-.ch{margin-top:1.7rem;font-size:0.75rem;color:rgba(196,146,26,0.3);letter-spacing:0.08em;}
+.cta-btn::before{content:'';position:absolute;inset:0;border-radius:50px;background:linear-gradient(135deg,rgba(255,255,255,0.1),transparent);}
+.cta-btn:hover{transform:translateY(-3px);box-shadow:0 8px 42px rgba(196,104,120,0.52);}
+.cta-hint{margin-top:1.7rem;font-size:0.75rem;color:rgba(196,160,80,0.3);letter-spacing:0.08em;}
 
-/* double-tap ripple */
-.ripple{
+/* ripple */
+.tap-ripple{
   position:fixed;border-radius:50%;pointer-events:none;
-  border:2px solid rgba(29,79,114,0.55);transform:scale(0);z-index:9999;
+  border:2px solid rgba(196,160,80,0.55);transform:scale(0);z-index:9999;
 }
 
 /* ── Responsive ── */
 @media(max-width:640px){
   .hc{width:44px;height:44px;}
-  .oring{display:none;}
-  .ibox{width:118px;padding:0.65rem 0.75rem;}
-  .ii{font-size:1.25rem;}
-  .it{font-size:0.74rem;}
-  .id{font-size:0.64rem;}
-  .couple-frame{width:clamp(130px,36vw,170px);}
+  .o-ring{display:none;}
+  .info-box{width:118px;padding:0.65rem 0.75rem;}
+  .info-box .ib-icon{font-size:1.25rem;}
+  .info-box .ib-title{font-size:0.74rem;}
+  .info-box .ib-text{font-size:0.64rem;}
+  .couple-photo{width:clamp(150px,40vw,210px);}
 }
 </style>
 </head>
@@ -317,9 +288,9 @@ body{font-family:'EB Garamond',serif;background:var(--dark);overflow-x:hidden;-w
 <a href="./index.html" id="skip" onclick="sessionStorage.setItem('nrmb_lp','1')">Enter Site ›</a>
 
 
-<!-- ══════════════════════════════════════════════════
+<!-- ══════════════════════════════════════════
      HERO
-══════════════════════════════════════════════════ -->
+══════════════════════════════════════════ -->
 <section class="hero" id="hero">
   <div class="hero-bg"></div>
   <div class="hero-dots"></div>
@@ -345,89 +316,82 @@ body{font-family:'EB Garamond',serif;background:var(--dark);overflow-x:hidden;-w
 </section>
 
 
-<!-- ══════════════════════════════════════════════════
+<!-- ══════════════════════════════════════════
      PARALLAX ORBIT SECTION
-══════════════════════════════════════════════════ -->
-<section class="pxs" id="pxs">
-  <div class="sticky">
+══════════════════════════════════════════ -->
+<section class="parallax-section" id="parallaxSection">
+  <div class="sticky-container">
     <div class="sticky-bg"></div>
-    <div class="oring" style="width:560px;height:560px;"></div>
-    <div class="oring" style="width:840px;height:840px;"></div>
+    <div class="o-ring" style="width:560px;height:560px;"></div>
+    <div class="o-ring" style="width:840px;height:840px;"></div>
 
-    <div class="owrap">
+    <div class="orbit-wrapper">
 
-      <!-- INFO BOXES — orbit around the couple -->
-      <div class="ibox" id="ib0">
-        <span class="ii">🕊️</span>
-        <div class="it">Trusted Matchmaking</div>
-        <div class="id">Where hearts find their perfect match with dignity</div>
+      <!-- INFO BOXES -->
+      <div class="info-box">
+        <span class="ib-icon">🕊️</span>
+        <div class="ib-title">Trusted Matchmaking</div>
+        <div class="ib-text">Where hearts find their perfect match with dignity</div>
       </div>
-      <div class="ibox" id="ib1">
-        <span class="ii">💍</span>
-        <div class="it">Est. 2000</div>
-        <div class="id">Two decades of bringing families together</div>
+      <div class="info-box">
+        <span class="ib-icon">💍</span>
+        <div class="ib-title">Est. 2000</div>
+        <div class="ib-text">Two decades of bringing families together</div>
       </div>
-      <div class="ibox" id="ib2">
-        <span class="ii">✨</span>
-        <div class="it">500+ Matches</div>
-        <div class="id">Successful unions across generations</div>
+      <div class="info-box">
+        <span class="ib-icon">✨</span>
+        <div class="ib-title">500+ Matches</div>
+        <div class="ib-text">Successful unions across generations</div>
       </div>
-      <div class="ibox" id="ib3">
-        <span class="ii">🏛️</span>
-        <div class="it">Multiple Branches</div>
-        <div class="id">Serving Hyderabad, Nalgonda, Suryapet &amp; beyond</div>
+      <div class="info-box">
+        <span class="ib-icon">🏛️</span>
+        <div class="ib-title">Multiple Branches</div>
+        <div class="ib-text">Serving Hyderabad, Nalgonda, Suryapet &amp; beyond</div>
       </div>
-      <div class="ibox" id="ib4">
-        <span class="ii">🔒</span>
-        <div class="it">100% Confidential</div>
-        <div class="id">Your privacy is our most sacred commitment</div>
+      <div class="info-box">
+        <span class="ib-icon">🔒</span>
+        <div class="ib-title">100% Confidential</div>
+        <div class="ib-text">Your privacy is our most sacred commitment</div>
       </div>
-      <div class="ibox" id="ib5">
-        <span class="ii">👨‍👩‍👧‍👦</span>
-        <div class="it">1000+ Families</div>
-        <div class="id">Trusted across Telangana &amp; Andhra Pradesh</div>
+      <div class="info-box">
+        <span class="ib-icon">👨‍👩‍👧‍👦</span>
+        <div class="ib-title">1000+ Families</div>
+        <div class="ib-text">Trusted across Telangana &amp; Andhra Pradesh</div>
       </div>
-      <div class="ibox" id="ib6">
-        <span class="ii">🌟</span>
-        <div class="it">Elite Membership</div>
-        <div class="id">VIP · VVIP · Elite — tailored to your needs</div>
+      <div class="info-box">
+        <span class="ib-icon">🌟</span>
+        <div class="ib-title">Elite Membership</div>
+        <div class="ib-text">VIP · VVIP · Elite — tailored to your needs</div>
       </div>
-      <div class="ibox" id="ib7">
-        <span class="ii">❤️</span>
-        <div class="it">Your Journey Awaits</div>
-        <div class="id">Register today and find your perfect partner</div>
+      <div class="info-box">
+        <span class="ib-icon">❤️</span>
+        <div class="ib-title">Your Journey Awaits</div>
+        <div class="ib-text">Register today and find your perfect partner</div>
       </div>
 
 
-      <!-- COUPLE PHOTO — z-index:5, always centre -->
-      <div class="couple">
-        <div class="couple-halo"></div>
-        <div class="couple-frame">
-          <!--
-            ACTION REQUIRED:
-            Save the couple photo as  Website/couple.jpg
-            The CSS will auto-zoom and centre the couple in this oval.
-          -->
-          <img
-            src="./couple.jpg"
-            class="couple-img"
-            alt="couple"
-            onerror="this.parentElement.style.background='linear-gradient(160deg,#1b4f72,#2e86c1)';this.style.display='none';"
-          >
-        </div>
+      <!-- COUPLE PHOTO — z-index:5 (in CSS above), centre of everything -->
+      <div class="couple-container">
+        <div class="couple-glow"></div>
+        <img
+          src="./couple.jpg"
+          class="couple-photo"
+          alt="couple"
+          onerror="this.style.display='none';"
+        >
         <div class="couple-lbl">❧ &nbsp;N R M B&nbsp; ❧</div>
       </div>
 
-    </div><!-- /owrap -->
-    <div class="slbl"><p>Keep scrolling</p></div>
+    </div><!-- /orbit-wrapper -->
+    <div class="s-label"><p>Keep scrolling</p></div>
   </div>
 </section>
 
 
-<!-- ══════════════════════════════════════════════════
+<!-- ══════════════════════════════════════════
      CTA SECTION
-══════════════════════════════════════════════════ -->
-<section class="cta" id="cta">
+══════════════════════════════════════════ -->
+<section class="cta-section" id="ctaSection">
   <div class="cta-rings">
     <div class="cr" style="width:250px;height:250px;"></div>
     <div class="cr" style="width:450px;height:450px;"></div>
@@ -436,24 +400,24 @@ body{font-family:'EB Garamond',serif;background:var(--dark);overflow-x:hidden;-w
   </div>
   <div class="cta-glow"></div>
   <div class="cta-content">
-    <span class="co">💑</span>
-    <h2 class="ct">Begin Your<br><em>Journey Together</em></h2>
-    <p class="cs">
+    <span class="cta-orn">💑</span>
+    <h2 class="cta-title">Begin Your<br><em>Journey Together</em></h2>
+    <p class="cta-sub">
       Every great love story has a beginning.<br>
       Let Naveen Reddy Marriage Bureau write yours.
     </p>
-    <a href="./index.html" class="cb"
+    <a href="./index.html" class="cta-btn"
        onclick="sessionStorage.setItem('nrmb_lp','1')">
       Enter the Bureau &nbsp;&nbsp;→
     </a>
-    <p class="ch">Double-tap anywhere to skip straight in</p>
+    <p class="cta-hint">Double-tap anywhere to skip straight in</p>
   </div>
 </section>
 
 
-<!-- ══════════════════════════════════════════════════════════════
-     ANIMATION SCRIPT
-══════════════════════════════════════════════════════════════ -->
+<!-- ════════════════════════════════════════════════
+     SCRIPTS
+════════════════════════════════════════════════ -->
 <script>
 gsap.registerPlugin(ScrollTrigger);
 
@@ -476,89 +440,88 @@ gsap.timeline({delay:0.2})
   .from('.hc',{opacity:0,scale:0.4,stagger:0.08,duration:0.4},          0.3);
 
 
-/* ════════════════════════════════════════════════════════════════
-   3-D ORBIT ANIMATION
-   ── The ORIGINAL circular-orbit logic from the brief ──
-   Boxes revolve around the couple from TOP to BOTTOM:
-     xPos = sin(progress × 2π) × radius       left↔right orbital swing
-     yPos = −halfRange + (progress × range)    top→bottom travel
-     scale= 0.8 + cos(progress × 2π) × 0.2    depth in/out
-   When cos < 0 the box is "behind" the couple (blurred, dimmed).
-════════════════════════════════════════════════════════════════ */
-const boxes  = document.querySelectorAll('.ibox');
-const mobile = window.innerWidth < 640;
-const RADIUS = mobile ? 210 : 360;   // horizontal orbital radius
-const VRANGE = mobile ? 420 : 580;   // total vertical travel (top → bottom)
+/* ══════════════════════════════════════════════════════
+   3-D ORBIT — EXACT original code from the brief
+   .couple-container has z-index:5 in CSS (between layers)
+══════════════════════════════════════════════════════ */
+gsap.set('.info-box', {opacity:0, x:0, y:0, scale:0.85});
 
-gsap.set(boxes,{opacity:0,x:0,y:0,scale:0.85});
+const boxes = document.querySelectorAll('.info-box');
 
 const tl = gsap.timeline({
-  scrollTrigger:{
-    trigger:'#pxs',
-    start:'top top',
-    end:'bottom bottom',
-    scrub:1.5,
-  }
+    scrollTrigger: {
+        trigger: ".parallax-section",
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 1.5,
+    }
 });
 
 boxes.forEach((box, i) => {
-  tl.to(box, {
-    duration: 2,
-    ease: 'none',
-    onUpdate: function () {
-      const progress = this.progress();                 // 0 → 1
+    const delay = i * 0.3; // Stagger the boxes
 
-      // ── THE ORIGINAL ORBIT MATH ──
-      const xPos  = Math.sin(progress * Math.PI * 2) * RADIUS;
-      const yPos  = -(VRANGE * 0.5) + (progress * VRANGE);
-      const scale = 0.80 + Math.cos(progress * Math.PI * 2) * 0.20;
+    tl.to(box, {
+        duration: 2,
+        ease: "none",
+        onUpdate: function() {
+            // Progress goes from 0 to 1
+            let progress = this.progress();
 
-      // Layer switching: behind couple vs in front
-      const behind = Math.cos(progress * Math.PI * 2) < 0;
-      box.style.zIndex = behind ? '2' : '10';
-      box.style.filter = behind
-        ? 'blur(2px) brightness(0.58)'
-        : 'blur(0px) brightness(1)';
+            // SPIRAL MATH
+            // x moves in a sine wave (left to right to left)
+            // z moves in a cosine wave (large to small)
+            const xPos = Math.sin(progress * Math.PI * 2) * 400;
+            const yPos = -500 + (progress * 1000); // Moves from top to bottom
+            const scale = 0.8 + Math.cos(progress * Math.PI * 2) * 0.2;
 
-      gsap.set(box, {
-        x:       xPos,
-        y:       yPos,
-        scale:   scale,
-        opacity: progress < 0.06 || progress > 0.94 ? 0 : 1,
-      });
-    }
-  }, i * 0.32);   // stagger: each box starts a bit after the previous
+            // LAYER SWITCHING
+            // If Cosine is negative, the box is in the "back" half of the circle
+            if (Math.cos(progress * Math.PI * 2) < 0) {
+                box.style.zIndex = "1"; // Behind the couple
+                box.style.filter = "blur(2px) brightness(0.8)";
+            } else {
+                box.style.zIndex = "10"; // In front of the couple
+                box.style.filter = "blur(0px) brightness(1)";
+            }
+
+            gsap.set(box, {
+                x: xPos,
+                y: yPos,
+                scale: scale,
+                opacity: progress < 0.1 || progress > 0.9 ? 0 : 1
+            });
+        }
+    }, delay);
 });
 
 
 /* ── CTA entrance ── */
-gsap.from('.co',{scrollTrigger:{trigger:'#cta',start:'top 78%'},scale:0,opacity:0,duration:0.85,ease:'back.out(1.7)'});
-gsap.from('.ct', {scrollTrigger:{trigger:'#cta',start:'top 74%'},y:36,opacity:0,duration:0.9,ease:'power3.out',delay:0.18});
-gsap.from('.cs', {scrollTrigger:{trigger:'#cta',start:'top 70%'},y:20,opacity:0,duration:0.8,ease:'power2.out',delay:0.42});
-gsap.from('.cb', {scrollTrigger:{trigger:'#cta',start:'top 66%'},scale:0.75,opacity:0,duration:0.65,ease:'back.out(2)',delay:0.62});
+gsap.from('.cta-orn',  {scrollTrigger:{trigger:'#ctaSection',start:'top 78%'},scale:0,opacity:0,duration:0.85,ease:'back.out(1.7)'});
+gsap.from('.cta-title',{scrollTrigger:{trigger:'#ctaSection',start:'top 74%'},y:36,opacity:0,duration:0.9,ease:'power3.out',delay:0.18});
+gsap.from('.cta-sub',  {scrollTrigger:{trigger:'#ctaSection',start:'top 70%'},y:20,opacity:0,duration:0.8,ease:'power2.out',delay:0.42});
+gsap.from('.cta-btn',  {scrollTrigger:{trigger:'#ctaSection',start:'top 66%'},scale:0.75,opacity:0,duration:0.65,ease:'back.out(2)',delay:0.62});
 
 
 /* ── DOUBLE-TAP / DOUBLE-CLICK TO SKIP ── */
 let lastT = 0;
 
-function ripple(x, y) {
+function doRipple(x, y) {
   const r = document.createElement('div');
-  r.className = 'ripple';
-  r.style.cssText = `width:60px;height:60px;left:${x-30}px;top:${y-30}px;`;
+  r.className = 'tap-ripple';
+  r.style.cssText = `width:62px;height:62px;left:${x-31}px;top:${y-31}px;`;
   document.body.appendChild(r);
   gsap.fromTo(r,{scale:0,opacity:0.85},{scale:5,opacity:0,duration:0.6,ease:'power2.out',onComplete:()=>r.remove()});
 }
-function go() {
+function goSite() {
   sessionStorage.setItem('nrmb_lp','1');
   gsap.to('body',{opacity:0,duration:0.3,ease:'power2.in',onComplete:()=>{window.location.href='./index.html';}});
 }
-
 document.addEventListener('touchend',function(e){
   const now=Date.now();
-  if(now-lastT<330){ripple(e.changedTouches[0].clientX,e.changedTouches[0].clientY);setTimeout(go,380);}
+  if(now-lastT<330){doRipple(e.changedTouches[0].clientX,e.changedTouches[0].clientY);setTimeout(goSite,380);}
   lastT=now;
 });
-document.addEventListener('dblclick',function(e){ripple(e.clientX,e.clientY);setTimeout(go,380);});
+document.addEventListener('dblclick',function(e){doRipple(e.clientX,e.clientY);setTimeout(goSite,380);});
 
 let rt;
 window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>ScrollTrigger.refresh(),250);});
