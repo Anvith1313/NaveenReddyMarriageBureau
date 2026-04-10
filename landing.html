@@ -10,138 +10,145 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <style>
 :root{
-  --gold:#7c3d52;--gold2:#a0445e;--gold3:#c87090;
-  --dark:#1a0f00;--dark2:#2c1018;--dark3:#3d1f2a;
-  --cream:#fdf8f0;--offwhite:#fefcf8;--warm:#f0e4d0;
-  --muted:#6b5340;--border:#d4b896;--border2:rgba(212,184,150,0.3);
+  /* Brand */
+  --rose:#7c3d52; --rose2:#a0445e; --rose3:#c87090;
+  /* Warm neutrals — matched to the couple photo (golden hour, Mediterranean) */
+  --amber:#c4782a; --amber2:#e8a040; --amber3:#f5d080;
+  --dark:#180c04; --dark2:#2a1008; --dark3:#3c1c10;
+  --cream:#fdf7ee; --offwhite:#fefaf4; --warm:#f0e4cc;
+  --muted:#7a5c3a; --border:#d4b070; --border2:rgba(212,176,112,0.28);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{
-  font-family:'EB Garamond',serif;
-  background:var(--dark);
-  overflow-x:hidden;
-  -webkit-font-smoothing:antialiased;
-  cursor:default;
-}
+body{font-family:'EB Garamond',serif;background:var(--dark);overflow-x:hidden;-webkit-font-smoothing:antialiased;}
 
-/* ─── SCROLL PROGRESS ─── */
+/* ─── PROGRESS BAR ─── */
 #progressBar{
-  position:fixed;top:0;left:0;height:2.5px;width:0%;
-  background:linear-gradient(90deg,var(--gold),var(--gold2),var(--gold3));
-  z-index:9999;transition:width 0.08s linear;
+  position:fixed;top:0;left:0;height:2.5px;width:0%;z-index:9999;
+  background:linear-gradient(90deg,var(--rose),var(--amber),var(--amber2),var(--rose2));
+  transition:width 0.08s linear;
 }
 
 /* ─── SKIP PILL ─── */
 #skipPill{
-  position:fixed;top:1.2rem;right:1.4rem;z-index:9998;
-  background:rgba(44,16,24,0.75);backdrop-filter:blur(10px);
+  position:fixed;top:1.1rem;right:1.3rem;z-index:9998;
+  background:rgba(30,12,4,0.72);backdrop-filter:blur(12px);
   border:1px solid var(--border2);
   color:var(--border);font-family:'EB Garamond',serif;font-size:0.82rem;
-  padding:0.45rem 1.1rem;border-radius:50px;
-  cursor:pointer;letter-spacing:0.08em;
+  padding:0.42rem 1.1rem;border-radius:50px;
+  cursor:pointer;letter-spacing:0.08em;text-decoration:none;display:inline-block;
   transition:background 0.2s,border-color 0.2s;
-  text-decoration:none;display:inline-block;
 }
-#skipPill:hover{background:rgba(124,61,82,0.6);border-color:rgba(212,184,150,0.6);}
+#skipPill:hover{background:rgba(124,61,82,0.55);border-color:rgba(212,176,112,0.6);}
 
 
-/* ════════════════════════════════════════
+/* ══════════════════════════════════════
    HERO SECTION
-════════════════════════════════════════ */
+══════════════════════════════════════ */
 .hero-section{
   position:relative;height:100vh;min-height:580px;
-  display:flex;align-items:center;justify-content:center;
-  overflow:hidden;background:var(--dark2);
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
 }
+/* Warm amber-sienna background — echoes the golden-hour outdoor feel */
 .hero-bg{
   position:absolute;inset:0;
   background:
-    radial-gradient(ellipse 70% 60% at 25% 50%, rgba(160,68,94,0.22) 0%,transparent 65%),
-    radial-gradient(ellipse 70% 60% at 75% 50%, rgba(124,61,82,0.2) 0%,transparent 65%),
-    radial-gradient(ellipse 80% 40% at 50% 0%,  rgba(44,16,24,0.9)  0%,transparent 60%),
-    linear-gradient(165deg,#140a04 0%,#2c1018 40%,#3d1f2a 70%,#1a0f00 100%);
+    radial-gradient(ellipse 65% 55% at 22% 50%, rgba(196,120,42,0.18) 0%,transparent 62%),
+    radial-gradient(ellipse 65% 55% at 78% 50%, rgba(124,61,82,0.18) 0%,transparent 62%),
+    radial-gradient(ellipse 90% 45% at 50% 0%,  rgba(24,12,4,0.95)  0%,transparent 55%),
+    linear-gradient(162deg,#130802 0%,#2a1008 35%,#3c1e10 65%,#180c04 100%);
 }
+/* Warm dot matrix overlay */
 .hero-pattern{
-  position:absolute;inset:0;opacity:1;
-  background-image:
-    radial-gradient(circle at 1.5px 1.5px, rgba(212,184,150,0.055) 1px, transparent 0);
-  background-size:28px 28px;
+  position:absolute;inset:0;
+  background-image:radial-gradient(circle at 1.5px 1.5px, rgba(212,176,112,0.06) 1px, transparent 0);
+  background-size:26px 26px;
 }
-/* corner brackets */
-.hc{position:absolute;width:90px;height:90px;opacity:0.25;}
-.hc.tl{top:22px;left:22px; border-top:1.5px solid var(--border);border-left:1.5px solid var(--border);}
-.hc.tr{top:22px;right:22px;border-top:1.5px solid var(--border);border-right:1.5px solid var(--border);}
-.hc.bl{bottom:22px;left:22px; border-bottom:1.5px solid var(--border);border-left:1.5px solid var(--border);}
-.hc.br{bottom:22px;right:22px;border-bottom:1.5px solid var(--border);border-right:1.5px solid var(--border);}
+/* Diagonal warm light sweep */
+.hero-sweep{
+  position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(115deg,transparent 30%,rgba(196,120,42,0.04) 50%,transparent 70%);
+}
+/* Corner brackets */
+.hc{position:absolute;width:80px;height:80px;opacity:0.2;}
+.hc.tl{top:20px;left:20px; border-top:1.5px solid var(--border);border-left:1.5px solid var(--border);}
+.hc.tr{top:20px;right:20px;border-top:1.5px solid var(--border);border-right:1.5px solid var(--border);}
+.hc.bl{bottom:20px;left:20px; border-bottom:1.5px solid var(--border);border-left:1.5px solid var(--border);}
+.hc.br{bottom:20px;right:20px;border-bottom:1.5px solid var(--border);border-right:1.5px solid var(--border);}
 
 .hero-content{
-  position:relative;z-index:10;
-  text-align:center;padding:2rem 1.5rem;max-width:720px;
+  position:relative;z-index:10;text-align:center;
+  padding:2rem 1.5rem;max-width:720px;
 }
 .h-glyph{
-  font-size:1.8rem;color:var(--border);opacity:0.6;
-  letter-spacing:0.6em;margin-bottom:1.8rem;display:block;
+  font-size:1.7rem;color:var(--border);opacity:0.58;
+  letter-spacing:0.55em;margin-bottom:1.7rem;display:block;
 }
 .h-since{
-  font-size:0.78rem;color:var(--border);opacity:0.7;
-  letter-spacing:0.22em;text-transform:uppercase;margin-bottom:1.8rem;
+  font-size:0.78rem;color:var(--border);opacity:0.65;
+  letter-spacing:0.22em;text-transform:uppercase;margin-bottom:1.7rem;
 }
 .h-welcome{
   font-family:'EB Garamond',serif;font-style:italic;
-  font-size:clamp(1.15rem,2.8vw,1.6rem);
-  color:rgba(212,184,150,0.85);margin-bottom:0.4rem;
-  letter-spacing:0.04em;
+  font-size:clamp(1.1rem,2.6vw,1.55rem);
+  color:rgba(212,176,112,0.82);margin-bottom:0.35rem;letter-spacing:0.04em;
 }
 .h-name{
   font-family:'Cinzel',serif;
-  font-size:clamp(2.6rem,8vw,5.8rem);
-  color:#fff;line-height:1;font-weight:600;
-  letter-spacing:0.04em;margin-bottom:0.3rem;
+  font-size:clamp(2.5rem,7.5vw,5.6rem);
+  color:#fff;line-height:1;font-weight:600;letter-spacing:0.05em;margin-bottom:0.28rem;
 }
 .h-bureau{
   font-family:'Cinzel',serif;
-  font-size:clamp(1rem,3.2vw,1.7rem);
-  color:var(--gold2);letter-spacing:0.28em;
-  text-transform:uppercase;margin-bottom:1.8rem;
+  font-size:clamp(0.95rem,3vw,1.6rem);
+  color:var(--rose2);letter-spacing:0.28em;text-transform:uppercase;margin-bottom:1.8rem;
 }
 .h-rule{
-  width:70px;height:1px;
+  width:68px;height:1px;
   background:linear-gradient(90deg,transparent,var(--border),transparent);
-  margin:0 auto 1.6rem;
+  margin:0 auto 1.5rem;
 }
 .h-desc{
-  font-size:clamp(0.95rem,2.2vw,1.15rem);
-  color:rgba(212,184,150,0.65);line-height:1.9;
-  font-style:italic;margin-bottom:3rem;
+  font-size:clamp(0.92rem,2.1vw,1.12rem);
+  color:rgba(212,176,112,0.6);line-height:1.9;font-style:italic;margin-bottom:3rem;
 }
 .scroll-hint{
   display:flex;flex-direction:column;align-items:center;gap:0.4rem;
-  color:var(--border);opacity:0.5;font-size:0.8rem;letter-spacing:0.12em;
+  color:var(--border);opacity:0.45;font-size:0.79rem;letter-spacing:0.12em;
 }
-.scroll-arrow{font-size:1.3rem;animation:bounceY 1.6s ease-in-out infinite;}
-@keyframes bounceY{0%,100%{transform:translateY(0);}50%{transform:translateY(9px);}}
+.scroll-arrow{font-size:1.3rem;animation:bounceY 1.65s ease-in-out infinite;}
+@keyframes bounceY{0%,100%{transform:translateY(0);}50%{transform:translateY(10px);}}
 
 
-/* ════════════════════════════════════════
+/* ══════════════════════════════════════
    PARALLAX / ORBIT SECTION
-════════════════════════════════════════ */
+══════════════════════════════════════ */
 .parallax-section{height:600vh;position:relative;}
 
 .sticky-container{
   position:sticky;top:0;height:100vh;
   display:flex;align-items:center;justify-content:center;
-  background:var(--offwhite);overflow:hidden;
+  overflow:hidden;
 }
+/* Warm airy background — matches the outdoor coastal scene of the photo */
 .sticky-bg{
   position:absolute;inset:0;
-  background:radial-gradient(ellipse 80% 70% at 50% 55%,
-    rgba(240,228,208,0.9) 0%, rgba(254,252,248,1) 70%);
+  background:
+    radial-gradient(ellipse 90% 75% at 50% 50%, #fdf7ee 0%, #f5e8cc 60%, #eddbb8 100%);
 }
-/* Soft orbit guide rings */
+/* Subtle warm light rays */
+.sticky-rays{
+  position:absolute;inset:0;pointer-events:none;
+  background:conic-gradient(from 200deg at 50% 40%,
+    transparent 0deg,rgba(232,160,64,0.04) 15deg,transparent 30deg,
+    transparent 60deg,rgba(212,176,112,0.04) 75deg,transparent 90deg,
+    transparent 150deg,rgba(196,120,42,0.03) 165deg,transparent 180deg,
+    transparent 270deg,rgba(212,176,112,0.03) 285deg,transparent 300deg);
+}
+/* Decorative guide rings */
 .o-ring{
   position:absolute;border-radius:50%;
-  border:1px solid rgba(124,61,82,0.08);
+  border:1px solid rgba(196,120,42,0.1);pointer-events:none;
 }
 
 .orbit-wrapper{
@@ -149,140 +156,173 @@ body{
   display:flex;align-items:center;justify-content:center;
 }
 
-/* ── Couple silhouette ── */
+/* ── Couple photo ── */
 .couple-container{
   position:relative;z-index:5;
   display:flex;flex-direction:column;align-items:center;
   pointer-events:none;
 }
-.couple-svg{
-  width:clamp(160px,18vw,240px);height:auto;
-  filter:drop-shadow(0 6px 22px rgba(124,61,82,0.18));
+
+/* Outer glow ring */
+.couple-glow{
+  position:absolute;
+  width:calc(100% + 40px);height:calc(100% + 40px);
+  top:-20px;left:-20px;
+  border-radius:50% 50% 46% 46% / 38% 38% 62% 62%;
+  background:radial-gradient(ellipse at 50% 40%,rgba(196,120,42,0.12),transparent 70%);
+  pointer-events:none;z-index:0;
 }
+
+.couple-frame{
+  position:relative;z-index:1;
+  width:clamp(180px,19vw,250px);
+  aspect-ratio:2/3;
+  border-radius:50% 50% 46% 46% / 36% 36% 58% 58%;
+  overflow:hidden;
+  /* Multi-layer border: gold inner + warm outer */
+  box-shadow:
+    0 0 0 3px rgba(212,176,112,0.55),
+    0 0 0 6px rgba(212,176,112,0.18),
+    0 10px 50px rgba(42,16,8,0.3),
+    0 4px 16px rgba(42,16,8,0.15);
+}
+
+.couple-photo{
+  /* Fill the oval frame and zoom in on the couple */
+  width:100%;height:100%;
+  object-fit:cover;
+  /* Couple is roughly centered, upper portion of the landscape photo */
+  object-position:56% 12%;
+  /* Zoom in to make the couple fill the frame */
+  transform:scale(1.75);
+  transform-origin:56% 12%;
+  display:block;
+}
+
 .couple-lbl{
-  margin-top:0.6rem;font-family:'Cinzel',serif;
-  font-size:0.72rem;color:var(--gold);letter-spacing:0.18em;opacity:0.55;
+  margin-top:0.9rem;font-family:'Cinzel',serif;
+  font-size:0.7rem;color:var(--rose);letter-spacing:0.18em;opacity:0.55;
   text-transform:uppercase;
 }
 
 /* ── Info boxes ── */
 .info-box{
   position:absolute;
-  width:clamp(148px,16vw,210px);
-  background:rgba(255,255,255,0.94);
-  border:1.5px solid rgba(212,184,150,0.5);
+  width:clamp(140px,14vw,200px);
+  background:rgba(255,252,245,0.92);
+  border:1.5px solid rgba(212,176,112,0.55);
   border-radius:14px;
-  padding:1.1rem 1.2rem;
+  padding:1rem 1.1rem;
   text-align:center;
   opacity:0;
-  box-shadow:0 4px 24px rgba(44,24,16,0.07),0 1px 4px rgba(124,61,82,0.06);
+  box-shadow:0 4px 20px rgba(42,16,8,0.08),0 1px 6px rgba(124,61,82,0.06);
   pointer-events:none;
   will-change:transform,opacity,filter;
-  backdrop-filter:blur(6px);
+  backdrop-filter:blur(8px);
 }
-.ib-icon{font-size:1.7rem;display:block;margin-bottom:0.45rem;line-height:1;}
+.ib-icon{font-size:1.6rem;display:block;margin-bottom:0.42rem;line-height:1;}
 .ib-title{
   font-family:'Playfair Display',serif;
-  font-size:0.9rem;color:var(--gold);font-weight:700;
-  margin-bottom:0.3rem;line-height:1.3;
+  font-size:0.88rem;color:var(--rose);font-weight:700;
+  margin-bottom:0.28rem;line-height:1.3;
 }
-.ib-text{font-size:0.78rem;color:var(--muted);line-height:1.5;font-style:italic;}
+.ib-text{font-size:0.76rem;color:var(--muted);line-height:1.5;font-style:italic;}
 
-/* section footer hint */
+/* Section bottom hint */
 .s-label{
-  position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
+  position:absolute;bottom:1.8rem;left:50%;transform:translateX(-50%);
   text-align:center;z-index:20;pointer-events:none;
 }
 .s-label p{
-  font-size:0.75rem;color:var(--muted);
-  letter-spacing:0.1em;text-transform:uppercase;opacity:0.45;
+  font-size:0.73rem;color:var(--muted);
+  letter-spacing:0.1em;text-transform:uppercase;opacity:0.4;
 }
 
 
-/* ════════════════════════════════════════
+/* ══════════════════════════════════════
    CTA SECTION
-════════════════════════════════════════ */
+══════════════════════════════════════ */
 .cta-section{
   min-height:100vh;display:flex;align-items:center;justify-content:center;
-  background:linear-gradient(165deg,#140a04 0%,#2c1018 45%,#3d1f2a 75%,#1a0f00 100%);
+  background:linear-gradient(162deg,#130802 0%,#2a1008 40%,#3c1e10 70%,#180c04 100%);
   position:relative;overflow:hidden;
 }
 .cta-rings{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
 .cta-ring{
   position:absolute;border-radius:50%;
-  border:1px solid rgba(212,184,150,0.06);
+  border:1px solid rgba(212,176,112,0.06);
+}
+/* Warm amber glow in CTA */
+.cta-glow{
+  position:absolute;
+  width:600px;height:600px;
+  background:radial-gradient(ellipse,rgba(196,120,42,0.07) 0%,transparent 70%);
+  border-radius:50%;
 }
 .cta-content{
-  position:relative;z-index:10;
-  text-align:center;padding:3rem 2rem;max-width:600px;
+  position:relative;z-index:10;text-align:center;padding:3rem 2rem;max-width:580px;
 }
-.cta-orn{font-size:2.8rem;display:block;margin-bottom:1.6rem;}
+.cta-orn{font-size:2.6rem;display:block;margin-bottom:1.5rem;}
 .cta-title{
   font-family:'Playfair Display',serif;
-  font-size:clamp(2rem,5.5vw,3.8rem);
-  color:#fff;line-height:1.2;margin-bottom:0.6rem;
+  font-size:clamp(1.9rem,5vw,3.6rem);
+  color:#fff;line-height:1.22;margin-bottom:0.55rem;
 }
-.cta-title em{color:var(--gold2);font-style:italic;}
+.cta-title em{color:var(--rose2);font-style:italic;}
 .cta-sub{
-  font-size:clamp(1rem,2.4vw,1.2rem);
-  color:rgba(212,184,150,0.72);
-  line-height:1.85;font-style:italic;margin-bottom:2.8rem;
+  font-size:clamp(0.98rem,2.3vw,1.18rem);
+  color:rgba(212,176,112,0.68);line-height:1.88;font-style:italic;margin-bottom:2.8rem;
 }
 .cta-btn{
-  display:inline-block;
-  padding:1.1rem 3.2rem;
-  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  display:inline-block;padding:1.05rem 3rem;
+  background:linear-gradient(135deg,var(--rose),var(--rose2));
   color:#fff;text-decoration:none;
-  font-family:'Cinzel',serif;font-size:1rem;
-  letter-spacing:0.1em;border-radius:50px;
-  box-shadow:0 4px 32px rgba(160,68,94,0.38);
-  transition:transform 0.25s ease,box-shadow 0.25s ease;
-  position:relative;overflow:hidden;
+  font-family:'Cinzel',serif;font-size:0.98rem;letter-spacing:0.1em;
+  border-radius:50px;box-shadow:0 4px 30px rgba(160,68,94,0.38);
+  transition:transform 0.25s,box-shadow 0.25s;position:relative;overflow:hidden;
 }
 .cta-btn::before{
   content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(255,255,255,0.12),transparent);
+  background:linear-gradient(135deg,rgba(255,255,255,0.11),transparent);
   border-radius:50px;
 }
-.cta-btn:hover{transform:translateY(-3px);box-shadow:0 8px 44px rgba(160,68,94,0.5);}
-.cta-hint{
-  margin-top:1.8rem;font-size:0.78rem;
-  color:rgba(212,184,150,0.35);letter-spacing:0.08em;
-}
+.cta-btn:hover{transform:translateY(-3px);box-shadow:0 8px 42px rgba(160,68,94,0.5);}
+.cta-hint{margin-top:1.7rem;font-size:0.76rem;color:rgba(212,176,112,0.32);letter-spacing:0.08em;}
 
-/* ── Double-tap ripple ── */
+/* Double-tap ripple */
 .tap-ripple{
   position:fixed;border-radius:50%;pointer-events:none;
-  border:2px solid rgba(160,68,94,0.55);
-  transform:scale(0);z-index:9999;
+  border:2px solid rgba(196,120,42,0.5);transform:scale(0);z-index:9999;
 }
 
 /* ── Responsive ── */
 @media(max-width:640px){
-  .hc{width:50px;height:50px;}
+  .hc{width:46px;height:46px;}
   .o-ring{display:none;}
-  .info-box{width:130px;padding:0.75rem 0.85rem;}
-  .ib-icon{font-size:1.4rem;}
-  .ib-title{font-size:0.78rem;}
-  .ib-text{font-size:0.68rem;}
+  .info-box{width:120px;padding:0.7rem 0.8rem;}
+  .ib-icon{font-size:1.3rem;}
+  .ib-title{font-size:0.76rem;}
+  .ib-text{font-size:0.66rem;}
+  .couple-frame{width:clamp(140px,38vw,180px);}
+}
+@media(max-width:400px){
+  .info-box{width:108px;padding:0.6rem;}
 }
 </style>
 </head>
 <body>
 
-<!-- Progress bar -->
 <div id="progressBar"></div>
-
-<!-- Skip pill (always visible) -->
 <a href="./index.html" id="skipPill" onclick="sessionStorage.setItem('nrmb_lp','1')">Enter Site ›</a>
 
 
-<!-- ══════════════════════════════════
+<!-- ══════════════════════════════════════
      HERO SECTION
-══════════════════════════════════ -->
+══════════════════════════════════════ -->
 <section class="hero-section" id="hero">
   <div class="hero-bg"></div>
   <div class="hero-pattern"></div>
+  <div class="hero-sweep"></div>
   <div class="hc tl"></div><div class="hc tr"></div>
   <div class="hc bl"></div><div class="hc br"></div>
 
@@ -305,71 +345,64 @@ body{
 </section>
 
 
-<!-- ══════════════════════════════════
+<!-- ══════════════════════════════════════
      PARALLAX ORBIT SECTION
-══════════════════════════════════ -->
+══════════════════════════════════════ -->
 <section class="parallax-section" id="parallaxSection">
   <div class="sticky-container">
     <div class="sticky-bg"></div>
+    <div class="sticky-rays"></div>
 
-    <!-- decorative guide rings -->
-    <div class="o-ring" style="width:640px;height:640px;"></div>
-    <div class="o-ring" style="width:960px;height:960px;"></div>
-    <div class="o-ring" style="width:300px;height:300px;"></div>
+    <!-- Guide rings -->
+    <div class="o-ring" style="width:580px;height:580px;"></div>
+    <div class="o-ring" style="width:880px;height:880px;"></div>
 
     <div class="orbit-wrapper">
 
-      <!-- ── INFO BOXES ── -->
-      <!-- Box 0 — first to appear (top of couple) -->
+      <!-- INFO BOXES — 8 cards sweep left → right around the couple -->
+
       <div class="info-box" data-i="0">
         <span class="ib-icon">🕊️</span>
         <div class="ib-title">Trusted Matchmaking</div>
         <div class="ib-text">Where hearts find their perfect match with dignity</div>
       </div>
 
-      <!-- Box 1 -->
       <div class="info-box" data-i="1">
         <span class="ib-icon">💍</span>
         <div class="ib-title">Est. 2000</div>
         <div class="ib-text">Two decades of bringing families together with care</div>
       </div>
 
-      <!-- Box 2 -->
       <div class="info-box" data-i="2">
         <span class="ib-icon">✨</span>
         <div class="ib-title">500+ Matches</div>
         <div class="ib-text">Successful unions across generations of families</div>
       </div>
 
-      <!-- Box 3 -->
       <div class="info-box" data-i="3">
         <span class="ib-icon">🏛️</span>
         <div class="ib-title">Multiple Branches</div>
         <div class="ib-text">Serving Hyderabad, Nalgonda, Suryapet &amp; beyond</div>
       </div>
 
-      <!-- Box 4 -->
       <div class="info-box" data-i="4">
         <span class="ib-icon">🔒</span>
         <div class="ib-title">100% Confidential</div>
         <div class="ib-text">Your privacy is our most sacred commitment</div>
       </div>
 
-      <!-- Box 5 -->
       <div class="info-box" data-i="5">
         <span class="ib-icon">👨‍👩‍👧‍👦</span>
         <div class="ib-title">1000+ Families</div>
         <div class="ib-text">Trusted across Telangana &amp; Andhra Pradesh</div>
       </div>
 
-      <!-- Box 6 -->
       <div class="info-box" data-i="6">
         <span class="ib-icon">🌟</span>
         <div class="ib-title">Elite Membership</div>
         <div class="ib-text">VIP · VVIP · Elite — tailored to your needs</div>
       </div>
 
-      <!-- Box 7 — last to appear (bottom of couple) -->
       <div class="info-box" data-i="7">
         <span class="ib-icon">❤️</span>
         <div class="ib-title">Your Journey Awaits</div>
@@ -377,87 +410,20 @@ body{
       </div>
 
 
-      <!-- ── COUPLE SILHOUETTE (center · z-index: 5) ── -->
+      <!-- COUPLE PHOTO — always at z-index: 5, centre of everything -->
       <div class="couple-container">
+        <div class="couple-glow"></div>
         <div class="couple-frame">
-          <svg class="couple-svg" viewBox="0 0 230 370" fill="none" xmlns="http://www.w3.org/2000/svg">
-
-            <!-- Soft halo ring behind couple -->
-            <circle cx="115" cy="178" r="98" fill="rgba(240,228,208,0.18)"
-              stroke="rgba(124,61,82,0.12)" stroke-width="1.5" stroke-dasharray="6 5"/>
-
-            <!-- ═══ GROOM (left) ═══ -->
-            <!-- Head -->
-            <circle cx="78" cy="64" r="25" fill="#5a2d40"/>
-            <!-- Hair -->
-            <path d="M55,60 Q54,38 78,36 Q102,34 103,60" fill="#3a1822"/>
-            <!-- Neck -->
-            <rect x="72" y="87" width="12" height="13" rx="3" fill="#c09878"/>
-            <!-- Suit body -->
-            <path d="M52,100 L65,96 L78,100 L91,96 L104,100 L108,188 L48,188 Z" fill="#5a2d40"/>
-            <!-- Lapels -->
-            <path d="M65,96 L74,124 L78,100 L82,124 L91,96" fill="#3a1822"/>
-            <!-- Shirt + tie -->
-            <rect x="75" y="100" width="6" height="26" rx="2" fill="#d4c4a0"/>
-            <!-- Left arm (relaxed) -->
-            <path d="M52,108 Q42,128 38,162" stroke="#5a2d40" stroke-width="13"
-              fill="none" stroke-linecap="round"/>
-            <!-- Right arm (towards bride) -->
-            <path d="M104,108 Q114,128 116,155" stroke="#5a2d40" stroke-width="13"
-              fill="none" stroke-linecap="round"/>
-            <!-- Legs -->
-            <rect x="54" y="186" width="20" height="82" rx="7" fill="#4a2535"/>
-            <rect x="80" y="186" width="20" height="82" rx="7" fill="#4a2535"/>
-            <!-- Shoes -->
-            <ellipse cx="64"  cy="271" rx="14" ry="7" fill="#2a1510"/>
-            <ellipse cx="90"  cy="271" rx="14" ry="7" fill="#2a1510"/>
-
-            <!-- ═══ BRIDE (right) ═══ -->
-            <!-- Head -->
-            <circle cx="155" cy="61" r="23" fill="#c4a078"/>
-            <!-- Hair (bun style) -->
-            <path d="M134,56 Q133,32 155,30 Q177,28 179,56 Q184,74 175,86" fill="#3a1822"/>
-            <!-- Hair bun on top -->
-            <ellipse cx="156" cy="32" rx="12" ry="8" fill="#3a1822"/>
-            <!-- Veil (flowing right) -->
-            <path d="M175,56 Q192,95 186,172" stroke="rgba(212,184,150,0.55)"
-              stroke-width="5" fill="none" stroke-linecap="round"/>
-            <!-- Neck -->
-            <rect x="149" y="82" width="12" height="13" rx="3" fill="#c4a078"/>
-            <!-- Dress bodice -->
-            <path d="M131,95 L141,90 L155,95 L169,90 L181,95 L185,145 L127,145 Z" fill="#8c4a60"/>
-            <!-- Neckline detail -->
-            <path d="M141,90 Q155,106 169,90" fill="none"
-              stroke="rgba(212,184,150,0.5)" stroke-width="1.5"/>
-            <!-- Dress skirt (flowing) -->
-            <path d="M125,143 Q113,222 109,272 L200,272 Q194,222 181,143 Z" fill="#8c4a60"/>
-            <!-- Dress ruffles -->
-            <path d="M129,163 Q155,175 181,163" fill="none"
-              stroke="rgba(212,184,150,0.45)" stroke-width="1.5"/>
-            <path d="M121,202 Q155,216 189,202" fill="none"
-              stroke="rgba(212,184,150,0.45)" stroke-width="1.5"/>
-            <path d="M114,240 Q155,256 196,240" fill="none"
-              stroke="rgba(212,184,150,0.4)"  stroke-width="1.5"/>
-            <!-- Right arm (flowing) -->
-            <path d="M181,105 Q193,128 196,160" stroke="#8c4a60" stroke-width="12"
-              fill="none" stroke-linecap="round"/>
-            <!-- Left arm (towards groom) -->
-            <path d="M131,105 Q119,126 116,155" stroke="#8c4a60" stroke-width="12"
-              fill="none" stroke-linecap="round"/>
-
-            <!-- ═══ JOINED HANDS (center) ═══ -->
-            <circle cx="116" cy="155" r="12" fill="#7c3d52"/>
-            <path d="M113,157 Q116,162 119,157" fill="none"
-              stroke="rgba(212,184,150,0.6)" stroke-width="1.5"/>
-
-            <!-- ═══ HEART above ═══ -->
-            <path d="M115,11 Q114,7 111,7 Q106,7 106,12 Q106,17 115,25 Q124,17 124,12 Q124,7 119,7 Q116,7 115,11 Z"
-              fill="#a0445e"/>
-
-            <!-- Subtle accent dots -->
-            <circle cx="38"  cy="162" r="3" fill="rgba(212,184,150,0.35)"/>
-            <circle cx="195" cy="162" r="3" fill="rgba(212,184,150,0.35)"/>
-          </svg>
+          <!--
+            Save your couple photo as: Website/couple.jpg
+            The CSS zooms in and centres on the couple automatically.
+          -->
+          <img
+            src="./couple.jpg"
+            class="couple-photo"
+            alt="A happy couple — Naveen Reddy Marriage Bureau"
+            onerror="this.style.background='linear-gradient(160deg,#5a2d40,#8c4a60)';this.style.opacity='0.6';"
+          >
         </div>
         <div class="couple-lbl">❧ &nbsp;N R M B&nbsp; ❧</div>
       </div>
@@ -465,20 +431,21 @@ body{
     </div><!-- /orbit-wrapper -->
 
     <div class="s-label"><p>Keep scrolling to explore</p></div>
-  </div><!-- /sticky-container -->
+  </div>
 </section>
 
 
-<!-- ══════════════════════════════════
+<!-- ══════════════════════════════════════
      CTA SECTION
-══════════════════════════════════ -->
+══════════════════════════════════════ -->
 <section class="cta-section" id="ctaSection">
   <div class="cta-rings">
-    <div class="cta-ring" style="width:280px;height:280px;"></div>
-    <div class="cta-ring" style="width:480px;height:480px;"></div>
-    <div class="cta-ring" style="width:680px;height:680px;"></div>
-    <div class="cta-ring" style="width:880px;height:880px;"></div>
+    <div class="cta-ring" style="width:260px;height:260px;"></div>
+    <div class="cta-ring" style="width:460px;height:460px;"></div>
+    <div class="cta-ring" style="width:660px;height:660px;"></div>
+    <div class="cta-ring" style="width:860px;height:860px;"></div>
   </div>
+  <div class="cta-glow"></div>
   <div class="cta-content">
     <span class="cta-orn">💑</span>
     <h2 class="cta-title">Begin Your<br><em>Journey Together</em></h2>
@@ -501,33 +468,44 @@ body{
 <script>
 gsap.registerPlugin(ScrollTrigger);
 
-/* ─── SCROLL PROGRESS ─── */
+/* ── PROGRESS BAR ── */
 ScrollTrigger.create({
   trigger:'body',start:'top top',end:'bottom bottom',
   onUpdate:s=>{ document.getElementById('progressBar').style.width=(s.progress*100)+'%'; }
 });
 
-/* ─── HERO ENTRANCE ─── */
-const heroTl = gsap.timeline({ delay:0.25 });
-heroTl
-  .from('.h-glyph',   {opacity:0,y:-16,duration:0.8,ease:'power2.out'})
-  .from('.h-since',   {opacity:0,y:12, duration:0.6,ease:'power2.out'},'-=0.3')
-  .from('.h-welcome', {opacity:0,y:18, duration:0.7,ease:'power2.out'},'-=0.2')
-  .from('.h-name',    {opacity:0,y:28, duration:0.9,ease:'power2.out'},'-=0.3')
-  .from('.h-bureau',  {opacity:0,y:16, duration:0.7,ease:'power2.out'},'-=0.4')
+
+/* ── HERO ENTRANCE ── */
+gsap.timeline({delay:0.2})
+  .from('.h-glyph',   {opacity:0,y:-14,duration:0.8,ease:'power2.out'})
+  .from('.h-since',   {opacity:0,y:10, duration:0.6,ease:'power2.out'},'-=0.3')
+  .from('.h-welcome', {opacity:0,y:16, duration:0.7,ease:'power2.out'},'-=0.2')
+  .from('.h-name',    {opacity:0,y:26, duration:0.9,ease:'power2.out'},'-=0.35')
+  .from('.h-bureau',  {opacity:0,y:14, duration:0.7,ease:'power2.out'},'-=0.4')
   .from('.h-rule',    {scaleX:0,       duration:0.6,ease:'power2.out'},'-=0.2')
-  .from('.h-desc',    {opacity:0,y:14, duration:0.7,ease:'power2.out'},'-=0.2')
-  .from('.scroll-hint',{opacity:0,     duration:0.6},                  '-=0.1')
-  .from('.hc',        {opacity:0,scale:0.5,stagger:0.08,duration:0.5}, 0.4);
+  .from('.h-desc',    {opacity:0,y:12, duration:0.7,ease:'power2.out'},'-=0.2')
+  .from('.scroll-hint',{opacity:0,     duration:0.6},                   '-=0.1')
+  .from('.hc',{opacity:0,scale:0.5,stagger:0.08,duration:0.45},         0.35);
 
 
-/* ─── 3D ORBIT ANIMATION ─── */
-const boxes      = document.querySelectorAll('.info-box');
-const mobile     = window.innerWidth < 640;
-const orbitX     = mobile ? 200 : 340;   // horizontal orbit radius
-const orbitY     = mobile ? 360 : 480;   // total vertical travel
+/* ── LEFT-TO-RIGHT ORBIT ANIMATION ── */
+/*
+   Primary direction: LEFT → RIGHT  (xPos sweeps across the viewport)
+   Oscillation:       UP ↔ DOWN     (yPos follows a sine wave)
+   Depth:             cos(angle)    controls scale + front/behind the couple
 
-gsap.set(boxes,{opacity:0,x:0,y:0,scale:0.85});
+   This keeps the 3D orbital feel the user specified while boxes
+   enter from screen-left and exit screen-right.
+*/
+const boxes  = document.querySelectorAll('.info-box');
+const mobile = window.innerWidth < 640;
+
+// Half-travel in x: wide enough to enter/exit fully off-screen
+const orbitX = window.innerWidth * 0.42 + 80;
+// Vertical oscillation amplitude
+const yAmp   = mobile ? 160 : 220;
+
+gsap.set(boxes, {opacity:0, x:0, y:0, scale:0.85});
 
 const orbitTl = gsap.timeline({
   scrollTrigger:{
@@ -545,68 +523,64 @@ boxes.forEach((box, i) => {
     duration: 2,
     ease: 'none',
     onUpdate: function () {
-      const p     = this.progress();           // 0 → 1 within this box's 2s window
-      const angle = p * Math.PI * 2;           // full 360° orbit
+      const p     = this.progress();         // 0 → 1 for this box's window
+      const angle = p * Math.PI * 2;         // one full revolution during the sweep
 
-      // Spiral path: sine = left/right, cosine = front/back depth
-      const xPos  = Math.sin(angle) * orbitX;
-      const yPos  = -(orbitY * 0.5) + p * orbitY;  // top → bottom
-      const scale = 0.82 + Math.cos(angle) * 0.18;
-      const behind = Math.cos(angle) < 0;
+      // ── POSITION ──
+      // x:  sweeps from left edge to right edge
+      const xPos = -orbitX + p * (orbitX * 2);
+      // y:  sinusoidal oscillation — creates the arc up and down as box passes through
+      const yPos = Math.sin(angle) * yAmp;
 
-      // Layer switching: behind couple vs in front
-      box.style.zIndex = behind ? '2' : '10';
-      box.style.filter = behind
-        ? 'blur(1.8px) brightness(0.62)'
+      // ── DEPTH (3-D feel) ──
+      // cos(0)=1 → large, in front  |  cos(π)=-1 → small, behind couple
+      const scale   = 0.80 + Math.cos(angle) * 0.20;
+      const isBehind = Math.cos(angle) < 0;
+
+      box.style.zIndex = isBehind ? '2' : '10';
+      box.style.filter = isBehind
+        ? 'blur(2px) brightness(0.60)'
         : 'blur(0px) brightness(1)';
 
       gsap.set(box, {
-        x: xPos,
-        y: yPos,
-        scale: scale,
-        opacity: p < 0.07 || p > 0.93 ? 0 : 1,
+        x:       xPos,
+        y:       yPos,
+        scale:   scale,
+        opacity: p < 0.06 || p > 0.94 ? 0 : 1,
       });
     }
   }, delay);
 });
 
 
-/* ─── CTA SECTION ENTRANCE ─── */
-gsap.from('.cta-orn', {
-  scrollTrigger:{trigger:'#ctaSection',start:'top 78%'},
-  scale:0,opacity:0,duration:0.9,ease:'back.out(1.7)'
-});
-gsap.from('.cta-title', {
-  scrollTrigger:{trigger:'#ctaSection',start:'top 74%'},
-  y:38,opacity:0,duration:0.9,ease:'power3.out',delay:0.18
-});
-gsap.from('.cta-sub', {
-  scrollTrigger:{trigger:'#ctaSection',start:'top 70%'},
-  y:22,opacity:0,duration:0.8,ease:'power2.out',delay:0.42
-});
-gsap.from('.cta-btn', {
-  scrollTrigger:{trigger:'#ctaSection',start:'top 66%'},
-  scale:0.75,opacity:0,duration:0.7,ease:'back.out(2)',delay:0.6
-});
+/* ── CTA ENTRANCE ── */
+gsap.from('.cta-orn',   {scrollTrigger:{trigger:'#ctaSection',start:'top 78%'},
+  scale:0,opacity:0,duration:0.85,ease:'back.out(1.7)'});
+gsap.from('.cta-title', {scrollTrigger:{trigger:'#ctaSection',start:'top 74%'},
+  y:36,opacity:0,duration:0.9,ease:'power3.out',delay:0.18});
+gsap.from('.cta-sub',   {scrollTrigger:{trigger:'#ctaSection',start:'top 70%'},
+  y:20,opacity:0,duration:0.8,ease:'power2.out',delay:0.42});
+gsap.from('.cta-btn',   {scrollTrigger:{trigger:'#ctaSection',start:'top 66%'},
+  scale:0.75,opacity:0,duration:0.65,ease:'back.out(2)',delay:0.62});
 
 
-/* ─── DOUBLE-TAP / DOUBLE-CLICK TO SKIP ─── */
-let lastTouch = 0, lastClick = 0;
+/* ── DOUBLE-TAP / DOUBLE-CLICK TO SKIP ── */
+let lastTouch = 0;
 
 function doRipple(x, y) {
   const r = document.createElement('div');
   r.className = 'tap-ripple';
-  r.style.cssText = `width:64px;height:64px;left:${x-32}px;top:${y-32}px;`;
+  r.style.cssText = `width:60px;height:60px;left:${x-30}px;top:${y-30}px;`;
   document.body.appendChild(r);
   gsap.fromTo(r,
     {scale:0,opacity:0.85},
-    {scale:4.5,opacity:0,duration:0.65,ease:'power2.out',onComplete:()=>r.remove()}
+    {scale:5,opacity:0,duration:0.6,ease:'power2.out',onComplete:()=>r.remove()}
   );
 }
 
 function goToSite() {
   sessionStorage.setItem('nrmb_lp','1');
-  gsap.to('body',{opacity:0,duration:0.35,ease:'power2.in',
+  gsap.to('body',{opacity:0,duration:0.3,ease:'power2.in',
     onComplete:()=>{ window.location.href='./index.html'; }
   });
 }
@@ -614,8 +588,7 @@ function goToSite() {
 document.addEventListener('touchend', function(e) {
   const now = Date.now();
   if (now - lastTouch < 330) {
-    const t = e.changedTouches[0];
-    doRipple(t.clientX, t.clientY);
+    doRipple(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
     setTimeout(goToSite, 380);
   }
   lastTouch = now;
@@ -626,12 +599,11 @@ document.addEventListener('dblclick', function(e) {
   setTimeout(goToSite, 380);
 });
 
-
-/* ─── RESIZE: refresh ScrollTrigger ─── */
-let resizeTimer;
-window.addEventListener('resize', () => {
-  clearTimeout(resizeTimer);
-  resizeTimer = setTimeout(() => ScrollTrigger.refresh(), 250);
+/* ── RESIZE ── */
+let resizeT;
+window.addEventListener('resize', ()=>{
+  clearTimeout(resizeT);
+  resizeT = setTimeout(()=> ScrollTrigger.refresh(), 250);
 });
 </script>
 </body>
