@@ -9,16 +9,24 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <style>
+/*
+  THEME — pulled from the photo background:
+  Deep ocean (#0a2540), clear teal (#2a8cba), sky-white (#e8f4fc),
+  sandy limestone (#f0e8d4), lush garden feel.
+*/
 :root{
-  --champ : #c4a050;
-  --champ2: #e8c878;
-  --blush : #c46878;
-  --blush2: #e8a0b0;
-  --terra : #c07840;
-  --dark  : #0f0906;
-  --dark2 : #1c1008;
-  --ivory : #fdf8ef;
-  --muted : #5a3e26;
+  --ocean : #0a2540;
+  --ocean2: #1a6b94;
+  --teal  : #2a9bc8;
+  --sky   : #b8dcf0;
+  --sand  : #e0cc96;
+  --white : #ffffff;
+  --ivory : #f5f8fa;
+  --light : #eaf4fb;
+  --dark  : #060d14;
+  --dark2 : #0a1e2c;
+  --muted : #3a5a70;
+  --bdr   : rgba(42,155,200,0.3);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
@@ -27,24 +35,24 @@ body{font-family:'EB Garamond',serif;background:var(--dark);overflow-x:hidden;-w
 /* ── progress bar ── */
 #pb{
   position:fixed;top:0;left:0;height:2.5px;width:0%;z-index:9999;
-  background:linear-gradient(90deg,var(--blush),var(--champ),var(--blush2),var(--champ2));
+  background:linear-gradient(90deg,var(--teal),var(--sky),var(--sand),var(--teal));
   transition:width 0.08s;
 }
 /* ── skip pill ── */
 #skip{
   position:fixed;top:1.1rem;right:1.3rem;z-index:9998;
-  background:rgba(15,9,6,0.68);backdrop-filter:blur(14px);
-  border:1px solid rgba(196,160,80,0.35);
-  color:var(--champ2);font-family:'EB Garamond',serif;font-size:0.82rem;
+  background:rgba(6,13,20,0.7);backdrop-filter:blur(14px);
+  border:1px solid var(--bdr);
+  color:var(--sky);font-family:'EB Garamond',serif;font-size:0.82rem;
   padding:0.42rem 1.15rem;border-radius:50px;
   letter-spacing:0.08em;text-decoration:none;display:inline-block;
   transition:background 0.2s;
 }
-#skip:hover{background:rgba(196,104,120,0.35);}
+#skip:hover{background:rgba(26,107,148,0.45);}
 
 
 /* ════════════════════════════════════════════
-   HERO SECTION
+   HERO — deep ocean at dusk, matching photo bg
 ════════════════════════════════════════════ */
 .hero{
   position:relative;height:100vh;min-height:580px;
@@ -53,174 +61,183 @@ body{font-family:'EB Garamond',serif;background:var(--dark);overflow-x:hidden;-w
 .hero-bg{
   position:absolute;inset:0;
   background:
-    radial-gradient(ellipse 60% 50% at 20% 55%, rgba(196,104,120,0.22) 0%,transparent 62%),
-    radial-gradient(ellipse 55% 45% at 80% 50%, rgba(192,120,64,0.15)  0%,transparent 60%),
-    radial-gradient(ellipse 70% 35% at 50% 100%,rgba(196,160,80,0.12) 0%,transparent 55%),
-    linear-gradient(168deg,#0a0604 0%,#1c1008 32%,#2a1a0e 62%,#0f0906 100%);
+    /* teal ocean glow left */
+    radial-gradient(ellipse 65% 55% at 15% 60%, rgba(26,107,148,0.35) 0%,transparent 65%),
+    /* lighter sky glow right-top */
+    radial-gradient(ellipse 55% 45% at 85% 35%, rgba(42,155,200,0.2)  0%,transparent 60%),
+    /* sandy horizon at bottom-centre */
+    radial-gradient(ellipse 70% 30% at 50% 100%,rgba(224,204,150,0.12) 0%,transparent 55%),
+    /* deep night ocean base */
+    linear-gradient(170deg,#040c14 0%,#0a2540 35%,#0e2f4e 65%,#060d14 100%);
 }
 .hero-dots{
   position:absolute;inset:0;
   background-image:
-    radial-gradient(circle at 1.5px 1.5px,rgba(196,160,80,0.07) 1px,transparent 0),
-    radial-gradient(circle at 14px 14px, rgba(196,104,120,0.04) 1px,transparent 0);
-  background-size:24px 24px,48px 48px;
+    radial-gradient(circle at 1.5px 1.5px,rgba(184,220,240,0.07) 1px,transparent 0),
+    radial-gradient(circle at 16px 16px, rgba(42,155,200,0.04)   1px,transparent 0);
+  background-size:26px 26px,52px 52px;
 }
-.hc{position:absolute;width:78px;height:78px;opacity:0.22;}
-.hc.tl{top:20px;left:20px; border-top:1.5px solid var(--champ);border-left:1.5px solid var(--champ);}
-.hc.tr{top:20px;right:20px;border-top:1.5px solid var(--champ);border-right:1.5px solid var(--champ);}
-.hc.bl{bottom:20px;left:20px; border-bottom:1.5px solid var(--champ);border-left:1.5px solid var(--champ);}
-.hc.br{bottom:20px;right:20px;border-bottom:1.5px solid var(--champ);border-right:1.5px solid var(--champ);}
+/* Horizon line */
+.hero-horizon{
+  position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(42,155,200,0.3),transparent);
+}
+.hc{position:absolute;width:76px;height:76px;opacity:0.2;}
+.hc.tl{top:20px;left:20px; border-top:1.5px solid var(--sky);border-left:1.5px solid var(--sky);}
+.hc.tr{top:20px;right:20px;border-top:1.5px solid var(--sky);border-right:1.5px solid var(--sky);}
+.hc.bl{bottom:20px;left:20px; border-bottom:1.5px solid var(--sky);border-left:1.5px solid var(--sky);}
+.hc.br{bottom:20px;right:20px;border-bottom:1.5px solid var(--sky);border-right:1.5px solid var(--sky);}
 
 .hero-content{
   position:relative;z-index:10;text-align:center;
   padding:2rem 1.5rem;max-width:720px;
 }
-.h-glyph{font-size:1.65rem;color:var(--champ);opacity:0.6;letter-spacing:0.55em;margin-bottom:1.7rem;display:block;}
-.h-since{font-size:0.78rem;letter-spacing:0.22em;text-transform:uppercase;color:rgba(196,160,80,0.62);margin-bottom:1.7rem;}
-.h-welcome{font-family:'EB Garamond',serif;font-style:italic;font-size:clamp(1.1rem,2.6vw,1.5rem);color:rgba(232,160,176,0.82);margin-bottom:0.3rem;letter-spacing:0.04em;}
-.h-name{font-family:'Cinzel',serif;font-size:clamp(2.5rem,7.5vw,5.5rem);color:#fff;line-height:1;font-weight:600;letter-spacing:0.05em;margin-bottom:0.25rem;}
-.h-bureau{font-family:'Cinzel',serif;font-size:clamp(0.92rem,2.9vw,1.55rem);color:var(--champ2);letter-spacing:0.28em;text-transform:uppercase;margin-bottom:1.8rem;}
-.h-rule{width:66px;height:1px;background:linear-gradient(90deg,transparent,var(--champ),transparent);margin:0 auto 1.5rem;}
-.h-desc{font-size:clamp(0.92rem,2.1vw,1.12rem);color:rgba(196,160,80,0.58);line-height:1.9;font-style:italic;margin-bottom:3rem;}
-.scroll-hint{display:flex;flex-direction:column;align-items:center;gap:0.4rem;color:rgba(232,200,120,0.42);font-size:0.78rem;letter-spacing:0.12em;}
+.h-glyph{font-size:1.65rem;color:var(--sky);opacity:0.55;letter-spacing:0.55em;margin-bottom:1.7rem;display:block;}
+.h-since{font-size:0.78rem;letter-spacing:0.22em;text-transform:uppercase;color:rgba(184,220,240,0.62);margin-bottom:1.7rem;}
+.h-welcome{font-family:'EB Garamond',serif;font-style:italic;font-size:clamp(1.1rem,2.6vw,1.5rem);color:rgba(184,220,240,0.8);margin-bottom:0.3rem;letter-spacing:0.04em;}
+.h-name{font-family:'Cinzel',serif;font-size:clamp(2.5rem,7.5vw,5.5rem);color:var(--white);line-height:1;font-weight:600;letter-spacing:0.05em;margin-bottom:0.25rem;}
+.h-bureau{font-family:'Cinzel',serif;font-size:clamp(0.92rem,2.9vw,1.55rem);color:var(--sand);letter-spacing:0.28em;text-transform:uppercase;margin-bottom:1.8rem;}
+.h-rule{width:66px;height:1px;background:linear-gradient(90deg,transparent,var(--teal),transparent);margin:0 auto 1.5rem;}
+.h-desc{font-size:clamp(0.92rem,2.1vw,1.12rem);color:rgba(184,220,240,0.56);line-height:1.9;font-style:italic;margin-bottom:3rem;}
+.scroll-hint{display:flex;flex-direction:column;align-items:center;gap:0.4rem;color:rgba(184,220,240,0.4);font-size:0.78rem;letter-spacing:0.12em;}
 .sa{font-size:1.3rem;animation:bY 1.65s ease-in-out infinite;}
 @keyframes bY{0%,100%{transform:translateY(0);}50%{transform:translateY(10px);}}
 
 
 /* ════════════════════════════════════════════
-   PARALLAX / ORBIT SECTION
+   PARALLAX ORBIT SECTION
 ════════════════════════════════════════════ */
 .parallax-section{height:600vh;position:relative;}
 
 .sticky-container{
   position:sticky;top:0;height:100vh;
-  display:flex;align-items:center;justify-content:center;
   overflow:hidden;
 }
 
-/* ── FULL-SCREEN couple photo ── */
+/* FULL-SCREEN photo background */
 .bg-photo{
   position:absolute;inset:0;
   width:100%;height:100%;
   object-fit:cover;
-  /* Centre the couple — they sit roughly at centre of the frame */
   object-position:center center;
-  z-index:0;
-  display:block;
+  z-index:0;display:block;
+  transform-origin:center center;
+  will-change:object-position,transform;
 }
 
-/* ── Overlay: darkens edges, keeps couple bright ── */
+/* Gradient overlay — keeps edges clean, centre bright */
 .bg-overlay{
-  position:absolute;inset:0;z-index:1;
+  position:absolute;inset:0;z-index:1;pointer-events:none;
   background:
-    /* top dark fade for box readability */
     linear-gradient(to bottom,
-      rgba(15,9,6,0.55) 0%,
-      rgba(15,9,6,0.15) 18%,
-      transparent       38%,
-      transparent       62%,
-      rgba(15,9,6,0.15) 82%,
-      rgba(15,9,6,0.55) 100%),
-    /* side dark fade */
+      rgba(6,13,20,0.52) 0%,
+      rgba(6,13,20,0.10) 16%,
+      transparent 35%,
+      transparent 65%,
+      rgba(6,13,20,0.10) 84%,
+      rgba(6,13,20,0.52) 100%),
     linear-gradient(to right,
-      rgba(15,9,6,0.45) 0%,
-      transparent       18%,
-      transparent       82%,
-      rgba(15,9,6,0.45) 100%);
+      rgba(6,13,20,0.42) 0%,
+      transparent 16%,
+      transparent 84%,
+      rgba(6,13,20,0.42) 100%);
 }
 
-/* Decorative orbit guide rings (very subtle) */
-.o-ring{
-  position:absolute;border-radius:50%;pointer-events:none;z-index:2;
-  border:1px solid rgba(196,160,80,0.14);
-}
-
-/* ── Orbit wrapper — z-index 2, full size, flex-centred ── */
+/* Orbit wrapper — sets 3-D perspective for children */
 .orbit-wrapper{
-  position:relative;z-index:2;
-  width:100%;height:100%;
+  position:absolute;inset:0;z-index:2;
   display:flex;align-items:center;justify-content:center;
+  /* CSS perspective: boxes that translateZ(+) come forward, Z(-) recede */
+  perspective:1100px;
 }
 
 /*
-  COUPLE CONTAINER — IMPORTANT:
-  z-index:5  →  sits BETWEEN back boxes (z:1) and front boxes (z:10)
-  Zero size  →  invisible anchor; the real couple is the bg-photo behind
+  SCENE-3D — the entire orbit scene.
+  rotationY is animated by ScrollTrigger → "camera orbiting" effect.
+  preserve-3d passes the 3-D context down to info-boxes.
+*/
+.scene-3d{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  transform-style:preserve-3d;
+  will-change:transform;
+}
+
+/* INFO BOXES — inside scene-3d, position:absolute, moved by GSAP x/y/z */
+.info-box{
+  position:absolute;
+  width:clamp(140px,13vw,188px);
+  background:rgba(255,255,255,0.97);
+  border:1.5px solid rgba(42,155,200,0.4);
+  border-radius:14px;
+  padding:0.95rem 1.05rem;
+  text-align:center;opacity:0;
+  /* Crisp shadow — pops against the photo */
+  box-shadow:0 4px 28px rgba(6,13,20,0.28),0 1px 6px rgba(0,0,0,0.14);
+  pointer-events:none;
+  will-change:transform,opacity;
+  /* NO blur filter ever — text always sharp */
+}
+.info-box .ib-icon{font-size:1.55rem;display:block;margin-bottom:0.4rem;line-height:1;}
+.info-box .ib-title{font-family:'Playfair Display',serif;font-size:0.86rem;color:var(--ocean2);font-weight:700;margin-bottom:0.25rem;line-height:1.3;}
+.info-box .ib-text{font-size:0.74rem;color:var(--muted);line-height:1.5;font-style:italic;}
+
+/*
+  COUPLE-CONTAINER — zero-size invisible anchor, z-index:5.
+  Sits between back boxes (z:1) and front boxes (z:10).
+  The real couple is the full-screen bg-photo.
 */
 .couple-container{
-  position:relative;
+  position:absolute;
   z-index:5;
   width:0;height:0;
   pointer-events:none;
 }
 
-/* ── INFO BOXES ── */
-.info-box{
-  position:absolute;
-  width:clamp(140px,13vw,190px);
-  /* Fully opaque so text is always readable regardless of what's behind */
-  background:rgba(253,248,239,0.96);
-  border:1.5px solid rgba(196,160,80,0.5);
-  border-radius:14px;
-  padding:0.95rem 1.05rem;
-  text-align:center;
-  opacity:0;
-  /* NO text blur — only brightness changes for depth effect */
-  box-shadow:0 4px 24px rgba(15,9,6,0.22),0 1px 6px rgba(0,0,0,0.12);
-  pointer-events:none;
-  will-change:transform,opacity;
-  backdrop-filter:none; /* disabled — causes blur on content */
-}
-.info-box .ib-icon{font-size:1.55rem;display:block;margin-bottom:0.4rem;line-height:1;}
-.info-box .ib-title{font-family:'Playfair Display',serif;font-size:0.86rem;color:var(--blush);font-weight:700;margin-bottom:0.25rem;line-height:1.3;}
-.info-box .ib-text{font-size:0.74rem;color:var(--muted);line-height:1.5;font-style:italic;}
-
-/* bottom hint */
+/* Bottom scroll label */
 .s-label{
   position:absolute;bottom:1.5rem;left:50%;transform:translateX(-50%);
   z-index:20;pointer-events:none;text-align:center;
 }
-.s-label p{font-size:0.72rem;color:rgba(253,248,239,0.45);letter-spacing:0.1em;text-transform:uppercase;}
+.s-label p{font-size:0.72rem;color:rgba(255,255,255,0.4);letter-spacing:0.1em;text-transform:uppercase;}
 
 
 /* ════════════════════════════════════════════
-   CTA SECTION
+   CTA SECTION — mirrors hero ocean feel
 ════════════════════════════════════════════ */
 .cta-section{
   min-height:100vh;display:flex;align-items:center;justify-content:center;
-  background:linear-gradient(168deg,#0a0604 0%,#1c1008 38%,#2a1a0e 68%,#0f0906 100%);
+  background:linear-gradient(170deg,#040c14 0%,#0a2540 38%,#0e2f4e 68%,#060d14 100%);
   position:relative;overflow:hidden;
 }
 .cta-rings{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
-.cr{position:absolute;border-radius:50%;border:1px solid rgba(196,160,80,0.06);}
-.cta-glow{position:absolute;background:radial-gradient(ellipse,rgba(196,104,120,0.08) 0%,transparent 65%);width:700px;height:700px;border-radius:50%;}
+.cr{position:absolute;border-radius:50%;border:1px solid rgba(42,155,200,0.07);}
+.cta-glow{position:absolute;background:radial-gradient(ellipse,rgba(26,107,148,0.12) 0%,transparent 65%);width:700px;height:700px;border-radius:50%;}
 .cta-content{position:relative;z-index:10;text-align:center;padding:3rem 2rem;max-width:570px;}
 .cta-orn{font-size:2.5rem;display:block;margin-bottom:1.5rem;}
-.cta-title{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,5vw,3.5rem);color:#fff;line-height:1.22;margin-bottom:0.5rem;}
-.cta-title em{color:var(--champ2);font-style:italic;}
-.cta-sub{font-size:clamp(0.96rem,2.2vw,1.16rem);color:rgba(196,160,80,0.62);line-height:1.88;font-style:italic;margin-bottom:2.8rem;}
+.cta-title{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,5vw,3.5rem);color:var(--white);line-height:1.22;margin-bottom:0.5rem;}
+.cta-title em{color:var(--sky);font-style:italic;}
+.cta-sub{font-size:clamp(0.96rem,2.2vw,1.16rem);color:rgba(184,220,240,0.62);line-height:1.88;font-style:italic;margin-bottom:2.8rem;}
 .cta-btn{
   display:inline-block;padding:1.05rem 3rem;
-  background:linear-gradient(135deg,var(--blush),var(--terra));
-  color:#fff;text-decoration:none;
+  background:linear-gradient(135deg,var(--ocean2),var(--teal));
+  color:var(--white);text-decoration:none;
   font-family:'Cinzel',serif;font-size:0.96rem;letter-spacing:0.1em;
-  border-radius:50px;box-shadow:0 4px 30px rgba(196,104,120,0.38);
+  border-radius:50px;box-shadow:0 4px 30px rgba(26,107,148,0.45);
   transition:transform 0.25s,box-shadow 0.25s;position:relative;overflow:hidden;
 }
-.cta-btn::before{content:'';position:absolute;inset:0;border-radius:50px;background:linear-gradient(135deg,rgba(255,255,255,0.1),transparent);}
-.cta-btn:hover{transform:translateY(-3px);box-shadow:0 8px 42px rgba(196,104,120,0.52);}
-.cta-hint{margin-top:1.7rem;font-size:0.75rem;color:rgba(196,160,80,0.3);letter-spacing:0.08em;}
+.cta-btn::before{content:'';position:absolute;inset:0;border-radius:50px;background:linear-gradient(135deg,rgba(255,255,255,0.12),transparent);}
+.cta-btn:hover{transform:translateY(-3px);box-shadow:0 8px 42px rgba(26,107,148,0.58);}
+.cta-hint{margin-top:1.7rem;font-size:0.75rem;color:rgba(184,220,240,0.28);letter-spacing:0.08em;}
 
-.tap-ripple{position:fixed;border-radius:50%;pointer-events:none;border:2px solid rgba(196,160,80,0.55);transform:scale(0);z-index:9999;}
+.tap-ripple{position:fixed;border-radius:50%;pointer-events:none;border:2px solid rgba(42,155,200,0.55);transform:scale(0);z-index:9999;}
 
-/* ── Responsive ── */
 @media(max-width:640px){
   .hc{width:44px;height:44px;}
-  .o-ring{display:none;}
-  .info-box{width:118px;padding:0.65rem 0.75rem;}
-  .info-box .ib-icon{font-size:1.25rem;}
-  .info-box .ib-title{font-size:0.74rem;}
-  .info-box .ib-text{font-size:0.64rem;}
+  .info-box{width:116px;padding:0.62rem 0.72rem;}
+  .info-box .ib-icon{font-size:1.2rem;}
+  .info-box .ib-title{font-size:0.73rem;}
+  .info-box .ib-text{font-size:0.63rem;}
 }
 </style>
 </head>
@@ -230,12 +247,13 @@ body{font-family:'EB Garamond',serif;background:var(--dark);overflow-x:hidden;-w
 <a href="./index.html" id="skip" onclick="sessionStorage.setItem('nrmb_lp','1')">Enter Site ›</a>
 
 
-<!-- ═════════════════════════════════════════
+<!-- ═══════════════════════════════════════
      HERO
-═════════════════════════════════════════ -->
+═══════════════════════════════════════ -->
 <section class="hero" id="hero">
   <div class="hero-bg"></div>
   <div class="hero-dots"></div>
+  <div class="hero-horizon"></div>
   <div class="hc tl"></div><div class="hc tr"></div>
   <div class="hc bl"></div><div class="hc br"></div>
   <div class="hero-content">
@@ -254,82 +272,77 @@ body{font-family:'EB Garamond',serif;background:var(--dark);overflow-x:hidden;-w
 </section>
 
 
-<!-- ═════════════════════════════════════════
-     PARALLAX ORBIT SECTION
-═════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════
+     PARALLAX / ORBIT SECTION
+═══════════════════════════════════════ -->
 <section class="parallax-section" id="parallaxSection">
   <div class="sticky-container">
 
-    <!-- FULL-SCREEN couple photo (the actual background) -->
-    <img src="./couple.jpg" class="bg-photo" alt="couple">
-
-    <!-- Edge darkening overlay -->
+    <!-- Full-screen couple photo -->
+    <img src="./couple.jpg" class="bg-photo" id="bgPhoto" alt="couple">
+    <!-- Edge overlay -->
     <div class="bg-overlay"></div>
 
-    <!-- Subtle guide rings -->
-    <div class="o-ring" style="width:500px;height:500px;"></div>
-    <div class="o-ring" style="width:760px;height:760px;"></div>
-
+    <!-- 3-D orbit wrapper (perspective parent) -->
     <div class="orbit-wrapper">
+      <!-- scene-3d rotates on Y axis as you scroll → camera-orbiting effect -->
+      <div class="scene-3d" id="scene3d">
 
-      <!-- INFO BOXES -->
-      <div class="info-box">
-        <span class="ib-icon">🕊️</span>
-        <div class="ib-title">Trusted Matchmaking</div>
-        <div class="ib-text">Where hearts find their perfect match with dignity</div>
-      </div>
-      <div class="info-box">
-        <span class="ib-icon">💍</span>
-        <div class="ib-title">Est. 2000</div>
-        <div class="ib-text">Two decades of bringing families together</div>
-      </div>
-      <div class="info-box">
-        <span class="ib-icon">✨</span>
-        <div class="ib-title">500+ Matches</div>
-        <div class="ib-text">Successful unions across generations</div>
-      </div>
-      <div class="info-box">
-        <span class="ib-icon">🏛️</span>
-        <div class="ib-title">Multiple Branches</div>
-        <div class="ib-text">Hyderabad, Nalgonda, Suryapet &amp; beyond</div>
-      </div>
-      <div class="info-box">
-        <span class="ib-icon">🔒</span>
-        <div class="ib-title">100% Confidential</div>
-        <div class="ib-text">Your privacy is our most sacred commitment</div>
-      </div>
-      <div class="info-box">
-        <span class="ib-icon">👨‍👩‍👧‍👦</span>
-        <div class="ib-title">1000+ Families</div>
-        <div class="ib-text">Trusted across Telangana &amp; Andhra Pradesh</div>
-      </div>
-      <div class="info-box">
-        <span class="ib-icon">🌟</span>
-        <div class="ib-title">Elite Membership</div>
-        <div class="ib-text">VIP · VVIP · Elite — tailored to your needs</div>
-      </div>
-      <div class="info-box">
-        <span class="ib-icon">❤️</span>
-        <div class="ib-title">Your Journey Awaits</div>
-        <div class="ib-text">Register today and find your perfect partner</div>
-      </div>
+        <div class="info-box">
+          <span class="ib-icon">🕊️</span>
+          <div class="ib-title">Trusted Matchmaking</div>
+          <div class="ib-text">Where hearts find their perfect match with dignity</div>
+        </div>
+        <div class="info-box">
+          <span class="ib-icon">💍</span>
+          <div class="ib-title">Est. 2000</div>
+          <div class="ib-text">Two decades of bringing families together</div>
+        </div>
+        <div class="info-box">
+          <span class="ib-icon">✨</span>
+          <div class="ib-title">500+ Matches</div>
+          <div class="ib-text">Successful unions across generations</div>
+        </div>
+        <div class="info-box">
+          <span class="ib-icon">🏛️</span>
+          <div class="ib-title">Multiple Branches</div>
+          <div class="ib-text">Hyderabad, Nalgonda, Suryapet &amp; beyond</div>
+        </div>
+        <div class="info-box">
+          <span class="ib-icon">🔒</span>
+          <div class="ib-title">100% Confidential</div>
+          <div class="ib-text">Your privacy is our most sacred commitment</div>
+        </div>
+        <div class="info-box">
+          <span class="ib-icon">👨‍👩‍👧‍👦</span>
+          <div class="ib-title">1000+ Families</div>
+          <div class="ib-text">Trusted across Telangana &amp; Andhra Pradesh</div>
+        </div>
+        <div class="info-box">
+          <span class="ib-icon">🌟</span>
+          <div class="ib-title">Elite Membership</div>
+          <div class="ib-text">VIP · VVIP · Elite — tailored to your needs</div>
+        </div>
+        <div class="info-box">
+          <span class="ib-icon">❤️</span>
+          <div class="ib-title">Your Journey Awaits</div>
+          <div class="ib-text">Register today and find your perfect partner</div>
+        </div>
 
-      <!--
-        COUPLE CONTAINER — z-index:5 (between back boxes z:1 and front boxes z:10)
-        Zero size — the real couple is the full-screen bg-photo above.
-        This element is the invisible anchor point for the orbit centre.
-      -->
-      <div class="couple-container"></div>
+        <!-- Zero-size couple anchor: z-index 5, between z:1 back and z:10 front boxes -->
+        <div class="couple-container"></div>
 
+      </div><!-- /scene-3d -->
     </div><!-- /orbit-wrapper -->
+
     <div class="s-label"><p>Keep scrolling</p></div>
   </div>
 </section>
 
 
-<!-- ═════════════════════════════════════════
+<!-- ═══════════════════════════════════════
      CTA SECTION
-═════════════════════════════════════════ -->
+═══════════════════════════════════════ -->
 <section class="cta-section" id="ctaSection">
   <div class="cta-rings">
     <div class="cr" style="width:250px;height:250px;"></div>
@@ -348,16 +361,16 @@ body{font-family:'EB Garamond',serif;background:var(--dark);overflow-x:hidden;-w
 </section>
 
 
-<!-- ═══════════════════════════════════════════════════
+<!-- ═══════════════════════════════════════════════
      SCRIPTS
-═══════════════════════════════════════════════════ -->
+═══════════════════════════════════════════════ -->
 <script>
 gsap.registerPlugin(ScrollTrigger);
 
 /* ── progress bar ── */
 ScrollTrigger.create({
   trigger:'body', start:'top top', end:'bottom bottom',
-  onUpdate: s => { document.getElementById('pb').style.width = (s.progress * 100) + '%'; }
+  onUpdate: s => { document.getElementById('pb').style.width = (s.progress*100)+'%'; }
 });
 
 /* ── hero entrance ── */
@@ -370,75 +383,113 @@ gsap.timeline({delay:0.2})
   .from('.h-rule',     {scaleX:0,         duration:0.6, ease:'power2.out'}, '-=0.2')
   .from('.h-desc',     {opacity:0, y:12,  duration:0.7, ease:'power2.out'}, '-=0.2')
   .from('.scroll-hint',{opacity:0,        duration:0.6},                    '-=0.1')
-  .from('.hc', {opacity:0, scale:0.4, stagger:0.08, duration:0.4},          0.3);
+  .from('.hc', {opacity:0, scale:0.4, stagger:0.08, duration:0.4}, 0.3);
 
 
-/* ═══════════════════════════════════════════════════════════════
-   3-D ORBIT
-   Boxes orbit around the couple (who fills the full screen).
-   Path mapped to the couple's actual head→feet position on screen.
-   xRadius  = how far left/right from centre the box swings
-   halfVert = half the vertical distance from head to feet
-═══════════════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════════════════
+   3-D ORBIT + CAMERA MOVEMENT
 
-// Couple occupies roughly centre of screen; their head-to-feet
-// span is ~75% of viewport height. We orbit within that range.
-const xRadius = window.innerWidth  * 0.30;  // horizontal orbital swing
-const halfVert = window.innerHeight * 0.38;  // top(head) → bottom(feet)
+   Two layers of animation fire together as you scroll:
 
-gsap.set('.info-box', {opacity:0, x:0, y:0, scale:0.85});
+   1. BACKGROUND PAN — bg-photo drifts horizontally 44%→56%
+      + subtle breathe-zoom. Gives the "lens circling the couple" feel.
+
+   2. SCENE ROTATION — scene-3d rotates -14°→+14° on Y axis.
+      Combined with perspective:1100px this makes the whole 3-D orbit
+      scene tilt as if you're walking around the couple.
+
+   3. BOX ORBIT — each box spirals from couple's head (top) to feet (bottom)
+      using sin/cos math, with translateZ for real depth.
+      No blur — only brightness changes so text stays sharp.
+══════════════════════════════════════════════════════════════════ */
+
+const bgPhoto = document.getElementById('bgPhoto');
+const scene3d = document.getElementById('scene3d');
+
+// Orbit dimensions mapped to viewport (couple head → feet)
+const xRadius  = window.innerWidth  * 0.30;   // L↔R swing
+const halfVert = window.innerHeight * 0.38;    // head-to-feet half-span
+const zDepth   = Math.min(window.innerWidth * 0.18, 220); // Z-depth range
+
+/* ── Camera movement (background + scene tilt) ── */
+ScrollTrigger.create({
+  trigger: '#parallaxSection',
+  start: 'top top',
+  end: 'bottom bottom',
+  onUpdate(self) {
+    const p = self.progress;
+
+    // 1. Background photo drift — creates "lens panning around couple" feel
+    const xPct = 44 + p * 12;                   // 44% → 56%
+    const breathe = 1 + Math.sin(p * Math.PI) * 0.04; // subtle zoom in/out
+    bgPhoto.style.objectPosition = `${xPct}% 50%`;
+    bgPhoto.style.transform = `scale(${breathe})`;
+
+    // 2. Scene tilt — "walking around" feel  (-14° → +14°)
+    gsap.set(scene3d, { rotationY: -14 + p * 28 });
+  }
+});
+
+/* ── 3-D Box orbit ── */
+gsap.set('.info-box', {opacity:0, x:0, y:0, z:0, scale:0.85});
 
 const boxes = document.querySelectorAll('.info-box');
 
 const tl = gsap.timeline({
-    scrollTrigger: {
-        trigger: ".parallax-section",
-        start: "top top",
-        end: "bottom bottom",
-        scrub: 1.5,
-    }
+  scrollTrigger: {
+    trigger: '.parallax-section',
+    start: 'top top',
+    end: 'bottom bottom',
+    scrub: 1.5,
+  }
 });
 
 boxes.forEach((box, i) => {
-    const delay = i * 0.3;
+  const delay = i * 0.3;
 
-    tl.to(box, {
-        duration: 2,
-        ease: "none",
-        onUpdate: function() {
-            let progress = this.progress();
+  tl.to(box, {
+    duration: 2,
+    ease: 'none',
+    onUpdate: function() {
+      const progress = this.progress();
 
-            // SPIRAL MATH (original)
-            // Orbit radius scaled to viewport so boxes stay near the couple
-            const xPos  = Math.sin(progress * Math.PI * 2) * xRadius;
-            // Vertical: starts at couple's HEAD level, exits at FEET level
-            const yPos  = -halfVert + (progress * halfVert * 2);
-            const scale = 0.8 + Math.cos(progress * Math.PI * 2) * 0.2;
+      // ── SPIRAL MATH ──
+      const angle = progress * Math.PI * 2;
 
-            // LAYER SWITCHING — NO blur on text, only brightness
-            if (Math.cos(progress * Math.PI * 2) < 0) {
-                box.style.zIndex = "1";   // Behind couple
-                box.style.filter = "brightness(0.72)";   // Dim — but text stays sharp
-            } else {
-                box.style.zIndex = "10";  // In front of couple
-                box.style.filter = "brightness(1)";
-            }
+      // x: sine wave L↔R
+      const xPos = Math.sin(angle) * xRadius;
+      // y: top (head) → bottom (feet)
+      const yPos = -halfVert + (progress * halfVert * 2);
+      // z: cosine → real depth into / out of screen
+      const zPos = Math.cos(angle) * zDepth;
+      // scale: subtle (z handles most of depth now)
+      const scale = 0.88 + Math.cos(angle) * 0.12;
 
-            gsap.set(box, {
-                x: xPos,
-                y: yPos,
-                scale: scale,
-                opacity: progress < 0.1 || progress > 0.9 ? 0 : 1
-            });
-        }
-    }, delay);
+      // ── LAYER SWITCHING ── no blur, brightness only
+      if (Math.cos(angle) < 0) {
+        box.style.zIndex = '1';    // behind couple
+        box.style.filter = 'brightness(0.68)';
+      } else {
+        box.style.zIndex = '10';   // in front of couple
+        box.style.filter = 'brightness(1)';
+      }
+
+      gsap.set(box, {
+        x: xPos,
+        y: yPos,
+        z: zPos,                    // actual 3-D translateZ
+        scale: scale,
+        opacity: progress < 0.1 || progress > 0.9 ? 0 : 1,
+      });
+    }
+  }, delay);
 });
 
 
 /* ── CTA entrance ── */
 gsap.from('.cta-orn',  {scrollTrigger:{trigger:'#ctaSection',start:'top 78%'}, scale:0,  opacity:0, duration:0.85, ease:'back.out(1.7)'});
-gsap.from('.cta-title',{scrollTrigger:{trigger:'#ctaSection',start:'top 74%'}, y:36, opacity:0, duration:0.9,  ease:'power3.out', delay:0.18});
-gsap.from('.cta-sub',  {scrollTrigger:{trigger:'#ctaSection',start:'top 70%'}, y:20, opacity:0, duration:0.8,  ease:'power2.out', delay:0.42});
+gsap.from('.cta-title',{scrollTrigger:{trigger:'#ctaSection',start:'top 74%'}, y:36, opacity:0, duration:0.9,  ease:'power3.out',  delay:0.18});
+gsap.from('.cta-sub',  {scrollTrigger:{trigger:'#ctaSection',start:'top 70%'}, y:20, opacity:0, duration:0.8,  ease:'power2.out',  delay:0.42});
 gsap.from('.cta-btn',  {scrollTrigger:{trigger:'#ctaSection',start:'top 66%'}, scale:0.75, opacity:0, duration:0.65, ease:'back.out(2)', delay:0.62});
 
 
@@ -449,11 +500,11 @@ function doRipple(x, y) {
   r.className = 'tap-ripple';
   r.style.cssText = `width:62px;height:62px;left:${x-31}px;top:${y-31}px;`;
   document.body.appendChild(r);
-  gsap.fromTo(r, {scale:0,opacity:0.85}, {scale:5,opacity:0,duration:0.6,ease:'power2.out',onComplete:()=>r.remove()});
+  gsap.fromTo(r,{scale:0,opacity:0.85},{scale:5,opacity:0,duration:0.6,ease:'power2.out',onComplete:()=>r.remove()});
 }
 function goSite() {
   sessionStorage.setItem('nrmb_lp','1');
-  gsap.to('body',{opacity:0,duration:0.3,ease:'power2.in',onComplete:()=>{window.location.href='./index.html';}});
+  gsap.to('body',{opacity:0,duration:0.3,ease:'power2.in',onComplete:()=>{ window.location.href='./index.html'; }});
 }
 document.addEventListener('touchend', function(e) {
   const now = Date.now();
