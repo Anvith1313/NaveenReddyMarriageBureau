@@ -16,7 +16,7 @@
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{font-family:'EB Garamond',serif;background:var(--offwhite);color:var(--text);overflow-x:hidden;}
+body{font-family:'EB Garamond',serif;font-size:17px;line-height:1.7;background:var(--offwhite);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;}
 ::-webkit-scrollbar{width:5px;}
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:rgba(184,150,12,0.25);border-radius:3px;}
@@ -1306,6 +1306,7 @@ body{font-size:17px;}
         <div class="g2">
           <div class="ff"><label>Full Name *</label><input id="s_name" type="text" placeholder="As per Aadhaar card"></div>
           <div class="ff"><label>Date of Birth *</label><input id="s_dob" type="date"></div>
+          <div class="ff"><label>Time of Birth</label><input id="s_tob" type="time" placeholder="e.g. 02:30 PM"><small style="color:var(--muted);font-style:italic;font-size:0.82rem;">Used for astrology / Kundali matching</small></div>
           <div class="ff"><label>Place of Birth</label><input id="s_pob" type="text" placeholder="e.g. Hyderabad"></div>
           <div class="ff"><label>Mother Tongue *</label><select id="s_mt"><option value="">Select</option><option>Telugu</option><option>Kannada</option><option>Tamil</option><option>Hindi</option><option>Other</option></select></div>
           <div class="ff"><label>Marital Status *</label><select id="s_ms"><option value="">Select</option><option>Never Married</option><option>Divorced</option><option>Divorced (2nd Time)</option><option>Divorced (3rd Time)</option><option>Widowed</option><option>Awaiting Divorce</option></select></div>
@@ -1342,7 +1343,8 @@ body{font-size:17px;}
       <div class="form-sec"><div class="form-sec-title"><span>📏</span> Physical Attributes</div><div class="g3"><div class="ff"><label>Height *</label><input id="s_ht" list="heightList" placeholder="e.g. 5'6&quot; (167cm)"><datalist id="heightList"><option>4'10" (147cm)</option><option>4'11" (149cm)</option><option>5'0" (152cm)</option><option>5'1" (154cm)</option><option>5'2" (157cm)</option><option>5'3" (160cm)</option><option>5'4" (162cm)</option><option>5'5" (165cm)</option><option>5'6" (167cm)</option><option>5'7" (170cm)</option><option>5'8" (172cm)</option><option>5'9" (175cm)</option><option>5'10" (177cm)</option><option>5'11" (180cm)</option><option>6'0" (182cm)</option><option>6'1" (185cm)</option><option>6'2" (187cm)</option><option>6'3" (190cm)</option><option>6'4" (193cm)</option><option>6'5" (195cm)</option><option>6'6" (198cm)</option><option>6'7" (200cm)</option><option>6'8" (203cm)</option><option>6'9" (205cm)</option><option>6'10" (208cm)</option><option>6'11" (210cm)</option><option>7'0" (213cm)</option><option>7'6" (228cm)</option><option>8'0" (243cm)</option></datalist></div><div class="ff"><label>Weight (kg)</label><input id="s_wt" type="number" placeholder="65"></div><div class="ff"><label>Complexion</label><select id="s_cx"><option value="">Select</option><option>Very Fair</option><option>Fair</option><option>Wheatish</option><option>Wheatish Brown</option><option>Dark</option></select></div><div class="ff"><label>Body Type</label><select id="s_bt"><option value="">Select</option><option>Slim</option><option>Athletic</option><option>Average</option><option>Heavy</option></select></div><div class="ff"><label>Blood Group</label><select id="s_bg"><option value="">Select</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>O+</option><option>O-</option><option>AB+</option><option>AB-</option></select></div><div class="ff"><label>Differently Abled</label><select id="s_da"><option>No</option><option>Yes</option></select></div></div></div>
       <div class="form-sec"><div class="form-sec-title"><span>🎓</span> Education &amp; Career</div><div class="g2">
         <div class="ff"><label>Highest Qualification *</label><select id="s_edu" onchange="onEduChange()"><option value="">Select</option><option>10th / SSC</option><option>Intermediate / 12th</option><option>Diploma</option><option>B.Tech / B.E.</option><option>B.Sc / B.Com / B.A.</option><option>MBBS</option><option>LLB</option><option>CA / CMA / CS</option><option>M.Tech / M.E.</option><option>M.Sc / M.Com / M.A.</option><option>M.B.A.</option><option>MD / MS</option><option>MS (USA/UK)</option><option>LLM</option><option>Ph.D.</option><option>Other</option></select></div>
-        <div class="ff"><label>SSC / 10th School Name</label><input id="s_school" type="text" placeholder="e.g. Delhi Public School, Nacharam"></div>
+        <div class="ff"><label>Schooling Board *</label><select id="s_board" onchange="onBoardChange()"><option value="">Select Board</option><option>SSC</option><option>CBSE</option><option>ICSE</option><option>State Board</option><option>Other</option></select></div>
+        <div class="ff"><label id="s_school_lbl">School Name</label><input id="s_school" type="text" placeholder="e.g. Delhi Public School, Nacharam"></div>
         <div class="ff"><label>Intermediate / 12th College</label><input id="s_inter" type="text" placeholder="e.g. Sri Chaitanya Junior College"></div>
         <div class="ff" id="s_engcol_wrap"><label>Engineering / Degree College</label><input id="s_engcol" type="text" placeholder="e.g. Osmania University, IIT"></div>
         <div class="ff" id="s_pgcol_wrap"><label>PG / MS / Higher Education College</label><input id="s_col" type="text" placeholder="e.g. UTD Dallas, IIT Bombay"></div>
@@ -1804,9 +1806,12 @@ function injectImgs(){
   const ill=document.getElementById('idleIllustration');if(ill)ill.src='data:image/jpeg;base64,'+IMGS.bg2;
 }
 
-// ── Apply immediately ──
-injectImgs();
-applyDoodle();
+// ── Defer heavy image injection until after first paint ──
+if(typeof requestIdleCallback!=='undefined'){
+  requestIdleCallback(()=>{injectImgs();applyDoodle();},{timeout:2000});
+} else {
+  setTimeout(()=>{injectImgs();applyDoodle();},100);
+}
 
 
 
@@ -2013,6 +2018,8 @@ async function doRegister(){
     srm:document.getElementById('s_srm').value||'0',
     res:document.getElementById('s_res').value||'—',
     pob:document.getElementById('s_pob').value.trim()||'—',
+    tob:document.getElementById('s_tob').value||'—',
+    board:document.getElementById('s_board').value||'—',
     mt:document.getElementById('s_mt').value||'—',
     ms:document.getElementById('s_ms').value||'—',
     pp_af:document.getElementById('pp_af').value||'—',
@@ -2170,6 +2177,7 @@ function renderCard(){
           <button class="btn-interest" onclick="sendInt('${p.u}')">Express Interest</button>
           <button class="btn-pass" onclick="nextCard()">Pass</button>
         </div>
+        <button onclick="openOtherBiodata('${p.u}')" style="width:100%;margin-top:0.6rem;padding:0.55rem 1rem;background:transparent;border:1.5px solid var(--gold2);border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.45rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold2);transition:all 0.2s;" onmouseover="this.style.background='var(--gold4)'" onmouseout="this.style.background='transparent'">📄 View Biodata</button>
       </div>
     </div>`;
 }
@@ -2386,6 +2394,17 @@ async function deleteMyPhoto(idx){
   toast('Photo removed.');
 }
 
+function openOtherBiodata(uid){
+  if(!ST.user){toast('Please log in.');return;}
+  const p=ST.profiles.find(x=>x.u===uid)||ST.browsePool.find(x=>x.u===uid);
+  if(!p){toast('Profile not found.');return;}
+  const el=document.createElement('div');
+  el.className='biodata-overlay';
+  el.id='biodataOverlay';
+  el.onclick=(e)=>{if(e.target===el)el.remove();};
+  el.innerHTML=generateBiodata(p);
+  document.body.appendChild(el);
+}
 function openBiodataView(){
   if(!ST.user){toast('Please log in.');return;}
   const el=document.createElement('div');
@@ -2402,49 +2421,65 @@ function generateBiodata(p){
   const gender=p.g==='Female'?'Bride':'Groom';
   const dobStr=p.dob&&p.dob!=='—'?new Date(p.dob).toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'}):p.dob||'—';
   const inc=p.inc?formatIncomeDisplay(p.inc):(p.sal||'—');
+  // Format time of birth from 24h to 12h
+  function fmt12(t){if(!t||t==='—')return '';try{const[h,m]=t.split(':').map(Number);const ampm=h>=12?'PM':'AM';const h12=h%12||12;return h12+':'+String(m).padStart(2,'0')+' '+ampm;}catch(e){return t;}}
+  const tobStr=fmt12(p.tob);
+  const timePlace=(tobStr||p.pob&&p.pob!=='—')?[tobStr,p.pob&&p.pob!=='—'?p.pob:''].filter(Boolean).join(', '):'';
+  // Board-conditional school label
+  const boardLbl=p.board&&p.board!=='—'&&p.board!=='Other'?p.board+' School Name':'School Name';
   function row(label,val,label2,val2){
-    if(label2&&val2) return `<div class="bio-two"><div class="bio-row"><span class="bio-lbl">${label}</span><span class="bio-val">: ${val||'—'}</span></div><div class="bio-row"><span class="bio-lbl">${label2}</span><span class="bio-val">: ${val2||'—'}</span></div></div>`;
-    return `<div class="bio-row"><span class="bio-lbl">${label}</span><span class="bio-val">: ${val||'—'}</span></div>`;
+    if(label2!==undefined) return `<div class="bio-two"><div class="bio-row"><span class="bio-lbl">${label}</span><span class="bio-val"> : ${val||'—'}</span></div><div class="bio-row"><span class="bio-lbl">${label2}</span><span class="bio-val"> : ${val2||'—'}</span></div></div>`;
+    return `<div class="bio-row"><span class="bio-lbl">${label}</span><span class="bio-val"> : ${val||'—'}</span></div>`;
   }
+  const logoHtml=typeof IMGS!=='undefined'&&IMGS.logo?`<img src="data:image/jpeg;base64,${IMGS.logo}" style="width:62px;height:62px;object-fit:contain;border-radius:50%;border:2px solid #c0392b;" alt="NRMB Logo">`:'';
   return `<div class="biodata-sheet">
     <div class="bio-header">
       <div class="bio-meta"><span><em>Since 2000</em></span><span><strong>Sl No : ${slId}</strong></span></div>
-      <div class="bio-bureau">NAVEEN REDDY</div>
-      <div class="bio-sub">MARRIAGE BUREAU</div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:0.7rem;margin:0.3rem 0 0.1rem;">
+        ${logoHtml}
+        <div>
+          <div class="bio-bureau">NAVEEN REDDY</div>
+          <div class="bio-sub">MARRIAGE BUREAU</div>
+        </div>
+        ${logoHtml}
+      </div>
       <div class="bio-address">Corporate office: <u>Somajiguda</u>, Branches: <u>Kothapet</u>, <u>Warangal</u>, <u>Karimnagar</u></div>
     </div>
     ${row('Name of the '+gender,p.name)}
     ${row('Date of Birth',dobStr,'Height',p.ht||'—')}
-    ${p.pob&&p.pob!=='—'?row('Time and Place of Birth',p.pob):''}
+    ${timePlace?row('Time and Place of Birth',timePlace):''}
     ${row('Complexion / Color',p.cx||'—','Gotram',p.gotra||p.fg||'—')}
-    ${row('Sub Caste',p.gotra||'—','Star',p.nak||'—')}
-    ${row('Native Dist',p.nat||'—','Raasi',p.rashi||'—')}
+    ${row('Sub Caste',p.subCaste||p.gotra||'Reddy','Star / Nakshatra',p.nak||'—')}
+    ${row('Native District',p.nat||'—','Raasi',p.rashi||'—')}
     ${row('Settled Place',p.city||'—')}
-    ${p.school&&p.school!=='—'?row('SSC School Name',p.school):''}
+    ${p.school&&p.school!=='—'?row(boardLbl,p.school):''}
     ${p.inter&&p.inter!=='—'?row('Inter College Name',p.inter):''}
     ${p.engcol&&p.engcol!=='—'?row('Engineering College Name',p.engcol):''}
     ${p.col&&p.col!=='—'?row('PG / MS College',p.col):''}
     ${row('Occupation',p.prof||p.occ||'—')}
     ${p.co&&p.co!=='—'?row('Company Name',p.co):''}
-    ${p.workplace&&p.workplace!=='—'?row('Place of Job/Business',p.workplace):''}
+    ${p.workplace&&p.workplace!=='—'?row('Place of Job / Business',p.workplace):''}
     ${inc&&inc!=='—'?row('Annual Income',inc):''}
     ${p.visa&&p.visa!=='—'?row('Visa Status',p.visa):''}
 
     <div class="bio-sec-title">FAMILY MEMBERS DETAILS</div>
+    ${row("Father's Name",p.fn||'—')}
     ${row("Father's Profession",p.fo||p.fp||'—')}
+    ${row("Mother's Name",p.mn||'—')}
     ${row("Mother's Profession",p.mo||'—')}
-    ${row('Brothers',p.br&&p.br!=='0'?p.br+' (Married: '+(p.brm||'0')+')':(p.sr&&p.sr!=='0'?'No Brothers':'—'))}
-    ${row('Sisters',p.sr&&p.sr!=='0'?p.sr+' (Married: '+(p.srm||'0')+')':(p.br&&p.br!=='0'?'No Sisters':'—'))}
-    ${(p.br==='0'&&p.sr==='0')?'<div class="bio-row"><span class="bio-lbl"> </span><span class="bio-val">: No Siblings</span></div>':''}
+    ${p.br&&p.br!=='0'?row('Brothers',p.br+' (Married: '+(p.brm||'0')+')' ):''}
+    ${p.sr&&p.sr!=='0'?row('Sisters',p.sr+' (Married: '+(p.srm||'0')+')' ):''}
+    ${(!p.br||p.br==='0')&&(!p.sr||p.sr==='0')?row('Siblings','No Siblings'):''}
+    ${p.pval&&p.pval!=='—'?row('Property Value',p.pval):''}
 
     <div class="bio-sec-title">CHOICE PREFERRED</div>
-    ${row('Complexion / Color',p.pp_cx||'Fair','Age Gap',p.pp_af&&p.pp_at?(parseInt(p.pp_at)-parseInt(p.pp_af))+' Years Gap Acceptable':'—')}
-    ${p.pp_hf&&p.pp_hf!=='Any'?row('Height',p.pp_hf+' &amp; Above'):''}
+    ${p.pp_af&&p.pp_at?row('Age Preferred',p.pp_af+' to '+p.pp_at+' Years'):''}
+    ${p.pp_hf&&p.pp_hf!=='Any'?row('Height Preferred',p.pp_hf+' &amp; Above'):''}
     ${p.pp_edu&&p.pp_edu!=='Any'?row('Qualification',p.pp_edu):''}
     ${p.pp_note&&p.pp_note!=='—'?row('Other Preferences',p.pp_note):''}
 
-    <div class="bio-footer">Relationship : Father / Guardian &nbsp;&nbsp; Contact : ${p.pgmob1||p.fmob||'—'}</div>
-    <div style="text-align:center;margin-top:0.6rem;display:flex;gap:0.6rem;justify-content:center;">
+    <div class="bio-footer">Relationship : Father / Guardian &nbsp;&nbsp;&nbsp; Contact : ${p.pgmob1||p.fmob||'—'}</div>
+    <div style="text-align:center;margin-top:0.8rem;display:flex;gap:0.6rem;justify-content:center;">
       <button class="bio-close-btn" onclick="window.print()">🖨 Print</button>
       <button class="bio-close-btn" onclick="document.getElementById('biodataOverlay').remove()" style="background:transparent;border:1px solid var(--crimson);color:var(--crimson);">Close</button>
     </div>
@@ -2775,6 +2810,15 @@ function onEduChange(){
   // Show visa field for USA/abroad contexts
   const visaWrap=document.getElementById('s_visa_wrap');
   if(visaWrap)visaWrap.style.display='';
+}
+function onBoardChange(){
+  const v=document.getElementById('s_board').value;
+  const lbl=document.getElementById('s_school_lbl');
+  if(lbl){
+    if(v&&v!=='Other'&&v!=='State Board') lbl.textContent=v+' School Name';
+    else if(v==='State Board') lbl.textContent='State Board School Name';
+    else lbl.textContent='School Name';
+  }
 }
 function toggleFatherOcc(){
   const v=document.getElementById('s_fas').value;
