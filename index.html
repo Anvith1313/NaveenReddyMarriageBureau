@@ -28,9 +28,9 @@ body{font-family:'EB Garamond',serif;font-size:17px;line-height:1.7;background:v
   content:'';
   position:absolute;inset:0;z-index:0;
   opacity:0.055;
-  background-size: 680px auto;
+  background-size: 680px 680px;
   background-repeat: repeat;
-  background-position: 340px 170px;
+  background-position: 0 0;
   pointer-events:none;
   filter: grayscale(100%) contrast(1.1) brightness(0.9);
 }
@@ -592,8 +592,8 @@ body{font-family:'EB Garamond',serif;font-size:17px;line-height:1.7;background:v
    OTHER PAGES (About, Membership, etc.)
 ═══════════════════════════════════ */
 .contact-wrap{max-width:700px;margin:0 auto;padding:0 2rem 5rem;position:relative;z-index:1;}
-.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;margin-bottom:2rem;}
-.ci-card{background:rgba(255,255,255,0.88);backdrop-filter:blur(6px);border:1px solid var(--border);border-radius:14px;padding:1.5rem;text-align:center;}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;margin-bottom:2rem;align-items:stretch;}
+.ci-card{background:rgba(255,255,255,0.88);backdrop-filter:blur(6px);border:1px solid var(--border);border-radius:14px;padding:1.5rem;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;}
 .ci-icon{font-size:1.8rem;margin-bottom:0.6rem;display:block;}
 .ci-lbl{font-family:'Cinzel',serif;font-size:0.46rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem;}
 .ci-val{font-family:'Cormorant Garamond',serif;font-size:0.96rem;color:var(--text);}
@@ -829,6 +829,10 @@ body{font-family:'EB Garamond',serif;font-size:17px;line-height:1.7;background:v
 
   /* Branches */
   .branches-grid{grid-template-columns:repeat(2,1fr);}
+
+  /* Contact grid - single column on mobile */
+  .contact-grid{grid-template-columns:1fr;}
+  .ci-card{padding:1.2rem 1rem;}
 }
 
 /* ── SWIGGY-STYLE HEART BOOKMARK ── */
@@ -898,8 +902,10 @@ body{font-family:'EB Garamond',serif;font-size:17px;line-height:1.7;background:v
   border-bottom:1px solid var(--border);
   padding:0.55rem 3rem;
   display:flex;align-items:center;gap:0.6rem;
+  justify-content:flex-end;
   position:sticky;top:0;z-index:200;
 }
+.back-bar-current{margin-right:auto;}
 .back-home-btn{
   background:none;border:none;cursor:pointer;
   font-family:'Cinzel',serif;font-size:0.48rem;font-weight:600;
@@ -912,6 +918,7 @@ body{font-family:'EB Garamond',serif;font-size:17px;line-height:1.7;background:v
 .back-bar-current{
   font-family:'Cinzel',serif;font-size:0.48rem;letter-spacing:0.12em;
   text-transform:uppercase;color:var(--muted);
+  margin-right:auto;
 }
 
 /* ── BRANCHES PAGE ── */
@@ -1073,7 +1080,7 @@ body{font-size:17px;}
   <!-- Firebase SDK -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, sendEmailVerification }
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, sendEmailVerification, sendPasswordResetEmail, GoogleAuthProvider, signInWithPopup }
       from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
     import { getFirestore, collection, doc, setDoc, getDoc, getDocs, updateDoc, query, where }
       from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
@@ -1099,7 +1106,7 @@ body{font-size:17px;}
     const rtdb = getDatabase(app);
     const storage = getStorage(app);
     window.FB = { auth, db, rtdb, storage,
-      signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, sendEmailVerification,
+      signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, sendEmailVerification, sendPasswordResetEmail, GoogleAuthProvider, signInWithPopup,
       collection, doc, setDoc, getDoc, getDocs, updateDoc, query, where,
       dbRef, get, set, onValue,
       stRef, uploadBytes, getDownloadURL
@@ -1164,7 +1171,15 @@ body{font-size:17px;}
     <button class="dash-nav-btn" onclick="showPage('pgMyProfile')"><span class="dbtn-icon">👤</span>My Profile</button>
     <button class="dash-nav-btn" id="likedNavBtn" onclick="showPage('pgLiked')" style="position:relative;">
       <span class="dbtn-icon">🤍</span>Liked
-      <span id="likedCountBadge" style="display:none;position:absolute;top:-4px;right:-4px;background:#e8002d;color:#fff;font-family:'Cinzel',serif;font-size:0.38rem;font-weight:700;min-width:16px;height:16px;border-radius:20px;padding:0 4px;display:none;align-items:center;justify-content:center;line-height:16px;text-align:center;box-shadow:0 2px 6px rgba(232,0,45,0.4);">0</span>
+      <span id="likedCountBadge" style="display:none;position:absolute;top:-4px;right:-4px;background:#e8002d;color:#fff;font-family:'Cinzel',serif;font-size:0.38rem;font-weight:700;min-width:16px;height:16px;border-radius:20px;padding:0 4px;align-items:center;justify-content:center;line-height:16px;text-align:center;box-shadow:0 2px 6px rgba(232,0,45,0.4);">0</span>
+    </button>
+    <button class="dash-nav-btn" id="intInMeNavBtn" onclick="showPage('pgIntInMe')" style="position:relative;">
+      <span class="dbtn-icon">💌</span>Interests
+      <span id="intInMeBadge" style="display:none;position:absolute;top:-4px;right:-4px;background:#e8002d;color:#fff;font-family:'Cinzel',serif;font-size:0.38rem;font-weight:700;min-width:16px;height:16px;border-radius:20px;padding:0 4px;align-items:center;justify-content:center;line-height:16px;text-align:center;box-shadow:0 2px 6px rgba(232,0,45,0.4);">0</span>
+    </button>
+    <button class="dash-nav-btn" id="notifNavBtn" onclick="openNotifPanel()" style="position:relative;">
+      <span class="dbtn-icon">🔔</span>
+      <span id="notifBadge" style="display:none;position:absolute;top:-4px;right:-4px;background:#e8002d;color:#fff;font-family:'Cinzel',serif;font-size:0.38rem;font-weight:700;min-width:16px;height:16px;border-radius:20px;padding:0 4px;align-items:center;justify-content:center;line-height:16px;text-align:center;box-shadow:0 2px 6px rgba(232,0,45,0.4);">0</span>
     </button>
     <div class="acct-badge">
       <span class="acct-icon">🪔</span>
@@ -1182,6 +1197,8 @@ body{font-size:17px;}
     <button class="mob-dash-link" onclick="showPage('pgDash');closeDashMenu()"><span>🏠</span>Home</button>
     <button class="mob-dash-link" onclick="showPage('pgMyProfile');closeDashMenu()"><span>👤</span>My Profile</button>
     <button class="mob-dash-link" onclick="showPage('pgLiked');closeDashMenu()"><span>🤍</span>Liked</button>
+    <button class="mob-dash-link" onclick="showPage('pgIntInMe');closeDashMenu()"><span>💌</span>Interests Received</button>
+    <button class="mob-dash-link" onclick="openNotifPanel();closeDashMenu()"><span>🔔</span>Notifications</button>
     <button class="mob-dash-link signout" onclick="doLogout();closeDashMenu()"><span>🚪</span>Sign Out</button>
   </div>
 </div>
@@ -1268,6 +1285,15 @@ body{font-size:17px;}
     <div class="ui"><label>Username</label><input id="lu" type="text" placeholder="Enter your username"><div class="uline"></div></div>
     <div class="ui"><label>Password</label><input id="lp" type="password" placeholder="Your private password"><button class="et" onclick="tpwd('lp',this)">👁</button><div class="uline"></div></div>
     <button class="btn-prim" onclick="doLogin()">Sign In</button>
+    <div style="display:flex;align-items:center;gap:0.8rem;margin:0.5rem 0;">
+      <div style="flex:1;height:1px;background:var(--border);"></div>
+      <span style="font-family:'Cormorant Garamond',serif;font-size:0.8rem;color:var(--muted);font-style:italic;">or</span>
+      <div style="flex:1;height:1px;background:var(--border);"></div>
+    </div>
+    <button onclick="doGoogleSignIn()" style="width:100%;padding:0.72rem;background:#fff;border:1.5px solid #dadce0;border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.5rem;font-weight:600;letter-spacing:0.1em;color:#3c4043;display:flex;align-items:center;justify-content:center;gap:0.6rem;box-shadow:0 1px 6px rgba(0,0,0,0.07);transition:box-shadow 0.2s;" onmouseover="this.style.boxShadow='0 3px 12px rgba(0,0,0,0.14)'" onmouseout="this.style.boxShadow='0 1px 6px rgba(0,0,0,0.07)'">
+      <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/></svg>
+      Continue with Google
+    </button>
     <button class="btn-sec" onclick="showPage('pgSignup')">Create New Account</button>
     <div class="lg-foot">
       <button class="glink" onclick="openOv('forgotOv')">Forgot Password?</button>
@@ -1305,7 +1331,7 @@ body{font-size:17px;}
         <div class="form-sec-title"><span>📋</span> Basic Information</div>
         <div class="g2">
           <div class="ff"><label>Full Name *</label><input id="s_name" type="text" placeholder="As per Aadhaar card"></div>
-          <div class="ff"><label>Date of Birth *</label><input id="s_dob" type="date"></div>
+          <div class="ff"><label>Date of Birth *</label><input id="s_dob" type="date" id="s_dob"><small style="color:var(--muted);font-style:italic;font-size:0.8rem;">Minimum age: 18 years (as per legal requirement)</small></div>
           <div class="ff"><label>Time of Birth</label><input id="s_tob" type="time" placeholder="e.g. 02:30 PM"><small style="color:var(--muted);font-style:italic;font-size:0.82rem;">Used for astrology / Kundali matching</small></div>
           <div class="ff"><label>Place of Birth</label><input id="s_pob" type="text" placeholder="e.g. Hyderabad"></div>
           <div class="ff"><label>Mother Tongue *</label><select id="s_mt"><option value="">Select</option><option>Telugu</option><option>Kannada</option><option>Tamil</option><option>Hindi</option><option>Other</option></select></div>
@@ -1409,6 +1435,15 @@ body{font-size:17px;}
         </div>
         <div class="chk-row"><input type="checkbox" id="tcAgree"><label for="tcAgree">I agree to all Terms &amp; Conditions. I confirm I belong to the <strong>Reddy community, Hindu religion</strong>. I understand the post-engagement payment and 3-account viewing restriction.</label></div>
         <button class="btn-prim" onclick="doRegister()">Complete Registration</button>
+        <div style="display:flex;align-items:center;gap:0.8rem;margin:0.6rem 0;">
+          <div style="flex:1;height:1px;background:var(--border);"></div>
+          <span style="font-family:'Cormorant Garamond',serif;font-size:0.8rem;color:var(--muted);font-style:italic;">or sign up faster</span>
+          <div style="flex:1;height:1px;background:var(--border);"></div>
+        </div>
+        <button onclick="doGoogleSignIn()" style="width:100%;padding:0.72rem;background:#fff;border:1.5px solid #dadce0;border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.5rem;font-weight:600;letter-spacing:0.1em;color:#3c4043;display:flex;align-items:center;justify-content:center;gap:0.6rem;box-shadow:0 1px 6px rgba(0,0,0,0.07);">
+          <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/></svg>
+          Sign Up with Google
+        </button>
       </div>
     </div>
   </div>
@@ -1627,9 +1662,19 @@ body{font-size:17px;}
   <div class="sec-hd"><div class="sec-tag">Get in Touch</div><div class="sec-title">We Are Here for You</div></div>
   <div class="contact-wrap">
     <div class="contact-grid">
-      <div class="ci-card"><span class="ci-icon">📍</span><div class="ci-lbl">Head Office</div><div class="ci-val">G-6 Amruthaville, Opp. Yashoda Hospital,<br>Somajiguda, Hyderabad — 500 082</div></div>
-      <div class="ci-card"><span class="ci-icon">📞</span><div class="ci-lbl">Phone &amp; Mobile</div><div class="ci-val">+91 72079 99985<br>+91 98482 21166</div></div>
-      <div class="ci-card"><span class="ci-icon">✉</span><div class="ci-lbl">Email</div><div class="ci-val">naveenreddy0033@yahoo.com</div></div>
+      <div class="ci-card" onclick="window.open('https://maps.app.goo.gl/GBsdFySAJ2pNANFw9?g_st=iw','_blank')" style="cursor:pointer;">
+        <span class="ci-icon">📍</span><div class="ci-lbl">Head Office</div>
+        <div class="ci-val">G-6 Amruthaville, Opp. Yashoda Hospital,<br>Somajiguda, Hyderabad — 500 082</div>
+        <div style="font-family:'Cinzel',serif;font-size:0.42rem;letter-spacing:0.1em;color:var(--gold2);margin-top:0.5rem;text-transform:uppercase;">Tap to open maps →</div>
+      </div>
+      <div class="ci-card">
+        <span class="ci-icon">📞</span><div class="ci-lbl">Phone &amp; Mobile</div>
+        <div class="ci-val"><a href="tel:+917207999985" style="color:inherit;text-decoration:none;display:block;">+91 72079 99985</a><a href="tel:+919848221166" style="color:inherit;text-decoration:none;display:block;margin-top:0.2rem;">+91 98482 21166</a></div>
+      </div>
+      <div class="ci-card" onclick="window.location.href='mailto:naveenreddy0033@yahoo.com'" style="cursor:pointer;">
+        <span class="ci-icon">✉</span><div class="ci-lbl">Email</div>
+        <div class="ci-val">naveenreddy0033@yahoo.com</div>
+      </div>
       <div class="ci-card" onclick="showPage('pgBranches')" style="cursor:pointer;">
         <span class="ci-icon">🗺</span>
         <div class="ci-lbl">All Branch Offices</div>
@@ -1717,6 +1762,34 @@ body{font-size:17px;}
 </div>
 
 <!-- ══════════════════════════════════════
+     PAGE: INTERESTS RECEIVED
+══════════════════════════════════════ -->
+<div id="pgIntInMe" class="page doodle-bg" style="display:none;">
+  <div class="signup-hero" id="intInMeHero"><div class="sh-text"><div class="sh-title">Interests Received</div><div class="sh-bc">Home | Interests</div></div></div>
+  <div class="back-bar" style="justify-content:flex-end;"><span class="back-bar-current">Interests Received</span><button class="back-bar-btn back-home-btn" onclick="goBack()" style="margin-left:auto;">← Back</button></div>
+  <div class="sec-hd">
+    <div class="sec-tag">Someone Liked You</div>
+    <div class="sec-title">Profiles Interested in You</div>
+    <div class="sec-sub">Members who expressed interest in your profile — review and respond</div>
+  </div>
+  <div id="intInMeGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(460px,1fr));gap:2rem;max-width:1100px;margin:0 auto;padding:0 2rem 5rem;position:relative;z-index:1;"></div>
+</div>
+
+<!-- Notification panel overlay -->
+<div id="notifPanelOv" style="display:none;position:fixed;inset:0;z-index:1200;background:rgba(0,0,0,0.4);" onclick="if(event.target===this)closeNotifPanel()">
+  <div id="notifPanel" style="position:fixed;top:0;right:0;width:360px;max-width:100vw;height:100vh;background:#fff;box-shadow:-4px 0 24px rgba(0,0,0,0.12);overflow-y:auto;display:flex;flex-direction:column;">
+    <div style="padding:1.2rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+      <div style="font-family:'Cinzel',serif;font-size:0.7rem;font-weight:600;letter-spacing:0.1em;color:var(--crimson);">NOTIFICATIONS</div>
+      <button onclick="closeNotifPanel()" style="background:none;border:none;cursor:pointer;font-size:1.1rem;color:var(--muted);">✕</button>
+    </div>
+    <div id="notifList" style="flex:1;padding:0.5rem 0;"></div>
+    <div style="padding:0.8rem 1.5rem;border-top:1px solid var(--border);">
+      <button onclick="markAllNotifsRead()" style="width:100%;padding:0.55rem;background:transparent;border:1.5px solid var(--gold2);border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.45rem;letter-spacing:0.12em;color:var(--gold2);">Mark All as Read</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
      PAGE: CONGRATS
 ══════════════════════════════════════ -->
 <div id="pgCongrats" class="page" style="display:none;">
@@ -1780,7 +1853,7 @@ body{font-size:17px;}
 </div>
 
 <!-- OVERLAYS -->
-<div class="overlay" id="forgotOv" onclick="bgC(event,'forgotOv')"><div class="ov-mod" style="max-width:420px;"><div class="ov-head"><div class="ov-title">Password Recovery</div><div class="ov-sub">A reset link will be sent to your registered contact</div><button class="ov-close" onclick="closeOv('forgotOv')">✕</button></div><div class="ov-body"><div class="ff"><label>Mobile or Email</label><input type="text" placeholder="your@email.com"></div><button class="btn-prim" onclick="toast('Reset link sent.');closeOv('forgotOv')">Send Reset Link</button></div></div></div>
+<div class="overlay" id="forgotOv" onclick="bgC(event,'forgotOv')"><div class="ov-mod" style="max-width:420px;"><div class="ov-head"><div class="ov-title">Password Recovery</div><div class="ov-sub">Enter your registered email to receive a reset link</div><button class="ov-close" onclick="closeOv('forgotOv')">✕</button></div><div class="ov-body"><div class="ff"><label>Registered Email</label><input type="email" id="forgotEmail" placeholder="your@email.com"></div><button class="btn-prim" onclick="doForgotPassword()">Send Reset Link</button></div></div></div>
 <div class="overlay chat-ov" id="chatOv" onclick="bgC(event,'chatOv')"><div class="ov-mod" style="max-width:650px;"><div class="ch-head"><span>💬</span><span class="ch-title" id="chatTitle">Family Conversation</span><button class="ov-close" onclick="closeOv('chatOv')">✕</button></div><div class="chatbody" id="chatBody"></div><div class="chat-inp-row"><input class="chat-inp" id="chatInp" placeholder="Type your message…" onkeydown="if(event.key==='Enter')sendChat()"><button class="chat-send" onclick="sendChat()">Send</button></div></div></div>
 
 <div class="toast" id="toastEl"></div>
@@ -1802,15 +1875,17 @@ function injectImgs(){
   ['navLogo','loginLogo','dashLogo','footLogo','abtLogo'].forEach(id=>{const el=document.getElementById(id);if(el)el.src='data:image/jpeg;base64,'+IMGS.logo;});
   document.getElementById('pgLogin').dataset.bg='data:image/jpeg;base64,'+IMGS.bg1;
   document.getElementById('heroSec').style.backgroundImage=`url('data:image/jpeg;base64,${IMGS.bg1}')`;
-  ['signupHero','aboutHero','memHero','storiesHero','contactHero','branchesHero','likedHero','privacyHero','termsHero'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.backgroundImage=`url('data:image/jpeg;base64,${IMGS.bg1}')`;});
+  ['signupHero','aboutHero','memHero','storiesHero','contactHero','branchesHero','likedHero','intInMeHero','privacyHero','termsHero'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.backgroundImage=`url('data:image/jpeg;base64,${IMGS.bg1}')`;});
   const ill=document.getElementById('idleIllustration');if(ill)ill.src='data:image/jpeg;base64,'+IMGS.bg2;
 }
 
-// ── Defer heavy image injection until after first paint ──
+// ── Apply doodle immediately (CSS only, fast) ──
+applyDoodle();
+// ── Defer heavy base64 image injection until after first paint ──
 if(typeof requestIdleCallback!=='undefined'){
-  requestIdleCallback(()=>{injectImgs();applyDoodle();},{timeout:2000});
+  requestIdleCallback(injectImgs,{timeout:2000});
 } else {
-  setTimeout(()=>{injectImgs();applyDoodle();},100);
+  setTimeout(injectImgs,100);
 }
 
 
@@ -1856,6 +1931,7 @@ function showPage(id,skipHistory){
   window.scrollTo(0,0);
   updateBackBars();
   if(id==='pgLiked') renderLikedPage();
+  if(id==='pgIntInMe') renderIntInMe();
   if(id==='pgBranches'){if(document.getElementById('branchGrid'))document.getElementById('branchGrid').style.display='grid';if(document.getElementById('branchDetail'))document.getElementById('branchDetail').style.display='none';}
 }
 function goBack(){
@@ -1927,8 +2003,62 @@ function _applyLogin(prof){
   document.getElementById('dashHero').style.backgroundImage=`url('data:image/jpeg;base64,${IMGS.bg1}')`;
   renderMyProfile();
   showPage('pgDash');
+  // Load notifications and incoming interests badge
+  loadNotifications();
+  // Load interests from Firestore if available
+  loadInterestsFromFirestore();
   if(window.FIREBASE_READY)_loadProfilesFromFirestore();
 }
+async function doForgotPassword(){
+  const email=document.getElementById('forgotEmail').value.trim();
+  if(!email){toast('Please enter your registered email.');return;}
+  if(!window.FIREBASE_READY){toast('Service not available. Please try again.');return;}
+  try{
+    await window.FB.sendPasswordResetEmail(window.FB.auth,email);
+    toast('✅ Password reset email sent! Check your inbox (and spam folder).');
+    closeOv('forgotOv');
+    document.getElementById('forgotEmail').value='';
+  }catch(e){
+    const msg=e.code==='auth/user-not-found'?'No account found with this email.':e.code==='auth/invalid-email'?'Please enter a valid email address.':'Failed to send reset email: '+e.message;
+    toast(msg);
+  }
+}
+
+async function doGoogleSignIn(){
+  if(!window.FIREBASE_READY){toast('Service not available.');return;}
+  try{
+    const {GoogleAuthProvider,signInWithPopup,auth,getDoc,doc,db,setDoc}=window.FB;
+    const provider=new GoogleAuthProvider();
+    provider.setCustomParameters({prompt:'select_account'});
+    const cred=await signInWithPopup(auth,provider);
+    const uid=cred.user.uid;
+    // Check if profile exists
+    const snap=await getDoc(doc(db,'users',uid));
+    if(snap.exists()){
+      const prof=snap.data();
+      ST.user=prof;
+      _applyLogin(prof);
+      showPage('pgDash');
+      toast('Welcome back, '+(prof.name||cred.user.displayName||'Member').split(' ')[0]+'!');
+    } else {
+      // New Google user — pre-fill sign-up form
+      const displayName=cred.user.displayName||'';
+      const emailVal=cred.user.email||'';
+      showPage('pgSignup');
+      setTimeout(()=>{
+        const sn=document.getElementById('s_name');if(sn)sn.value=displayName;
+        const se=document.getElementById('s_email');if(se)se.value=emailVal;
+        document.getElementById('s_user').value=emailVal.split('@')[0].replace(/[^a-z0-9_]/gi,'').toLowerCase();
+        toast('Welcome! Please complete your profile to continue.');
+      },400);
+      // Store uid for later linking
+      window._googleUid=uid;
+    }
+  }catch(e){
+    if(e.code!=='auth/popup-closed-by-user') toast('Google sign-in failed: '+e.message);
+  }
+}
+
 async function doLogout(){
   if(window.FIREBASE_READY){try{await window.FB.signOut(window.FB.auth);}catch(e){}}
   ST.user=null;ST.profiles=[];
@@ -2095,6 +2225,30 @@ async function resendVerification(){
 }
 
 // ═══════════ FIREBASE LOADERS ═══════════
+async function loadInterestsFromFirestore(){
+  if(!window.FIREBASE_READY||!ST.user)return;
+  try{
+    const {getDocs,query,where,collection,db}=window.FB;
+    // Load interests where user is sender or receiver
+    const [snapFrom,snapTo]=await Promise.all([
+      getDocs(query(collection(db,'interests'),where('from','==',ST.user.u))),
+      getDocs(query(collection(db,'interests'),where('to','==',ST.user.u)))
+    ]);
+    const map=new Map();
+    [...snapFrom.docs,...snapTo.docs].forEach(d=>{const data=d.data();map.set(d.id,data);});
+    // Merge into ST.interests (avoid duplicates by from+to key)
+    map.forEach(int=>{
+      const exists=ST.interests.some(i=>i.from===int.from&&i.to===int.to);
+      if(!exists) ST.interests.push(int);
+      else {
+        const i=ST.interests.find(i=>i.from===int.from&&i.to===int.to);
+        if(i) i.status=int.status; // update status from Firestore
+      }
+    });
+    updateIntInMeBadge(ST.interests.filter(i=>i.to===ST.user.u&&i.status==='pending').length);
+  }catch(e){console.warn('Interest load failed:',e);}
+}
+
 async function _loadProfilesFromFirestore(){
   if(!window.FIREBASE_READY||!ST.user)return;
   try{
@@ -2128,7 +2282,15 @@ function loadProfiles(){
   const held=new Set();
   ST.interests.forEach(i=>{if(i.status!=='released'){held.add(i.from);held.add(i.to);}});
   ST.engaged.forEach(e=>{held.add(e.p1.u);held.add(e.p2.u);});
-  ST.browsePool=ST.profiles.filter(p=>p.u!==ST.user.u&&p.g!==ST.user.g&&!held.has(p.u)&&!ST.interests.some(i=>(i.from===ST.user.u&&i.to===p.u)||(i.from===p.u&&i.to===ST.user.u)));
+  // Tier-based visibility: Elite sees all, VVIP sees VVIP+VIP, VIP sees VIP only
+  const myTier=(ST.user.tier||'VIP').toLowerCase();
+  function tierVisible(pTier){
+    const t=(pTier||'VIP').toLowerCase();
+    if(myTier==='elite') return true;
+    if(myTier==='vvip') return t==='vvip'||t==='vip';
+    return t==='vip';
+  }
+  ST.browsePool=ST.profiles.filter(p=>p.u!==ST.user.u&&p.g!==ST.user.g&&tierVisible(p.tier)&&!held.has(p.u)&&!ST.interests.some(i=>(i.from===ST.user.u&&i.to===p.u)||(i.from===p.u&&i.to===ST.user.u)));
   ST.browseIdx=0;renderCard();
 }
 function renderCard(){
@@ -2183,7 +2345,16 @@ function renderCard(){
 }
 function sendInt(toU){
   if(ST.interests.some(i=>(i.from===ST.user.u&&i.to===toU)||(i.from===toU&&i.to===ST.user.u))){toast('Interest already expressed.');return;}
-  ST.interests.push({from:ST.user.u,to:toU,status:'pending'});
+  const int={from:ST.user.u,to:toU,status:'pending',date:new Date().toISOString().split('T')[0],fromName:ST.user.name,toName:(ST.profiles.find(p=>p.u===toU)||{}).name||toU};
+  ST.interests.push(int);
+  // Persist to Firestore
+  if(window.FIREBASE_READY){
+    const {doc,setDoc,db,collection,addDoc}=window.FB;
+    const intId=ST.user.u+'_'+toU+'_'+Date.now();
+    setDoc(doc(db,'interests',intId),{...int,id:intId}).catch(e=>console.warn('Interest save failed:',e));
+    // Notification for the recipient
+    addDoc(collection(db,'notifications'),{uid:toU,type:'interest_received',fromUid:ST.user.u,fromName:ST.user.name,msg:ST.user.name+' has expressed interest in your profile.',read:false,ts:new Date().toISOString()}).catch(()=>{});
+  }
   toast('Your interest has been conveyed. Our bureau will be in touch.');
   nextCard();
 }
@@ -2218,6 +2389,146 @@ function updateLikedBadge(){
   }
 }
 
+
+// ═══════════ INTERESTS IN ME ═══════════
+function renderIntInMe(){
+  const grid=document.getElementById('intInMeGrid');
+  if(!grid||!ST.user)return;
+  const incoming=ST.interests.filter(i=>i.to===ST.user.u&&i.status==='pending');
+  updateIntInMeBadge(incoming.length);
+  if(!incoming.length){
+    grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:4rem 2rem;font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-style:italic;color:var(--muted);">No pending interests yet.<br><span style="font-size:0.85rem;">When someone expresses interest in your profile, they'll appear here.</span></div>`;
+    return;
+  }
+  grid.innerHTML=incoming.map(int=>{
+    const p=ST.profiles.find(x=>x.u===int.from)||{u:int.from,name:int.fromName||int.from,em:'👤',bg:'#f0f0f0',age:'—',prof:'—',city:'—',nat:'—',ht:'—',edu:'—',rashi:'—',nak:'—',inc:''};
+    return `<div class="pcard" style="margin:0;">
+      <div class="pcard-head" style="background:${p.bg};"><span class="pc-emoji">${p.em}</span><div class="pc-tier-pill">${p.tier||'VIP'}</div><div class="pc-verify">✓ Verified</div></div>
+      <div class="pcard-body">
+        <div class="pc-name">${p.name}, ${p.age}</div>
+        <div class="pc-sub">${p.prof} · ${p.city} · ${p.nat}</div>
+        <div class="pc-div"><span>✦</span></div>
+        <div class="det-grid">
+          <div><div class="di-l">Height</div><div class="di-v">${p.ht||'—'}</div></div>
+          <div><div class="di-l">Education</div><div class="di-v">${p.edu||'—'}</div></div>
+          <div><div class="di-l">Income</div><div class="di-v">${p.inc?formatIncomeDisplay(p.inc):'—'}</div></div>
+          <div><div class="di-l">Rashi</div><div class="di-v">${p.rashi||'—'}</div></div>
+          <div><div class="di-l">Nakshatra</div><div class="di-v">${p.nak||'—'}</div></div>
+          <div><div class="di-l">Gotram</div><div class="di-v">${p.gotra||'—'}</div></div>
+        </div>
+        <button onclick="openOtherBiodata('${p.u}')" style="width:100%;margin-bottom:0.6rem;padding:0.5rem;background:transparent;border:1.5px solid var(--gold2);border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.44rem;letter-spacing:0.12em;color:var(--gold2);">📄 View Biodata</button>
+        <div class="pact-row" style="gap:0.6rem;">
+          <button class="btn-interest" style="flex:1;" onclick="respondToInterest('${int.from}','mutual')">💑 Mutually Interested</button>
+          <button class="btn-pass" style="flex:1;" onclick="respondToInterest('${int.from}','not_interested')">✕ Not Interested</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function respondToInterest(fromU,response){
+  const idx=ST.interests.findIndex(i=>i.from===fromU&&i.to===ST.user.u&&i.status==='pending');
+  if(idx===-1){toast('Interest record not found.');return;}
+  const int=ST.interests[idx];
+  if(response==='mutual'){
+    ST.interests[idx].status='mutual';
+    toast('💑 Mutual interest confirmed! The bureau will be notified.');
+  } else {
+    // Silently remove — sender is NOT notified; only admin is
+    ST.interests.splice(idx,1);
+    toast('Response recorded.');
+  }
+  // Persist response + send notifications
+  if(window.FIREBASE_READY){
+    const {doc,updateDoc,db,collection,addDoc,setDoc}=window.FB;
+    // Find and update interest in Firestore
+    const {getDocs,query,where}=window.FB;
+    getDocs(query(collection(db,'interests'),where('from','==',fromU),where('to','==',ST.user.u))).then(snap=>{
+      snap.forEach(d=>{
+        if(response==='mutual') updateDoc(doc(db,'interests',d.id),{status:'mutual'});
+        else updateDoc(doc(db,'interests',d.id),{status:'not_interested'});
+      });
+    }).catch(()=>{});
+    const fromProf=ST.profiles.find(p=>p.u===fromU)||{};
+    const myName=ST.user.name;
+    const ts=new Date().toISOString();
+    if(response==='mutual'){
+      // Notify sender (fromU) that it's mutual
+      addDoc(collection(db,'notifications'),{uid:fromU,type:'mutual_interest',fromUid:ST.user.u,fromName:myName,msg:myName+' has accepted your interest! It\'s a mutual match.',read:false,ts}).catch(()=>{});
+      // Notify admin
+      addDoc(collection(db,'notifications'),{uid:'__admin__',type:'mutual_interest',fromUid:ST.user.u,fromName:myName,toUid:fromU,toName:fromProf.name||fromU,msg:'Mutual match: '+myName+' & '+(fromProf.name||fromU),read:false,ts}).catch(()=>{});
+    } else {
+      // Notify only admin (sender is NOT notified — keep it private)
+      addDoc(collection(db,'notifications'),{uid:'__admin__',type:'not_interested',fromUid:ST.user.u,fromName:myName,toUid:fromU,toName:fromProf.name||fromU,msg:'Profile update: '+(fromProf.name||fromU)+' — interest not progressed by '+myName,read:false,ts}).catch(()=>{});
+    }
+  }
+  renderIntInMe();
+  // Refresh interests section in admin
+  if(response==='mutual' && typeof renderAll==='function') renderAll();
+}
+
+function updateIntInMeBadge(count){
+  const badge=document.getElementById('intInMeBadge');
+  if(badge){badge.textContent=count;badge.style.display=count>0?'inline-flex':'none';}
+}
+
+// ═══════════ NOTIFICATIONS ═══════════
+let ST_notifs=[];
+async function loadNotifications(){
+  if(!window.FIREBASE_READY||!ST.user)return;
+  try{
+    const {getDocs,query,where,collection,db}=window.FB;
+    const snap=await getDocs(query(collection(db,'notifications'),where('uid','==',ST.user.u)));
+    ST_notifs=[];
+    snap.forEach(d=>ST_notifs.push({...d.data(),id:d.id}));
+    ST_notifs.sort((a,b)=>b.ts.localeCompare(a.ts));
+    updateNotifBadge();
+  }catch(e){console.warn('Notif load failed:',e);}
+}
+
+function updateNotifBadge(){
+  const unread=ST_notifs.filter(n=>!n.read).length;
+  const badge=document.getElementById('notifBadge');
+  if(badge){badge.textContent=unread;badge.style.display=unread>0?'inline-flex':'none';}
+}
+
+function openNotifPanel(){
+  document.getElementById('notifPanelOv').style.display='block';
+  const list=document.getElementById('notifList');
+  if(!ST_notifs.length){
+    list.innerHTML='<div style="padding:2rem;text-align:center;font-family:\'EB Garamond\',serif;font-style:italic;color:var(--muted);">No notifications yet.</div>';
+    return;
+  }
+  list.innerHTML=ST_notifs.map(n=>`
+    <div style="padding:0.9rem 1.5rem;border-bottom:1px solid var(--border);${n.read?'opacity:0.6':''}" onclick="markNotifRead('${n.id}')">
+      <div style="font-family:'EB Garamond',serif;font-size:0.95rem;color:var(--text);line-height:1.5;">${n.msg||'New notification'}</div>
+      <div style="font-family:'Cinzel',serif;font-size:0.4rem;color:var(--muted);margin-top:0.3rem;letter-spacing:0.08em;">${(n.ts||'').substring(0,10)} ${n.read?'· Read':'· New'}</div>
+    </div>`).join('');
+}
+
+function closeNotifPanel(){document.getElementById('notifPanelOv').style.display='none';}
+
+async function markNotifRead(id){
+  const n=ST_notifs.find(x=>x.id===id);
+  if(n)n.read=true;
+  updateNotifBadge();
+  if(window.FIREBASE_READY){
+    try{const {doc,updateDoc,db}=window.FB;await updateDoc(doc(db,'notifications',id),{read:true});}catch(e){}
+  }
+  openNotifPanel();
+}
+
+async function markAllNotifsRead(){
+  ST_notifs.forEach(n=>n.read=true);
+  updateNotifBadge();
+  closeNotifPanel();
+  if(window.FIREBASE_READY){
+    try{
+      const {doc,updateDoc,db}=window.FB;
+      ST_notifs.forEach(n=>{if(n.id)updateDoc(doc(db,'notifications',n.id),{read:true}).catch(()=>{});});
+    }catch(e){}
+  }
+}
 
 // ═══════════ CHAT ═══════════
 function openChat(toU,toName){
@@ -2596,9 +2907,9 @@ function openBranch(key){
     </div>
     <div class="bdet-grid">
       <div class="bdet-item" style="grid-column:1/-1"><div class="bdet-lbl">📍 Address</div><div class="bdet-val">${b.address}</div><div style="font-family:'EB Garamond',serif;font-size:0.8rem;color:var(--muted);font-style:italic;margin-top:0.2rem;">${b.landmark}</div></div>
-      <div class="bdet-item"><div class="bdet-lbl">📞 Landline</div><div class="bdet-val">${b.phone}</div></div>
-      <div class="bdet-item"><div class="bdet-lbl">📱 Mobile</div><div class="bdet-val">${b.mobile}</div></div>
-      <div class="bdet-item" style="grid-column:1/-1"><div class="bdet-lbl">✉ Email</div><div class="bdet-val">${b.email}</div></div>
+      <div class="bdet-item"><div class="bdet-lbl">📞 Landline</div><div class="bdet-val"><a href="tel:${b.phone.replace(/\s/g,'')}" style="color:inherit;text-decoration:none;">${b.phone}</a></div></div>
+      <div class="bdet-item"><div class="bdet-lbl">📱 Mobile</div><div class="bdet-val"><a href="tel:${b.mobile.replace(/\s/g,'')}" style="color:inherit;text-decoration:none;">${b.mobile}</a></div></div>
+      <div class="bdet-item" style="grid-column:1/-1"><div class="bdet-lbl">✉ Email</div><div class="bdet-val"><a href="mailto:${b.email}" style="color:inherit;text-decoration:none;">${b.email}</a></div></div>
       <div class="bdet-item" style="grid-column:1/-1"><div class="bdet-lbl">🕐 Working Hours</div><div class="bdet-val" style="font-size:0.95rem;">${b.hours}</div></div>
       <div class="bdet-item"><div class="bdet-lbl">👤 Head of Bureau</div><div class="bdet-val">${b.manager}</div></div>
       <div class="bdet-item" style="grid-column:1/-1;border:none;"><div class="bdet-lbl">ℹ Note</div><div style="font-family:'EB Garamond',serif;font-size:0.88rem;color:var(--muted);font-style:italic;margin-top:0.1rem;">${b.note}</div></div>
@@ -2883,8 +3194,14 @@ function pickTierFromPopup(t){
 // Liked nav link is already hidden by default; show only after login (handled in _applyLogin)
 // Hide bookmark buttons for non-logged-in users
 document.addEventListener('DOMContentLoaded',function(){
-  // Initial state - hide bookmark actions if not logged in
-  // (cards are rendered only after login so this is mostly handled)
+  // Set DOB max to 18 years ago (legal minimum age)
+  const dobEl=document.getElementById('s_dob');
+  if(dobEl){
+    const d=new Date();
+    d.setFullYear(d.getFullYear()-18);
+    dobEl.max=d.toISOString().split('T')[0];
+    dobEl.min='1940-01-01';
+  }
 });
 
 </script>
