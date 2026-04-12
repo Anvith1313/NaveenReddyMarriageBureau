@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Naveen Reddy Marriage Bureau — Est. 2000</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cinzel:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cinzel:wght@400;500;600;700;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600;1,700&display=swap" rel="stylesheet">
 <style>
 :root{
   --gold:#7c3d52;--gold2:#a0445e;--gold3:#c87090;--gold4:#fdf0f3;
@@ -70,8 +70,14 @@ body{font-family:'EB Garamond',serif;font-size:17px;line-height:1.7;background:v
     inset 0 1px 0 rgba(255,255,255,0.9);
   transform:scale(1.06);
 }
-.nav-brand-text .nb-main{font-family:'Cinzel',serif;font-size:0.88rem;font-weight:700;color:var(--crimson);letter-spacing:0.05em;display:block;line-height:1.25;}
-.nav-brand-text .nb-sub{font-family:'Cormorant Garamond',serif;font-size:0.72rem;font-style:italic;color:var(--gold);display:block;margin-top:0.1rem;}
+.nav-brand-text .nb-main{
+  font-family:'Playfair Display',serif;
+  font-size:1rem;font-weight:700;
+  color:var(--crimson);letter-spacing:0.01em;
+  display:block;line-height:1.2;
+  text-transform:none;
+}
+.nav-brand-text .nb-sub{font-family:'Cormorant Garamond',serif;font-size:0.72rem;font-style:italic;color:var(--gold);display:block;margin-top:0.12rem;}
 
 .nav-links{display:flex;align-items:center;gap:0.1rem;}
 .nav-link{background:none;border:none;cursor:pointer;font-family:'Cinzel',serif;font-size:0.6rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);padding:0.5rem 0.85rem;transition:color 0.25s;position:relative;}
@@ -130,10 +136,19 @@ body{font-family:'EB Garamond',serif;font-size:17px;line-height:1.7;background:v
 .hero-content{position:relative;z-index:2;text-align:center;padding:0 2rem;margin-top:var(--nav-h);}
 .hero-tag{font-family:'Cinzel',serif;font-size:0.52rem;font-weight:600;letter-spacing:0.38em;text-transform:uppercase;color:rgba(212,175,55,0.9);display:flex;align-items:center;justify-content:center;gap:1rem;margin-bottom:1.1rem;text-shadow:0 2px 10px rgba(0,0,0,0.35);}
 .hero-tag::before,.hero-tag::after{content:'';display:block;width:44px;height:1px;background:rgba(212,175,55,0.7);}
-/* Main brand name — large, serif, authoritative */
-.hero-brand{font-family:'Cinzel',serif;font-size:clamp(1.55rem,3.8vw,3rem);font-weight:700;color:#fff;letter-spacing:0.06em;text-transform:uppercase;line-height:1.18;margin-bottom:0.5rem;text-shadow:0 3px 24px rgba(0,0,0,0.45),0 1px 0 rgba(255,255,255,0.08);}
-.hero-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(1.6rem,3.2vw,2.6rem);font-weight:300;font-style:italic;color:rgba(255,248,220,0.92);text-shadow:0 2px 20px rgba(0,0,0,0.3);line-height:1.2;margin-bottom:0.7rem;}
-.hero-h2{font-family:'Cinzel',serif;font-size:clamp(0.52rem,0.9vw,0.68rem);font-weight:500;letter-spacing:0.22em;text-transform:uppercase;color:rgba(255,248,220,0.65);margin-bottom:2.2rem;}
+/* Main brand name — Playfair Display, large, authoritative */
+.hero-brand{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.9rem,4.5vw,3.6rem);
+  font-weight:800;
+  color:#fff;
+  letter-spacing:0.01em;
+  line-height:1.12;
+  margin-bottom:0.6rem;
+  text-shadow:0 4px 32px rgba(0,0,0,0.55),0 1px 0 rgba(255,255,255,0.06);
+}
+.hero-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(1.4rem,2.8vw,2.2rem);font-weight:300;font-style:italic;color:rgba(255,248,220,0.96);text-shadow:0 2px 16px rgba(0,0,0,0.4);line-height:1.25;margin-bottom:0.8rem;}
+.hero-h2{font-family:'Cinzel',serif;font-size:clamp(0.5rem,0.85vw,0.64rem);font-weight:500;letter-spacing:0.24em;text-transform:uppercase;color:rgba(255,248,220,0.82);margin-bottom:2.2rem;}
 .hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
 .hbtn{padding:0.88rem 2.4rem;cursor:pointer;font-family:'Cinzel',serif;font-size:0.53rem;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;transition:all 0.3s;border:none;border-radius:50px;}
 .hbtn.primary{background:linear-gradient(135deg,var(--crimson) 0%,#a02020 100%);color:rgba(255,248,220,0.97);box-shadow:0 8px 28px rgba(139,0,0,0.32),inset 0 1px 0 rgba(255,200,150,0.2);}
@@ -339,7 +354,7 @@ body{font-family:'EB Garamond',serif;font-size:17px;line-height:1.7;background:v
 .signup-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(0deg,var(--offwhite) 0%,transparent 45%);}
 .sh-text{position:relative;z-index:2;text-align:center;}
 .sh-title{font-family:'Cinzel',serif;font-size:2rem;font-weight:700;color:#fff;letter-spacing:0.08em;text-shadow:0 2px 16px rgba(0,0,0,0.5);}
-.sh-bc{font-family:'Cormorant Garamond',serif;font-size:0.92rem;font-style:italic;color:rgba(255,255,255,0.75);margin-top:0.3rem;}
+.sh-bc{font-family:'Cormorant Garamond',serif;font-size:0.92rem;font-style:italic;color:rgba(255,255,255,0.92);margin-top:0.3rem;}
 
 .reg-wrap{max-width:860px;margin:0 auto;padding:2.5rem 2rem 5rem;}
 
@@ -692,9 +707,9 @@ body{font-family:'EB Garamond',serif;font-size:17px;line-height:1.7;background:v
 .mem-price{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:600;color:var(--text);margin-bottom:0.2rem;}
 .mem-card.featured .mem-price{color:#fff;}
 .mem-period{font-family:'Cinzel',serif;font-size:0.44rem;letter-spacing:0.14em;color:var(--muted);margin-bottom:1.4rem;}
-.mem-card.featured .mem-period{color:rgba(255,252,248,0.5);}
+.mem-card.featured .mem-period{color:rgba(255,252,248,0.90);}
 .mem-feats{font-family:'EB Garamond',serif;font-size:0.82rem;color:var(--muted);line-height:1.9;margin-bottom:1.5rem;border-top:1px solid var(--border);padding-top:1.2rem;text-align:left;}
-.mem-card.featured .mem-feats{color:rgba(255,252,248,0.65);border-top-color:rgba(255,255,255,0.1);}
+.mem-card.featured .mem-feats{color:rgba(255,252,248,0.92);border-top-color:rgba(255,255,255,0.22);}
 
 /* ═══════════════════════════════════
    FOOTER — no nav duplication
@@ -703,15 +718,15 @@ body{font-family:'EB Garamond',serif;font-size:17px;line-height:1.7;background:v
 .footer-grid{display:grid;grid-template-columns:2fr 1fr;gap:3rem;margin-bottom:2rem;}
 .fg-brand .fb-logo{display:flex;align-items:center;gap:0.7rem;margin-bottom:0.8rem;}
 .fg-brand .fb-logo img{width:38px;height:38px;object-fit:contain;}
-.fg-brand .fb-name{font-family:'Cinzel',serif;font-size:0.7rem;font-weight:700;color:rgba(255,252,248,0.9);letter-spacing:0.05em;}
-.fg-brand p{font-family:'EB Garamond',serif;font-size:0.84rem;color:rgba(255,252,248,0.38);line-height:1.8;}
-.fg-col h4{font-family:'Cinzel',serif;font-size:0.48rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold2);margin-bottom:0.9rem;}
+.fg-brand .fb-name{font-family:'Playfair Display',serif;font-size:0.82rem;font-weight:700;color:#fff;letter-spacing:0.02em;}
+.fg-brand p{font-family:'EB Garamond',serif;font-size:0.88rem;color:rgba(255,252,248,0.78);line-height:1.85;}
+.fg-col h4{font-family:'Cinzel',serif;font-size:0.48rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold3);margin-bottom:0.9rem;}
 .fg-col ul{list-style:none;}
 .fg-col li{margin-bottom:0.5rem;}
-.fg-col button,.fg-col a{background:none;border:none;cursor:pointer;font-family:'EB Garamond',serif;font-size:0.86rem;color:rgba(255,252,248,0.4);text-decoration:none;transition:color 0.2s;}
-.fg-col button:hover,.fg-col a:hover{color:var(--gold2);}
-.footer-bottom{border-top:1px solid rgba(184,150,12,0.1);padding-top:1.4rem;display:flex;justify-content:space-between;align-items:center;}
-.footer-bottom p{font-family:'EB Garamond',serif;font-size:0.78rem;color:rgba(255,252,248,0.28);font-style:italic;}
+.fg-col button,.fg-col a{background:none;border:none;cursor:pointer;font-family:'EB Garamond',serif;font-size:0.88rem;color:rgba(255,252,248,0.82);text-decoration:none;transition:color 0.2s;}
+.fg-col button:hover,.fg-col a:hover{color:var(--gold3);}
+.footer-bottom{border-top:1px solid rgba(184,150,12,0.18);padding-top:1.4rem;display:flex;justify-content:space-between;align-items:center;}
+.footer-bottom p{font-family:'EB Garamond',serif;font-size:0.8rem;color:rgba(255,252,248,0.78);font-style:italic;}
 
 /* TOAST */
 .tier-rec-card{border:1.5px solid rgba(184,150,12,0.2);border-radius:12px;padding:1rem 0.8rem;text-align:center;cursor:pointer;transition:all 0.25s;background:#fff;}
@@ -3377,7 +3392,7 @@ function openPhotoLightbox(photos, startIdx){
         ${photos.length>1?`<button onclick="event.stopPropagation();_plbNext()" style="position:absolute;right:-3rem;background:rgba(255,255,255,0.12);border:none;border-radius:50%;width:44px;height:44px;cursor:pointer;color:#fff;font-size:1.2rem;display:flex;align-items:center;justify-content:center;">›</button>`:''}
       </div>
       <div style="position:absolute;top:1rem;right:1rem;display:flex;gap:0.5rem;align-items:center;">
-        <div style="font-family:'Cinzel',serif;font-size:0.44rem;color:rgba(255,255,255,0.6);letter-spacing:0.14em;">${idx+1} / ${photos.length}</div>
+        <div style="font-family:'Cinzel',serif;font-size:0.44rem;color:rgba(255,255,255,0.90);letter-spacing:0.14em;">${idx+1} / ${photos.length}</div>
         <button onclick="document.getElementById('photoLightboxOv').remove()" style="background:rgba(255,255,255,0.12);border:none;border-radius:50%;width:36px;height:36px;cursor:pointer;color:#fff;font-size:1rem;display:flex;align-items:center;justify-content:center;">✕</button>
       </div>`;
   }
