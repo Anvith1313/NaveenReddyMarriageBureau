@@ -351,8 +351,20 @@ body{font-family:'EB Garamond',serif;font-size:17px;line-height:1.7;background:v
 .step-circle{width:36px;height:36px;border:1.5px solid rgba(184,150,12,0.22);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 0.4rem;font-family:'Cinzel',serif;font-size:0.6rem;color:var(--muted);position:relative;z-index:2;background:var(--offwhite);transition:all 0.3s;}
 .step-item.active .step-circle{background:var(--crimson);border-color:var(--crimson);color:#fff;}
 .step-item.done .step-circle{background:var(--gold4);border-color:var(--gold2);color:var(--gold);}
+.step-item.done{cursor:pointer;}
+.step-item.done:hover .step-circle{background:rgba(184,150,12,0.18);border-color:var(--gold);transform:scale(1.08);}
 .step-lbl{font-family:'Cinzel',serif;font-size:0.42rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);}
 .step-item.active .step-lbl{color:var(--crimson);}
+.step-item.done .step-lbl{color:var(--gold);}
+/* Review step */
+.rev-section{margin-bottom:1.4rem;}
+.rev-sec-title{font-family:'Cinzel',serif;font-size:0.52rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--crimson);border-bottom:1px solid rgba(184,150,12,0.15);padding-bottom:0.35rem;margin-bottom:0.8rem;}
+.rev-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.45rem 1.4rem;}
+.rev-item{border-bottom:1px solid rgba(184,150,12,0.08);padding:0.35rem 0;}
+.rev-lbl{font-family:'Cinzel',serif;font-size:0.42rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:0.1rem;}
+.rev-val{font-family:'EB Garamond',serif;font-size:0.92rem;color:var(--text);}
+.rev-val.empty{color:rgba(107,83,64,0.35);font-style:italic;}
+@media(max-width:768px){.rev-grid{grid-template-columns:1fr;}}
 
 .form-step{display:none;}
 .form-step.active{display:block;}
@@ -1386,11 +1398,12 @@ body{font-size:17px;}
     </div>
     <!-- Step bar -->
     <div class="step-bar" style="position:relative;z-index:1;">
-      <div class="step-item active" id="si1"><div class="step-circle">1</div><div class="step-lbl">Basic</div></div>
-      <div class="step-item" id="si2"><div class="step-circle">2</div><div class="step-lbl">Personal</div></div>
-      <div class="step-item" id="si3"><div class="step-circle">3</div><div class="step-lbl">Family</div></div>
-      <div class="step-item" id="si4"><div class="step-circle">4</div><div class="step-lbl">Preferences</div></div>
-      <div class="step-item" id="si5"><div class="step-circle">5</div><div class="step-lbl">Membership</div></div>
+      <div class="step-item active" id="si1" onclick="goStepBack(1)"><div class="step-circle">1</div><div class="step-lbl">Basic</div></div>
+      <div class="step-item" id="si2" onclick="goStepBack(2)"><div class="step-circle">2</div><div class="step-lbl">Personal</div></div>
+      <div class="step-item" id="si3" onclick="goStepBack(3)"><div class="step-circle">3</div><div class="step-lbl">Family</div></div>
+      <div class="step-item" id="si4" onclick="goStepBack(4)"><div class="step-circle">4</div><div class="step-lbl">Preferences</div></div>
+      <div class="step-item" id="si5" onclick="goStepBack(5)"><div class="step-circle">5</div><div class="step-lbl">Membership</div></div>
+      <div class="step-item" id="si6"><div class="step-circle">6</div><div class="step-lbl">Review</div></div>
     </div>
 
     <!-- Step 1 -->
@@ -1503,17 +1516,24 @@ body{font-size:17px;}
           <p><strong>9. Governing Law:</strong> Telangana, India. Disputes subject to Hyderabad jurisdiction.</p>
         </div>
         <div class="chk-row"><input type="checkbox" id="tcAgree"><label for="tcAgree">I agree to all Terms &amp; Conditions. I confirm I belong to the <strong>Reddy community, Hindu religion</strong>. I understand the post-engagement payment and 3-account viewing restriction.</label></div>
-        <button class="btn-prim" onclick="doRegister()">Complete Registration</button>
-        <div style="display:flex;align-items:center;gap:0.8rem;margin:0.6rem 0;">
-          <div style="flex:1;height:1px;background:var(--border);"></div>
-          <span style="font-family:'Cormorant Garamond',serif;font-size:0.8rem;color:var(--muted);font-style:italic;">or sign up faster</span>
-          <div style="flex:1;height:1px;background:var(--border);"></div>
-        </div>
-        <button onclick="doGoogleSignIn()" style="width:100%;padding:0.72rem;background:#fff;border:1.5px solid #dadce0;border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.5rem;font-weight:600;letter-spacing:0.1em;color:#3c4043;display:flex;align-items:center;justify-content:center;gap:0.6rem;box-shadow:0 1px 6px rgba(0,0,0,0.07);">
-          <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/></svg>
-          Sign Up with Google
-        </button>
+        <button class="btn-step next" style="width:100%;text-align:center;justify-content:center;margin-top:0.2rem;" onclick="goStep(6)">Review My Details →</button>
       </div>
+      <div class="step-nav"><button class="btn-step back" onclick="goStep(4)">← Back</button></div>
+    </div>
+
+    <!-- Step 6 — Review -->
+    <div class="form-step" id="fs6" style="position:relative;z-index:1;">
+      <div style="text-align:center;margin-bottom:2rem;">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:300;font-style:italic;color:var(--crimson);margin-bottom:0.3rem;">Review Your Details</div>
+        <div style="font-family:'EB Garamond',serif;font-size:0.9rem;color:var(--muted);">Please review everything carefully before submitting. Click any step in the bar above to go back and edit.</div>
+      </div>
+      <div id="reviewContent"></div>
+      <div style="background:rgba(253,246,216,0.5);border:1px solid rgba(184,150,12,0.2);border-radius:10px;padding:1rem 1.2rem;margin-bottom:1.4rem;">
+        <div style="font-family:'Cinzel',serif;font-size:0.5rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--crimson);margin-bottom:0.4rem;">Selected Membership</div>
+        <div id="reviewTier" style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--text);"></div>
+      </div>
+      <button class="btn-prim" onclick="doRegister()">Confirm &amp; Complete Registration</button>
+      <div class="step-nav" style="margin-top:0.8rem;"><button class="btn-step back" onclick="goStep(5)">← Back to Membership</button></div>
     </div>
   </div>
 </div>
@@ -2141,14 +2161,106 @@ async function doLogout(){
 // ═══════════ REGISTRATION ═══════════
 let regTier=null;
 function pickTier(t){regTier=t;['VIP','VVIP','Elite'].forEach(x=>document.getElementById('tr'+x).classList.toggle('sel',x===t));}
+let _regCurrentStep=1;
 function goStep(n){
-  if(n===2&&!document.getElementById('s_name').value.trim()){toast('Please enter your full name.');return;}
-  if(n===2&&!document.getElementById('s_mob').value.trim()){toast('Please enter your mobile number.');return;}
-  if(n===2&&!document.getElementById('s_user').value.trim()){toast('Please choose a username.');return;}
+  // Validate only when moving FORWARD from step 1
+  if(n>_regCurrentStep&&_regCurrentStep===1){
+    if(!document.getElementById('s_name').value.trim()){toast('Please enter your full name.');return;}
+    if(!document.getElementById('s_mob').value.trim()){toast('Please enter your mobile number.');return;}
+    if(!document.getElementById('s_user').value.trim()){toast('Please choose a username.');return;}
+    if(!document.getElementById('s_email').value.trim()){toast('Please enter your email address.');return;}
+  }
+  // Validate membership tier when moving to review
+  if(n===6){
+    if(!regTier){toast('Please select a membership tier first.');return;}
+    if(!document.getElementById('tcAgree').checked){toast('Please accept the Terms & Conditions.');return;}
+    _buildReview();
+  }
+  _regCurrentStep=n;
   document.querySelectorAll('.form-step').forEach(s=>s.classList.remove('active'));
   document.getElementById('fs'+n).classList.add('active');
-  for(let i=1;i<=5;i++){const s=document.getElementById('si'+i);s.classList.remove('active','done');if(i===n)s.classList.add('active');else if(i<n)s.classList.add('done');}
-  window.scrollTo(0,180);
+  for(let i=1;i<=6;i++){
+    const s=document.getElementById('si'+i);if(!s)continue;
+    s.classList.remove('active','done');
+    if(i===n)s.classList.add('active');
+    else if(i<n)s.classList.add('done');
+  }
+  window.scrollTo(0,160);
+}
+// Allow clicking done steps in the bar to go back freely
+function goStepBack(n){
+  if(n>=_regCurrentStep)return; // can only go back, not jump ahead
+  goStep(n);
+}
+function _buildReview(){
+  function val(id){const e=document.getElementById(id);return e?e.value.trim():'—';}
+  function radio(name){const e=document.querySelector(`input[name=${name}]:checked`);return e?e.value:'—';}
+  function rv(v){return(v&&v.trim()&&v!=='—')?v:'<span class="rev-val empty">— not filled —</span>';}
+  const sections=[
+    {title:'Basic Information',rows:[
+      ['Profile For',radio('gender')],['Full Name',val('s_name')],
+      ['Date of Birth',val('s_dob')],['Time of Birth',val('s_tob')],
+      ['Place of Birth',val('s_pob')],['Mother Tongue',val('s_mt')],
+      ['Marital Status',val('s_ms')],['Sub-Caste / Gotra',val('s_gotra')],
+      ['Nakshatra',val('s_nak')],['Rashi',val('s_rashi')],
+    ]},
+    {title:'Contact & Location',rows:[
+      ['Mobile',val('s_mob')],['Email',val('s_email')],
+      ['City',val('s_city')],['State',val('s_state')],
+      ['Country',val('s_country')],['Residential Status',val('s_res')],
+      ['Username',val('s_user')],
+    ]},
+    {title:'Physical Attributes',rows:[
+      ['Height',val('s_ht')],['Weight',val('s_wt')?val('s_wt')+' kg':'—'],
+      ['Complexion',val('s_cx')],['Body Type',val('s_bt')],
+      ['Blood Group',val('s_bg')],['Differently Abled',val('s_da')],
+    ]},
+    {title:'Education & Career',rows:[
+      ['Highest Qualification',val('s_edu')],['School',val('s_school')],
+      ['Intermediate College',val('s_inter')],['Degree College',val('s_engcol')],
+      ['PG / Higher Education',val('s_col')],['Employed In',val('s_emp')],
+      ['Occupation',val('s_occ')],['Company',val('s_co')],
+      ['Place of Work',val('s_workplace')],['Annual Income',val('s_inc')?formatIncomeDisplay(val('s_inc')):'—'],
+      ['Visa Status',val('s_visa')],
+    ]},
+    {title:'Lifestyle & About',rows:[
+      ['Diet',val('s_diet')],['Smoking',val('s_smk')],['Drinking',val('s_drk')],
+      ['About Me',val('s_about')],
+    ]},
+    {title:'Family Background',rows:[
+      ['Native Place',val('s_native')],['Family Type',val('s_ft')],
+      ['Family Values',val('s_fv')],['Family Status',val('s_fst')],
+    ]},
+    {title:"Parents",rows:[
+      ["Father's Name",val('s_fn')],["Father's Status",val('s_fas')],
+      ["Father's Occupation",val('s_fo')],["Father's Gotra",val('s_fg')],
+      ["Mother's Name",val('s_mn')],["Mother's Status",val('s_mas')],
+      ["Mother's Occupation",val('s_mo')],
+      ['Guardian Mobile 1',val('s_pgmob1')],['Guardian Mobile 2',val('s_pgmob2')],
+    ]},
+    {title:'Siblings & Property',rows:[
+      ['Brothers',val('s_br')||'0'],['Brothers Married',val('s_brm')||'0'],
+      ['Sisters',val('s_sr')||'0'],['Sisters Married',val('s_srm')||'0'],
+      ['Property Value',val('s_pval')],
+    ]},
+    {title:'Partner Preferences',rows:[
+      ['Preferred Age',val('pp_af')&&val('pp_at')?val('pp_af')+' – '+val('pp_at')+' years':'—'],
+      ['Min Height',val('pp_hf')||'Any'],['Expected Education',val('pp_edu')||'Any'],
+      ['Expected Profession',val('pp_occ')],['Expected Income',val('pp_inc')||'Any'],
+      ['Preferred Location',val('pp_st')],['NRI Acceptable',val('pp_nri')],
+      ['Other Expectations',val('pp_note')],
+    ]},
+  ];
+  const html=sections.map(sec=>`
+    <div class="rev-section">
+      <div class="rev-sec-title">${sec.title}</div>
+      <div class="rev-grid">
+        ${sec.rows.map(([l,v])=>`<div class="rev-item"><div class="rev-lbl">${l}</div><div class="rev-val">${rv(v)}</div></div>`).join('')}
+      </div>
+    </div>`).join('');
+  document.getElementById('reviewContent').innerHTML=html;
+  const tierNames={VIP:'👑 VIP — ₹15,000/yr',VVIP:'💎 VVIP — ₹30,000/yr',Elite:'🔱 Elite — ₹1,00,000/yr'};
+  document.getElementById('reviewTier').innerHTML=`<strong style="font-family:'Cinzel',serif;font-size:0.72rem;color:var(--crimson);">${tierNames[regTier]||regTier}</strong>`;
 }
 async function doRegister(){
   if(!regTier){toast('Please select a membership tier.');return;}
