@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Naveen Reddy Marriage Bureau — Est. 2000</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cinzel:wght@400;500;600;700;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cinzel:wght@400;500;600;700;900&family=Josefin+Sans:ital,wght@0,100;0,200;0,300;0,400;1,100;1,200;1,300&display=swap" rel="stylesheet">
 <style>
 :root{
   --gold:#7c3d52;--gold2:#a0445e;--gold3:#c87090;--gold4:#fdf0f3;
@@ -71,13 +71,13 @@ body{font-family:'EB Garamond',serif;font-size:17px;line-height:1.7;background:v
   transform:scale(1.06);
 }
 .nav-brand-text .nb-main{
-  font-family:'Playfair Display',serif;
-  font-size:1rem;font-weight:700;
-  color:var(--crimson);letter-spacing:0.01em;
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.08rem;font-weight:500;
+  color:var(--crimson);letter-spacing:0.06em;
   display:block;line-height:1.2;
   text-transform:none;
 }
-.nav-brand-text .nb-sub{font-family:'Cormorant Garamond',serif;font-size:0.72rem;font-style:italic;color:var(--gold);display:block;margin-top:0.12rem;}
+.nav-brand-text .nb-sub{font-family:'Josefin Sans',sans-serif;font-size:0.56rem;font-weight:200;font-style:italic;letter-spacing:0.18em;color:var(--gold);display:block;margin-top:0.14rem;text-transform:uppercase;}
 
 .nav-links{display:flex;align-items:center;gap:0.1rem;}
 .nav-link{background:none;border:none;cursor:pointer;font-family:'Cinzel',serif;font-size:0.6rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);padding:0.5rem 0.85rem;transition:color 0.25s;position:relative;}
@@ -131,24 +131,24 @@ body{font-family:'EB Garamond',serif;font-size:17px;line-height:1.7;background:v
 }
 .hero-section::before{
   content:'';position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(0,0,0,0.12) 0%,rgba(0,0,0,0.06) 35%,rgba(255,252,248,0.55) 75%,rgba(255,252,248,1) 100%);
+  background:linear-gradient(180deg,rgba(0,0,0,0.28) 0%,rgba(0,0,0,0.18) 38%,rgba(0,0,0,0.22) 68%,rgba(255,252,248,0.65) 88%,rgba(255,252,248,1) 100%);
 }
 .hero-content{position:relative;z-index:2;text-align:center;padding:0 2rem;margin-top:var(--nav-h);}
-.hero-tag{font-family:'Cinzel',serif;font-size:0.52rem;font-weight:600;letter-spacing:0.38em;text-transform:uppercase;color:rgba(212,175,55,0.9);display:flex;align-items:center;justify-content:center;gap:1rem;margin-bottom:1.1rem;text-shadow:0 2px 10px rgba(0,0,0,0.35);}
-.hero-tag::before,.hero-tag::after{content:'';display:block;width:44px;height:1px;background:rgba(212,175,55,0.7);}
-/* Main brand name — Playfair Display, large, authoritative */
+.hero-tag{font-family:'Josefin Sans',sans-serif;font-size:0.52rem;font-weight:200;letter-spacing:0.42em;text-transform:uppercase;color:rgba(222,188,80,0.95);display:flex;align-items:center;justify-content:center;gap:1rem;margin-bottom:1.2rem;text-shadow:0 1px 8px rgba(0,0,0,0.45);}
+.hero-tag::before,.hero-tag::after{content:'';display:block;width:44px;height:1px;background:rgba(212,175,55,0.65);}
+/* Main brand name — Cormorant Garamond, refined, editorial */
 .hero-brand{
-  font-family:'Playfair Display',serif;
-  font-size:clamp(1.9rem,4.5vw,3.6rem);
-  font-weight:800;
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2.2rem,5.2vw,4.6rem);
+  font-weight:400;
   color:#fff;
-  letter-spacing:0.01em;
-  line-height:1.12;
-  margin-bottom:0.6rem;
-  text-shadow:0 4px 32px rgba(0,0,0,0.55),0 1px 0 rgba(255,255,255,0.06);
+  letter-spacing:0.08em;
+  line-height:1.1;
+  margin-bottom:0.55rem;
+  text-shadow:0 2px 28px rgba(0,0,0,0.65),0 4px 12px rgba(0,0,0,0.3);
 }
-.hero-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(1.4rem,2.8vw,2.2rem);font-weight:300;font-style:italic;color:rgba(255,248,220,0.96);text-shadow:0 2px 16px rgba(0,0,0,0.4);line-height:1.25;margin-bottom:0.8rem;}
-.hero-h2{font-family:'Cinzel',serif;font-size:clamp(0.5rem,0.85vw,0.64rem);font-weight:500;letter-spacing:0.24em;text-transform:uppercase;color:rgba(255,248,220,0.82);margin-bottom:2.2rem;}
+.hero-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(1.3rem,2.5vw,2rem);font-weight:300;font-style:italic;color:#fff;text-shadow:0 1px 16px rgba(0,0,0,0.55),0 3px 28px rgba(0,0,0,0.3);line-height:1.28;margin-bottom:0.75rem;}
+.hero-h2{font-family:'Josefin Sans',sans-serif;font-size:clamp(0.52rem,0.82vw,0.62rem);font-weight:200;letter-spacing:0.32em;text-transform:uppercase;color:rgba(255,248,220,0.96);text-shadow:0 1px 8px rgba(0,0,0,0.5);margin-bottom:2.4rem;}
 .hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
 .hbtn{padding:0.88rem 2.4rem;cursor:pointer;font-family:'Cinzel',serif;font-size:0.53rem;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;transition:all 0.3s;border:none;border-radius:50px;}
 .hbtn.primary{background:linear-gradient(135deg,var(--crimson) 0%,#a02020 100%);color:rgba(255,248,220,0.97);box-shadow:0 8px 28px rgba(139,0,0,0.32),inset 0 1px 0 rgba(255,200,150,0.2);}
@@ -718,7 +718,7 @@ body{font-family:'EB Garamond',serif;font-size:17px;line-height:1.7;background:v
 .footer-grid{display:grid;grid-template-columns:2fr 1fr;gap:3rem;margin-bottom:2rem;}
 .fg-brand .fb-logo{display:flex;align-items:center;gap:0.7rem;margin-bottom:0.8rem;}
 .fg-brand .fb-logo img{width:38px;height:38px;object-fit:contain;}
-.fg-brand .fb-name{font-family:'Playfair Display',serif;font-size:0.82rem;font-weight:700;color:#fff;letter-spacing:0.02em;}
+.fg-brand .fb-name{font-family:'Cormorant Garamond',serif;font-size:0.96rem;font-weight:500;color:#fff;letter-spacing:0.08em;}
 .fg-brand p{font-family:'EB Garamond',serif;font-size:0.88rem;color:rgba(255,252,248,0.78);line-height:1.85;}
 .fg-col h4{font-family:'Cinzel',serif;font-size:0.48rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold3);margin-bottom:0.9rem;}
 .fg-col ul{list-style:none;}
@@ -1797,7 +1797,6 @@ body{font-size:17px;}
 ══════════════════════════════════════ -->
 <div id="pgBranches" class="page doodle-bg" style="display:none;">
   <div class="signup-hero" id="branchesHero"><div class="sh-text"><div class="sh-title">Our Branches</div><div class="sh-bc">Home | Our Branches</div></div></div>
-  <div class="back-bar"><button class="back-bar-btn back-home-btn" onclick="goBack()" style="display:none;">← Back</button><span class="back-bar-sep back-bar-btn" style="display:none;">›</span><span class="back-bar-current">Our Branches</span></div>
   <div class="sec-hd">
     <div class="sec-tag">Serving You Throughout Telangana</div>
     <div class="sec-title">Our Branch Offices</div>
@@ -2038,9 +2037,7 @@ function showPage(id,skipHistory){
   if(id==='pgBranches'){if(document.getElementById('branchGrid'))document.getElementById('branchGrid').style.display='grid';if(document.getElementById('branchDetail'))document.getElementById('branchDetail').style.display='none';}
 }
 function goBack(){
-  if(_navHistory.length===0){showPage('pgHome',true);return;}
-  const prev=_navHistory.pop();
-  showPage(prev,true);
+  showPage('pgHome');
 }
 function updateBackBars(){
   const hasPrev=_navHistory.length>0;
