@@ -2382,6 +2382,7 @@ async function doRegister(){
   if(!name){toast('Please enter your name.');return;}
   if(!email){toast('Please enter your email.');return;}
   if(!pass||pass.length<6){toast('Please enter a password (min 6 characters).');return;}
+  if(dob&&(age<16||age>80)){toast('Please enter a valid date of birth.');return;}
   const btn=document.querySelector('#pgSignup .btn-prim');
   if(btn){btn.textContent='Registering…';btn.disabled=true;}
   const np={
@@ -2624,6 +2625,7 @@ function _startRealTimeListeners(){
 async function uploadProfilePhoto(file){
   if(!window.FIREBASE_READY||!ST.user){toast('Please login first.');return;}
   if(!file){toast('No file selected.');return;}
+  if(!['image/jpeg','image/png','image/webp','image/jpg'].includes(file.type)){toast('Only JPG, PNG or WebP images are allowed.');return;}
   if(file.size>5*1024*1024){toast('Image must be under 5MB.');return;}
   toast('Uploading photo…');
   try{
@@ -2700,7 +2702,7 @@ function renderCard(){
       <div style="font-size:5.5rem;line-height:1;animation:hbPulse 3.5s ease infinite;">💔</div>
       <div style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;font-style:italic;color:var(--crimson);">No Profiles Found</div>
       <div style="font-family:'EB Garamond',serif;font-size:0.95rem;color:var(--muted);max-width:360px;line-height:1.85;">We couldn't find a match for your current filters.<br>Please try adjusting your preferences — new verified members join us daily.</div>
-      <button onclick="document.getElementById('pArea').innerHTML='';document.getElementById('pArea').innerHTML='<div class=\'idle-wrap\'><img class=\'idle-illustration\' src=\'data:image/jpeg;base64,${IMGS.bg2}\' alt=\'\' /><div class=\'idle-t\'>Adjust your filters and search again</div></div>'" style="margin-top:0.5rem;padding:0.75rem 2.2rem;background:var(--crimson);border:none;border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.48rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,248,220,0.96);box-shadow:0 4px 16px rgba(139,0,0,0.22);">Try Different Filters</button>
+      <button onclick="['fA','fH','fI','fC','fS'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});const fd=document.getElementById('fD');if(fd)fd.value='';loadProfiles();document.getElementById('fA')?.scrollIntoView({behavior:'smooth',block:'center'});" style="margin-top:0.5rem;padding:0.75rem 2.2rem;background:var(--crimson);border:none;border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.48rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,248,220,0.96);box-shadow:0 4px 16px rgba(139,0,0,0.22);">Try Different Filters</button>
     </div>`;
   if(!document.getElementById('hbAnim')){const s=document.createElement('style');s.id='hbAnim';s.textContent='@keyframes hbPulse{0%,40%,100%{transform:scale(1) rotate(-3deg);}70%{transform:scale(1.1) rotate(3deg);}}';document.head.appendChild(s);}
     return;
@@ -2724,17 +2726,17 @@ function renderCard(){
         </button></div>
       <div class="pcard-body">
         <div class="pc-name">${p.name}, ${p.age}</div>
-        <div class="pc-sub">${p.prof} · ${p.city}, ${p.country} · ${p.nat}</div>
+        <div class="pc-sub">${p.prof||p.occ||'—'} · ${p.city||'—'}, ${p.country||'—'} · ${p.nat||p.native||'—'}</div>
         <div class="pc-div"><span>✦</span></div>
         <div class="det-grid">
           <div><div class="di-l">Age</div><div class="di-v">${p.age} Years${p.dob&&p.dob!=='—'?` <span style="font-size:0.78rem;color:var(--muted)">(DOB: ${new Date(p.dob).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})})</span>`:''}</div></div>
-          <div><div class="di-l">Height</div><div class="di-v">${p.ht}</div></div>
-          <div><div class="di-l">Education</div><div class="di-v">${p.edu}</div></div>
-          <div><div class="di-l">Annual Income</div><div class="di-v">${p.inc?formatIncomeDisplay(p.inc):'—'}</div></div>
-          <div><div class="di-l">Native</div><div class="di-v">${p.nat}</div></div>
+          <div><div class="di-l">Height</div><div class="di-v">${p.ht||'—'}</div></div>
+          <div><div class="di-l">Education</div><div class="di-v">${p.edu||'—'}</div></div>
+          <div><div class="di-l">Annual Income</div><div class="di-v">${p.inc||p.sal?formatIncomeDisplay(p.inc||p.sal):'—'}</div></div>
+          <div><div class="di-l">Native</div><div class="di-v">${p.nat||p.native||'—'}</div></div>
           <div><div class="di-l">Diet</div><div class="di-v">${p.diet||'—'}</div></div>
-          <div><div class="di-l">Rashi</div><div class="di-v">${p.rashi}</div></div>
-          <div><div class="di-l">Nakshatra</div><div class="di-v">${p.nak}</div></div>
+          <div><div class="di-l">Rashi</div><div class="di-v">${p.rashi||'—'}</div></div>
+          <div><div class="di-l">Nakshatra</div><div class="di-v">${p.nak||'—'}</div></div>
           ${contactOk?`<div style="grid-column:1/-1"><div class="di-l">📞 Mobile</div><div class="di-v">${p.mob}</div></div>`:''}
           ${contactOk?`<div style="grid-column:1/-1"><div class="di-l">✉ Email</div><div class="di-v">${p.email}</div></div>`:''}
         </div>
@@ -2818,12 +2820,12 @@ function renderIntInMe(){
       <div class="pcard-head" style="background:${p.bg};"><span class="pc-emoji">${p.em}</span><div class="pc-tier-pill">${p.tier||'VIP'}</div><div class="pc-verify">✓ Verified</div></div>
       <div class="pcard-body">
         <div class="pc-name">${p.name}, ${p.age}</div>
-        <div class="pc-sub">${p.prof} · ${p.city} · ${p.nat}</div>
+        <div class="pc-sub">${p.prof||p.occ||'—'} · ${p.city||'—'} · ${p.nat||p.native||'—'}</div>
         <div class="pc-div"><span>✦</span></div>
         <div class="det-grid">
           <div><div class="di-l">Height</div><div class="di-v">${p.ht||'—'}</div></div>
           <div><div class="di-l">Education</div><div class="di-v">${p.edu||'—'}</div></div>
-          <div><div class="di-l">Income</div><div class="di-v">${p.inc?formatIncomeDisplay(p.inc):'—'}</div></div>
+          <div><div class="di-l">Income</div><div class="di-v">${p.inc||p.sal?formatIncomeDisplay(p.inc||p.sal):'—'}</div></div>
           <div><div class="di-l">Rashi</div><div class="di-v">${p.rashi||'—'}</div></div>
           <div><div class="di-l">Nakshatra</div><div class="di-v">${p.nak||'—'}</div></div>
           <div><div class="di-l">Gotram</div><div class="di-v">${p.gotra||'—'}</div></div>
@@ -3120,6 +3122,7 @@ function renderMyPhotos(){
 async function uploadMyPhoto(file){
   if(!file)return;
   if(!ST.user){toast('Please log in first.');return;}
+  if(!['image/jpeg','image/png','image/webp','image/jpg'].includes(file.type)){toast('Only JPG, PNG or WebP images are allowed.');return;}
   const photos=ST.user.photos||[];
   if(photos.length>=5){toast('Maximum 5 photos allowed.');return;}
   if(file.size>5*1024*1024){toast('Photo must be under 5MB.');return;}
@@ -3485,8 +3488,8 @@ function renderLiked(){
       <div class="lc-emoji" style="background:${p.bg};">${p.em}</div>
       <div>
         <div class="lc-name">${p.name}, ${p.age}</div>
-        <div class="lc-sub">${p.prof} · ${p.city}, ${p.country}</div>
-        <div class="lc-sub">${p.tier} · ${p.nat}</div>
+        <div class="lc-sub">${p.prof||p.occ||'—'} · ${p.city||'—'}, ${p.country||'—'}</div>
+        <div class="lc-sub">${p.tier||'VIP'} · ${p.nat||p.native||'—'}</div>
       </div>
       <div class="lc-actions">
         <button class="lc-btn int" onclick="sendIntFromLiked('${p.u}')">Express Interest</button>
@@ -3546,14 +3549,14 @@ function renderLikedPage(){
         </div>
         <div class="pcard-body">
           <div class="pc-name">${p.name}, ${p.age}</div>
-          <div class="pc-sub">${p.prof} · ${p.city}, ${p.country} · ${p.nat}</div>
+          <div class="pc-sub">${p.prof||p.occ||'—'} · ${p.city||'—'}, ${p.country||'—'} · ${p.nat||p.native||'—'}</div>
           <div class="pc-div"><span>✦</span></div>
           <div class="det-grid">
             <div><div class="di-l">Age</div><div class="di-v">${p.age} Years${p.dob&&p.dob!=='—'?` <span style="font-size:0.78rem;color:var(--muted)">(DOB: ${new Date(p.dob).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})})</span>`:''}</div></div>
-            <div><div class="di-l">Height</div><div class="di-v">${p.ht}</div></div>
+            <div><div class="di-l">Height</div><div class="di-v">${p.ht||'—'}</div></div>
             <div><div class="di-l">Education</div><div class="di-v">${p.edu||'—'}</div></div>
-            <div><div class="di-l">Annual Income</div><div class="di-v">${p.inc?formatIncomeDisplay(p.inc):'—'}</div></div>
-            <div><div class="di-l">Native</div><div class="di-v">${p.nat}</div></div>
+            <div><div class="di-l">Annual Income</div><div class="di-v">${p.inc||p.sal?formatIncomeDisplay(p.inc||p.sal):'—'}</div></div>
+            <div><div class="di-l">Native</div><div class="di-v">${p.nat||p.native||'—'}</div></div>
             <div><div class="di-l">Diet</div><div class="di-v">${p.diet||'—'}</div></div>
             <div><div class="di-l">Rashi</div><div class="di-v">${p.rashi||'—'}</div></div>
             <div><div class="di-l">Nakshatra</div><div class="di-v">${p.nak||'—'}</div></div>
@@ -3605,9 +3608,10 @@ function openPhotoLightbox(photos, startIdx){
 }
 
 // ══ RAZORPAY PAYMENT ══
-const RAZORPAY_KEY_ID = 'rzp_test_YOUR_KEY_HERE';
+const RAZORPAY_KEY_ID = 'rzp_test_YOUR_KEY_HERE'; // TODO: Replace with production key before launch
 function openRazorpayPayment({amount,name,description,prefill_name,prefill_email,prefill_contact,onSuccess,onDismiss}){
-  if(typeof Razorpay === 'undefined'){toast('Payment gateway not available.');return;}
+  if(typeof Razorpay === 'undefined'){toast('Payment gateway not available. Please try again later.');return;}
+  if(RAZORPAY_KEY_ID.includes('YOUR_KEY')){toast('Payment setup in progress. Please contact the bureau directly to complete your membership payment.');return;}
   const rzp = new Razorpay({
     key:RAZORPAY_KEY_ID, amount, currency:'INR',
     name:'Naveen Reddy Marriage Bureau', description,
