@@ -2544,7 +2544,7 @@ async function _loadProfilesFromFirestore(){
   try{
     const {getDocs,collection,db}=window.FB;
     const snap=await getDocs(collection(db,'users'));
-    ST.profiles=snap.docs.map(d=>({...d.data(),uid:d.id}));
+    ST.profiles=snap.docs.map(d=>({...d.data(),uid:d.id})).filter(p=>p.status!=='deleted');
     loadProfiles();
   }catch(e){console.warn('Could not load profiles:',e);}
 }
@@ -2575,7 +2575,7 @@ function _startRealTimeListeners(){
   }
   // 2. Watch all profiles — so browsing reflects changes in real-time
   const unsub2=onSnapshot(collection(db,'users'),(snap)=>{
-    ST.profiles=snap.docs.map(d=>({...d.data(),uid:d.id}));
+    ST.profiles=snap.docs.map(d=>({...d.data(),uid:d.id})).filter(p=>p.status!=='deleted');
     // Don't re-render browse unless user is on browse page (avoids jarring resets)
     if(document.getElementById('pArea')&&ST.browsePool.length===0) loadProfiles();
   });
@@ -2676,6 +2676,7 @@ function loadProfiles(){
     return pi>=incIdx;
   }
   ST.browsePool=ST.profiles.filter(p=>{
+    if(p.status==='deleted')return false;
     if(p.u===ST.user.u||p.g===ST.user.g)return false;
     if(!tierVisible(p.tier))return false;
     if(held.has(p.u))return false;
