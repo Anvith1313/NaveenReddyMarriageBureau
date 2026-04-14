@@ -718,6 +718,28 @@ body{font-family:'EB Garamond',serif;font-size:17px;line-height:1.7;background:v
 .footer-bottom{border-top:1px solid rgba(184,150,12,0.18);padding-top:1.4rem;display:flex;justify-content:space-between;align-items:center;}
 .footer-bottom p{font-family:'EB Garamond',serif;font-size:0.8rem;color:rgba(255,252,248,0.78);font-style:italic;}
 
+/* ── REFERRAL CARD ── */
+.referral-card{background:linear-gradient(135deg,rgba(139,0,0,0.05),rgba(184,150,12,0.08));border:1px solid var(--border);border-radius:16px;padding:1.4rem 1.8rem;margin:0 2rem 1rem;position:relative;z-index:1;display:flex;align-items:center;gap:1.4rem;flex-wrap:wrap;}
+.ref-icon{font-size:2.2rem;flex-shrink:0;}
+.ref-text{flex:1;min-width:180px;}
+.ref-title{font-family:'Cinzel',serif;font-size:0.58rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--crimson);margin-bottom:0.2rem;}
+.ref-sub{font-family:'EB Garamond',serif;font-size:0.9rem;color:var(--muted);line-height:1.5;}
+.ref-link-row{display:flex;gap:0.5rem;align-items:center;margin-top:0.7rem;flex-wrap:wrap;}
+.ref-link-box{font-family:'EB Garamond',serif;font-size:0.88rem;color:var(--text);background:rgba(255,255,255,0.7);border:1px solid var(--border);border-radius:8px;padding:0.35rem 0.8rem;flex:1;min-width:200px;word-break:break-all;}
+.ref-copy-btn{padding:0.4rem 1rem;background:var(--crimson);border:none;border-radius:8px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.44rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,248,220,0.96);transition:opacity 0.2s;white-space:nowrap;}
+.ref-copy-btn:hover{opacity:0.85;}
+.ref-count{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--crimson);flex-shrink:0;text-align:center;}
+.ref-count-lbl{font-family:'Cinzel',serif;font-size:0.42rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
+/* ── PROFILE COMPLETENESS BAR ── */
+.pc-bar-card{background:linear-gradient(135deg,rgba(139,0,0,0.04),rgba(184,150,12,0.06));border:1px solid var(--border);border-radius:16px;padding:1.4rem 1.8rem;margin-bottom:1.2rem;position:relative;z-index:1;}
+.pc-bar-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.6rem;}
+.pc-bar-title{font-family:'Cinzel',serif;font-size:0.58rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--crimson);}
+.pc-bar-pct{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:var(--crimson);}
+.pc-bar-track{height:8px;background:rgba(184,150,12,0.12);border-radius:20px;overflow:hidden;margin-bottom:0.9rem;}
+.pc-bar-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,var(--crimson),#c9a84c);transition:width 0.8s ease;}
+.pc-missing{display:flex;flex-wrap:wrap;gap:0.4rem;}
+.pc-missing-tag{font-family:'EB Garamond',serif;font-size:0.82rem;color:var(--muted);background:rgba(107,83,64,0.07);border:1px solid rgba(107,83,64,0.15);border-radius:20px;padding:0.18rem 0.7rem;cursor:pointer;transition:all 0.2s;}
+.pc-missing-tag:hover{background:rgba(139,0,0,0.06);border-color:var(--crimson);color:var(--crimson);}
 /* TOAST */
 .tier-rec-card{border:1.5px solid rgba(184,150,12,0.2);border-radius:12px;padding:1rem 0.8rem;text-align:center;cursor:pointer;transition:all 0.25s;background:#fff;}
 .tier-rec-card:hover{border-color:var(--gold);box-shadow:0 6px 20px rgba(184,150,12,0.15);transform:translateY(-3px);}
@@ -1610,6 +1632,9 @@ body{font-size:17px;}
       <div class="dw-sub">Discover your destined match below</div>
     </div>
   </div>
+  <!-- Referral Card (populated by renderReferralCard()) -->
+  <div id="referralCardWrap"></div>
+
   <div class="filter-bar">
     <div class="fb-label">Refine Your Search</div>
     <div class="fb-row">
@@ -1645,6 +1670,15 @@ body{font-size:17px;}
       <button onclick="openBiodataView()" style="padding:0.6rem 1.4rem;background:linear-gradient(135deg,var(--crimson),var(--crimson2));border:none;border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.5rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,248,220,0.96);box-shadow:0 4px 14px rgba(139,0,0,0.22);">📄 View Biodata</button>
       <button onclick="openEditProfileRequest()" style="padding:0.6rem 1.4rem;background:transparent;border:1.5px solid rgba(184,150,12,0.35);border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.5rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);">✏ Edit Profile</button>
     </div>
+    <!-- Profile completeness bar -->
+    <div class="pc-bar-card" id="profileCompletenessCard">
+      <div class="pc-bar-header">
+        <div class="pc-bar-title">Profile Completeness</div>
+        <div class="pc-bar-pct" id="pcPct">0%</div>
+      </div>
+      <div class="pc-bar-track"><div class="pc-bar-fill" id="pcBarFill" style="width:0%"></div></div>
+      <div id="pcMissingWrap"></div>
+    </div>
     <!-- Photos section -->
     <div class="pv-card" id="pvPhotosCard">
       <div class="pv-sec-title">📸 My Photos <small style="font-family:'EB Garamond',serif;font-weight:normal;font-style:italic;font-size:0.85rem;color:var(--muted);text-transform:none;letter-spacing:0;">(max 5 photos)</small></div>
@@ -1653,7 +1687,7 @@ body{font-size:17px;}
     <div class="pv-card" id="pvMainCard">
       <div class="pv-card-header">
         <div class="pv-avatar" id="pvAvatar">👤</div>
-        <div><div class="pv-name" id="pvName">—</div><div class="pv-tier-badge" id="pvTierBadge">🪔 VIP Account</div><div class="pv-meta" id="pvMeta">—</div></div>
+        <div><div class="pv-name" id="pvName">—</div><div class="pv-tier-badge" id="pvTierBadge">🪔 VIP Account</div><div class="pv-meta" id="pvMeta">—</div><div id="pvViewCount" style="font-family:'EB Garamond',serif;font-size:0.88rem;color:var(--muted);margin-top:0.3rem;font-style:italic;"></div></div>
       </div>
       <div class="pv-sec-title">Basic Information</div>
       <div class="pv-grid" id="pvBasicGrid"></div>
@@ -1738,13 +1772,32 @@ body{font-size:17px;}
 <div id="pgStories" class="page doodle-bg" style="display:none;">
   <div class="signup-hero" id="storiesHero"><div class="sh-text"><div class="sh-title">Happy Stories</div><div class="sh-bc">Home | Happy Stories</div></div></div>
   <div class="sec-hd"><div class="sec-tag">Real Couples</div><div class="sec-title">Thousands of Blessed Unions</div><div class="sec-sub">Our greatest achievement — the happiness of families we have united</div></div>
-  <div class="stories-grid" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr));padding:0 4rem 5rem;">
+  <!-- Dynamic stories from Firestore -->
+  <div id="storiesFromFirestore" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem;padding:0 4rem 2rem;position:relative;z-index:1;"></div>
+  <div class="stories-grid" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr));padding:0 4rem 3rem;">
     <div class="story-card"><div class="story-names">Priya &amp; Rahul Reddy</div><div class="story-year">Married · December 2023 · Hyderabad</div><div class="story-text">"NRMB's personal attention made all the difference for our families. An experience beyond expectations."</div></div>
     <div class="story-card"><div class="story-names">Ananya &amp; Kiran Reddy</div><div class="story-year">Married · March 2024 · Bangalore</div><div class="story-text">"The verification process gave us complete confidence. Within three months we found each other."</div></div>
     <div class="story-card"><div class="story-names">Deepa &amp; Vivek Reddy</div><div class="story-year">Married · August 2023 · London</div><div class="story-text">"As NRI members the Elite tier exceeded every expectation. Truly a white-glove service."</div></div>
     <div class="story-card"><div class="story-names">Kavya &amp; Suresh Reddy</div><div class="story-year">Married · January 2024 · Warangal</div><div class="story-text">"Both our families are from Warangal. NRMB found our common roots beautifully."</div></div>
     <div class="story-card"><div class="story-names">Meena &amp; Arjun Reddy</div><div class="story-year">Married · October 2022 · Vijayawada</div><div class="story-text">"Professional, private and perfect. NRMB changed our perspective on matrimony bureaus."</div></div>
     <div class="story-card"><div class="story-names">Roja &amp; Naresh Reddy</div><div class="story-year">Married · June 2023 · USA</div><div class="story-text">"Two Telangana families in the USA, united by NRMB. A beautifully bridged distance."</div></div>
+  </div>
+
+  <!-- Share Your Story -->
+  <div style="max-width:620px;margin:0 auto;padding:0 2rem 5rem;position:relative;z-index:1;">
+    <div class="sec-hd" style="padding:1rem 0 1.5rem;"><div class="sec-tag">Share Your Joy</div><div class="sec-title">Got Married Through NRMB?</div><div class="sec-sub">We'd be honoured to feature your love story. Submit below and inspire others.</div></div>
+    <div class="form-sec" style="border-radius:20px;">
+      <div class="g2">
+        <div class="ff"><label>Partner 1 Name *</label><input id="st_n1" placeholder="e.g. Priya Reddy"></div>
+        <div class="ff"><label>Partner 2 Name *</label><input id="st_n2" placeholder="e.g. Rahul Reddy"></div>
+        <div class="ff"><label>Year of Marriage *</label><input id="st_yr" type="number" placeholder="2024" min="2000" max="2030"></div>
+        <div class="ff"><label>City / Location</label><input id="st_loc" placeholder="e.g. Hyderabad"></div>
+      </div>
+      <div class="ff" style="margin-top:0.4rem;"><label>Your Story *</label><textarea id="st_msg" rows="4" placeholder="Tell us how NRMB helped bring you together…" style="width:100%;padding:0.65rem 0.9rem;border:1px solid rgba(184,150,12,0.22);border-radius:10px;font-family:'EB Garamond',serif;font-size:1rem;resize:vertical;background:rgba(253,248,240,0.5);"></textarea></div>
+      <div class="ff" style="margin-top:0.4rem;"><label>Your Mobile / Email (for verification)</label><input id="st_contact" placeholder="We'll verify before publishing"></div>
+      <button class="btn-prim" style="margin-top:0.8rem;" onclick="submitStory()">Share Our Story ✦</button>
+      <p style="font-family:'EB Garamond',serif;font-size:0.82rem;color:var(--muted);text-align:center;margin-top:0.8rem;font-style:italic;">Stories are reviewed and published by our team within 2–3 business days.</p>
+    </div>
   </div>
 </div>
 
@@ -1836,6 +1889,49 @@ body{font-size:17px;}
     </div>
     <div style="text-align:center;margin-top:1.2rem;">
       <button onclick="closeBranchDetail()" style="background:none;border:1.5px solid rgba(184,150,12,0.3);border-radius:50px;padding:0.5rem 1.8rem;cursor:pointer;font-family:'Cinzel',serif;font-size:0.48rem;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);transition:all 0.2s;" onmouseover="this.style.borderColor='var(--crimson)';this.style.color='var(--crimson)'" onmouseout="this.style.borderColor='rgba(184,150,12,0.3)';this.style.color='var(--muted)'">← View All Branches</button>
+    </div>
+  </div>
+
+  <!-- ── Appointment Booking ── -->
+  <div style="max-width:600px;margin:0 auto;padding:0 2rem 5rem;position:relative;z-index:1;">
+    <div class="sec-hd" style="padding:2.5rem 0 1.5rem;"><div class="sec-tag">Visit Us</div><div class="sec-title">Book an Appointment</div><div class="sec-sub">Call ahead or book a slot below — we'll confirm within 24 hours</div></div>
+    <div class="form-sec" style="border-radius:20px;">
+      <div class="g2">
+        <div class="ff"><label>Your Name *</label><input id="apptName" placeholder="Full name"></div>
+        <div class="ff"><label>Mobile Number *</label><input id="apptMob" type="tel" placeholder="+91 98765 43210"></div>
+        <div class="ff"><label>Branch *</label>
+          <select id="apptBranch">
+            <option value="">Select branch…</option>
+            <option>Somajiguda, Hyderabad (Head Office)</option>
+            <option>Kothapet, Hyderabad</option>
+            <option>Warangal</option>
+            <option>Karimnagar</option>
+          </select>
+        </div>
+        <div class="ff"><label>Preferred Date *</label><input id="apptDate" type="date" min=""></div>
+        <div class="ff"><label>Preferred Time</label>
+          <select id="apptTime">
+            <option>10:00 AM – 11:00 AM</option>
+            <option>11:00 AM – 12:00 PM</option>
+            <option>12:00 PM – 1:00 PM</option>
+            <option>2:00 PM – 3:00 PM</option>
+            <option>3:00 PM – 4:00 PM</option>
+            <option>4:00 PM – 5:00 PM</option>
+          </select>
+        </div>
+        <div class="ff"><label>Purpose</label>
+          <select id="apptPurpose">
+            <option>New Registration</option>
+            <option>Profile Review</option>
+            <option>Membership Upgrade</option>
+            <option>Profile Edit / Update</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="ff" style="grid-column:1/-1;margin-top:0.4rem;"><label>Message (Optional)</label><textarea id="apptMsg" rows="3" placeholder="Any specific queries or information…" style="width:100%;padding:0.65rem 0.9rem;border:1px solid rgba(184,150,12,0.22);border-radius:10px;font-family:'EB Garamond',serif;font-size:1rem;resize:vertical;background:rgba(253,248,240,0.5);"></textarea></div>
+      <button class="btn-prim" style="margin-top:0.8rem;" onclick="bookAppointment()">Request Appointment →</button>
+      <p style="font-family:'EB Garamond',serif;font-size:0.82rem;color:var(--muted);text-align:center;margin-top:0.8rem;font-style:italic;">We will call you to confirm the slot. Please arrive 10 minutes early.</p>
     </div>
   </div>
 </div>
@@ -2024,6 +2120,7 @@ function showPage(id,skipHistory){
   updateBackBars();
   if(id==='pgLiked') renderLikedPage();
   if(id==='pgIntInMe') renderIntInMe();
+  if(id==='pgStories') loadApprovedStories();
   if(id==='pgBranches'){if(document.getElementById('branchGrid'))document.getElementById('branchGrid').style.display='grid';if(document.getElementById('branchDetail'))document.getElementById('branchDetail').style.display='none';}
 }
 function goBack(){
@@ -2099,6 +2196,7 @@ function _applyLogin(prof){
   loadInterestsFromFirestore();
   if(window.FIREBASE_READY)_loadProfilesFromFirestore();
   if(window.FIREBASE_READY)_startRealTimeListeners();
+  renderReferralCard();
 }
 async function doForgotPassword(){
   const email=document.getElementById('forgotEmail').value.trim();
@@ -2352,6 +2450,7 @@ async function doRegister(){
       const {createUserWithEmailAndPassword,auth,setDoc,doc,db,sendEmailVerification}=window.FB;
       const cred=await createUserWithEmailAndPassword(auth,email,pass);
       np.uid=cred.user.uid;
+      _saveReferral(cred.user.uid); // record referral if ?ref= in URL
       await setDoc(doc(db,'users',cred.user.uid),np);
       try{
         await sendEmailVerification(cred.user);
@@ -2538,7 +2637,6 @@ function loadProfiles(){
   const held=new Set();
   ST.interests.forEach(i=>{if(i.status!=='released'){held.add(i.from);held.add(i.to);}});
   ST.engaged.forEach(e=>{held.add(e.p1.u);held.add(e.p2.u);});
-  // Tier-based visibility: Elite sees all, VVIP sees VVIP+VIP, VIP sees VIP only
   const myTier=(ST.user.tier||'VIP').toLowerCase();
   function tierVisible(pTier){
     const t=(pTier||'VIP').toLowerCase();
@@ -2546,7 +2644,43 @@ function loadProfiles(){
     if(myTier==='vvip') return t==='vvip'||t==='vip';
     return t==='vip';
   }
-  ST.browsePool=ST.profiles.filter(p=>p.u!==ST.user.u&&p.g!==ST.user.g&&tierVisible(p.tier)&&!held.has(p.u)&&!ST.interests.some(i=>(i.from===ST.user.u&&i.to===p.u)||(i.from===p.u&&i.to===ST.user.u)));
+  // Read filter values
+  const fAge=document.getElementById('fA')?.value||'';
+  const fHt=document.getElementById('fH')?.value||'';
+  const fInc=document.getElementById('fI')?.value||'';
+  const fCtry=document.getElementById('fC')?.value||'';
+  const fSt=document.getElementById('fS')?.value||'';
+  const fDist=(document.getElementById('fD')?.value||'').trim().toLowerCase();
+  function parseAgeRange(r){if(!r)return null;const m=r.match(/(\d+)[–-](\d+)/);if(m)return{min:+m[1],max:+m[2]};if(r==='40+')return{min:40,max:999};return null;}
+  function htToInches(s){if(!s)return 0;const m=s.match(/(\d+)'(\d+)?/);return m?(+m[1])*12+(+(m[2]||0)):0;}
+  const ageR=parseAgeRange(fAge);
+  const htMin=htToInches(fHt);
+  const incOrder=['4–10 Lakhs','10–20 Lakhs','20–50 Lakhs','50L+'];
+  const incIdx=incOrder.indexOf(fInc);
+  function incPass(pInc){
+    if(!fInc)return true;
+    const pi=incOrder.findIndex(x=>pInc&&pInc.includes(x.split(' ')[0]));
+    if(pi<0){// try partial match
+      const pLower=(pInc||'').toLowerCase();
+      if(fInc==='50L+')return pLower.includes('50l')||pLower.includes('crore')||pLower.includes('1 cr');
+      if(fInc==='4–10 Lakhs')return pLower.includes('4–10')||pLower.includes('4-10')||pLower.includes('5 l')||pLower.includes('6 l')||pLower.includes('7 l')||pLower.includes('8 l')||pLower.includes('9 l');
+      return pi>=incIdx;
+    }
+    return pi>=incIdx;
+  }
+  ST.browsePool=ST.profiles.filter(p=>{
+    if(p.u===ST.user.u||p.g===ST.user.g)return false;
+    if(!tierVisible(p.tier))return false;
+    if(held.has(p.u))return false;
+    if(ST.interests.some(i=>(i.from===ST.user.u&&i.to===p.u)||(i.from===p.u&&i.to===ST.user.u)))return false;
+    if(ageR&&(+p.age<ageR.min||+p.age>ageR.max))return false;
+    if(htMin&&htToInches(p.ht)<htMin)return false;
+    if(!incPass(p.inc))return false;
+    if(fCtry&&(p.country||'').toLowerCase()!==fCtry.toLowerCase())return false;
+    if(fSt&&(p.state||'').toLowerCase()!==fSt.toLowerCase())return false;
+    if(fDist&&!(p.nat||'').toLowerCase().includes(fDist))return false;
+    return true;
+  });
   ST.browseIdx=0;renderCard();
 }
 function renderCard(){
@@ -2566,6 +2700,13 @@ function renderCard(){
   const p=ST.browsePool[ST.browseIdx];
   const myInt=ST.interests.find(i=>(i.from===ST.user.u&&i.to===p.u)||(i.from===p.u&&i.to===ST.user.u));
   const contactOk=myInt&&myInt.status==='contact_released';
+  // Increment profile view counter (don't count own profile)
+  if(p.uid&&ST.user.uid&&p.uid!==ST.user.uid&&window.FIREBASE_READY){
+    const now=Date.now();
+    window.FB.updateDoc(window.FB.doc(window.FB.db,'users',p.uid),{
+      views:(p.views||0)+1,lastViewedAt:now
+    }).catch(()=>{});
+  }
   area.innerHTML=`
     <div class="pcard">
       <div class="pcard-head" style="background:${p.bg};"><span class="pc-emoji">${p.em}</span><div class="pc-tier-pill">${p.tier}</div><div class="pc-verify">✓ Verified</div><button class="pc-bookmark ${ST.savedProfiles&&ST.savedProfiles.includes(p.u)?'saved':''}" onclick="toggleSave('${p.u}',event)" title="Save for later">
@@ -2590,7 +2731,13 @@ function renderCard(){
           ${contactOk?`<div style="grid-column:1/-1"><div class="di-l">✉ Email</div><div class="di-v">${p.email}</div></div>`:''}
         </div>
         ${!contactOk?`<div class="priv-note">Contact details are strictly private and will only be disclosed after mutual interest and bureau administrator approval.</div>`:''}
-        ${contactOk?`<button class="btn-interest" style="width:100%;margin-bottom:0.9rem;" onclick="openChat('${p.u}','${p.name}')">Open Family Conversation</button>`:''}
+        ${contactOk?`<div style="display:flex;gap:0.6rem;margin-bottom:0.9rem;flex-wrap:wrap;">
+          <button class="btn-interest" style="flex:1;" onclick="openChat('${p.u}','${p.name}')">💬 Family Chat</button>
+          <a href="https://wa.me/${(p.mob||'').replace(/[^0-9]/g,'')}?text=${encodeURIComponent('Namaste, I found your profile on Naveen Reddy Marriage Bureau and would like to connect.')}" target="_blank" rel="noopener" style="flex:1;display:flex;align-items:center;justify-content:center;gap:0.4rem;padding:0.86rem;background:linear-gradient(135deg,#25d366,#128c7e);border:none;border-radius:50px;cursor:pointer;font-family:\'Cinzel\',serif;font-size:0.48rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#fff;text-decoration:none;box-shadow:0 4px 16px rgba(37,211,102,0.3);transition:all 0.3s;" onmouseover="this.style.boxShadow=\'0 6px 22px rgba(37,211,102,0.45)\'" onmouseout="this.style.boxShadow=\'0 4px 16px rgba(37,211,102,0.3)\'">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            WhatsApp
+          </a>
+        </div>`:''}
         <div class="pact-row">
           <button class="btn-interest" onclick="sendInt('${p.u}')">Express Interest</button>
           <button class="btn-pass" onclick="nextCard()">Pass</button>
@@ -2831,6 +2978,39 @@ function renderMyProfile(){
   document.getElementById('pvName').textContent=u.name;
   document.getElementById('pvTierBadge').textContent='🪔 '+u.tier+' Account';
   document.getElementById('pvMeta').textContent=(u.prof||'—')+' · '+(u.city||'—')+', '+(u.country||'—');
+  const vcEl=document.getElementById('pvViewCount');
+  if(vcEl){const v=u.views||0;vcEl.textContent=v>0?`👁 ${v} ${v===1?'person has':'people have'} viewed your profile`:'';}
+
+  // ── Profile Completeness ──
+  const completenessFields=[
+    {key:'name',label:'Full Name'},{key:'dob',label:'Date of Birth'},{key:'ht',label:'Height'},
+    {key:'prof',label:'Profession'},{key:'inc',label:'Income'},{key:'edu',label:'Education'},
+    {key:'gotra',label:'Gotra / Sub-Caste'},{key:'nak',label:'Nakshatra'},{key:'rashi',label:'Rashi'},
+    {key:'nat',label:'Native Place'},{key:'about',label:'About Me'},{key:'city',label:'City'},
+    {key:'state',label:'State'},{key:'country',label:'Country'},{key:'mob',label:'Mobile Number'},
+    {key:'diet',label:'Diet Preference'},{key:'fn',label:"Father's Name"},{key:'mn',label:"Mother's Name"},
+    {key:'fo',label:"Father's Occupation"},{key:'ms',label:'Marital Status'},
+  ];
+  const photos=u.photos&&u.photos.length>0;
+  const filled=completenessFields.filter(f=>u[f.key]&&String(u[f.key]).trim()!==''&&u[f.key]!=='—').length+(photos?1:0);
+  const total=completenessFields.length+1;
+  const pct=Math.round((filled/total)*100);
+  const pcPctEl=document.getElementById('pcPct');
+  const pcFillEl=document.getElementById('pcBarFill');
+  const pcMissEl=document.getElementById('pcMissingWrap');
+  if(pcPctEl){
+    pcPctEl.textContent=pct+'%';
+    setTimeout(()=>{if(pcFillEl)pcFillEl.style.width=pct+'%';},80);
+    const missing=completenessFields.filter(f=>!u[f.key]||String(u[f.key]).trim()===''||u[f.key]==='—');
+    if(!photos)missing.push({key:'photos',label:'Profile Photo'});
+    if(pcMissEl){
+      if(missing.length===0){
+        pcMissEl.innerHTML='<div style="font-family:\'EB Garamond\',serif;font-size:0.9rem;color:#2e7d32;font-style:italic;">✦ Your profile is complete — you\'ll appear in more searches!</div>';
+      } else {
+        pcMissEl.innerHTML='<div style="font-family:\'Cinzel\',serif;font-size:0.44rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:0.5rem;">Add to improve visibility:</div><div class="pc-missing">'+missing.map(f=>`<span class="pc-missing-tag" onclick="openEditProfileRequest()" title="Click to request edit">${f.label}</span>`).join('')+'</div>';
+      }
+    }
+  }
 
   function pvGrid(id,items){
     const el=document.getElementById(id);if(!el)return;
@@ -3257,6 +3437,33 @@ function closeBranchDetail(){
   document.getElementById('branchGrid').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
+// ── Appointment Booking ──
+async function bookAppointment(){
+  const name=document.getElementById('apptName')?.value.trim();
+  const mob=document.getElementById('apptMob')?.value.trim();
+  const branch=document.getElementById('apptBranch')?.value;
+  const date=document.getElementById('apptDate')?.value;
+  const time=document.getElementById('apptTime')?.value;
+  const purpose=document.getElementById('apptPurpose')?.value;
+  const msg=document.getElementById('apptMsg')?.value.trim();
+  if(!name||!mob||!branch||!date){toast('Please fill in Name, Mobile, Branch and Date.');return;}
+  const btn=document.querySelector('[onclick="bookAppointment()"]');
+  if(btn){btn.textContent='Booking…';btn.disabled=true;}
+  try{
+    if(window.FIREBASE_READY){
+      await window.FB.addDoc(window.FB.collection(window.FB.db,'appointments'),{
+        name,mob,branch,date,time,purpose,msg:msg||'',
+        uid:ST.user?.uid||'',username:ST.user?.u||'guest',
+        status:'pending',ts:new Date().toISOString()
+      });
+    }
+    toast('✅ Appointment requested! We will call you to confirm.');
+    ['apptName','apptMob','apptDate','apptMsg'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+    document.getElementById('apptBranch').value='';
+  }catch(e){toast('Could not save — please call us directly: +91 72079 99985');}
+  if(btn){btn.textContent='Request Appointment →';btn.disabled=false;}
+}
+
 // ═══════════ LIKED / SAVED PROFILES ═══════════
 function renderLiked(){
   const grid = document.getElementById('likedGrid');
@@ -3551,15 +3758,96 @@ function pickTierFromPopup(t){
 // ═══════════ LIKED NAV VISIBILITY ═══════════
 // Liked nav link is already hidden by default; show only after login (handled in _applyLogin)
 // Hide bookmark buttons for non-logged-in users
+// ═══════════ SUCCESS STORIES ═══════════
+async function submitStory(){
+  const n1=document.getElementById('st_n1')?.value.trim();
+  const n2=document.getElementById('st_n2')?.value.trim();
+  const yr=document.getElementById('st_yr')?.value.trim();
+  const loc=document.getElementById('st_loc')?.value.trim();
+  const msg=document.getElementById('st_msg')?.value.trim();
+  const contact=document.getElementById('st_contact')?.value.trim();
+  if(!n1||!n2||!yr||!msg){toast('Please fill in both names, year and your story.');return;}
+  const btn=document.querySelector('[onclick="submitStory()"]');
+  if(btn){btn.textContent='Submitting…';btn.disabled=true;}
+  try{
+    if(window.FIREBASE_READY){
+      await window.FB.addDoc(window.FB.collection(window.FB.db,'stories'),{
+        names:`${n1} & ${n2}`,year:yr,location:loc||'',text:msg,contact:contact||'',
+        status:'pending',ts:new Date().toISOString(),
+        submittedBy:ST.user?.u||'visitor'
+      });
+    }
+    toast('💐 Thank you! Your story will be reviewed and published soon.');
+    ['st_n1','st_n2','st_yr','st_loc','st_msg','st_contact'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  }catch(e){toast('Could not submit — please contact us directly.');}
+  if(btn){btn.textContent='Share Our Story ✦';btn.disabled=false;}
+}
+async function loadApprovedStories(){
+  const grid=document.getElementById('storiesFromFirestore');if(!grid||!window.FIREBASE_READY)return;
+  try{
+    const q=window.FB.query(window.FB.collection(window.FB.db,'stories'),window.FB.where('status','==','approved'));
+    const snap=await window.FB.getDocs(q);
+    if(snap.empty){grid.style.display='none';return;}
+    grid.style.display='grid';
+    grid.innerHTML=snap.docs.map(d=>{const s=d.data();return`<div class="story-card"><div class="story-names">${s.names}</div><div class="story-year">Married · ${s.year}${s.location?' · '+s.location:''}</div><div class="story-text">"${s.text}"</div></div>`;}).join('');
+  }catch(e){grid.style.display='none';}
+}
+
+// ═══════════ REFERRAL SYSTEM ═══════════
+async function renderReferralCard(){
+  const wrap=document.getElementById('referralCardWrap');if(!wrap||!ST.user)return;
+  const refCode=ST.user.u;
+  const refLink=`${location.origin}${location.pathname}?ref=${encodeURIComponent(refCode)}`;
+  // Count referrals from Firestore
+  let refCount=0;
+  if(window.FIREBASE_READY){
+    try{
+      const q=window.FB.query(window.FB.collection(window.FB.db,'users'),window.FB.where('referredBy','==',refCode));
+      const snap=await window.FB.getDocs(q);refCount=snap.size;
+    }catch(e){}
+  }
+  wrap.innerHTML=`<div class="referral-card">
+    <div class="ref-icon">🎁</div>
+    <div class="ref-text">
+      <div class="ref-title">Refer a Friend · Grow Together</div>
+      <div class="ref-sub">Share your unique link with friends in the Reddy community. Every person who registers through your link helps expand the network — and earns you extended membership time.</div>
+      <div class="ref-link-row">
+        <div class="ref-link-box" id="refLinkBox">${refLink}</div>
+        <button class="ref-copy-btn" onclick="copyRefLink('${refLink}')">Copy Link</button>
+        <a href="https://wa.me/?text=${encodeURIComponent('Join Naveen Reddy Marriage Bureau — the most trusted matrimony service for the Reddy community. Register here: '+refLink)}" target="_blank" rel="noopener" style="padding:0.4rem 1rem;background:#25d366;border:none;border-radius:8px;cursor:pointer;font-family:\'Cinzel\',serif;font-size:0.44rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#fff;text-decoration:none;display:flex;align-items:center;gap:0.3rem;white-space:nowrap;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Share
+        </a>
+      </div>
+    </div>
+    <div style="text-align:center;flex-shrink:0;">
+      <div class="ref-count">${refCount}</div>
+      <div class="ref-count-lbl">Referred<br>Members</div>
+    </div>
+  </div>`;
+}
+function copyRefLink(url){
+  navigator.clipboard.writeText(url).then(()=>toast('✅ Referral link copied!')).catch(()=>{const el=document.getElementById('refLinkBox');if(el){const r=document.createRange();r.selectNode(el);window.getSelection().removeAllRanges();window.getSelection().addRange(r);}toast('Select and copy the link above.');});
+}
+// Save referral code when a new user registers (called after successful registration)
+function _saveReferral(uid){
+  const params=new URLSearchParams(location.search);
+  const ref=params.get('ref');
+  if(ref&&uid&&window.FIREBASE_READY){
+    window.FB.updateDoc(window.FB.doc(window.FB.db,'users',uid),{referredBy:ref}).catch(()=>{});
+  }
+}
+
 document.addEventListener('DOMContentLoaded',function(){
-  // Set DOB max to 18 years ago (legal minimum age)
+  // Set DOB max to 18 years ago
   const dobEl=document.getElementById('s_dob');
   if(dobEl){
-    const d=new Date();
-    d.setFullYear(d.getFullYear()-18);
-    dobEl.max=d.toISOString().split('T')[0];
-    dobEl.min='1940-01-01';
+    const d=new Date();d.setFullYear(d.getFullYear()-18);
+    dobEl.max=d.toISOString().split('T')[0];dobEl.min='1940-01-01';
   }
+  // Set appointment date min to today
+  const apptDate=document.getElementById('apptDate');
+  if(apptDate)apptDate.min=new Date().toISOString().split('T')[0];
 });
 
 </script>
