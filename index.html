@@ -1440,7 +1440,7 @@ body{font-size:17px;}
         <div class="form-sec-title"><span>📋</span> Basic Information</div>
         <div class="g2">
           <div class="ff"><label>Full Name *</label><input id="s_name" type="text" placeholder="As per Aadhaar card"></div>
-          <div class="ff"><label>Date of Birth *</label><input id="s_dob" type="date" id="s_dob"><small style="color:var(--muted);font-style:italic;font-size:0.8rem;">Minimum age: 18 years (as per legal requirement)</small></div>
+          <div class="ff"><label>Date of Birth *</label><input id="s_dob" type="date"><small id="dobAgeHint" style="color:var(--muted);font-style:italic;font-size:0.8rem;">Minimum age: 21 years for Male, 18 years for Female (legal requirement)</small></div>
           <div class="ff"><label>Time of Birth</label><input id="s_tob" type="time" placeholder="e.g. 02:30 PM"><small style="color:var(--muted);font-style:italic;font-size:0.82rem;">Used for astrology / Kundali matching</small></div>
           <div class="ff"><label>Place of Birth</label><input id="s_pob" type="text" placeholder="e.g. Hyderabad"></div>
           <div class="ff"><label>Mother Tongue *</label><select id="s_mt"><option value="">Select</option><option>Telugu</option><option>Kannada</option><option>Tamil</option><option>Hindi</option><option>Other</option></select></div>
@@ -1638,7 +1638,7 @@ body{font-size:17px;}
   <div class="filter-bar">
     <div class="fb-label">Refine Your Search</div>
     <div class="fb-row">
-      <div class="fb-g"><div class="fb-l">Age</div><select class="fb-s" id="fA"><option value="">Any Age</option><option>21–25</option><option>26–30</option><option>31–35</option><option>36–40</option><option>40+</option></select></div>
+      <div class="fb-g"><div class="fb-l">Age</div><select class="fb-s" id="fA"><option value="">Any Age</option><option>18–20</option><option>21–25</option><option>26–30</option><option>31–35</option><option>36–40</option><option>40+</option></select></div>
       <div class="fb-g"><div class="fb-l">Height</div><select class="fb-s" id="fH"><option value="">Any</option><option>5'0"</option><option>5'4"</option><option>5'6"</option><option>5'8"</option><option>6'0"</option></select></div>
       <div class="fb-g"><div class="fb-l">Income</div><select class="fb-s" id="fI"><option value="">Any</option><option>4–10 Lakhs</option><option>10–20 Lakhs</option><option>20–50 Lakhs</option><option>50L+</option></select></div>
       <div class="fb-g"><div class="fb-l">Country</div><select class="fb-s" id="fC"><option value="">Any</option><option>India</option><option>USA</option><option>UK</option><option>Canada</option><option>Australia</option><option>UAE</option></select></div>
@@ -2266,6 +2266,13 @@ function goStep(n){
   // Validate only when moving FORWARD from step 1
   if(n>_regCurrentStep&&_regCurrentStep===1){
     if(!document.getElementById('s_name').value.trim()){toast('Please enter your full name.');return;}
+    const dob=document.getElementById('s_dob').value;
+    if(dob){
+      const isMale=document.getElementById('gMale')?.checked!==false;
+      const minAge=isMale?21:18;
+      const age=Math.floor((Date.now()-new Date(dob))/(365.25*24*3600*1000));
+      if(age<minAge){toast(`Minimum age for ${isMale?'Male':'Female'} registration is ${minAge} years.`);return;}
+    }
     if(!document.getElementById('s_mob').value.trim()){toast('Please enter your mobile number.');return;}
     if(!document.getElementById('s_user').value.trim()){toast('Please choose a username.');return;}
     if(!document.getElementById('s_email').value.trim()){toast('Please enter your email address.');return;}
@@ -3839,12 +3846,22 @@ function _saveReferral(uid){
 }
 
 document.addEventListener('DOMContentLoaded',function(){
-  // Set DOB max to 18 years ago
-  const dobEl=document.getElementById('s_dob');
-  if(dobEl){
-    const d=new Date();d.setFullYear(d.getFullYear()-18);
-    dobEl.max=d.toISOString().split('T')[0];dobEl.min='1940-01-01';
+  // Set DOB max based on gender (21 for Male, 18 for Female)
+  function _updateDobLimit(){
+    const dobEl=document.getElementById('s_dob');if(!dobEl)return;
+    const isMale=document.getElementById('gMale')?.checked!==false;
+    const minAge=isMale?21:18;
+    const d=new Date();d.setFullYear(d.getFullYear()-minAge);
+    dobEl.max=d.toISOString().split('T')[0];
+    dobEl.min='1940-01-01';
+    const hint=document.getElementById('dobAgeHint');
+    if(hint)hint.textContent=`Minimum age: ${minAge} years (legal requirement for ${isMale?'Male':'Female'})`;
+    // Clear DOB if it now violates the new limit
+    if(dobEl.value&&dobEl.value>dobEl.max){dobEl.value='';}
   }
+  _updateDobLimit();
+  document.getElementById('gMale')?.addEventListener('change',_updateDobLimit);
+  document.getElementById('gFemale')?.addEventListener('change',_updateDobLimit);
   // Set appointment date min to today
   const apptDate=document.getElementById('apptDate');
   if(apptDate)apptDate.min=new Date().toISOString().split('T')[0];
