@@ -200,6 +200,7 @@ body{font-family:'EB Garamond',serif;font-size:17px;line-height:1.7;background:v
 ═══════════════════════════════════ */
 #pgLogin{padding-top:0;display:none;min-height:100vh;}
 #pgLogin.active{display:flex;align-items:center;justify-content:flex-end;padding-right:6rem;background-size:cover;background-position:center;}
+#pgVerify.active{display:flex;align-items:center;justify-content:center;}
 #pgLogin::before{content:'';position:absolute;inset:0;background:linear-gradient(110deg,rgba(0,0,0,0.18) 0%,rgba(0,0,0,0.08) 45%,rgba(0,0,0,0.42) 100%);pointer-events:none;}
 
 /* Frosted glass login card */
@@ -838,8 +839,8 @@ body{font-family:'EB Garamond',serif;font-size:17px;line-height:1.7;background:v
 
   /* ── HERO BACKGROUND — reduce height so cover zoom is less aggressive ── */
   .hero-section{height:65vh;min-height:320px;background-position:top center;}
-  .signup-hero{height:150px;background-position:top center;}
-  [id$="Hero"]{background-position:top center;}
+  /* Inner page banners keep original crop, just shorter */
+  .signup-hero{height:150px;}
   .sh-title{font-size:1.5rem;}
   .sh-bc{font-size:0.78rem;}
 
@@ -863,6 +864,7 @@ body{font-family:'EB Garamond',serif;font-size:17px;line-height:1.7;background:v
   .about-wrap{grid-template-columns:1fr;padding:0 1rem 3rem;}
   .about-ornament{display:none;}
   .footer-grid{grid-template-columns:1fr;}
+  .site-footer{padding:2rem 1.2rem 1.5rem;}
   .tier-row,.mem-cards{grid-template-columns:1fr;}
   .g2,.g3{grid-template-columns:1fr !important;}
   .reg-wrap{padding:1.5rem 1rem 4rem;}
@@ -1695,7 +1697,7 @@ body{font-size:17px;}
 <!-- ══════════════════════════════════════
      PAGE: EMAIL VERIFICATION
 ══════════════════════════════════════ -->
-<div id="pgVerify" class="page" style="display:none;min-height:100vh;background:var(--offwhite);display:flex;align-items:center;justify-content:center;padding:2rem;">
+<div id="pgVerify" class="page" style="padding:2rem;background:var(--offwhite);">
   <div style="max-width:460px;width:100%;background:#fff;border:1px solid var(--border);border-radius:24px;padding:3rem 2.5rem;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.07);position:relative;">
     <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--crimson),var(--gold2),var(--crimson));border-radius:24px 24px 0 0;"></div>
     <div style="font-size:3rem;margin-bottom:1rem;">📧</div>
@@ -3999,8 +4001,7 @@ document.addEventListener('DOMContentLoaded',function(){
       const span=document.createElement('span');
       trigger.appendChild(span);
       sel.parentNode.insertBefore(trigger,sel);
-      // Override value property to keep trigger in sync when set programmatically
-      const nativeProp=Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype,'value');
+      // Sync trigger display text when value changes
       const syncDisplay=()=>{
         const opt=sel.options[sel.selectedIndex];
         const isEmpty=!opt||opt.value==='';
@@ -4009,10 +4010,17 @@ document.addEventListener('DOMContentLoaded',function(){
           ?(sel.closest('.ff')?.querySelector('label')?.textContent?.replace('*','').trim()||'Select')
           :opt.text;
       };
-      Object.defineProperty(sel,'value',{
-        get(){return nativeProp.get.call(this);},
-        set(v){nativeProp.set.call(this,v);syncDisplay();}
-      });
+      // Intercept programmatic .value= assignments (e.g. pre-filling form data)
+      try{
+        const nativeProp=Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype,'value')
+          ||Object.getOwnPropertyDescriptor(Object.getPrototypeOf(HTMLSelectElement.prototype),'value');
+        if(nativeProp){
+          Object.defineProperty(sel,'value',{
+            get(){return nativeProp.get.call(this);},
+            set(v){nativeProp.set.call(this,v);syncDisplay();}
+          });
+        }
+      }catch(e){/* fall back to change-event only sync */}
       syncDisplay();
       sel.addEventListener('change',syncDisplay);
       // Move native select off-screen (keep in DOM for form logic, values, and validation)
