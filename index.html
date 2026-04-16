@@ -146,78 +146,6 @@ body{font-family:'EB Garamond',serif;font-size:17px;line-height:1.7;background:v
 .hbtn.outline{background:rgba(255,252,248,0.18);backdrop-filter:blur(12px);border:1.5px solid rgba(212,175,55,0.65);color:rgba(255,252,248,0.95);text-shadow:0 1px 3px rgba(0,0,0,0.3);box-shadow:inset 0 1px 0 rgba(255,255,255,0.15);}
 .hbtn.outline:hover{background:rgba(212,175,55,0.22);border-color:rgba(212,175,55,0.95);transform:translateY(-2px);box-shadow:0 6px 24px rgba(184,150,12,0.28);}
 
-/* ── 3D HERO CANVAS & OVERLAY ── */
-#hero3d{position:absolute;inset:0;width:100%;height:100%;z-index:0;display:block;}
-.hero3d-overlay{
-  position:absolute;inset:0;z-index:1;pointer-events:none;
-  background:linear-gradient(180deg,
-    rgba(0,0,0,0.06) 0%,
-    rgba(0,0,0,0.0) 28%,
-    rgba(0,0,0,0.28) 65%,
-    rgba(0,0,0,0.68) 100%);
-}
-/* Push brand content slightly up to leave room for cards */
-.hero-content{position:relative;z-index:3;text-align:center;padding:0 2rem;margin-top:calc(var(--nav-h) - 4vh);}
-
-/* ── FLOATING GLASSMORPHISM CARDS ── */
-.hero-cards-row{
-  position:absolute;bottom:2rem;left:50%;
-  transform:translateX(-50%);
-  display:flex;gap:1rem;z-index:4;
-  perspective:1200px;
-  width:100%;max-width:860px;padding:0 2rem;
-  justify-content:center;box-sizing:border-box;
-  pointer-events:none;
-}
-.hglass-card{
-  background:rgba(20,0,0,0.3);
-  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  border:1px solid rgba(212,175,55,0.28);
-  border-radius:16px;padding:1.2rem 1.4rem;text-align:center;
-  color:#fff;flex:1;min-width:140px;max-width:220px;
-  transition:transform 0.35s cubic-bezier(0.34,1.2,0.64,1),box-shadow 0.3s,border-color 0.3s;
-  transform-style:preserve-3d;
-  box-shadow:0 8px 32px rgba(0,0,0,0.32),inset 0 1px 0 rgba(212,175,55,0.1);
-  pointer-events:all;
-}
-.hglass-card:hover{
-  border-color:rgba(212,175,55,0.6);
-  box-shadow:0 18px 52px rgba(0,0,0,0.42),inset 0 1px 0 rgba(212,175,55,0.25);
-}
-.hglass-card--center{
-  background:rgba(139,0,0,0.38);
-  border-color:rgba(212,175,55,0.42);
-  box-shadow:0 12px 44px rgba(139,0,0,0.4),inset 0 1px 0 rgba(212,175,55,0.2);
-}
-.hglass-card--center:hover{
-  box-shadow:0 20px 56px rgba(139,0,0,0.52),inset 0 1px 0 rgba(212,175,55,0.35);
-}
-.hgc-icon{font-size:1.5rem;margin-bottom:0.4rem;}
-.hgc-title{
-  font-family:'Cinzel',serif;font-size:0.55rem;font-weight:700;
-  letter-spacing:0.16em;text-transform:uppercase;
-  color:rgba(212,175,55,0.95);margin-bottom:0.35rem;
-}
-.hgc-text{font-family:'EB Garamond',serif;font-size:0.82rem;color:rgba(255,248,220,0.8);line-height:1.55;}
-.hgc-btn{
-  display:inline-block;margin-top:0.7rem;padding:0.5rem 1.1rem;
-  background:linear-gradient(135deg,#8b0000,#a02020);
-  border:none;border-radius:50px;cursor:pointer;
-  font-family:'Cinzel',serif;font-size:0.44rem;font-weight:600;
-  letter-spacing:0.18em;text-transform:uppercase;
-  color:rgba(255,248,220,0.97);
-  box-shadow:0 4px 16px rgba(139,0,0,0.45);transition:all 0.25s;
-}
-.hgc-btn:hover{box-shadow:0 8px 24px rgba(139,0,0,0.6);transform:translateY(-2px);}
-@media(max-width:768px){
-  .hero-cards-row{gap:0.5rem;padding:0 0.7rem;bottom:1rem;}
-  .hglass-card{padding:0.8rem 0.7rem;transform:translateZ(0) !important;}
-  .hgc-icon{font-size:1.1rem;}
-  .hgc-title{font-size:0.46rem;}
-  .hgc-text{font-size:0.76rem;}
-  .hgc-btn{font-size:0.4rem;padding:0.42rem 0.85rem;}
-  .hero-content{margin-top:var(--nav-h);}
-}
 
 /* HOME content below hero — doodle bg fills the rest */
 .home-below{
@@ -1378,7 +1306,6 @@ body{font-size:17px;}
     console.log("✅ Firebase initialized");
   </script>
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
 </head>
 <body>
 
@@ -1481,11 +1408,6 @@ body{font-size:17px;}
 ══════════════════════════════════════ -->
 <div id="pgHome" class="page active" style="padding-top:0;">
   <div class="hero-section" id="heroSec">
-    <!-- Three.js WebGL canvas — covers full hero as background -->
-    <canvas id="hero3d"></canvas>
-    <!-- Dark gradient overlay for text legibility -->
-    <div class="hero3d-overlay"></div>
-    <!-- Brand content (centered, above glass cards) -->
     <div class="hero-content">
       <div class="hero-tag">Exclusively Reddy Community · Est. 2000</div>
       <div class="hero-brand">Naveen Reddy<br>Marriage Bureau</div>
@@ -1494,25 +1416,6 @@ body{font-size:17px;}
       <div class="hero-btns">
         <button class="hbtn primary" onclick="showPage('pgSignup')">Begin Your Journey</button>
         <button class="hbtn outline" onclick="showPage('pgAbout')">Learn More</button>
-      </div>
-    </div>
-    <!-- Floating glassmorphism cards at different 3D depths -->
-    <div class="hero-cards-row" id="heroCards">
-      <div class="hglass-card" data-depth="30">
-        <div class="hgc-icon">🏛</div>
-        <div class="hgc-title">Est. 2000</div>
-        <div class="hgc-text">25+ years of trust serving the Reddy community with honour</div>
-      </div>
-      <div class="hglass-card hglass-card--center" data-depth="70">
-        <div class="hgc-icon">💑</div>
-        <div class="hgc-title">4,500+ Matches</div>
-        <div class="hgc-text">Blessed unions across India and the world</div>
-        <button class="hgc-btn" onclick="showPage('pgSignup')">Begin Your Journey</button>
-      </div>
-      <div class="hglass-card" data-depth="30">
-        <div class="hgc-icon">✅</div>
-        <div class="hgc-title">100% Verified</div>
-        <div class="hgc-text">Every profile personally screened by our bureau team</div>
       </div>
     </div>
   </div>
@@ -4158,7 +4061,8 @@ document.addEventListener('DOMContentLoaded',function(){
         const rect=trigger.getBoundingClientRect();
         const pw=Math.min(Math.max(rect.width,220),360);
         panel.style.width=pw+'px';
-        const spaceBelow=window.innerHeight-rect.bottom-12;
+        const visH=window.visualViewport?.height??window.innerHeight;
+        const spaceBelow=visH-rect.bottom-12;
         if(spaceBelow>160){
           panel.style.top=(rect.bottom+4)+'px';
           panel.style.bottom='auto';
@@ -4189,114 +4093,6 @@ document.addEventListener('DOMContentLoaded',function(){
   };
   window._initCustomSelects(document);
 
-  // ── THREE.JS 3D HERO BACKGROUND ──
-  (function initHero3D(){
-    if(typeof THREE==='undefined')return;
-    const canvas=document.getElementById('hero3d');
-    if(!canvas)return;
-    // WebGL availability check
-    try{const t=document.createElement('canvas');if(!(t.getContext('webgl')||t.getContext('experimental-webgl'))){canvas.style.display='none';return;}}
-    catch(e){canvas.style.display='none';return;}
-
-    const W=window.innerWidth,H=window.innerHeight;
-    const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false});
-    renderer.setSize(W,H);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
-
-    const scene=new THREE.Scene();
-    const camera=new THREE.PerspectiveCamera(50,W/H,0.1,100);
-    camera.position.z=1;
-
-    // Build a cover-fit plane for the texture
-    function makeCoverPlane(texture){
-      const vFov=camera.fov*Math.PI/180;
-      const ph=2*Math.tan(vFov/2)*camera.position.z;
-      const pw=ph*(window.innerWidth/window.innerHeight);
-      const imgA=texture.image.width/texture.image.height;
-      const scrA=window.innerWidth/window.innerHeight;
-      // Repeat/offset to mimic object-fit:cover
-      if(scrA>imgA){texture.repeat.set(1,scrA/imgA);texture.offset.set(0,(1-scrA/imgA)/2);}
-      else{texture.repeat.set(imgA/scrA,1);texture.offset.set((1-imgA/scrA)/2,0);}
-      texture.wrapS=texture.wrapT=THREE.RepeatWrapping;
-      texture.minFilter=THREE.LinearFilter;texture.generateMipmaps=false;
-      // Extra 22% buffer so edges stay hidden during tilt/zoom
-      const buf=1.22;
-      const geo=new THREE.PlaneGeometry(pw*buf,ph*buf);
-      return new THREE.Mesh(geo,new THREE.MeshBasicMaterial({map:texture}));
-    }
-
-    let plane=null;
-    new THREE.TextureLoader().load('./couple.jpg.png',
-      tex=>{plane=makeCoverPlane(tex);scene.add(plane);},
-      undefined,
-      ()=>{canvas.style.display='none';} // fallback to CSS bg-image if load fails
-    );
-
-    // Input tracking
-    let mX=0,mY=0,tX=0,tY=0,scrollProg=0;
-    const isMobile=/iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    if(!isMobile){
-      document.addEventListener('mousemove',e=>{
-        mX=(e.clientX/window.innerWidth-0.5)*2;
-        mY=(e.clientY/window.innerHeight-0.5)*2;
-      });
-    } else {
-      // Gyroscope tilt on mobile
-      window.addEventListener('deviceorientation',e=>{
-        mX=Math.max(-1,Math.min(1,(e.gamma||0)/35));
-        mY=Math.max(-1,Math.min(1,((e.beta||45)-45)/35));
-      });
-    }
-
-    // Scroll: zoom plane + float cards
-    const cards=document.querySelectorAll('.hglass-card');
-    window.addEventListener('scroll',()=>{
-      const heroH=window.innerHeight;
-      scrollProg=Math.min(window.scrollY/heroH,1);
-      // Cards float upward at depth-dependent speeds
-      cards.forEach(card=>{
-        const depth=+(card.dataset.depth||30);
-        const floatY=-(scrollProg*(depth===70?90:50));
-        card.style.transform=`translateZ(${depth}px) translateY(${floatY}px)`;
-      });
-    },{passive:true});
-
-    // Resize
-    window.addEventListener('resize',()=>{
-      const W2=window.innerWidth,H2=window.innerHeight;
-      camera.aspect=W2/H2;camera.updateProjectionMatrix();
-      renderer.setSize(W2,H2);
-    });
-
-    // Render loop
-    let rafId=null;
-    function tick(){
-      rafId=requestAnimationFrame(tick);
-      // Smooth lerp
-      tX+=(mX-tX)*0.045;
-      tY+=(mY-tY)*0.045;
-      if(plane){
-        // Mouse parallax tilt
-        plane.rotation.y=tX*0.07;
-        plane.rotation.x=-tY*0.045;
-        // Scroll zoom
-        const s=1+scrollProg*0.15;
-        plane.scale.set(s,s,1);
-      }
-      renderer.render(scene,camera);
-    }
-    tick();
-
-    // Pause when hero is off-screen (performance)
-    if(typeof IntersectionObserver!=='undefined'){
-      new IntersectionObserver(entries=>{
-        entries.forEach(e=>{
-          if(e.isIntersecting){if(!rafId)tick();}
-          else{cancelAnimationFrame(rafId);rafId=null;}
-        });
-      }).observe(document.getElementById('heroSec'));
-    }
-  })();
 });
 
 </script>
