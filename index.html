@@ -2386,6 +2386,8 @@ function goStep(n){
     else if(i<n)s.classList.add('done');
   }
   window.scrollTo(0,160);
+  // Re-init custom selects for this step (handles any selects that weren't initialized yet)
+  window._initCustomSelects&&window._initCustomSelects(document.getElementById('fs'+n));
 }
 // Allow clicking done steps in the bar to go back freely
 function goStepBack(n){
@@ -4024,8 +4026,10 @@ document.addEventListener('DOMContentLoaded',function(){
       }catch(e){/* fall back to change-event only sync */}
       syncDisplay();
       sel.addEventListener('change',syncDisplay);
-      // Move native select off-screen (keep in DOM for form logic, values, and validation)
-      sel.style.cssText='position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden;';
+      // Hide native select (keep in DOM so .value / events still work for form logic)
+      sel.style.display='none';
+      sel.setAttribute('tabindex','-1');
+      sel.setAttribute('aria-hidden','true');
       // Open panel
       const openPanel=()=>{
         document.querySelectorAll('.csel-panel,.csel-backdrop').forEach(e=>e.remove());
