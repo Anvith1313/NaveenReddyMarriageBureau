@@ -687,21 +687,21 @@ body{font-family:'EB Garamond',serif;font-size:17px;line-height:1.7;background:v
 /* ═══════════════════════════════════
    MEMBERSHIP PAGE
 ═══════════════════════════════════ */
-.mem-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:860px;margin:0 auto;padding:0 2rem 5rem;position:relative;z-index:1;}
-.mem-card{background:rgba(255,255,255,0.88);backdrop-filter:blur(6px);border:1px solid var(--border);border-radius:20px;padding:2.5rem 2rem;text-align:center;position:relative;overflow:hidden;transition:all 0.3s;}
-.mem-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--crimson),var(--gold2));border-radius:20px 20px 0 0;}
-.mem-card:hover{box-shadow:0 16px 48px rgba(0,0,0,0.08);transform:translateY(-4px);}
-.mem-card.featured{background:var(--crimson);border-color:var(--crimson);transform:scale(1.04);}
-.mem-card.featured:hover{transform:scale(1.04) translateY(-4px);}
+@keyframes shine-rotate{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.mem-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:900px;margin:0 auto;padding:0 2rem 5rem;position:relative;z-index:1;}
+.shine-wrap{position:relative;border-radius:22px;padding:2px;overflow:hidden;}
+.shine-wrap::before{content:'';position:absolute;width:220%;height:220%;top:-60%;left:-60%;background:conic-gradient(from 0deg,transparent 0deg,rgba(200,112,144,0.75) 50deg,rgba(255,210,220,1) 90deg,rgba(200,112,144,0.75) 130deg,transparent 180deg 360deg);animation:shine-rotate 5s linear infinite;pointer-events:none;}
+.shine-wrap.featured{transform:scale(1.06);}
+.shine-wrap.featured::before{background:conic-gradient(from 0deg,transparent 0deg,rgba(174,134,0,0.85) 50deg,rgba(255,230,80,1) 90deg,rgba(174,134,0,0.85) 130deg,transparent 180deg 360deg);animation-duration:3.5s;}
+.mem-card{background:#fffcf8;border:none;border-radius:20px;padding:2.5rem 2rem;text-align:center;position:relative;z-index:1;transition:transform 0.3s;}
+.mem-card:hover{transform:translateY(-3px);}
+.shine-wrap.featured .mem-card{background:#fffdf4;}
 .mem-icon{font-size:2rem;margin-bottom:1rem;}
 .mem-tier{font-family:'Cinzel',serif;font-size:0.78rem;font-weight:700;letter-spacing:0.1em;color:var(--crimson);margin-bottom:0.5rem;}
-.mem-card.featured .mem-tier{color:var(--gold3);}
+.shine-wrap.featured .mem-tier{color:#9a7200;}
 .mem-price{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:600;color:var(--text);margin-bottom:0.2rem;}
-.mem-card.featured .mem-price{color:#fff;}
 .mem-period{font-family:'Cinzel',serif;font-size:0.44rem;letter-spacing:0.14em;color:var(--muted);margin-bottom:1.4rem;}
-.mem-card.featured .mem-period{color:rgba(255,252,248,0.90);}
 .mem-feats{font-family:'EB Garamond',serif;font-size:0.82rem;color:var(--muted);line-height:1.9;margin-bottom:1.5rem;border-top:1px solid var(--border);padding-top:1.2rem;text-align:left;}
-.mem-card.featured .mem-feats{color:rgba(255,252,248,0.92);border-top-color:rgba(255,255,255,0.22);}
 
 /* ═══════════════════════════════════
    FOOTER — no nav duplication
@@ -887,6 +887,7 @@ body{font-family:'EB Garamond',serif;font-size:17px;line-height:1.7;background:v
   .footer-grid{grid-template-columns:1fr;}
   .site-footer{padding:2rem 1.2rem 1.5rem;}
   .tier-row,.mem-cards{grid-template-columns:1fr;}
+  .shine-wrap.featured{transform:scale(1.02);}
   .g2,.g3{grid-template-columns:1fr !important;}
   .reg-wrap{padding:1.5rem 1rem 4rem;}
   .det-grid{grid-template-columns:1fr 1fr;}
@@ -1895,9 +1896,9 @@ body{font-size:17px;}
   <div class="signup-hero" id="memHero"><div class="sh-text"><div class="sh-title">Membership Plans</div><div class="sh-bc">Home | Membership</div></div></div>
   <div class="sec-hd"><div class="sec-tag">Choose Your Plan</div><div class="sec-title">Invest in Your Future</div><div class="sec-sub">Select the membership that reflects your aspirations</div></div>
   <div class="mem-cards">
-    <div class="mem-card"><div class="mem-icon">👑</div><div class="mem-tier">VIP</div><div class="mem-price">₹15,000</div><div class="mem-period">per year</div><div class="mem-feats">✦ Full profile visibility<br>✦ Browse verified profiles<br>✦ Express interest<br>✦ Bureau matchmaking<br>✦ Post-engagement: ₹1,50,000/person</div><button class="btn-prim" onclick="showPage('pgSignup')">Join VIP</button></div>
-    <div class="mem-card featured"><div class="mem-icon">💎</div><div class="mem-tier">VVIP</div><div class="mem-price">₹30,000</div><div class="mem-period">per year</div><div class="mem-feats">✦ All VIP benefits<br>✦ Priority search results<br>✦ Dedicated manager<br>✦ NRI profile access<br>✦ Post-engagement: ₹3,00,000/person</div><button class="btn-prim" style="background:var(--gold2);color:var(--text);" onclick="showPage('pgSignup')">Join VVIP</button></div>
-    <div class="mem-card"><div class="mem-icon">🔱</div><div class="mem-tier">ELITE</div><div class="mem-price">₹1,00,000</div><div class="mem-period">per year</div><div class="mem-feats">✦ All VVIP benefits<br>✦ White-glove service<br>✦ Background verification<br>✦ Assisted shortlisting<br>✦ Post-engagement: ₹10,00,000/person</div><button class="btn-prim" onclick="showPage('pgSignup')">Join Elite</button></div>
+    <div class="shine-wrap"><div class="mem-card"><div class="mem-icon">👑</div><div class="mem-tier">VIP</div><div class="mem-price">₹15,000</div><div class="mem-period">per year</div><div class="mem-feats">✦ Full profile visibility<br>✦ Browse verified profiles<br>✦ Express interest<br>✦ Bureau matchmaking<br>✦ Post-engagement: ₹1,50,000/person</div><button class="btn-prim" onclick="showPage('pgSignup')">Join VIP</button></div></div>
+    <div class="shine-wrap featured"><div class="mem-card"><div class="mem-icon">💎</div><div class="mem-tier">VVIP</div><div class="mem-price">₹30,000</div><div class="mem-period">per year</div><div class="mem-feats">✦ All VIP benefits<br>✦ Priority search results<br>✦ Dedicated manager<br>✦ NRI profile access<br>✦ Post-engagement: ₹3,00,000/person</div><button class="btn-prim" style="background:linear-gradient(135deg,#c9a84c,#b8960c);color:#fff;" onclick="showPage('pgSignup')">Join VVIP</button></div></div>
+    <div class="shine-wrap"><div class="mem-card"><div class="mem-icon">🔱</div><div class="mem-tier">ELITE</div><div class="mem-price">₹1,00,000</div><div class="mem-period">per year</div><div class="mem-feats">✦ All VVIP benefits<br>✦ White-glove service<br>✦ Background verification<br>✦ Assisted shortlisting<br>✦ Post-engagement: ₹10,00,000/person</div><button class="btn-prim" onclick="showPage('pgSignup')">Join Elite</button></div></div>
   </div>
 </div>
 
