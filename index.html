@@ -826,8 +826,9 @@ body{font-family:'EB Garamond',serif;font-size:17px;line-height:1.7;background:v
 
 @media(max-width:768px){
   /* ── NAV ── */
-  /* Remove backdrop-filter on mobile — it creates a GPU compositing seam (black line) */
-  .navbar{backdrop-filter:none;background:rgba(255,252,248,0.99);}
+  /* Fully opaque background — any rgba < 1 forces a GPU compositing layer, creating a seam */
+  .navbar{backdrop-filter:none;background:#fffcf8;border-bottom:none;box-shadow:none;}
+  .navbar::after{display:none;}
   .navbar,.dash-topbar{padding:0 1rem;}
   .nav-links{display:none;}
   .nav-right{display:none;}
@@ -841,12 +842,11 @@ body{font-family:'EB Garamond',serif;font-size:17px;line-height:1.7;background:v
   .login-glass{padding:2rem 1.4rem;margin:0 0.4rem;width:100%;max-width:100%;}
 
   /* ── HERO BACKGROUND — reduce height so cover zoom is less aggressive ── */
-  /* margin-top:-3px overlaps the navbar seam so the compositing layer boundary is hidden */
-  .hero-section{height:calc(65vh + 3px);min-height:323px;margin-top:-3px;background-position:top center;}
-  /* Inner page banners keep original crop, just shorter */
-  /* margin-top:-3px hides the compositing seam at the navbar/content boundary */
-  .signup-hero{height:153px;margin-top:-3px;}
-  .dash-hero{margin-top:-3px;}
+  /* margin-top:-1px closes any sub-pixel gap; background-position avoids dark top-edge pixels */
+  .hero-section{height:calc(65vh + 1px);min-height:323px;margin-top:-1px;background-position:center 20%;}
+  /* Inner page banners — margin-top:-1px closes any sub-pixel gap */
+  .signup-hero{height:153px;margin-top:-1px;}
+  .dash-hero{margin-top:-1px;}
   .sh-title{font-size:1.5rem;}
   .sh-bc{font-size:0.78rem;}
 
@@ -3862,6 +3862,18 @@ function pickTierFromPopup(t){
   };
   // Handle browser back/forward
   window.addEventListener('popstate',function(e){
+    // Step 1: if a dropdown panel is open, close it and stay on current page
+    const panels=document.querySelectorAll('.csel-panel');
+    if(panels.length>0){
+      panels.forEach(p=>p.remove());
+      document.querySelectorAll('.csel-backdrop').forEach(p=>p.remove());
+      document.querySelectorAll('.csel-trigger.open').forEach(t=>t.classList.remove('open'));
+      // Re-push the page state so the next back press can navigate away
+      const curId=document.querySelector('.page.active')?.id||'pgHome';
+      history.pushState({page:curId},'','#'+curId);
+      return;
+    }
+    // Step 2: navigate to the target page
     const pg=e.state?.page||(location.hash.replace('#','')||'pgHome');
     _sp(pg,true);
   });
@@ -4129,6 +4141,9 @@ document.addEventListener('DOMContentLoaded',function(){
         panel.style.maxHeight=Math.max(120,visH-panelTop-16)+'px';
         const close=()=>{panel.remove();backdrop.remove();trigger.classList.remove('open');};
         backdrop.addEventListener('click',close);
+        // Push a history entry so Android back button closes this panel instead of navigating
+        const _panelPageId=document.querySelector('.page.active')?.id||'pgHome';
+        history.pushState({page:_panelPageId,panel:true},'','#'+_panelPageId);
         setTimeout(()=>{
           const s2=panel.querySelector('.csel-selected');
           if(s2)s2.scrollIntoView({block:'nearest'});
