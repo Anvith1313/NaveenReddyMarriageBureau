@@ -1057,19 +1057,19 @@ body{font-family:'EB Garamond',serif;font-size:17px;line-height:1.7;background:v
 /* ── SWIGGY-STYLE HEART BOOKMARK ── */
 .pc-bookmark {
   position: absolute;
-  top: 12px;
-  right: 52px; /* to the left of the verify badge */
+  bottom: 12px;
+  right: 12px;
   z-index: 4;
-  width: 34px;
-  height: 34px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.92);
+  background: rgba(255,255,255,0.94);
   border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  box-shadow: 0 3px 12px rgba(0,0,0,0.22);
   transition: transform 0.18s, background 0.18s;
   font-size: 1rem;
   line-height: 1;
@@ -1080,8 +1080,8 @@ body{font-family:'EB Garamond',serif;font-size:17px;line-height:1.7;background:v
   background: rgba(255,255,255,1);
 }
 .pc-bookmark svg {
-  width: 18px;
-  height: 18px;
+  width: 24px;
+  height: 24px;
   transition: all 0.2s;
 }
 .pc-bookmark.saved {
@@ -3785,7 +3785,7 @@ function renderLikedPage(){
           <div class="pc-verify">✓ Verified</div>
           <!-- Remove from liked -->
           <button onclick="removeSaved('${p.u}')" title="Remove from Liked"
-            style="position:absolute;bottom:10px;right:10px;z-index:5;width:30px;height:30px;border-radius:50%;background:rgba(255,252,248,0.92);border:1px solid rgba(184,150,12,0.22);cursor:pointer;font-size:0.75rem;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.12);">✕</button>
+            style="position:absolute;bottom:12px;right:62px;z-index:5;width:36px;height:36px;border-radius:50%;background:rgba(255,252,248,0.94);border:1px solid rgba(184,150,12,0.22);cursor:pointer;font-size:0.8rem;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.14);">✕</button>
           <!-- Heart (filled since saved) -->
           <button class="pc-bookmark saved" onclick="toggleSave('${p.u}',event)" title="Remove from saved">
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
