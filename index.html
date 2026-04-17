@@ -7,19 +7,31 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cinzel:wght@400;500;600;700;900&family=Josefin+Sans:wght@200;300;400&display=swap" rel="stylesheet">
 <style>
 :root{
-  --gold:#7c3d52;--gold2:#a0445e;--gold3:#c87090;--gold4:#fdf0f3;
-  --crimson:#8b0000;--crimson2:#a50000;
-  --white:#fff;--offwhite:#fefcf8;--cream:#fdf8f0;
-  --text:#1a0f00;--muted:#6b5340;
-  --border:rgba(160,68,94,0.16);
-  --nav-h:68px;
+  /* Burgundy primary */
+  --crimson:#7B1F2E;--crimson2:#9B2F40;
+  --primary:#7B1F2E;--primary2:#9B2F40;--primary-light:#FFF0F2;
+  /* True warm gold (was mislabelled pink before) */
+  --gold:#B8892A;--gold2:#8B5E3C;--gold3:#E8C4A0;--gold4:#FFF0F2;
+  --gold-bg:#FDF3E0;
+  /* Backgrounds */
+  --white:#FFFFFF;--offwhite:#FAFAFA;--cream:#FFF8F5;
+  --bg:#FAFAFA;--bg-warm:#FFF8F5;
+  /* Text */
+  --text:#1A0A08;--muted:#6B3A28;--text2:#4A2018;
+  /* Borders & shadows */
+  --border:#E8D5C8;
+  --sh-soft:0 2px 16px rgba(123,31,46,0.08);
+  --sh-card:0 4px 28px rgba(123,31,46,0.11);
+  --sh-hover:0 12px 44px rgba(123,31,46,0.18);
+  --sh-cta:0 6px 24px rgba(123,31,46,0.32);
+  --nav-h:72px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{font-family:'EB Garamond',serif;font-size:17px;line-height:1.7;background:var(--offwhite);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;}
+body{font-family:'EB Garamond',serif;font-size:18px;line-height:1.7;background:var(--offwhite);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;}
 ::-webkit-scrollbar{width:5px;}
 ::-webkit-scrollbar-track{background:transparent;}
-::-webkit-scrollbar-thumb{background:rgba(184,150,12,0.25);border-radius:3px;}
+::-webkit-scrollbar-thumb{background:rgba(184,137,42,0.3);border-radius:3px;}
 
 .doodle-bg {
   position:relative;
