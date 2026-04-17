@@ -124,7 +124,6 @@ body{font-family:'EB Garamond',serif;font-size:17px;line-height:1.7;background:v
 
 .hero-section{
   height:100vh;
-  background-color:#1a0c08;
   background-size:cover;background-position:center;
   display:flex;align-items:center;justify-content:center;
   position:relative;overflow:hidden;
@@ -336,7 +335,6 @@ body{font-family:'EB Garamond',serif;font-size:17px;line-height:1.7;background:v
 #pgSignup{background:var(--offwhite);}
 .signup-hero{
   height:220px;
-  background-color:#2a1515;
   background-size:cover;
   background-position:center 38%;
   background-color:#3a1a0a;
@@ -828,6 +826,8 @@ body{font-family:'EB Garamond',serif;font-size:17px;line-height:1.7;background:v
 
 @media(max-width:768px){
   /* ── NAV ── */
+  /* Remove backdrop-filter on mobile — it creates a GPU compositing seam (black line) */
+  .navbar{backdrop-filter:none;background:rgba(255,252,248,0.99);}
   .navbar,.dash-topbar{padding:0 1rem;}
   .nav-links{display:none;}
   .nav-right{display:none;}
@@ -841,9 +841,12 @@ body{font-family:'EB Garamond',serif;font-size:17px;line-height:1.7;background:v
   .login-glass{padding:2rem 1.4rem;margin:0 0.4rem;width:100%;max-width:100%;}
 
   /* ── HERO BACKGROUND — reduce height so cover zoom is less aggressive ── */
-  .hero-section{height:65vh;min-height:320px;background-position:top center;}
+  /* margin-top:-3px overlaps the navbar seam so the compositing layer boundary is hidden */
+  .hero-section{height:calc(65vh + 3px);min-height:323px;margin-top:-3px;background-position:top center;}
   /* Inner page banners keep original crop, just shorter */
-  .signup-hero{height:150px;}
+  /* margin-top:-3px hides the compositing seam at the navbar/content boundary */
+  .signup-hero{height:153px;margin-top:-3px;}
+  .dash-hero{margin-top:-3px;}
   .sh-title{font-size:1.5rem;}
   .sh-bc{font-size:0.78rem;}
 
@@ -2194,6 +2197,9 @@ let ST={savedProfiles:[],
 // ═══════════ PAGE NAV ═══════════
 let _navHistory=[];
 function showPage(id,skipHistory){
+  // Close any open custom dropdown panel
+  document.querySelectorAll('.csel-panel,.csel-backdrop').forEach(e=>e.remove());
+  document.querySelectorAll('.csel-trigger.open').forEach(t=>t.classList.remove('open'));
   const curActive=document.querySelector('.page.active');
   const curId=curActive?curActive.id:null;
   if(curId&&curId!==id&&!skipHistory) _navHistory.push(curId);
