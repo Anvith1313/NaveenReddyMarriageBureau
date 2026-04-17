@@ -7,11 +7,11 @@
 
 ## 1. Design Philosophy
 
-The redesign targets three goals simultaneously:
+The redesign has three goals:
 
-1. **Professional trust** — The site must look as credible as Shaadi.com on first glance. Elderly parents, who are the primary decision-makers, must immediately perceive it as a legitimate, established institution.
-2. **Elderly accessibility** — All text must be readable without reading glasses. No small labels, no low-contrast champagne-on-white text.
-3. **Light and vibrant** — Pure white base with full-saturation burgundy and warm gold accents. No ash, no dull ivory sections, no frosted/glassmorphism effects that look blurry on older screens.
+1. **Fix what's broken, preserve what's unique** — The site already has a strong identity: the couple.jpg hero photo, elegant serif typography (Cormorant Garamond, Cinzel, EB Garamond), ornamental decorators, frosted glass cards. These stay. Only the broken color tokens, tiny font sizes, and dull ash tones get fixed.
+2. **Elderly accessibility** — All text readable without glasses. No Cinzel below 0.6rem, no low-contrast labels, base font raised to 18px.
+3. **Light and vibrant** — Pure white card surfaces with full-saturation burgundy and warm true-gold accents. No dull ivory, no ash grey. The couple photo, ornate fonts, and pill-shaped buttons make the site look luxurious and distinctive — not like any other platform.
 
 ---
 
@@ -99,24 +99,17 @@ The redesign targets three goals simultaneously:
 ## 4. Component Specifications
 
 ### 4.1 Navigation Bar
-- **Background:** `var(--white)` — solid, no frosted glass
+- **Background:** `rgba(255,255,255,0.96)` + `backdrop-filter:blur(14px)` — keep frosted feel
 - **Height:** 72px (up from 68px)
-- **Border-bottom:** 1px `var(--border)` + 2px gold gradient line at very bottom
-- **Logo circle:** 48px, warm gradient fill, 3px gold ring shadow
-- **Brand name:** Cormorant Garamond 700 italic, 1.2rem, `var(--primary)`
+- **Border-bottom:** 1px `var(--border)` + 1px gold gradient shimmer line
+- **Logo circle:** 48px, warm gradient fill, gold ring shadow — keep existing treatment
+- **Brand name:** Cormorant Garamond 600 italic, 1.2rem, `var(--primary)`
 - **Nav links:** Cinzel 500, 0.7rem, `var(--text2)` → `var(--primary)` on active
-- **Active indicator:** 2px burgundy underline (not just color change)
-- **Sign In button:** Outlined rectangle (not pill), burgundy border + text, 6px radius
-- **Register button:** Solid burgundy rectangle, white text, `var(--sh-cta)`
+- **Active indicator:** 1.5px burgundy underline sliding in on hover/active
+- **Sign In button:** **Pill-shaped** (50px radius), burgundy border + text — elegant
+- **Register button:** **Pill-shaped** (50px radius), solid burgundy fill, white text, `var(--sh-cta)`
 
-### 4.2 Trust Bar (new component)
-- **Position:** Immediately below nav on home page
-- **Background:** `var(--primary)` full burgundy
-- **Content:** 4 stats — Profiles, Matches, Years, Verified — with `|` dividers
-- **Number style:** Cormorant 700, 1.3rem, `#FFD9A0` (warm gold text on dark)
-- **Label style:** EB Garamond, 0.88rem, `rgba(255,217,160,0.75)`
-
-### 4.3 Hero Section
+### 4.2 Hero Section
 - **Overlay:** `linear-gradient(180deg, rgba(10,2,4,0.22) 0%, rgba(10,2,4,0.1) 40%, rgba(255,248,245,0.38) 80%, rgba(255,248,245,1) 100%)`
 - **Couple photo opacity:** ~55% — clearly visible
 - **Eyebrow tag:** Cinzel 0.6rem, warm gold `rgba(255,213,130,0.95)`, flanked by gold lines
@@ -124,38 +117,30 @@ The redesign targets three goals simultaneously:
 - **Subtitle:** Cormorant italic 400, 1.4rem, `rgba(255,240,210,0.93)`
 - **Buttons:** Solid rectangle, 6px radius (not pill). Primary: full burgundy. Secondary: transparent with gold border, white text.
 
-### 4.4 Quick Search Bar (new component)
-- **Position:** Below hero, above stats
-- **Background:** `var(--white)`, 1px `var(--border)` border, `var(--sh-card)`
-- **Fields:** Looking For, Age Range, Mother Tongue, Location — all `<select>`
-- **Field labels:** Cinzel 600, 0.6rem, `var(--primary)`
-- **Field inputs:** EB Garamond 1rem, `var(--bg-warm)` fill, `var(--border)` border, 6px radius
-- **Search button:** Solid burgundy, Cinzel 0.65rem, `var(--sh-cta)`
-
-### 4.5 Stats Bar
+### 4.3 Stats Bar
 - **Background:** `var(--gold-bg)` — warm gold tint (not white, not dark)
 - **Numbers:** Cormorant 700, 2.5rem, `var(--primary)`
 - **Labels:** EB Garamond 500, 1rem, `var(--text2)`
 - **Dividers:** 1px vertical `rgba(184,137,42,0.25)`, 40px tall
 
-### 4.6 Feature Cards
+### 4.4 Feature Cards
 - **Card:** White, 1px `var(--border)`, 12px radius, `var(--sh-soft)`
 - **Icon container:** 56×56px, 12px radius, `var(--primary-light)` background
 - **Top stripe on hover:** 3px burgundy→gold gradient, `scaleX` reveal
 - **Title:** Cinzel 600, 0.82rem, `var(--primary)`
 - **Body:** EB Garamond 400, 1rem, `var(--muted)`, lh 1.75
 
-### 4.7 Profile Cards (Browse)
-- **Grid:** 4 columns on desktop, 2 on mobile
+### 4.5 Profile Cards (Browse)
+- **Grid:** 3 columns on desktop (keep existing), 2 on tablet, 1 on mobile
 - **Photo area:** 130px tall, warm gradient placeholder
-- **Verified badge:** Rectangular (not pill), EB Garamond 600, 0.82rem, `var(--primary)`, white bg + burgundy border
-- **Heart button:** 34px circle, white bg
+- **Verified badge:** Pill-shaped, EB Garamond 600, 0.82rem, `var(--primary)`, white bg + burgundy border
+- **Heart button:** 34px circle, white bg — keep existing position
 - **Name:** Cormorant 700, 1.2rem
-- **Meta:** EB Garamond, 0.9rem, `var(--muted)`, 2-line (job + city/height)
-- **Tags:** `var(--primary-light)` bg, EB Garamond 600, 0.82rem, `var(--primary)`
-- **Connect button:** Solid burgundy rectangle, Cinzel 0.58rem
+- **Meta:** EB Garamond, 0.9rem, `var(--muted)`
+- **Tags:** Pill-shaped, `var(--primary-light)` bg, EB Garamond 600, 0.82rem, `var(--primary)`
+- **Connect button:** Pill-shaped solid burgundy, Cinzel 0.6rem
 
-### 4.8 Membership Tiers
+### 4.6 Membership Tiers
 - **All backgrounds:** `var(--white)` — no dark treatment
 - **Elite featured card:** 2px `var(--primary)` border + 4px gradient top stripe (burgundy→gold→rose)
 - **Recommended badge:** Solid burgundy rectangle, Cinzel 0.6rem
@@ -163,27 +148,27 @@ The redesign targets three goals simultaneously:
 - **Price:** Cormorant 700, 2.2rem, `var(--primary)`
 - **Period:** EB Garamond, 0.95rem, `var(--muted)`
 - **Feature list:** EB Garamond 400, 0.95rem, lh 2.1. Bullets: `✓` in `var(--primary)`
-- **Outline CTA:** 2px burgundy border, transparent bg, burgundy text
-- **Solid CTA:** Burgundy fill, white text, `var(--sh-cta)`
+- **Outline CTA:** Pill-shaped, 1.5px burgundy border, transparent bg, burgundy text
+- **Solid CTA:** Pill-shaped, burgundy fill, white text, `var(--sh-cta)`
 
-### 4.9 Login / Verify Card
-- **Card:** White, 1px `var(--border)`, 14px radius, `var(--sh-card)`
-- **Top stripe:** 4px, `linear-gradient(90deg, var(--primary), var(--gold), var(--primary2))`
-- **Logo badge:** 88px circle, warm gradient, 2px gold border, double gold ring shadow
+### 4.7 Login / Verify Card
+- **Card:** Frosted glass — `rgba(255,255,255,0.88)`, `backdrop-filter:blur(32px)`, 24px radius, `var(--sh-card)` — keep over hero photo
+- **Top stripe:** 3px, `linear-gradient(90deg, var(--primary), var(--gold), var(--primary2))`
+- **Logo badge:** 88px circle, warm gradient, gold ring glow — keep existing treatment
 - **Title:** Cinzel 600, 0.88rem, `var(--primary)`
-- **Inputs:** Boxed (not underline) — 1.5px `var(--border)` border, 7px radius, `var(--bg-warm)` fill, focus → `var(--primary)` border
-- **Input text:** EB Garamond, 1.1rem
-- **Labels:** Cinzel 600, 0.65rem, `var(--primary)`
-- **Submit button:** Solid burgundy, Cinzel 600, 0.75rem, `var(--sh-cta)`, 7px radius
+- **Inputs:** Underline style (keeps the elegant feel) — focus line animates to full width in `var(--primary)`
+- **Input text:** Cormorant Garamond, 1.1rem
+- **Labels:** Cinzel 600, 0.65rem, `var(--gold2)` (dark amber — readable)
+- **Submit button:** Pill-shaped, solid burgundy, Cinzel 600, 0.75rem, `var(--sh-cta)`
 
-### 4.10 Signup Step Indicator
+### 4.8 Signup Step Indicator
 - **Done step:** Solid burgundy circle, white ✓
 - **Active step:** White circle, 2px burgundy border, 4px burgundy glow ring
 - **Pending step:** White circle, 2px `var(--border)` border, `var(--muted)` number
 - **Connector line:** 2px, `var(--border)` → `var(--primary)` for done steps
 - **Labels:** EB Garamond 600, 0.85rem
 
-### 4.11 Admin Portal
+### 4.9 Admin Portal
 - **Sidebar:** `var(--bg-warm)` background — warm white, not dark
 - **Sidebar width:** 220px
 - **Brand in sidebar:** Cormorant italic 700, 1.15rem, `var(--primary)` + Cinzel sub 0.52rem gold
@@ -196,7 +181,7 @@ The redesign targets three goals simultaneously:
 - **Approved badge:** Green `#00823C` bg tint — universally understood
 - **Pending badge:** Gold tint — `var(--gold)`
 
-### 4.12 Footer
+### 4.10 Footer
 - **Top section:** `var(--white)` bg, 4 columns (Brand + Quick Links + Support + Contact)
 - **Brand name:** Cormorant italic 700, 1.5rem, `var(--primary)`
 - **Column headings:** Cinzel 600, 0.68rem, `var(--primary)`, underline `var(--border)`
@@ -250,15 +235,15 @@ Sections to rewrite in order:
 
 ---
 
-## 7. New Components (additions, not changes)
+## 7. New / Changed Components
 
-| Component | Location | Purpose |
+| Change | Location | Note |
 |---|---|---|
-| Trust Bar | Home, below nav | Immediate credibility (profiles, matches, years) |
-| Quick Search Bar | Home, below hero | Makes site feel functional and professional |
-| Rectangular buttons | Site-wide | Replace pill shapes — more professional, easier tap targets |
-| ✓ Checkmark bullets | Tier feature lists | Replace dashes — cleaner and more positive |
+| ✓ Checkmark bullets | Tier feature lists | Replace generic dashes — cleaner and more positive |
 | Green/amber status badges | Admin table | Universally understood approved/pending signals |
+| Pill buttons kept | Site-wide | More elegant than rectangles for a luxury matrimony brand |
+| Frosted glass login card kept | Login page | Looks beautiful over the hero photo — distinctive |
+| Ornamental decorators kept | Section headers, dividers | ✦ lines, italic tags — site's unique character |
 
 ---
 
