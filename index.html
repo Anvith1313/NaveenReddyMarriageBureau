@@ -1034,8 +1034,8 @@ body{font-family:'EB Garamond',serif;font-size:17px;line-height:1.7;background:v
   background:linear-gradient(90deg,rgba(160,68,94,0.1) 0%,rgba(160,68,94,0.04) 100%);
 }
 .csel-item.csel-selected::before{content:'✦';margin-right:0.45rem;font-size:0.6rem;color:var(--gold3);vertical-align:middle;}
-/* Backdrop: nearly clear so form stays fully visible */
-.csel-backdrop{position:fixed;inset:0;z-index:99998;background:rgba(0,0,0,0.08);}
+/* Backdrop: fully transparent — background stays exactly as-is */
+.csel-backdrop{position:fixed;inset:0;z-index:99998;background:transparent;}
 @media(max-width:768px){
   .csel-trigger{font-size:1.05rem !important;min-height:44px;padding:0.55rem 1.8rem 0.55rem 0.3rem;}
   .csel-item{padding:0.9rem 1.1rem;font-size:1.06rem;}
@@ -4155,12 +4155,12 @@ document.addEventListener('DOMContentLoaded',function(){
         const isMob=window.innerWidth<=768;
         if(isMob){
           // On mobile: scroll the trigger into the upper area so it stays visible,
-          // then place the panel below it (centered). User sees "I'm picking for this field."
+          // Scroll trigger to vertical center of screen so it stays clearly visible
           const navH=68;
           const r0=trigger.getBoundingClientRect();
-          // If trigger is in the lower half, scroll it up to just below the navbar
-          if(r0.top>visH*0.42){
-            window.scrollTo({top:window.scrollY+r0.top-navH-12,behavior:'instant'});
+          const targetTop=Math.max(navH+12,(visH-r0.height)/2);
+          if(Math.abs(r0.top-targetTop)>10){
+            window.scrollTo({top:window.scrollY+r0.top-targetTop,behavior:'instant'});
           }
           // Re-read position after scroll
           const r=trigger.getBoundingClientRect();
