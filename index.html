@@ -306,14 +306,15 @@ body{font-family:'EB Garamond',serif;font-size:17px;line-height:1.7;background:v
 .orn-line::before,.orn-line::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(184,150,12,0.28),transparent);}
 .orn-line span{font-family:'Cinzel',serif;font-size:0.48rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);white-space:nowrap;}
 
-/* shadcn-style inputs */
+/* underline inputs */
 .ui{position:relative;margin-bottom:1.4rem;}
-.ui label{display:block;font-family:'Cinzel',serif;font-size:0.48rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:0.55rem;}
-.ui input{width:100%;background:#fff;border:1.5px solid rgba(184,150,12,0.28);border-radius:10px;outline:none;padding:0.6rem 0.9rem;font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,0.05);transition:border-color 0.2s,box-shadow 0.2s;}
-.ui input::placeholder{color:rgba(107,83,64,0.35);font-style:italic;}
-.ui input:focus{border-color:var(--gold2);box-shadow:0 0 0 3px rgba(184,150,12,0.14),0 1px 3px rgba(0,0,0,0.05);}
-.ui .uline{display:none;}
-.ui .et{position:absolute;right:0.7rem;top:50%;transform:translateY(50%);background:none;border:none;cursor:pointer;font-size:0.88rem;color:var(--muted);opacity:0.6;}
+.ui label{display:block;font-family:'Cinzel',serif;font-size:0.48rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:0.42rem;}
+.ui input{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(184,150,12,0.22);outline:none;padding:0.52rem 0.2rem;font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--text);transition:border-color 0.3s;}
+.ui input::placeholder{color:rgba(107,83,64,0.28);font-style:italic;}
+.ui input:focus{border-bottom-color:var(--gold2);}
+.ui .uline{position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--gold2);transition:width 0.4s;}
+.ui input:focus~.uline{width:100%;}
+.ui .et{position:absolute;right:0.2rem;bottom:0.5rem;background:none;border:none;cursor:pointer;font-size:0.88rem;color:var(--muted);opacity:0.6;}
 .ui .et:hover{opacity:1;}
 
 /* pill buttons */
@@ -383,15 +384,15 @@ body{font-family:'EB Garamond',serif;font-size:17px;line-height:1.7;background:v
 .g1{display:grid;grid-template-columns:1fr;}
 
 .ff{margin-bottom:1.2rem;}
-.ff label{display:block;font-family:'Cinzel',serif;font-size:0.46rem;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:0.5rem;}
-.ff input,.ff select,.ff textarea{width:100%;background:#fff;border:1.5px solid rgba(184,150,12,0.25);border-radius:10px;outline:none;padding:0.55rem 0.85rem;font-family:'Cormorant Garamond',serif;font-size:0.98rem;color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,0.04);transition:border-color 0.2s,box-shadow 0.2s;}
-.ff input::placeholder{color:rgba(107,83,64,0.32);font-style:italic;}
-.ff input:focus,.ff select:focus,.ff textarea:focus{border-color:var(--gold2);box-shadow:0 0 0 3px rgba(184,150,12,0.13),0 1px 3px rgba(0,0,0,0.04);outline:none;}
-.ff select{cursor:pointer;-webkit-appearance:none;-moz-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M0 0l6 8 6-8z' fill='%23b8960c'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 0.8rem center;background-size:10px 7px;padding-right:2rem;}
+.ff label{display:block;font-family:'Cinzel',serif;font-size:0.46rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:0.38rem;}
+.ff input,.ff select,.ff textarea{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(184,150,12,0.18);outline:none;padding:0.48rem 0.2rem;font-family:'Cormorant Garamond',serif;font-size:0.98rem;color:var(--text);transition:border-color 0.3s;}
+.ff input::placeholder{color:rgba(107,83,64,0.28);font-style:italic;}
+.ff input:focus,.ff select:focus,.ff textarea:focus{border-bottom-color:var(--gold2);}
+.ff select{cursor:pointer;-webkit-appearance:none;-moz-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M0 0l6 8 6-8z' fill='%23b8960c'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 0.5rem center;background-size:10px 7px;padding-right:1.6rem;}
 .ff select option{background:#fff;}
 .ff textarea{resize:vertical;min-height:72px;}
 .ff.pw{position:relative;}
-.ff.pw .et{position:absolute;right:0.7rem;top:50%;transform:translateY(50%);background:none;border:none;cursor:pointer;font-size:0.88rem;color:var(--muted);opacity:0.6;}
+.ff.pw .et{position:absolute;right:0.2rem;bottom:0.5rem;background:none;border:none;cursor:pointer;font-size:0.88rem;color:var(--muted);opacity:0.6;}
 
 .radio-row{display:flex;gap:2rem;margin-top:0.3rem;}
 .r-opt{display:flex;align-items:center;gap:0.5rem;cursor:pointer;}
@@ -910,8 +911,8 @@ body{font-family:'EB Garamond',serif;font-size:17px;line-height:1.7;background:v
   .btn-step{min-height:48px;font-size:0.68rem;padding:0.75rem 1.2rem;letter-spacing:0.1em;}
   .form-sec-title{font-size:1rem;}
   .ff label{font-size:0.82rem !important;letter-spacing:0.1em;}
-  .ff input,.ff select,.ff textarea{font-size:1.05rem !important;min-height:44px;padding:0.6rem 0.85rem;}
-  .ff select{padding-right:2rem;}
+  .ff input,.ff select,.ff textarea{font-size:1.05rem !important;min-height:44px;padding:0.55rem 0.3rem;}
+  .ff select{padding-right:1.8rem;}
   .ff textarea{min-height:80px;}
   .radio-row{gap:1.2rem;}
   .r-opt span{font-size:1rem;padding:0.5rem 1rem;}
@@ -1227,7 +1228,7 @@ body{font-size:17px;}
   font-family:'EB Garamond',serif;font-size:1rem;color:var(--text);
   outline:none;transition:border-color .3s;
 }
-.srch-wrap input.srch-input:focus{border-color:var(--gold2);box-shadow:0 0 0 3px rgba(184,150,12,0.13);outline:none;}
+.srch-wrap input.srch-input:focus{border-color:var(--gold2);}
 .srch-wrap::before{content:'🔍';position:absolute;left:0.55rem;top:50%;transform:translateY(-50%);font-size:0.7rem;pointer-events:none;opacity:0.5;}
 .srch-wrap .srch-dropdown{
   position:absolute;top:calc(100% + 4px);left:0;right:0;z-index:999;
@@ -1719,13 +1720,13 @@ body{font-size:17px;}
           <div style="font-family:'Cormorant Garamond',serif;font-size:0.85rem;color:var(--gold);">₹15,000/yr</div>
           <div style="font-family:'EB Garamond',serif;font-size:0.72rem;color:var(--muted);margin-top:0.3rem;line-height:1.5;">Browse verified profiles · Express interest · Bureau matchmaking</div>
         </div>
-        <div class="tier-rec-card" id="trc_Elite" onclick="pickTierFromPopup('Elite')">
+        <div class="tier-rec-card recommended" id="trc_Elite" onclick="pickTierFromPopup('Elite')">
           <div style="font-size:1.4rem;margin-bottom:0.3rem;">🔱</div>
           <div style="font-family:'Cinzel',serif;font-size:0.58rem;font-weight:700;color:var(--crimson);">Elite</div>
           <div style="font-family:'Cormorant Garamond',serif;font-size:0.85rem;color:var(--gold);">₹1,00,000/yr</div>
           <div style="font-family:'EB Garamond',serif;font-size:0.72rem;color:var(--muted);margin-top:0.3rem;line-height:1.5;">All VIP + Priority search · Dedicated manager · NRI access</div>
         </div>
-        <div class="tier-rec-card recommended" id="trc_VVIP" onclick="pickTierFromPopup('VVIP')">
+        <div class="tier-rec-card" id="trc_VVIP" onclick="pickTierFromPopup('VVIP')">
           <div style="font-size:1.4rem;margin-bottom:0.3rem;">💎</div>
           <div style="font-family:'Cinzel',serif;font-size:0.58rem;font-weight:700;color:var(--crimson);">VVIP</div>
           <div style="font-family:'Cormorant Garamond',serif;font-size:0.85rem;color:var(--gold);">₹30,000/yr</div>
@@ -1896,8 +1897,8 @@ body{font-size:17px;}
   <div class="sec-hd"><div class="sec-tag">Choose Your Plan</div><div class="sec-title">Invest in Your Future</div><div class="sec-sub">Select the membership that reflects your aspirations</div></div>
   <div class="mem-cards">
     <div class="shine-wrap"><div class="mem-card"><div class="mem-icon">👑</div><div class="mem-tier">VIP</div><div class="mem-price">₹15,000</div><div class="mem-period">per year</div><div class="mem-feats">✦ Full profile visibility<br>✦ Browse verified profiles<br>✦ Express interest<br>✦ Bureau matchmaking<br>✦ Post-engagement: ₹1,50,000/person</div><button class="btn-prim" onclick="showPage('pgSignup')">Join VIP</button></div></div>
-    <div class="shine-wrap"><div class="mem-card"><div class="mem-icon">🔱</div><div class="mem-tier">ELITE</div><div class="mem-price">₹1,00,000</div><div class="mem-period">per year</div><div class="mem-feats">✦ All VIP benefits<br>✦ Priority search results<br>✦ Dedicated manager<br>✦ NRI profile access<br>✦ Post-engagement: ₹3,00,000/person</div><button class="btn-prim" onclick="showPage('pgSignup')">Join Elite</button></div></div>
-    <div class="shine-wrap featured"><div class="mem-card"><div class="mem-icon">💎</div><div class="mem-tier">VVIP</div><div class="mem-price">₹30,000</div><div class="mem-period">per year</div><div class="mem-feats">✦ All Elite benefits<br>✦ White-glove service<br>✦ Background verification<br>✦ Assisted shortlisting<br>✦ Post-engagement: ₹10,00,000/person</div><button class="btn-prim" style="background:linear-gradient(135deg,#c9a84c,#b8960c);color:#fff;" onclick="showPage('pgSignup')">Join VVIP</button></div></div>
+    <div class="shine-wrap featured"><div class="mem-card"><div class="mem-icon">🔱</div><div class="mem-tier">ELITE</div><div class="mem-price">₹1,00,000</div><div class="mem-period">per year</div><div class="mem-feats">✦ All VIP benefits<br>✦ Priority search results<br>✦ Dedicated manager<br>✦ NRI profile access<br>✦ Post-engagement: ₹3,00,000/person</div><button class="btn-prim" style="background:linear-gradient(135deg,#c9a84c,#b8960c);color:#fff;" onclick="showPage('pgSignup')">Join Elite</button></div></div>
+    <div class="shine-wrap"><div class="mem-card"><div class="mem-icon">💎</div><div class="mem-tier">VVIP</div><div class="mem-price">₹30,000</div><div class="mem-period">per year</div><div class="mem-feats">✦ All Elite benefits<br>✦ White-glove service<br>✦ Background verification<br>✦ Assisted shortlisting<br>✦ Post-engagement: ₹10,00,000/person</div><button class="btn-prim" onclick="showPage('pgSignup')">Join VVIP</button></div></div>
   </div>
 </div>
 
