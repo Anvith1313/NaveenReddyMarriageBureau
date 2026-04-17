@@ -951,7 +951,8 @@ body{font-family:'EB Garamond',serif;font-size:17px;line-height:1.7;background:v
   .mem-feats{font-size:0.85rem;}
 
   /* ── TOAST ── */
-  .toast{bottom:1.2rem;left:1rem;right:1rem;text-align:center;font-size:0.92rem;}
+  .toast{bottom:1.2rem;left:1rem;right:1rem;transform:translateY(16px);text-align:center;font-size:0.92rem;white-space:normal;border-radius:16px;}
+  .toast.show{transform:translateY(0);}
 
   /* ── BIODATA OVERLAY ── */
   .biodata-overlay{padding:0.5rem;}
@@ -2001,7 +2002,7 @@ body{font-size:17px;}
             <option>Karimnagar</option>
           </select>
         </div>
-        <div class="ff"><label>Preferred Date *</label><input id="apptDate" type="date" min=""></div>
+        <div class="ff"><label>Preferred Date * <small style="font-weight:normal;color:var(--muted);font-style:italic;text-transform:none;letter-spacing:0;">(Closed on Tuesdays)</small></label><input id="apptDate" type="date" min=""></div>
         <div class="ff"><label>Preferred Time</label>
           <select id="apptTime">
             <option>10:00 AM – 11:00 AM</option>
@@ -3982,21 +3983,46 @@ document.addEventListener('DOMContentLoaded',function(){
   }
   document.getElementById('s_dob')?.addEventListener('change',_validateDobNow);
   document.getElementById('s_dob')?.addEventListener('blur',_validateDobNow);
-  // Set appointment date min to today
+  // Set appointment date min to today, block Tuesdays (office closed)
   const apptDate=document.getElementById('apptDate');
-  if(apptDate)apptDate.min=new Date().toISOString().split('T')[0];
+  if(apptDate){
+    apptDate.min=new Date().toISOString().split('T')[0];
+    apptDate.addEventListener('change',function(){
+      if(!this.value)return;
+      const [y,m,d]=this.value.split('-').map(Number);
+      if(new Date(y,m-1,d).getDay()===2){
+        this.value='';
+        toast('⚠️ We are closed on Tuesdays. Please choose another day.');
+      }
+    });
+  }
 
-  // ── CUSTOM SELECT DROPDOWNS ──
-  // Replaces native <select> with in-page dropdown so options appear on screen (not in browser UI)
-  // and tapping the label also opens the list
+  // ── CUSTOM SELECT / DATALIST DROPDOWNS ──
+  // Replaces native <select> and datalist <input list="..."> with in-page dropdown panels
   window._initCustomSelects=function(root){
-    (root||document).querySelectorAll('.ff select').forEach(sel=>{
+    const base=root||document;
+    // Collect both <select> and datalist-backed inputs inside .ff
+    const items=[
+      ...Array.from(base.querySelectorAll('.ff select')).map(el=>({el,type:'select'})),
+      ...Array.from(base.querySelectorAll('.ff input[list]')).map(el=>({el,type:'input'}))
+    ];
+    items.forEach(({el:sel,type})=>{
       if(sel._cselInit)return;
       sel._cselInit=true;
-      // Disable blank placeholder option so it can't be re-selected
-      const first=sel.options[0];
-      if(first&&first.value==='')first.disabled=true;
-      // Build visible trigger div
+
+      // Collect option data
+      let opts=[];
+      if(type==='select'){
+        const first=sel.options[0];
+        if(first&&first.value==='')first.disabled=true;
+        opts=Array.from(sel.options).filter(o=>!o.disabled).map(o=>({val:o.value,text:o.text}));
+      } else {
+        const dl=document.getElementById(sel.getAttribute('list')||'');
+        if(!dl)return;
+        opts=Array.from(dl.options).map(o=>({val:o.value||o.text,text:o.text}));
+      }
+
+      // Build trigger div (replaces the native element visually)
       const trigger=document.createElement('div');
       trigger.className='csel-trigger';
       trigger.setAttribute('tabindex','0');
@@ -4004,33 +4030,45 @@ document.addEventListener('DOMContentLoaded',function(){
       const span=document.createElement('span');
       trigger.appendChild(span);
       sel.parentNode.insertBefore(trigger,sel);
-      // Sync trigger display text when value changes
+
+      // Sync trigger text with current value
+      const getLabel=()=>sel.closest('.ff')?.querySelector('label')?.textContent?.replace('*','').trim()||'Select';
       const syncDisplay=()=>{
-        const opt=sel.options[sel.selectedIndex];
-        const isEmpty=!opt||opt.value==='';
+        const val=sel.value;
+        const isEmpty=!val||val==='';
         span.className='csel-val'+(isEmpty?' csel-placeholder':'');
-        span.textContent=isEmpty
-          ?(sel.closest('.ff')?.querySelector('label')?.textContent?.replace('*','').trim()||'Select')
-          :opt.text;
-      };
-      // Intercept programmatic .value= assignments (e.g. pre-filling form data)
-      try{
-        const nativeProp=Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype,'value')
-          ||Object.getOwnPropertyDescriptor(Object.getPrototypeOf(HTMLSelectElement.prototype),'value');
-        if(nativeProp){
-          Object.defineProperty(sel,'value',{
-            get(){return nativeProp.get.call(this);},
-            set(v){nativeProp.set.call(this,v);syncDisplay();}
-          });
+        if(isEmpty){
+          span.textContent=getLabel();
+        } else if(type==='select'){
+          const opt=sel.options[sel.selectedIndex];
+          span.textContent=opt?opt.text:val;
+        } else {
+          span.textContent=val;
         }
-      }catch(e){/* fall back to change-event only sync */}
+      };
+
+      // For selects: intercept programmatic .value= so display stays in sync
+      if(type==='select'){
+        try{
+          const nativeProp=Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype,'value')
+            ||Object.getOwnPropertyDescriptor(Object.getPrototypeOf(HTMLSelectElement.prototype),'value');
+          if(nativeProp){
+            Object.defineProperty(sel,'value',{
+              get(){return nativeProp.get.call(this);},
+              set(v){nativeProp.set.call(this,v);syncDisplay();}
+            });
+          }
+        }catch(e){}
+      }
+
       syncDisplay();
       sel.addEventListener('change',syncDisplay);
-      // Hide native select (keep in DOM so .value / events still work for form logic)
+      // Hide native element — it stays in DOM so .value and events still work
       sel.style.display='none';
       sel.setAttribute('tabindex','-1');
       sel.setAttribute('aria-hidden','true');
-      // Open panel
+
+      // Open dropdown panel
       const openPanel=()=>{
         document.querySelectorAll('.csel-panel,.csel-backdrop').forEach(e=>e.remove());
         document.querySelectorAll('.csel-trigger.open').forEach(t=>t.classList.remove('open'));
@@ -4039,6 +4077,7 @@ document.addEventListener('DOMContentLoaded',function(){
         document.body.appendChild(backdrop);
         const panel=document.createElement('div');
         panel.className='csel-panel';
+        // Panel header shows field label
         const labelEl=sel.closest('.ff')?.querySelector('label');
         if(labelEl){
           const hdr=document.createElement('div');
@@ -4046,22 +4085,24 @@ document.addEventListener('DOMContentLoaded',function(){
           hdr.textContent=labelEl.textContent.replace('*','').trim();
           panel.appendChild(hdr);
         }
-        Array.from(sel.options).forEach(opt=>{
-          if(opt.disabled)return;
+        // Populate options
+        opts.forEach(opt=>{
           const item=document.createElement('div');
-          item.className='csel-item'+(opt.value!==''&&opt.value===sel.value?' csel-selected':'');
+          const curVal=type==='select'?sel.value:sel.value;
+          item.className='csel-item'+(opt.val&&opt.val===curVal?' csel-selected':'');
           item.textContent=opt.text;
           item.addEventListener('click',e=>{
             e.stopPropagation();
-            sel.value=opt.value;
+            sel.value=opt.val;
             sel.dispatchEvent(new Event('change',{bubbles:true}));
+            syncDisplay();
             close();
           });
           panel.appendChild(item);
         });
         document.body.appendChild(panel);
         trigger.classList.add('open');
-        // Position panel relative to trigger (fixed = viewport coords)
+        // Position using visual viewport so panel clears soft keyboard
         const rect=trigger.getBoundingClientRect();
         const pw=Math.min(Math.max(rect.width,220),360);
         panel.style.width=pw+'px';
@@ -4075,22 +4116,15 @@ document.addEventListener('DOMContentLoaded',function(){
           panel.style.bottom='auto';
         }
         panel.style.left=Math.max(8,Math.min(rect.left,window.innerWidth-pw-8))+'px';
-        const close=()=>{
-          panel.remove();backdrop.remove();
-          trigger.classList.remove('open');
-        };
+        const close=()=>{panel.remove();backdrop.remove();trigger.classList.remove('open');};
         backdrop.addEventListener('click',close);
-        // Scroll selected item into view
         setTimeout(()=>{
-          const sel2=panel.querySelector('.csel-selected');
-          if(sel2)sel2.scrollIntoView({block:'nearest'});
+          const s2=panel.querySelector('.csel-selected');
+          if(s2)s2.scrollIntoView({block:'nearest'});
         },50);
       };
       trigger.addEventListener('click',openPanel);
-      trigger.addEventListener('keydown',e=>{
-        if(e.key==='Enter'||e.key===' '){e.preventDefault();openPanel();}
-      });
-      // Tapping the label also opens the dropdown
+      trigger.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openPanel();}});
       const labelEl=sel.closest('.ff')?.querySelector('label');
       if(labelEl){labelEl.style.cursor='pointer';labelEl.addEventListener('click',openPanel);}
     });
