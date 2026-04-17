@@ -2261,6 +2261,7 @@ let ST={savedProfiles:[],
 let _navHistory=[];
 function showPage(id,skipHistory){
   // Close any open custom dropdown panel
+  if(typeof window._cselClose==='function'){window._cselClose();window._cselClose=null;}
   document.querySelectorAll('.csel-panel,.csel-backdrop').forEach(e=>e.remove());
   document.querySelectorAll('.csel-trigger.open').forEach(t=>t.classList.remove('open'));
   const curActive=document.querySelector('.page.active');
@@ -4004,6 +4005,13 @@ function pickTierFromPopup(t){
   window.addEventListener('popstate',function(e){
     const curId=document.querySelector('.page.active')?.id||'pgHome';
     // Step 1: if a dropdown panel is open, close it and stay
+    if(typeof window._cselClose==='function'){
+      window._cselClose();
+      window._cselClose=null;
+      history.pushState({page:curId},'','#'+curId);
+      return;
+    }
+    // Fallback: DOM check
     const panels=document.querySelectorAll('.csel-panel');
     if(panels.length>0){
       panels.forEach(p=>p.remove());
@@ -4315,9 +4323,13 @@ document.addEventListener('DOMContentLoaded',function(){
           const panelTop=parseFloat(panel.style.top)||0;
           panel.style.maxHeight=Math.max(120,visH-panelTop-16)+'px';
         }
-        const close=()=>{panel.remove();backdrop.remove();trigger.classList.remove('open');};
+        const close=()=>{
+          panel.remove();backdrop.remove();trigger.classList.remove('open');
+          window._cselClose=null; // clear so popstate knows no panel is open
+        };
         backdrop.addEventListener('click',close);
-        // Push a history entry so Android back button closes this panel instead of navigating
+        // Register close globally so popstate can call it directly (reliable on all Android browsers)
+        window._cselClose=close;
         const _panelPageId=document.querySelector('.page.active')?.id||'pgHome';
         history.pushState({page:_panelPageId,panel:true},'','#'+_panelPageId);
         setTimeout(()=>{
