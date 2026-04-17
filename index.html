@@ -4,7 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Naveen Reddy Marriage Bureau — Est. 2000</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cinzel:wght@400;500;600;700;900&family=Josefin+Sans:wght@200;300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cinzel:wght@400;500;600;700;900&family=Josefin+Sans:wght@200;300;400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+<script>window.tailwindConfig={corePlugins:{preflight:false}}</script>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>if(window.tailwind)tailwind.config={corePlugins:{preflight:false}}</script>
 <style>
 :root{
   --gold:#7c3d52;--gold2:#a0445e;--gold3:#c87090;--gold4:#fdf0f3;
@@ -1309,6 +1313,75 @@ body{font-size:17px;}
 .bdet-map-btn{display:inline-flex;align-items:center;gap:0.4rem;margin-top:0.4rem;padding:0.35rem 0.9rem;background:var(--crimson);color:#fff;border-radius:50px;font-family:'Cinzel',serif;font-size:0.44rem;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;font-weight:600;transition:opacity .2s;}
 .bdet-map-btn:hover{opacity:0.85;}
 
+/* ═══════════════════════════════════
+   LUXURY REDESIGN — Poppins + AOS + Premium UI
+═══════════════════════════════════ */
+
+/* Poppins for UI chrome */
+.nav-link,.btn-nav-in,.feat-title,.stat-l,.story-year,.sec-tag,.btn-prim,.btn-sec,.hbtn{font-family:'Poppins',sans-serif !important;}
+
+/* ── STATS BAR — dark luxury ── */
+.stats-bar{background:linear-gradient(135deg,#100600 0%,#1e0a04 50%,#100600 100%);border:none;padding:2.8rem 4rem;position:relative;overflow:hidden;}
+.stats-bar::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 100%,rgba(212,175,55,0.07) 0%,transparent 70%);pointer-events:none;}
+.stat-item{position:relative;padding:0 2.5rem;text-align:center;}
+.stat-item:not(:last-child)::after{content:'';position:absolute;right:0;top:10%;height:80%;width:1px;background:linear-gradient(180deg,transparent,rgba(212,175,55,0.28),transparent);}
+.stat-n{font-family:'Poppins',sans-serif !important;font-size:2.6rem;font-weight:700;background:linear-gradient(135deg,#c9a84c 0%,#f0d878 50%,#c9a84c 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;}
+.stat-l{font-family:'Poppins',sans-serif !important;font-size:0.55rem;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,248,220,0.55);margin-top:0.4rem;}
+
+/* ── SECTION HEADERS ── */
+.sec-hd{max-width:680px;margin-left:auto;margin-right:auto;padding:4.5rem 1.5rem 2.5rem;}
+.sec-tag{font-family:'Poppins',sans-serif !important;font-size:0.55rem;font-weight:600;letter-spacing:0.22em;color:var(--gold2);}
+.sec-tag::before,.sec-tag::after{width:44px;height:1.5px;background:linear-gradient(90deg,transparent,var(--gold2));}
+.sec-title{font-size:clamp(1.9rem,3.2vw,2.8rem);font-weight:300;line-height:1.25;margin-top:0.1rem;}
+.sec-sub{font-size:1rem;line-height:1.75;max-width:520px;margin:0.6rem auto 0;}
+
+/* ── FEATURE CARDS ── */
+.features-grid{max-width:1200px;margin:0 auto;padding:0 2rem 5rem;gap:1.6rem;}
+.feat-card{background:#fff;border:1px solid rgba(160,68,94,0.1);border-radius:20px;padding:2.4rem 2rem;box-shadow:0 4px 28px rgba(0,0,0,0.05);transition:transform 0.35s cubic-bezier(0.34,1.2,0.64,1),box-shadow 0.35s;}
+.feat-card:hover{transform:translateY(-9px);box-shadow:0 24px 64px rgba(160,68,94,0.13);}
+.feat-card::before{height:3px;background:linear-gradient(90deg,var(--crimson),var(--gold3));border-radius:20px 20px 0 0;}
+.feat-icon{font-size:2.5rem;margin-bottom:1.2rem;display:block;filter:drop-shadow(0 4px 8px rgba(0,0,0,0.1));}
+.feat-title{font-family:'Poppins',sans-serif !important;font-size:0.7rem;font-weight:600;letter-spacing:0.06em;color:#1a0f00;text-transform:uppercase;margin-bottom:0.7rem;}
+.feat-text{font-size:0.93rem;line-height:1.82;color:var(--muted);}
+
+/* ── STORY CARDS ── */
+.stories-grid{max-width:1200px;margin:0 auto;padding:0 2rem 5rem;gap:1.6rem;}
+.story-card{background:linear-gradient(160deg,#fffcf8 0%,#fff6ee 100%);border:1px solid rgba(160,68,94,0.1);border-radius:20px;padding:2.4rem 2rem;box-shadow:0 4px 28px rgba(0,0,0,0.04);transition:transform 0.35s cubic-bezier(0.34,1.2,0.64,1),box-shadow 0.35s;}
+.story-card:hover{transform:translateY(-7px);box-shadow:0 24px 64px rgba(160,68,94,0.1);}
+.story-card::before{font-size:7.5rem;color:rgba(160,68,94,0.07);}
+.story-names{font-size:1.4rem;font-weight:600;letter-spacing:0.01em;}
+.story-year{font-family:'Poppins',sans-serif !important;font-size:0.48rem;letter-spacing:0.14em;color:var(--gold2);margin-bottom:1rem;}
+.story-text{font-size:0.96rem;line-height:1.88;color:var(--muted);}
+
+/* ── PRIMARY BUTTON ── */
+.btn-prim{font-family:'Poppins',sans-serif !important;font-size:0.58rem;letter-spacing:0.18em;background:linear-gradient(135deg,#8b0000 0%,#a83232 50%,#7a0000 100%);box-shadow:0 6px 28px rgba(139,0,0,0.24);transition:all 0.35s cubic-bezier(0.34,1.2,0.64,1);}
+.btn-prim:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(139,0,0,0.36);}
+
+/* ── HERO BUTTONS ── */
+.hbtn{font-family:'Poppins',sans-serif !important;font-size:0.55rem;letter-spacing:0.2em;padding:0.95rem 2.6rem;transition:all 0.38s cubic-bezier(0.34,1.2,0.64,1);}
+.hbtn.primary:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 18px 52px rgba(139,0,0,0.42);}
+.hbtn.outline:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 10px 32px rgba(212,175,55,0.2);}
+
+/* ── FOOTER ── */
+.site-footer{background:linear-gradient(160deg,#180900 0%,#0e0400 60%,#180900 100%);position:relative;}
+.site-footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(212,175,55,0.45),transparent);}
+.fg-brand .fb-name{font-family:'Poppins',sans-serif;font-size:0.78rem;font-weight:600;}
+.fg-col h4{font-family:'Poppins',sans-serif;font-size:0.52rem;letter-spacing:0.18em;}
+.footer-bottom{border-top:1px solid rgba(212,175,55,0.12);padding-top:1.6rem;}
+.footer-bottom p{font-family:'Poppins',sans-serif;font-size:0.75rem;color:rgba(255,248,220,0.5);font-style:normal;letter-spacing:0.02em;}
+
+/* ── AOS override — smooth timing ── */
+[data-aos]{transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94) !important;}
+
+@media(max-width:768px){
+  .stats-bar{padding:1.8rem 1rem;}
+  .stat-item{padding:0 1rem;}
+  .stat-item:not(:last-child)::after{display:none;}
+  .stat-n{font-size:2rem;}
+  .features-grid,.stories-grid{padding:0 1rem 3rem;max-width:100%;}
+  .sec-hd{padding:3rem 1.2rem 2rem;max-width:100%;}
+}
+
 </style>
   <!-- Firebase SDK -->
   <script type="module">
@@ -1451,11 +1524,11 @@ body{font-size:17px;}
 <div id="pgHome" class="page active" style="padding-top:0;">
   <div class="hero-section" id="heroSec">
     <div class="hero-content">
-      <div class="hero-tag">Exclusively Reddy Community · Est. 2000</div>
-      <div class="hero-brand">Naveen Reddy<br>Marriage Bureau</div>
-      <h1 class="hero-h1">Where Sacred Traditions Meet Timeless Love</h1>
-      <p class="hero-h2">Hyderabad · Warangal · Karimnagar · and across India</p>
-      <div class="hero-btns">
+      <div class="hero-tag" data-aos="fade-down" data-aos-duration="800">Exclusively Reddy Community · Est. 2000</div>
+      <div class="hero-brand" data-aos="fade-up" data-aos-delay="100" data-aos-duration="900">Naveen Reddy<br>Marriage Bureau</div>
+      <h1 class="hero-h1" data-aos="fade-up" data-aos-delay="200" data-aos-duration="900">Where Sacred Traditions Meet Timeless Love</h1>
+      <p class="hero-h2" data-aos="fade-up" data-aos-delay="300" data-aos-duration="800">Hyderabad · Warangal · Karimnagar · and across India</p>
+      <div class="hero-btns" data-aos="fade-up" data-aos-delay="420" data-aos-duration="800">
         <button class="hbtn primary" onclick="showPage('pgSignup')">Begin Your Journey</button>
         <button class="hbtn outline" onclick="showPage('pgAbout')">Learn More</button>
       </div>
@@ -1465,24 +1538,24 @@ body{font-size:17px;}
   <!-- Everything below hero gets the doodle bg treatment -->
   <div class="home-below doodle-bg">
     <div class="stats-bar">
-      <div class="stat-item"><div class="stat-n">10,000+</div><div class="stat-l">Registered Members</div></div>
-      <div class="stat-item"><div class="stat-n">4,500+</div><div class="stat-l">Successful Matches</div></div>
-      <div class="stat-item"><div class="stat-n">25+</div><div class="stat-l">Years of Trust</div></div>
-      <div class="stat-item"><div class="stat-n">100%</div><div class="stat-l">Verified Profiles</div></div>
-      <div class="stat-item"><div class="stat-n">50+</div><div class="stat-l">Districts Covered</div></div>
+      <div class="stat-item" data-aos="fade-up" data-aos-delay="0"><div class="stat-n">10,000+</div><div class="stat-l">Registered Members</div></div>
+      <div class="stat-item" data-aos="fade-up" data-aos-delay="80"><div class="stat-n">4,500+</div><div class="stat-l">Successful Matches</div></div>
+      <div class="stat-item" data-aos="fade-up" data-aos-delay="160"><div class="stat-n">25+</div><div class="stat-l">Years of Trust</div></div>
+      <div class="stat-item" data-aos="fade-up" data-aos-delay="240"><div class="stat-n">100%</div><div class="stat-l">Verified Profiles</div></div>
+      <div class="stat-item" data-aos="fade-up" data-aos-delay="320"><div class="stat-n">50+</div><div class="stat-l">Districts Covered</div></div>
     </div>
-    <div class="sec-hd">
+    <div class="sec-hd" data-aos="fade-up">
       <div class="sec-tag">Why Choose Us</div>
       <div class="sec-title">A Legacy of Trust &amp; Sacred Unions</div>
       <div class="sec-sub">Serving the Reddy community with honour, privacy and dedication since 2000</div>
     </div>
     <div class="features-grid">
-      <div class="feat-card"><span class="feat-icon">🔒</span><div class="feat-title">Complete Privacy</div><div class="feat-text">Contact details never shared without mutual interest confirmation and bureau approval.</div></div>
-      <div class="feat-card"><span class="feat-icon">✅</span><div class="feat-title">100% Verified</div><div class="feat-text">Every profile is personally screened and verified by our bureau team before being visible.</div></div>
-      <div class="feat-card"><span class="feat-icon">🏛</span><div class="feat-title">Community Exclusive</div><div class="feat-text">Exclusively for the Reddy community of Hindu religion, ensuring cultural compatibility.</div></div>
-      <div class="feat-card"><span class="feat-icon">💬</span><div class="feat-title">Family Chat</div><div class="feat-text">Once contact is approved, families communicate through our secure, monitored chat.</div></div>
-      <div class="feat-card"><span class="feat-icon">🌐</span><div class="feat-title">NRI Profiles</div><div class="feat-text">Extensive database of NRI Reddy profiles from USA, UK, Canada, Australia, UAE.</div></div>
-      <div class="feat-card"><span class="feat-icon">⭐</span><div class="feat-title">Personal Service</div><div class="feat-text">Dedicated relationship managers assist you through every step of your journey.</div></div>
+      <div class="feat-card" data-aos="fade-up" data-aos-delay="0"><span class="feat-icon">🔒</span><div class="feat-title">Complete Privacy</div><div class="feat-text">Contact details never shared without mutual interest confirmation and bureau approval.</div></div>
+      <div class="feat-card" data-aos="fade-up" data-aos-delay="80"><span class="feat-icon">✅</span><div class="feat-title">100% Verified</div><div class="feat-text">Every profile is personally screened and verified by our bureau team before being visible.</div></div>
+      <div class="feat-card" data-aos="fade-up" data-aos-delay="160"><span class="feat-icon">🏛</span><div class="feat-title">Community Exclusive</div><div class="feat-text">Exclusively for the Reddy community of Hindu religion, ensuring cultural compatibility.</div></div>
+      <div class="feat-card" data-aos="fade-up" data-aos-delay="0"><span class="feat-icon">💬</span><div class="feat-title">Family Chat</div><div class="feat-text">Once contact is approved, families communicate through our secure, monitored chat.</div></div>
+      <div class="feat-card" data-aos="fade-up" data-aos-delay="80"><span class="feat-icon">🌐</span><div class="feat-title">NRI Profiles</div><div class="feat-text">Extensive database of NRI Reddy profiles from USA, UK, Canada, Australia, UAE.</div></div>
+      <div class="feat-card" data-aos="fade-up" data-aos-delay="160"><span class="feat-icon">⭐</span><div class="feat-title">Personal Service</div><div class="feat-text">Dedicated relationship managers assist you through every step of your journey.</div></div>
     </div>
     <div style="background:rgba(255,248,240,0.6);padding:0 0 0.5rem;">
       <div class="sec-hd">
@@ -1491,9 +1564,9 @@ body{font-size:17px;}
         <div class="sec-sub">Real couples, real happiness — facilitated by Naveen Reddy Marriage Bureau</div>
       </div>
       <div class="stories-grid">
-        <div class="story-card"><div class="story-names">Priya &amp; Rahul Reddy</div><div class="story-year">Married · December 2023 · Hyderabad</div><div class="story-text">"NRMB's personal attention made all the difference. Within weeks we found the most perfect match."</div></div>
-        <div class="story-card"><div class="story-names">Ananya &amp; Kiran Reddy</div><div class="story-year">Married · March 2024 · Bangalore</div><div class="story-text">"The verification process gave us complete confidence. Forever grateful for this blessing."</div></div>
-        <div class="story-card"><div class="story-names">Deepa &amp; Vivek Reddy</div><div class="story-year">Married · August 2023 · London</div><div class="story-text">"Elite membership exceeded every expectation. As NRI members this was truly a premium experience."</div></div>
+        <div class="story-card" data-aos="fade-up" data-aos-delay="0"><div class="story-names">Priya &amp; Rahul Reddy</div><div class="story-year">Married · December 2023 · Hyderabad</div><div class="story-text">"NRMB's personal attention made all the difference. Within weeks we found the most perfect match."</div></div>
+        <div class="story-card" data-aos="fade-up" data-aos-delay="100"><div class="story-names">Ananya &amp; Kiran Reddy</div><div class="story-year">Married · March 2024 · Bangalore</div><div class="story-text">"The verification process gave us complete confidence. Forever grateful for this blessing."</div></div>
+        <div class="story-card" data-aos="fade-up" data-aos-delay="200"><div class="story-names">Deepa &amp; Vivek Reddy</div><div class="story-year">Married · August 2023 · London</div><div class="story-text">"Elite membership exceeded every expectation. As NRI members this was truly a premium experience."</div></div>
       </div>
     </div>
     <footer class="site-footer">
@@ -4347,6 +4420,18 @@ document.addEventListener('DOMContentLoaded',function(){
 
 });
 
+</script>
+
+<!-- AOS -->
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>
+  AOS.init({
+    once: true,        // animate only once per element
+    offset: 60,        // trigger 60px before element enters viewport
+    duration: 700,
+    easing: 'ease-out-cubic',
+    disable: false
+  });
 </script>
 </body>
 </html>
