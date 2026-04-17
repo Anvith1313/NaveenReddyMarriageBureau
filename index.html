@@ -704,6 +704,42 @@ body{font-family:'EB Garamond',serif;font-size:17px;line-height:1.7;background:v
 .mem-feats{font-family:'EB Garamond',serif;font-size:0.82rem;color:var(--muted);line-height:1.9;margin-bottom:1.5rem;border-top:1px solid var(--border);padding-top:1.2rem;text-align:left;}
 
 /* ═══════════════════════════════════
+   PRE-STEP SCREENS
+═══════════════════════════════════ */
+.pre-step-screen{max-width:520px;margin:0 auto;padding:2.5rem 1.8rem 2rem;text-align:center;}
+.pre-step-icon{font-size:2.6rem;margin-bottom:0.8rem;}
+.pre-step-title{font-family:'Cinzel',serif;font-size:0.9rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--crimson);margin-bottom:0.35rem;}
+.pre-step-sub{font-family:'EB Garamond',serif;font-size:1rem;font-style:italic;color:var(--muted);margin-bottom:2rem;line-height:1.6;}
+.psf-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.85rem;max-width:440px;margin:0 auto 1.8rem;}
+.psf-card{border:1.5px solid rgba(184,150,12,0.22);border-radius:16px;padding:1.4rem 0.6rem 1.1rem;cursor:pointer;transition:all 0.22s;background:rgba(255,255,255,0.96);}
+.psf-card:hover{border-color:var(--crimson);background:rgba(139,0,0,0.04);transform:translateY(-3px);box-shadow:0 8px 24px rgba(139,0,0,0.09);}
+.psf-card.sel{border-color:var(--crimson);background:rgba(139,0,0,0.06);box-shadow:0 0 0 2px rgba(139,0,0,0.16);}
+.psf-card-icon{font-size:2rem;margin-bottom:0.5rem;display:block;}
+.psf-card-lbl{font-family:'Cinzel',serif;font-size:0.48rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text);}
+.pse-back-link{background:none;border:none;cursor:pointer;font-family:'EB Garamond',serif;font-size:0.92rem;color:var(--muted);display:inline-flex;align-items:center;gap:0.3rem;margin-bottom:1.4rem;padding:0;}
+.pse-back-link:hover{color:var(--crimson);}
+.pse-gender-row{display:flex;gap:0.7rem;margin-bottom:1.5rem;}
+.pse-gender-btn{flex:1;padding:0.72rem 0.5rem;border:1.5px solid rgba(184,150,12,0.22);border-radius:12px;background:rgba(255,255,255,0.96);cursor:pointer;font-family:'Cinzel',serif;font-size:0.5rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text);transition:all 0.2s;}
+.pse-gender-btn.sel{border-color:var(--crimson);background:rgba(139,0,0,0.06);color:var(--crimson);}
+/* Marital status cards */
+.ms-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:0.75rem;margin-top:0.5rem;}
+.ms-card{border:1.5px solid rgba(184,150,12,0.2);border-radius:12px;padding:1rem 0.7rem;text-align:center;cursor:pointer;transition:all 0.22s;background:#fff;position:relative;}
+.ms-card:hover{border-color:var(--crimson);background:rgba(139,0,0,0.04);transform:translateY(-2px);}
+.ms-card.sel{border-color:var(--crimson);background:rgba(139,0,0,0.06);box-shadow:0 0 0 2px rgba(139,0,0,0.14);}
+.ms-card.sel::after{content:'✓';position:absolute;top:7px;right:9px;font-size:0.65rem;color:var(--crimson);}
+.ms-card-icon{font-size:1.5rem;margin-bottom:0.28rem;}
+.ms-card-lbl{font-family:'Cinzel',serif;font-size:0.5rem;font-weight:700;letter-spacing:0.08em;color:var(--text);line-height:1.4;}
+/* Locked info pills */
+.info-pill-row{display:flex;gap:0.65rem;flex-wrap:wrap;margin-top:0.3rem;margin-bottom:0.4rem;}
+.info-pill{display:inline-flex;align-items:center;gap:0.3rem;padding:0.45rem 0.9rem;background:rgba(27,94,32,0.08);border:1.5px solid rgba(27,94,32,0.25);border-radius:20px;font-family:'Cinzel',serif;font-size:0.48rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(18,78,18,0.9);}
+.info-pill::before{content:'✓';font-size:0.6rem;}
+/* Search bar inside csel panel */
+.csel-search-wrap{padding:0.5rem 0.55rem;background:rgba(255,252,248,0.99);border-bottom:1px solid rgba(184,150,12,0.14);position:sticky;top:0;z-index:3;}
+.csel-search-inp{width:100%;border:1.5px solid rgba(184,150,12,0.26);border-radius:8px;padding:0.4rem 0.7rem;font-family:'EB Garamond',serif;font-size:0.95rem;color:var(--text);background:#fff;outline:none;box-sizing:border-box;}
+.csel-search-inp:focus{border-color:var(--gold2);}
+.csel-no-results{padding:0.9rem;text-align:center;font-family:'EB Garamond',serif;font-size:0.88rem;color:var(--muted);font-style:italic;display:none;}
+
+/* ═══════════════════════════════════
    FOOTER — no nav duplication
 ═══════════════════════════════════ */
 .site-footer{background:var(--text);padding:3rem 4rem 2rem;}
@@ -889,6 +925,11 @@ body{font-family:'EB Garamond',serif;font-size:17px;line-height:1.7;background:v
   .tier-row,.mem-cards{grid-template-columns:1fr;}
   .shine-wrap.featured{transform:scale(1.02);}
   .g2,.g3{grid-template-columns:1fr !important;}
+  .step-bar{overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:0.3rem;}
+  .step-item{min-width:58px;flex-shrink:0;}
+  .step-lbl{font-size:0.36rem;}
+  .psf-grid{grid-template-columns:repeat(3,1fr);gap:0.6rem;}
+  .ms-cards{grid-template-columns:repeat(2,1fr);}
   .reg-wrap{padding:1.5rem 1rem 4rem;}
   .det-grid{grid-template-columns:1fr 1fr;}
 
@@ -1550,153 +1591,255 @@ body{font-size:17px;}
      PAGE: SIGNUP
 ══════════════════════════════════════ -->
 <div id="pgSignup" class="page doodle-bg" style="display:none;">
-  <div class="signup-hero" id="signupHero">
-    <div class="sh-text"><div class="sh-title">Create Your Profile</div><div class="sh-bc">Home &nbsp;|&nbsp; Registration</div></div>
+  <div class="signup-hero" id="signupHero"><div class="sh-text"><div class="sh-title">Create Your Profile</div><div class="sh-bc">Home &nbsp;|&nbsp; Registration</div></div></div>
+
+  <!-- PRE-STEP A: Who is this for -->
+  <div id="preStepA" class="pre-step-screen">
+    <div class="pre-step-icon">💐</div>
+    <div class="pre-step-title">Create a Profile For</div>
+    <div class="pre-step-sub">Tell us who you are registering today</div>
+    <div class="psf-grid">
+      <div class="psf-card" onclick="selectProfileFor('Myself','')"><span class="psf-card-icon">🙋</span><div class="psf-card-lbl">Myself</div></div>
+      <div class="psf-card" onclick="selectProfileFor('My Son','Male')"><span class="psf-card-icon">👦</span><div class="psf-card-lbl">My Son</div></div>
+      <div class="psf-card" onclick="selectProfileFor('My Daughter','Female')"><span class="psf-card-icon">👧</span><div class="psf-card-lbl">My Daughter</div></div>
+      <div class="psf-card" onclick="selectProfileFor('My Brother','Male')"><span class="psf-card-icon">👨</span><div class="psf-card-lbl">My Brother</div></div>
+      <div class="psf-card" onclick="selectProfileFor('My Sister','Female')"><span class="psf-card-icon">👩</span><div class="psf-card-lbl">My Sister</div></div>
+      <div class="psf-card" onclick="selectProfileFor('A Friend','')"><span class="psf-card-icon">🤝</span><div class="psf-card-lbl">A Friend</div></div>
+    </div>
+    <div style="font-family:'EB Garamond',serif;font-size:0.82rem;color:var(--muted);font-style:italic;">Exclusively for Reddy Community · Hindu Religion</div>
   </div>
-  <div class="reg-wrap">
-    <div style="text-align:center;margin-bottom:2rem;position:relative;z-index:1;">
-      <div style="font-family:'Cinzel',serif;font-size:0.54rem;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem;">Matches Within Your Community</div>
-      <div style="font-family:'EB Garamond',serif;font-size:0.9rem;color:var(--muted);font-style:italic;">Verified Profile &nbsp;|&nbsp; Safe and Secured &nbsp;|&nbsp; Entire Profile Description</div>
-      <div style="margin-top:0.6rem;font-family:'Cinzel',serif;font-size:0.48rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--crimson);background:rgba(139,0,0,0.05);border:1px solid rgba(139,0,0,0.1);border-radius:20px;padding:0.3rem 1.2rem;display:inline-block;">🕉 Exclusively for Reddy Community · Hindu Religion</div>
-    </div>
-    <!-- Step bar -->
-    <div class="step-bar" style="position:relative;z-index:1;">
-      <div class="step-item active" id="si1" onclick="goStepBack(1)"><div class="step-circle">1</div><div class="step-lbl">Basic</div></div>
-      <div class="step-item" id="si2" onclick="goStepBack(2)"><div class="step-circle">2</div><div class="step-lbl">Personal</div></div>
-      <div class="step-item" id="si3" onclick="goStepBack(3)"><div class="step-circle">3</div><div class="step-lbl">Family</div></div>
-      <div class="step-item" id="si4" onclick="goStepBack(4)"><div class="step-circle">4</div><div class="step-lbl">Preferences</div></div>
-      <div class="step-item" id="si5" onclick="goStepBack(5)"><div class="step-circle">5</div><div class="step-lbl">Membership</div></div>
-      <div class="step-item" id="si6"><div class="step-circle">6</div><div class="step-lbl">Review</div></div>
-    </div>
 
-    <!-- Step 1 -->
-    <div class="form-step active" id="fs1" style="position:relative;z-index:1;">
-      <div class="form-sec"><div class="form-sec-title"><span>👤</span> Profile For</div><div class="ff"><div class="radio-row"><label class="r-opt"><input type="radio" name="gender" value="Male" id="gMale" checked><span>Male</span></label><label class="r-opt"><input type="radio" name="gender" value="Female" id="gFemale"><span>Female</span></label></div></div></div>
-      <div class="form-sec">
-        <div class="form-sec-title"><span>📋</span> Basic Information</div>
-        <div class="g2">
-          <div class="ff"><label>Full Name *</label><input id="s_name" type="text" placeholder="As per Aadhaar card"></div>
-          <div class="ff"><label>Date of Birth *</label><input id="s_dob" type="date"><small id="dobAgeHint" style="color:var(--muted);font-style:italic;font-size:0.8rem;">Minimum age: 21 years for Male, 18 years for Female (legal requirement)</small></div>
-          <div class="ff"><label>Time of Birth</label><input id="s_tob" type="time" placeholder="e.g. 02:30 PM"><small style="color:var(--muted);font-style:italic;font-size:0.82rem;">Used for astrology / Kundali matching</small></div>
-          <div class="ff"><label>Place of Birth</label><input id="s_pob" type="text" placeholder="e.g. Hyderabad"></div>
-          <div class="ff"><label>Mother Tongue *</label><select id="s_mt"><option value="">Select</option><option>Telugu</option><option>Kannada</option><option>Tamil</option><option>Hindi</option><option>Other</option></select></div>
-          <div class="ff"><label>Marital Status *</label><select id="s_ms"><option value="">Select</option><option>Never Married</option><option>Divorced</option><option>Divorced (2nd Time)</option><option>Divorced (3rd Time)</option><option>Widowed</option><option>Awaiting Divorce</option></select></div>
-          <div class="ff"><label>Religion</label><input value="Hindu" readonly style="color:var(--muted);font-style:italic;"></div>
-          <div class="ff"><label>Caste</label><input value="Reddy" readonly style="color:var(--muted);font-style:italic;"></div>
-          <div class="ff"><label>Sub-Caste / Gotra *</label><input id="s_gotra" list="gotraList" placeholder="Type or search gotra…"><datalist id="gotraList"><option>Motati</option><option>Gudati</option><option>Pakanati</option><option>Gone</option><option>Chittepu</option><option>Bhumanchi</option><option>Pedakanti</option><option>Velama</option><option>Mudiraj</option><option>Gajula</option><option>Niyogi</option><option>Vaidiki</option><option>Turpu Kapu</option><option>Telaga</option><option>Konukanula</option><option>Cherukunutla</option><option>Chegolla</option><option>Other</option></datalist></div>
-          <div class="ff"><label>Nakshatra *</label><input id="s_nak" list="nakList" placeholder="Type or search nakshatra…"><datalist id="nakList"><option>Ashwini</option><option>Bharani</option><option>Krittika</option><option>Rohini</option><option>Mrigashira</option><option>Ardra</option><option>Punarvasu</option><option>Pushya</option><option>Ashlesha</option><option>Magha</option><option>Purva Phalguni</option><option>Uttara Phalguni</option><option>Hasta</option><option>Chitra</option><option>Swati</option><option>Vishakha</option><option>Anuradha</option><option>Jyeshtha</option><option>Mula</option><option>Purva Ashadha</option><option>Uttara Ashadha</option><option>Shravana</option><option>Dhanishtha</option><option>Shatabhisha</option><option>Purva Bhadrapada</option><option>Uttara Bhadrapada</option><option>Revati</option></datalist></div>
-          <div class="ff"><label>Rashi (Moon Sign) *</label><input id="s_rashi" list="rashiList" placeholder="Type or search rashi…"><datalist id="rashiList"><option>Mesha (Aries)</option><option>Vrishabha (Taurus)</option><option>Mithuna (Gemini)</option><option>Karka (Cancer)</option><option>Simha (Leo)</option><option>Kanya (Virgo)</option><option>Tula (Libra)</option><option>Vrishchika (Scorpio)</option><option>Dhanu (Sagittarius)</option><option>Makara (Capricorn)</option><option>Kumbha (Aquarius)</option><option>Meena (Pisces)</option></datalist></div>
+  <!-- PRE-STEP B: Email + Name + Gender -->
+  <div id="preStepB" class="pre-step-screen" style="display:none;">
+    <button class="pse-back-link" onclick="_goPreStep(1)">← Back</button>
+    <div class="pre-step-icon" id="pse_icon">🙋</div>
+    <div class="pre-step-title" id="pse_title">Let's Start</div>
+    <div class="pre-step-sub">Enter your details to begin your profile</div>
+    <div style="max-width:380px;margin:0 auto;text-align:left;">
+      <div id="pse_gender_wrap" style="margin-bottom:1.4rem;">
+        <div style="font-family:'Cinzel',serif;font-size:0.46rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:0.5rem;">Gender *</div>
+        <div class="pse-gender-row">
+          <button class="pse-gender-btn sel" id="pgbMale" onclick="setPseGender('Male')">♂ &nbsp;Male</button>
+          <button class="pse-gender-btn" id="pgbFemale" onclick="setPseGender('Female')">♀ &nbsp;Female</button>
         </div>
+        <input type="radio" name="gender" value="Male" id="gMale" checked style="display:none;">
+        <input type="radio" name="gender" value="Female" id="gFemale" style="display:none;">
       </div>
-      <div class="form-sec">
-        <div class="form-sec-title"><span>📬</span> Contact &amp; Location</div>
-        <div class="g2">
+      <div class="ff"><label>Full Name *</label><input id="s_name" type="text" placeholder="As per Aadhaar card" autocomplete="name"></div>
+      <div class="ff"><label>Email Address *</label><input id="s_email" type="email" placeholder="your@email.com" autocomplete="email"></div>
+      <button class="btn-prim" style="margin-top:0.8rem;" onclick="startSignupFromEmail()">Continue →</button>
+      <p style="font-family:'EB Garamond',serif;font-size:0.82rem;color:var(--muted);margin-top:1rem;text-align:center;line-height:1.7;">We save your progress automatically so you can continue later.</p>
+    </div>
+  </div>
+
+  <!-- MAIN STEPS (shown after pre-steps) -->
+  <div id="regStepsWrap" style="display:none;">
+    <div class="reg-wrap">
+      <div style="text-align:center;margin-bottom:2rem;position:relative;z-index:1;">
+        <div style="font-family:'Cinzel',serif;font-size:0.54rem;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem;">Matches Within Your Community</div>
+        <div style="font-family:'EB Garamond',serif;font-size:0.9rem;color:var(--muted);font-style:italic;">Verified Profile &nbsp;|&nbsp; Safe and Secured &nbsp;|&nbsp; Complete Profile Description</div>
+        <div style="margin-top:0.6rem;font-family:'Cinzel',serif;font-size:0.48rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--crimson);background:rgba(139,0,0,0.05);border:1px solid rgba(139,0,0,0.1);border-radius:20px;padding:0.3rem 1.2rem;display:inline-block;">🕉 Exclusively for Reddy Community · Hindu Religion</div>
+      </div>
+      <div class="step-bar" style="position:relative;z-index:1;">
+        <div class="step-item active" id="si1" onclick="goStepBack(1)"><div class="step-circle">1</div><div class="step-lbl">About</div></div>
+        <div class="step-item" id="si2" onclick="goStepBack(2)"><div class="step-circle">2</div><div class="step-lbl">Location</div></div>
+        <div class="step-item" id="si3" onclick="goStepBack(3)"><div class="step-circle">3</div><div class="step-lbl">Community</div></div>
+        <div class="step-item" id="si4" onclick="goStepBack(4)"><div class="step-circle">4</div><div class="step-lbl">Career</div></div>
+        <div class="step-item" id="si5" onclick="goStepBack(5)"><div class="step-circle">5</div><div class="step-lbl">Family</div></div>
+        <div class="step-item" id="si6" onclick="goStepBack(6)"><div class="step-circle">6</div><div class="step-lbl">Partner</div></div>
+        <div class="step-item" id="si7" onclick="goStepBack(7)"><div class="step-circle">7</div><div class="step-lbl">Account</div></div>
+        <div class="step-item" id="si8"><div class="step-circle">8</div><div class="step-lbl">Plan</div></div>
+      </div>
+
+      <!-- STEP 1: About You -->
+      <div class="form-step active" id="fs1" style="position:relative;z-index:1;">
+        <div class="form-sec">
+          <div class="form-sec-title"><span>💍</span> Marital Status</div>
+          <div class="ms-cards">
+            <div class="ms-card" id="ms_NM" onclick="pickMs('Never Married')"><div class="ms-card-icon">💍</div><div class="ms-card-lbl">Never Married</div></div>
+            <div class="ms-card" id="ms_DV" onclick="pickMs('Divorced')"><div class="ms-card-icon">📄</div><div class="ms-card-lbl">Divorced</div></div>
+            <div class="ms-card" id="ms_WD" onclick="pickMs('Widowed')"><div class="ms-card-icon">🕊️</div><div class="ms-card-lbl">Widowed</div></div>
+            <div class="ms-card" id="ms_AD" onclick="pickMs('Awaiting Divorce')"><div class="ms-card-icon">⚖️</div><div class="ms-card-lbl">Awaiting Divorce</div></div>
+          </div>
+          <select id="s_ms" data-no-csel="true" style="display:none;"><option value="">Select</option><option>Never Married</option><option>Divorced</option><option>Divorced (2nd Time)</option><option>Divorced (3rd Time)</option><option>Widowed</option><option>Awaiting Divorce</option></select>
+        </div>
+        <div class="form-sec">
+          <div class="form-sec-title"><span>📋</span> Basic Details</div>
+          <div class="g2">
+            <div class="ff"><label>Date of Birth *</label><input id="s_dob" type="date"><small id="dobAgeHint" style="color:var(--muted);font-style:italic;font-size:0.8rem;">Min age: 21 for Male, 18 for Female</small></div>
+            <div class="ff"><label>Height *</label><select id="s_ht"><option value="">Select</option><option>4'10" (147cm)</option><option>4'11" (149cm)</option><option>5'0" (152cm)</option><option>5'1" (154cm)</option><option>5'2" (157cm)</option><option>5'3" (160cm)</option><option>5'4" (162cm)</option><option>5'5" (165cm)</option><option>5'6" (167cm)</option><option>5'7" (170cm)</option><option>5'8" (172cm)</option><option>5'9" (175cm)</option><option>5'10" (177cm)</option><option>5'11" (180cm)</option><option>6'0" (182cm)</option><option>6'1" (185cm)</option><option>6'2" (187cm)</option><option>6'3" (190cm)</option><option>6'4" (193cm)</option><option>6'5" (195cm)</option></select></div>
+            <div class="ff"><label>Weight (kg)</label><input id="s_wt" type="number" placeholder="e.g. 65"></div>
+            <div class="ff"><label>Mother Tongue *</label><select id="s_mt"><option value="">Select</option><option>Telugu</option><option>Kannada</option><option>Tamil</option><option>Hindi</option><option>Marathi</option><option>Gujarati</option><option>Bengali</option><option>Malayalam</option><option>Odia</option><option>Punjabi</option><option>Other</option></select></div>
+            <div class="ff"><label>Complexion</label><select id="s_cx"><option value="">Select</option><option>Very Fair</option><option>Fair</option><option>Wheatish</option><option>Wheatish Brown</option><option>Dark</option></select></div>
+            <div class="ff"><label>Body Type</label><select id="s_bt"><option value="">Select</option><option>Slim</option><option>Athletic</option><option>Average</option><option>Heavy</option></select></div>
+            <div class="ff"><label>Blood Group</label><select id="s_bg"><option value="">Select</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>O+</option><option>O-</option><option>AB+</option><option>AB-</option></select></div>
+            <div class="ff"><label>Differently Abled</label><select id="s_da"><option>No</option><option>Yes</option></select></div>
+          </div>
+        </div>
+        <div class="form-sec">
+          <div class="form-sec-title"><span>🔭</span> Astrology <small style="font-family:'EB Garamond',serif;font-size:0.82rem;font-weight:normal;color:var(--muted);font-style:italic;">(for Kundali matching)</small></div>
+          <div class="g2">
+            <div class="ff"><label>Time of Birth</label><input id="s_tob" type="time"></div>
+            <div class="ff"><label>Place of Birth</label><input id="s_pob" type="text" placeholder="e.g. Hyderabad"></div>
+          </div>
+        </div>
+        <div class="step-nav"><div></div><button class="btn-step next" onclick="goStep(2)">Next: Location →</button></div>
+      </div>
+
+      <!-- STEP 2: Location -->
+      <div class="form-step" id="fs2" style="position:relative;z-index:1;">
+        <div class="form-sec">
+          <div class="form-sec-title"><span>🌍</span> Location Details</div>
+          <div class="g2">
+            <div class="ff" style="grid-column:1/-1;"><label>Country *</label><select id="s_country" data-search="true" data-dynamic="true" onchange="onCountryChange()"><option value="">Select Country</option><option>Afghanistan</option><option>Albania</option><option>Algeria</option><option>Andorra</option><option>Angola</option><option>Antigua and Barbuda</option><option>Argentina</option><option>Armenia</option><option>Australia</option><option>Austria</option><option>Azerbaijan</option><option>Bahamas</option><option>Bahrain</option><option>Bangladesh</option><option>Barbados</option><option>Belarus</option><option>Belgium</option><option>Belize</option><option>Benin</option><option>Bhutan</option><option>Bolivia</option><option>Bosnia and Herzegovina</option><option>Botswana</option><option>Brazil</option><option>Brunei</option><option>Bulgaria</option><option>Burkina Faso</option><option>Burundi</option><option>Cabo Verde</option><option>Cambodia</option><option>Cameroon</option><option>Canada</option><option>Central African Republic</option><option>Chad</option><option>Chile</option><option>China</option><option>Colombia</option><option>Comoros</option><option>Congo (Republic)</option><option>Congo (Democratic Republic)</option><option>Costa Rica</option><option>Croatia</option><option>Cuba</option><option>Cyprus</option><option>Czech Republic</option><option>Denmark</option><option>Djibouti</option><option>Dominica</option><option>Dominican Republic</option><option>Ecuador</option><option>Egypt</option><option>El Salvador</option><option>Equatorial Guinea</option><option>Eritrea</option><option>Estonia</option><option>Eswatini</option><option>Ethiopia</option><option>Fiji</option><option>Finland</option><option>France</option><option>Gabon</option><option>Gambia</option><option>Georgia</option><option>Germany</option><option>Ghana</option><option>Greece</option><option>Grenada</option><option>Guatemala</option><option>Guinea</option><option>Guinea-Bissau</option><option>Guyana</option><option>Haiti</option><option>Honduras</option><option>Hungary</option><option>Iceland</option><option>India</option><option>Indonesia</option><option>Iran</option><option>Iraq</option><option>Ireland</option><option>Israel</option><option>Italy</option><option>Jamaica</option><option>Japan</option><option>Jordan</option><option>Kazakhstan</option><option>Kenya</option><option>Kiribati</option><option>Kuwait</option><option>Kyrgyzstan</option><option>Laos</option><option>Latvia</option><option>Lebanon</option><option>Lesotho</option><option>Liberia</option><option>Libya</option><option>Liechtenstein</option><option>Lithuania</option><option>Luxembourg</option><option>Madagascar</option><option>Malawi</option><option>Malaysia</option><option>Maldives</option><option>Mali</option><option>Malta</option><option>Marshall Islands</option><option>Mauritania</option><option>Mauritius</option><option>Mexico</option><option>Micronesia</option><option>Moldova</option><option>Monaco</option><option>Mongolia</option><option>Montenegro</option><option>Morocco</option><option>Mozambique</option><option>Myanmar</option><option>Namibia</option><option>Nauru</option><option>Nepal</option><option>Netherlands</option><option>New Zealand</option><option>Nicaragua</option><option>Niger</option><option>Nigeria</option><option>North Korea</option><option>North Macedonia</option><option>Norway</option><option>Oman</option><option>Pakistan</option><option>Palau</option><option>Palestine</option><option>Panama</option><option>Papua New Guinea</option><option>Paraguay</option><option>Peru</option><option>Philippines</option><option>Poland</option><option>Portugal</option><option>Qatar</option><option>Romania</option><option>Russia</option><option>Rwanda</option><option>Saint Kitts and Nevis</option><option>Saint Lucia</option><option>Saint Vincent and the Grenadines</option><option>Samoa</option><option>San Marino</option><option>Saudi Arabia</option><option>Senegal</option><option>Serbia</option><option>Seychelles</option><option>Sierra Leone</option><option>Singapore</option><option>Slovakia</option><option>Slovenia</option><option>Solomon Islands</option><option>Somalia</option><option>South Africa</option><option>South Korea</option><option>South Sudan</option><option>Spain</option><option>Sri Lanka</option><option>Sudan</option><option>Suriname</option><option>Sweden</option><option>Switzerland</option><option>Syria</option><option>Taiwan</option><option>Tajikistan</option><option>Tanzania</option><option>Thailand</option><option>Timor-Leste</option><option>Togo</option><option>Tonga</option><option>Trinidad and Tobago</option><option>Tunisia</option><option>Turkey</option><option>Turkmenistan</option><option>Tuvalu</option><option>Uganda</option><option>Ukraine</option><option>United Arab Emirates</option><option>United Kingdom</option><option>United States</option><option>Uruguay</option><option>Uzbekistan</option><option>Vanuatu</option><option>Venezuela</option><option>Vietnam</option><option>Yemen</option><option>Zambia</option><option>Zimbabwe</option></select></div>
+            <div class="ff" id="s_state_wrap"><label>State / Province</label><select id="s_state" data-search="true" data-dynamic="true"><option value="">Select State</option></select></div>
+            <div class="ff"><label>City *</label><input id="s_city" type="text" placeholder="e.g. Hyderabad"></div>
+            <div class="ff"><label>Native Place / District *</label><input id="s_native" type="text" placeholder="e.g. Nalgonda, Warangal"></div>
+            <div class="ff"><label>Residential Status</label><select id="s_res"><option>Permanent Resident</option><option>NRI</option><option>Student Abroad</option><option>Work Visa</option></select></div>
+          </div>
+        </div>
+        <div class="step-nav"><button class="btn-step back" onclick="goStep(1)">← Back</button><button class="btn-step next" onclick="goStep(3)">Next: Community →</button></div>
+      </div>
+
+      <!-- STEP 3: Community & Astrology -->
+      <div class="form-step" id="fs3" style="position:relative;z-index:1;">
+        <div class="form-sec">
+          <div class="form-sec-title"><span>🕉</span> Religion &amp; Community</div>
+          <div class="info-pill-row"><span class="info-pill">Hindu</span><span class="info-pill">Reddy</span></div>
+          <div style="font-family:'EB Garamond',serif;font-size:0.82rem;color:var(--muted);font-style:italic;margin-bottom:1.2rem;">This bureau is exclusively for Reddy community members of Hindu religion.</div>
+          <div class="g2">
+            <div class="ff"><label>Sub-Caste / Gotra *</label><input id="s_gotra" list="gotraList" placeholder="Type or search gotra…"><datalist id="gotraList"><option>Motati</option><option>Gudati</option><option>Pakanati</option><option>Gone</option><option>Chittepu</option><option>Bhumanchi</option><option>Pedakanti</option><option>Velama</option><option>Gajula</option><option>Konukanula</option><option>Cherukunutla</option><option>Chegolla</option><option>Other</option></datalist></div>
+            <div class="ff"><label>Father's Gotra</label><input id="s_fg" list="fGotraList" placeholder="Type gotra…"><datalist id="fGotraList"><option>Motati</option><option>Gudati</option><option>Pakanati</option><option>Gone</option><option>Chittepu</option><option>Bhumanchi</option><option>Pedakanti</option><option>Konukanula</option><option>Cherukunutla</option><option>Chegolla</option><option>Other</option></datalist></div>
+            <div class="ff"><label>Nakshatra *</label><select id="s_nak"><option value="">Select</option><option>Ashwini</option><option>Bharani</option><option>Krittika</option><option>Rohini</option><option>Mrigashira</option><option>Ardra</option><option>Punarvasu</option><option>Pushya</option><option>Ashlesha</option><option>Magha</option><option>Purva Phalguni</option><option>Uttara Phalguni</option><option>Hasta</option><option>Chitra</option><option>Swati</option><option>Vishakha</option><option>Anuradha</option><option>Jyeshtha</option><option>Mula</option><option>Purva Ashadha</option><option>Uttara Ashadha</option><option>Shravana</option><option>Dhanishtha</option><option>Shatabhisha</option><option>Purva Bhadrapada</option><option>Uttara Bhadrapada</option><option>Revati</option></select></div>
+            <div class="ff"><label>Rashi (Moon Sign) *</label><select id="s_rashi"><option value="">Select</option><option>Mesha (Aries)</option><option>Vrishabha (Taurus)</option><option>Mithuna (Gemini)</option><option>Karka (Cancer)</option><option>Simha (Leo)</option><option>Kanya (Virgo)</option><option>Tula (Libra)</option><option>Vrishchika (Scorpio)</option><option>Dhanu (Sagittarius)</option><option>Makara (Capricorn)</option><option>Kumbha (Aquarius)</option><option>Meena (Pisces)</option></select></div>
+          </div>
+        </div>
+        <div class="step-nav"><button class="btn-step back" onclick="goStep(2)">← Back</button><button class="btn-step next" onclick="goStep(4)">Next: Career →</button></div>
+      </div>
+
+      <!-- STEP 4: Education & Career -->
+      <div class="form-step" id="fs4" style="position:relative;z-index:1;">
+        <div class="form-sec"><div class="form-sec-title"><span>🎓</span> Education</div><div class="g2">
+          <div class="ff"><label>Schooling Board *</label><select id="s_board" onchange="onBoardChange()"><option value="">Select Board</option><option>SSC</option><option>CBSE</option><option>ICSE</option><option>State Board</option><option>Other</option></select></div>
+          <div class="ff"><label id="s_school_lbl">School Name</label><input id="s_school" type="text" placeholder="e.g. Delhi Public School"></div>
+          <div class="ff"><label>Intermediate / 12th College</label><input id="s_inter" type="text" placeholder="e.g. Sri Chaitanya Junior College"></div>
+          <div class="ff"><label>Highest Qualification *</label><select id="s_edu" onchange="onEduChange()"><option value="">Select</option><option>10th / SSC</option><option>Intermediate / 12th</option><option>Diploma</option><option>B.Tech / B.E.</option><option>B.Sc / B.Com / B.A.</option><option>MBBS</option><option>LLB</option><option>CA / CMA / CS</option><option>M.Tech / M.E.</option><option>M.Sc / M.Com / M.A.</option><option>M.B.A.</option><option>MD / MS</option><option>MS (USA/UK)</option><option>LLM</option><option>Ph.D.</option><option>Other</option></select></div>
+          <div class="ff" id="s_engcol_wrap"><label>Degree / Engineering College</label><input id="s_engcol" type="text" placeholder="e.g. Osmania University, IIT"></div>
+          <div class="ff" id="s_pgcol_wrap"><label>PG / Higher Education College</label><input id="s_col" type="text" placeholder="e.g. UTD Dallas, IIT Bombay"></div>
+        </div></div>
+        <div class="form-sec"><div class="form-sec-title"><span>💼</span> Career</div><div class="g2">
+          <div class="ff"><label>Employed In *</label><select id="s_emp"><option value="">Select</option><option>Government / PSU</option><option>Private Sector</option><option>Business / Self-Employed</option><option>Defence</option><option>Civil Services</option><option>IT / Software</option><option>Teaching / Professor</option><option>Agriculture</option><option>Not Working</option><option>Other</option></select></div>
+          <div class="ff"><label>Occupation *</label><input id="s_occ" type="text" placeholder="e.g. Software Engineer, Director"></div>
+          <div class="ff"><label>Company / Organisation</label><input id="s_co" type="text" placeholder="e.g. TCS, HCL, Govt of TS"></div>
+          <div class="ff"><label>Place of Work</label><input id="s_workplace" type="text" placeholder="e.g. Hyderabad, Salt Lake City"></div>
+          <div class="ff"><label>Annual Income * <small style="font-weight:normal;color:var(--muted);font-style:italic;">(₹)</small></label><input id="s_inc" type="number" min="0" placeholder="e.g. 600000" oninput="formatIncome(this)"><div class="income-display" id="incDisplay"></div></div>
+          <div class="ff" id="s_visa_wrap" style="display:none;"><label>Visa Status</label><input id="s_visa" type="text" placeholder="e.g. H1B, PR, Citizen"></div>
+        </div></div>
+        <div class="form-sec"><div class="form-sec-title"><span>🌿</span> Lifestyle &amp; About</div><div class="g3">
+          <div class="ff"><label>Diet *</label><select id="s_diet"><option value="">Select</option><option>Vegetarian</option><option>Non-Vegetarian</option><option>Eggetarian</option><option>Vegan</option></select></div>
+          <div class="ff"><label>Smoking</label><select id="s_smk"><option>Never</option><option>Occasionally</option><option>Regularly</option></select></div>
+          <div class="ff"><label>Drinking</label><select id="s_drk"><option>Never</option><option>Occasionally</option><option>Regularly</option></select></div>
+        </div>
+        <div class="ff" style="margin-top:0.4rem;"><label>About Yourself</label><textarea id="s_about" placeholder="Describe yourself, your interests, hobbies, values and what you seek in a life partner…" rows="4"></textarea></div></div>
+        <div class="step-nav"><button class="btn-step back" onclick="goStep(3)">← Back</button><button class="btn-step next" onclick="goStep(5)">Next: Family →</button></div>
+      </div>
+
+      <!-- STEP 5: Family -->
+      <div class="form-step" id="fs5" style="position:relative;z-index:1;">
+        <div class="form-sec"><div class="form-sec-title"><span>🏠</span> Family Background</div><div class="g2">
+          <div class="ff"><label>Family Type</label><select id="s_ft"><option>Nuclear Family</option><option>Joint Family</option></select></div>
+          <div class="ff"><label>Family Values</label><select id="s_fv"><option>Orthodox</option><option>Traditional</option><option>Moderate</option><option>Liberal</option></select></div>
+          <div class="ff"><label>Family Status</label><select id="s_fst" onchange="showTierRecommendation(this.value)"><option value="">Select</option><option>Middle Class</option><option>Upper Middle Class</option><option>Rich / Affluent</option><option>Wealthy</option></select></div>
+        </div></div>
+        <div class="form-sec"><div class="form-sec-title"><span>👨‍👩‍👧</span> Parents</div><div class="g2">
+          <div class="ff"><label>Father's Name</label><input id="s_fn" type="text" placeholder="Father's full name"></div>
+          <div class="ff"><label>Father's Status</label><select id="s_fas" onchange="toggleFatherOcc()"><option value="">Select</option><option>Employed</option><option>Business</option><option>Retired</option><option>Farmer</option><option>Passed Away</option></select></div>
+          <div class="ff" id="s_fo_wrap"><label>Father's Occupation</label><input id="s_fo" type="text" placeholder="e.g. Govt Officer, Business"></div>
+          <div class="ff"><label>Mother's Name</label><input id="s_mn" type="text" placeholder="Mother's full name"></div>
+          <div class="ff"><label>Mother's Status</label><select id="s_mas" onchange="toggleMotherOcc()"><option value="">Select</option><option>Homemaker</option><option>Employed</option><option>Business</option><option>Retired</option><option>Passed Away</option></select></div>
+          <div class="ff" id="s_mo_wrap" style="display:none;"><label>Mother's Occupation</label><input id="s_mo" type="text" placeholder="e.g. Teacher, Doctor"></div>
+          <div class="ff"><label>Parent Mobile 1</label><input id="s_pgmob1" type="tel" placeholder="+91 98765 43210"></div>
+          <div class="ff"><label>Parent Mobile 2 <small style="color:var(--muted);font-style:italic;">(optional)</small></label><input id="s_pgmob2" type="tel" placeholder="+91 98765 43210"></div>
+        </div></div>
+        <div class="form-sec"><div class="form-sec-title"><span>👫</span> Siblings &amp; Property</div><div class="g2">
+          <div class="ff"><label>Brothers</label><select id="s_br"><option>0</option><option>1</option><option>2</option><option>3</option><option>4+</option></select></div>
+          <div class="ff"><label>Brothers Married</label><select id="s_brm"><option>0</option><option>1</option><option>2</option><option>3</option><option>4+</option></select></div>
+          <div class="ff"><label>Sisters</label><select id="s_sr"><option>0</option><option>1</option><option>2</option><option>3</option><option>4+</option></select></div>
+          <div class="ff"><label>Sisters Married</label><select id="s_srm"><option>0</option><option>1</option><option>2</option><option>3</option><option>4+</option></select></div>
+          <div class="ff" style="grid-column:1/-1;"><label>Total Property Value <small style="color:var(--muted);font-weight:normal;font-style:italic;">(optional)</small></label><input id="s_pval" type="text" placeholder="e.g. 2 Crores, 50 Lakhs, Agricultural land"></div>
+        </div></div>
+        <div class="step-nav"><button class="btn-step back" onclick="goStep(4)">← Back</button><button class="btn-step next" onclick="goStep(6)">Next: Partner →</button></div>
+      </div>
+
+      <!-- STEP 6: Partner Preferences -->
+      <div class="form-step" id="fs6" style="position:relative;z-index:1;">
+        <div class="form-sec"><div class="form-sec-title"><span>💑</span> Partner Preferences</div><div class="g2">
+          <div class="ff"><label>Preferred Age From</label><input id="pp_af" type="number" placeholder="e.g. 22"></div>
+          <div class="ff"><label>Preferred Age To</label><input id="pp_at" type="number" placeholder="e.g. 30"></div>
+          <div class="ff"><label>Min Height</label><select id="pp_hf"><option value="">Any</option><option>5'0"</option><option>5'2"</option><option>5'4"</option><option>5'5"</option><option>5'6"</option><option>5'7"</option><option>5'8"</option><option>5'10"</option><option>6'0"</option></select></div>
+          <div class="ff"><label>Expected Education</label><select id="pp_edu"><option value="">Any</option><option>Graduate &amp; Above</option><option>Post Graduate</option><option>Professional Degree</option><option>Doctorate</option></select></div>
+          <div class="ff"><label>Expected Profession</label><input id="pp_occ" type="text" placeholder="e.g. Doctor, Engineer, Any"></div>
+          <div class="ff"><label>Expected Income</label><select id="pp_inc"><option value="">Any</option><option>4 L+</option><option>6 L+</option><option>10 L+</option><option>20 L+</option><option>50 L+</option></select></div>
+          <div class="ff"><label>Preferred Location</label><input id="pp_st" type="text" placeholder="e.g. Hyderabad, London, Any"></div>
+          <div class="ff"><label>NRI Acceptable?</label><select id="pp_nri"><option>Open to NRI</option><option>Prefer India-based</option><option>No Preference</option></select></div>
+        </div><div class="ff" style="margin-top:0.5rem;"><label>Other Expectations</label><textarea id="pp_note" placeholder="Any specific expectations about partner or family…" rows="3"></textarea></div></div>
+        <div class="step-nav"><button class="btn-step back" onclick="goStep(5)">← Back</button><button class="btn-step next" onclick="goStep(7)">Next: Account →</button></div>
+      </div>
+
+      <!-- STEP 7: Account -->
+      <div class="form-step" id="fs7" style="position:relative;z-index:1;">
+        <div class="form-sec"><div class="form-sec-title"><span>🔐</span> Your Account</div><div class="g2">
           <div class="ff"><label>Mobile Number *</label><input id="s_mob" type="tel" placeholder="+91 98765 43210"></div>
-          <div class="ff"><label>Email Address *</label><input id="s_email" type="email" placeholder="your@email.com"></div>
-          <div class="ff"><label>City *</label><input id="s_city" type="text" placeholder="e.g. Hyderabad"></div>
-          <div class="ff"><label>State *</label><input id="s_state" list="stateList" placeholder="Type to search state / region…"><datalist id="stateList"><option>Telangana</option><option>Andhra Pradesh</option><option>Karnataka</option><option>Tamil Nadu</option><option>Kerala</option><option>Maharashtra</option><option>Delhi</option><option>Gujarat</option><option>Rajasthan</option><option>Uttar Pradesh</option><option>Madhya Pradesh</option><option>Punjab</option><option>Haryana</option><option>Bihar</option><option>West Bengal</option><option>Odisha</option><option>Assam</option><option>Jharkhand</option><option>Chhattisgarh</option><option>Uttarakhand</option><option>Himachal Pradesh</option><option>Jammu &amp; Kashmir</option><option>Goa</option><option>California</option><option>Texas</option><option>New York</option><option>New Jersey</option><option>Illinois</option><option>Washington</option><option>Georgia</option><option>Florida</option><option>England (UK)</option><option>Other</option></datalist></div>
-          <div class="ff"><label>Country *</label><input id="s_country" list="countryList" placeholder="Type to search country…"><datalist id="countryList"><option>India</option><option>USA</option><option>UK</option><option>Canada</option><option>Australia</option><option>UAE</option><option>Singapore</option><option>New Zealand</option><option>Germany</option><option>Netherlands</option><option>France</option><option>Sweden</option><option>Switzerland</option><option>Italy</option><option>Spain</option><option>Belgium</option><option>Qatar</option><option>Kuwait</option><option>Bahrain</option><option>Oman</option><option>Saudi Arabia</option><option>Malaysia</option><option>Japan</option><option>Hong Kong</option><option>Ireland</option><option>South Africa</option><option>Other</option></datalist></div>
-          <div class="ff"><label>Residential Status</label><select id="s_res"><option>Permanent Resident</option><option>NRI</option><option>Student Abroad</option><option>Work Visa</option></select></div>
+          <div class="ff"><label>Username *</label><input id="s_user" type="text" placeholder="Choose a unique username"></div>
+          <div class="ff pw"><label>Password *</label><input id="s_pwd" type="password" placeholder="Minimum 8 characters"><button class="et" onclick="tpwd('s_pwd',this)" type="button">👁</button></div>
+        </div></div>
+        <div class="step-nav"><button class="btn-step back" onclick="goStep(6)">← Back</button><button class="btn-step next" onclick="goStep(8)">Next: Membership →</button></div>
+      </div>
+
+      <!-- STEP 8: Membership + T&C -->
+      <div class="form-step" id="fs8" style="position:relative;z-index:1;">
+        <div class="form-sec"><div class="form-sec-title"><span>👑</span> Select Membership Tier</div>
+          <div class="tier-row">
+            <div class="tc-tier" id="trVIP" onclick="pickTier('VIP')"><div class="tc-tier-icon">👑</div><div class="tc-tier-name">VIP</div><div class="tc-tier-price">₹15,000/yr</div><div class="tc-tier-note">Post-engagement:<br>₹1,50,000/person</div></div>
+            <div class="tc-tier" id="trElite" onclick="pickTier('Elite')"><div class="tc-tier-icon">🔱</div><div class="tc-tier-name">Elite</div><div class="tc-tier-price">₹1,00,000/yr</div><div class="tc-tier-note">Post-engagement:<br>₹3,00,000/person</div></div>
+            <div class="tc-tier" id="trVVIP" onclick="pickTier('VVIP')"><div class="tc-tier-icon">💎</div><div class="tc-tier-name">VVIP</div><div class="tc-tier-price">₹30,000/yr</div><div class="tc-tier-note">Post-engagement:<br>₹10,00,000/person</div></div>
+          </div>
         </div>
-      </div>
-      <div class="form-sec">
-        <div class="form-sec-title"><span>🔐</span> Login Credentials</div>
-        <div class="g2">
-          <div class="ff"><label>Username *</label><input id="s_user" type="text" placeholder="Choose a username"></div>
-          <div class="ff pw"><label>Password *</label><input id="s_pwd" type="password" placeholder="Minimum 8 characters"><button class="et" onclick="tpwd('s_pwd',this)">👁</button></div>
+        <div class="form-sec">
+          <div class="form-sec-title"><span>📜</span> Terms &amp; Conditions</div>
+          <div class="tc-scroll">
+            <h4>Terms &amp; Conditions — Naveen Reddy Marriage Bureau</h4>
+            <p><strong>1. Eligibility:</strong> Membership is exclusively for Reddy community members of Hindu religion. Misrepresentation results in immediate termination without refund.</p>
+            <p><strong>2. Membership Fees (Non-Refundable):</strong> VIP – ₹15,000/yr · Elite – ₹1,00,000/yr · VVIP – ₹30,000/yr.</p>
+            <p><strong>3. Mandatory Post-Engagement Fee:</strong> Upon engagement facilitated by NRMB, each individual must pay within 7 days: VIP – ₹1,50,000 · Elite – ₹3,00,000 · VVIP – ₹10,00,000. Non-payment may result in legal action.</p>
+            <p><strong>4. Privacy &amp; Contact Policy:</strong> Contact details will NOT be shared unless both parties express interest AND the bureau administrator approves.</p>
+            <p><strong>5. Profile Viewing Restriction (3-Account Rule):</strong> A member's profile may be viewed by a maximum of 3 unique accounts at any time.</p>
+            <p><strong>6. Profile Hold:</strong> Mutual interest places both profiles on exclusive hold, removed from all other searches.</p>
+            <p><strong>7. Match Finalisation:</strong> Finalised profiles are permanently removed from the active pool.</p>
+            <p><strong>8. Code of Conduct:</strong> Dignity, honesty and respect are mandatory. Misuse leads to termination and possible legal action.</p>
+            <p><strong>9. Governing Law:</strong> Telangana, India. Disputes subject to Hyderabad jurisdiction.</p>
+          </div>
+          <div class="chk-row"><input type="checkbox" id="tcAgree"><label for="tcAgree">I agree to all Terms &amp; Conditions. I confirm I belong to the <strong>Reddy community, Hindu religion</strong>. I understand the post-engagement payment and 3-account viewing restriction.</label></div>
+          <button class="btn-step next" style="width:100%;text-align:center;justify-content:center;margin-top:0.2rem;" onclick="goStep(9)">Review My Details →</button>
         </div>
+        <div class="step-nav"><button class="btn-step back" onclick="goStep(7)">← Back</button></div>
       </div>
-      <div class="step-nav"><div></div><button class="btn-step next" onclick="goStep(2)">Next: Personal Details →</button></div>
-    </div>
 
-    <!-- Step 2 -->
-    <div class="form-step" id="fs2" style="position:relative;z-index:1;">
-      <div class="form-sec"><div class="form-sec-title"><span>📏</span> Physical Attributes</div><div class="g3"><div class="ff"><label>Height *</label><input id="s_ht" list="heightList" placeholder="e.g. 5'6&quot; (167cm)"><datalist id="heightList"><option>4'10" (147cm)</option><option>4'11" (149cm)</option><option>5'0" (152cm)</option><option>5'1" (154cm)</option><option>5'2" (157cm)</option><option>5'3" (160cm)</option><option>5'4" (162cm)</option><option>5'5" (165cm)</option><option>5'6" (167cm)</option><option>5'7" (170cm)</option><option>5'8" (172cm)</option><option>5'9" (175cm)</option><option>5'10" (177cm)</option><option>5'11" (180cm)</option><option>6'0" (182cm)</option><option>6'1" (185cm)</option><option>6'2" (187cm)</option><option>6'3" (190cm)</option><option>6'4" (193cm)</option><option>6'5" (195cm)</option><option>6'6" (198cm)</option><option>6'7" (200cm)</option><option>6'8" (203cm)</option><option>6'9" (205cm)</option><option>6'10" (208cm)</option><option>6'11" (210cm)</option><option>7'0" (213cm)</option><option>7'6" (228cm)</option><option>8'0" (243cm)</option></datalist></div><div class="ff"><label>Weight (kg)</label><input id="s_wt" type="number" placeholder="65"></div><div class="ff"><label>Complexion</label><select id="s_cx"><option value="">Select</option><option>Very Fair</option><option>Fair</option><option>Wheatish</option><option>Wheatish Brown</option><option>Dark</option></select></div><div class="ff"><label>Body Type</label><select id="s_bt"><option value="">Select</option><option>Slim</option><option>Athletic</option><option>Average</option><option>Heavy</option></select></div><div class="ff"><label>Blood Group</label><select id="s_bg"><option value="">Select</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>O+</option><option>O-</option><option>AB+</option><option>AB-</option></select></div><div class="ff"><label>Differently Abled</label><select id="s_da"><option>No</option><option>Yes</option></select></div></div></div>
-      <div class="form-sec"><div class="form-sec-title"><span>🎓</span> Education &amp; Career</div><div class="g2">
-        <div class="ff"><label>Highest Qualification *</label><select id="s_edu" onchange="onEduChange()"><option value="">Select</option><option>10th / SSC</option><option>Intermediate / 12th</option><option>Diploma</option><option>B.Tech / B.E.</option><option>B.Sc / B.Com / B.A.</option><option>MBBS</option><option>LLB</option><option>CA / CMA / CS</option><option>M.Tech / M.E.</option><option>M.Sc / M.Com / M.A.</option><option>M.B.A.</option><option>MD / MS</option><option>MS (USA/UK)</option><option>LLM</option><option>Ph.D.</option><option>Other</option></select></div>
-        <div class="ff"><label>Schooling Board *</label><select id="s_board" onchange="onBoardChange()"><option value="">Select Board</option><option>SSC</option><option>CBSE</option><option>ICSE</option><option>State Board</option><option>Other</option></select></div>
-        <div class="ff"><label id="s_school_lbl">School Name</label><input id="s_school" type="text" placeholder="e.g. Delhi Public School, Nacharam"></div>
-        <div class="ff"><label>Intermediate / 12th College</label><input id="s_inter" type="text" placeholder="e.g. Sri Chaitanya Junior College"></div>
-        <div class="ff" id="s_engcol_wrap"><label>Engineering / Degree College</label><input id="s_engcol" type="text" placeholder="e.g. Osmania University, IIT"></div>
-        <div class="ff" id="s_pgcol_wrap"><label>PG / MS / Higher Education College</label><input id="s_col" type="text" placeholder="e.g. UTD Dallas, IIT Bombay"></div>
-        <div class="ff"><label>Employed In *</label><select id="s_emp"><option value="">Select</option><option>Government / PSU</option><option>Private Sector</option><option>Business / Self-Employed</option><option>Defence</option><option>Civil Services</option><option>IT / Software</option><option>Teaching / Professor</option><option>Agriculture</option><option>Not Working</option><option>Other</option></select></div>
-        <div class="ff"><label>Occupation *</label><input id="s_occ" type="text" placeholder="e.g. Software Engineer, Director"></div>
-        <div class="ff"><label>Company / Organisation</label><input id="s_co" type="text" placeholder="e.g. TCS, HCL, Govt of TS"></div>
-        <div class="ff"><label>Place of Work / Business</label><input id="s_workplace" type="text" placeholder="e.g. Hyderabad, Salt Lake City"></div>
-        <div class="ff"><label>Annual Income * <small style="font-weight:normal;color:var(--muted);font-style:italic;">(enter in ₹, e.g. 600000)</small></label><input id="s_inc" type="number" min="0" placeholder="e.g. 600000 for 6 Lakhs" oninput="formatIncome(this)"><div class="income-display" id="incDisplay"></div></div>
-        <div class="ff" id="s_visa_wrap" style="display:none;"><label>Visa Status</label><input id="s_visa" type="text" placeholder="e.g. H1B (I-140 Approved), PR, Citizen"></div>
-      </div></div>
-      <div class="form-sec"><div class="form-sec-title"><span>🌿</span> Lifestyle</div><div class="g3"><div class="ff"><label>Diet *</label><select id="s_diet"><option value="">Select</option><option>Vegetarian</option><option>Non-Vegetarian</option><option>Eggetarian</option><option>Vegan</option></select></div><div class="ff"><label>Smoking</label><select id="s_smk"><option>Never</option><option>Occasionally</option><option>Regularly</option></select></div><div class="ff"><label>Drinking</label><select id="s_drk"><option>Never</option><option>Occasionally</option><option>Regularly</option></select></div></div></div>
-      <div class="form-sec"><div class="form-sec-title"><span>📝</span> About Yourself</div><div class="ff"><label>About Me</label><textarea id="s_about" placeholder="Describe yourself, your interests, hobbies, values and what you seek in a life partner…" rows="4"></textarea></div></div>
-      <div class="step-nav"><button class="btn-step back" onclick="goStep(1)">← Back</button><button class="btn-step next" onclick="goStep(3)">Next: Family →</button></div>
-    </div>
-
-    <!-- Step 3 -->
-    <div class="form-step" id="fs3" style="position:relative;z-index:1;">
-      <div class="form-sec"><div class="form-sec-title"><span>🏠</span> Family Background</div><div class="g2"><div class="ff"><label>Family Type</label><select id="s_ft"><option>Nuclear Family</option><option>Joint Family</option></select></div><div class="ff"><label>Family Values</label><select id="s_fv"><option>Orthodox</option><option>Traditional</option><option>Moderate</option><option>Liberal</option></select></div><div class="ff"><label>Family Status</label><select id="s_fst" onchange="showTierRecommendation(this.value)"><option value="">Select</option><option>Middle Class</option><option>Upper Middle Class</option><option>Rich / Affluent</option><option>Wealthy</option></select></div><div class="ff"><label>Native Place / District *</label><input id="s_native" type="text" placeholder="e.g. Nalgonda, Warangal"></div></div></div>
-      <div class="form-sec"><div class="form-sec-title"><span>👨‍👩‍👧</span> Parents</div><div class="g2">
-        <div class="ff"><label>Father's Name</label><input id="s_fn" type="text" placeholder="Father's full name"></div>
-        <div class="ff"><label>Father's Status</label><select id="s_fas" onchange="toggleFatherOcc()"><option value="">Select</option><option>Employed</option><option>Business</option><option>Retired</option><option>Farmer</option><option>Passed Away</option></select></div>
-        <div class="ff" id="s_fo_wrap"><label>Father's Occupation / Profession</label><input id="s_fo" type="text" placeholder="e.g. Govt Officer, Business"></div>
-        <div class="ff"><label>Father's Sub-Caste / Gotra</label><input id="s_fg" list="fGotraList" placeholder="Type gotra…"><datalist id="fGotraList"><option>Motati</option><option>Gudati</option><option>Pakanati</option><option>Gone</option><option>Chittepu</option><option>Bhumanchi</option><option>Pedakanti</option><option>Konukanula</option><option>Cherukunutla</option><option>Chegolla</option><option>Other</option></datalist></div>
-        <div class="ff"><label>Mother's Name</label><input id="s_mn" type="text" placeholder="Mother's full name"></div>
-        <div class="ff"><label>Mother's Status</label><select id="s_mas" onchange="toggleMotherOcc()"><option value="">Select</option><option>Homemaker</option><option>Employed</option><option>Business</option><option>Retired</option><option>Passed Away</option></select></div>
-        <div class="ff" id="s_mo_wrap" style="display:none;"><label>Mother's Occupation / Profession</label><input id="s_mo" type="text" placeholder="e.g. Teacher, Doctor, Director"></div>
-        <div class="ff"><label>Parent / Guardian Mobile 1</label><input id="s_pgmob1" type="tel" placeholder="+91 98765 43210"></div>
-        <div class="ff"><label>Parent / Guardian Mobile 2 <small style="color:var(--muted);font-style:italic;">(optional)</small></label><input id="s_pgmob2" type="tel" placeholder="+91 98765 43210"></div>
-      </div></div>
-      <div class="form-sec"><div class="form-sec-title"><span>👫</span> Siblings &amp; Property</div><div class="g2"><div class="ff"><label>Brothers</label><select id="s_br"><option>0</option><option>1</option><option>2</option><option>3</option><option>4+</option></select></div><div class="ff"><label>Brothers Married</label><select id="s_brm"><option>0</option><option>1</option><option>2</option><option>3</option><option>4+</option></select></div><div class="ff"><label>Sisters</label><select id="s_sr"><option>0</option><option>1</option><option>2</option><option>3</option><option>4+</option></select></div><div class="ff"><label>Sisters Married</label><select id="s_srm"><option>0</option><option>1</option><option>2</option><option>3</option><option>4+</option></select></div><div class="ff" style="grid-column:1/-1;"><label>Total Property Value <small style="color:var(--muted);font-weight:normal;font-style:italic;">(optional — leave blank if you prefer not to disclose)</small></label><input id="s_pval" type="text" placeholder="e.g. 2 Crores, 50 Lakhs, Agricultural land, Not applicable"></div></div></div>
-      <div class="step-nav"><button class="btn-step back" onclick="goStep(2)">← Back</button><button class="btn-step next" onclick="goStep(4)">Next: Preferences →</button></div>
-    </div>
-
-    <!-- Step 4 -->
-    <div class="form-step" id="fs4" style="position:relative;z-index:1;">
-      <div class="form-sec"><div class="form-sec-title"><span>💑</span> Partner Preferences</div><div class="g2"><div class="ff"><label>Preferred Age From</label><input id="pp_af" type="number" placeholder="e.g. 22"></div><div class="ff"><label>Preferred Age To</label><input id="pp_at" type="number" placeholder="e.g. 30"></div><div class="ff"><label>Min Height</label><select id="pp_hf"><option value="">Any</option><option>5'0"</option><option>5'2"</option><option>5'4"</option><option>5'5"</option><option>5'6"</option><option>5'7"</option><option>5'8"</option><option>5'10"</option><option>6'0"</option></select></div><div class="ff"><label>Expected Education</label><select id="pp_edu"><option value="">Any</option><option>Graduate &amp; Above</option><option>Post Graduate</option><option>Professional Degree</option><option>Doctorate</option></select></div><div class="ff"><label>Expected Profession</label><input id="pp_occ" type="text" placeholder="e.g. Doctor, Engineer, Any"></div><div class="ff"><label>Expected Income</label><select id="pp_inc"><option value="">Any</option><option>4 L+</option><option>6 L+</option><option>10 L+</option><option>20 L+</option><option>50 L+</option></select></div><div class="ff"><label>Preferred Location</label><input id="pp_st" type="text" placeholder="e.g. Hyderabad, London, Singapore, Any"></div><div class="ff"><label>NRI Acceptable?</label><select id="pp_nri"><option>Open to NRI</option><option>Prefer India-based</option><option>No Preference</option></select></div></div><div class="ff" style="margin-top:0.5rem;"><label>Other Expectations</label><textarea id="pp_note" placeholder="Any specific expectations about partner or family…" rows="3"></textarea></div></div>
-      <div class="step-nav"><button class="btn-step back" onclick="goStep(3)">← Back</button><button class="btn-step next" onclick="goStep(5)">Next: Membership →</button></div>
-    </div>
-
-    <!-- Step 5 -->
-    <div class="form-step" id="fs5" style="position:relative;z-index:1;">
-      <div class="form-sec"><div class="form-sec-title"><span>👑</span> Select Membership Tier</div>
-        <div class="tier-row">
-          <div class="tc-tier" id="trVIP" onclick="pickTier('VIP')"><div class="tc-tier-icon">👑</div><div class="tc-tier-name">VIP</div><div class="tc-tier-price">₹15,000/yr</div><div class="tc-tier-note">Post-engagement:<br>₹1,50,000/person</div></div>
-          <div class="tc-tier" id="trVVIP" onclick="pickTier('VVIP')"><div class="tc-tier-icon">💎</div><div class="tc-tier-name">VVIP</div><div class="tc-tier-price">₹30,000/yr</div><div class="tc-tier-note">Post-engagement:<br>₹3,00,000/person</div></div>
-          <div class="tc-tier" id="trElite" onclick="pickTier('Elite')"><div class="tc-tier-icon">🔱</div><div class="tc-tier-name">Elite</div><div class="tc-tier-price">₹1,00,000/yr</div><div class="tc-tier-note">Post-engagement:<br>₹10,00,000/person</div></div>
+      <!-- STEP 9: Review -->
+      <div class="form-step" id="fs9" style="position:relative;z-index:1;">
+        <div style="text-align:center;margin-bottom:2rem;">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:300;font-style:italic;color:var(--crimson);margin-bottom:0.3rem;">Review Your Details</div>
+          <div style="font-family:'EB Garamond',serif;font-size:0.9rem;color:var(--muted);">Please review everything carefully before submitting. Click any step in the bar above to go back and edit.</div>
         </div>
-      </div>
-      <div class="form-sec">
-        <div class="form-sec-title"><span>📜</span> Terms &amp; Conditions</div>
-        <div class="tc-scroll">
-          <h4>Terms &amp; Conditions — Naveen Reddy Marriage Bureau</h4>
-          <p><strong>1. Eligibility:</strong> Membership is exclusively for Reddy community members of Hindu religion. Misrepresentation results in immediate termination without refund.</p>
-          <p><strong>2. Membership Fees (Non-Refundable):</strong> VIP – ₹15,000/yr · VVIP – ₹30,000/yr · Elite – ₹1,00,000/yr.</p>
-          <p><strong>3. Mandatory Post-Engagement Fee:</strong> Upon engagement facilitated by NRMB, each individual must pay within 7 days: VIP – ₹1,50,000 · VVIP – ₹3,00,000 · Elite – ₹10,00,000. Non-payment may result in legal action.</p>
-          <p><strong>4. Privacy &amp; Contact Policy:</strong> Contact details will NOT be shared unless both parties express interest AND the bureau administrator approves. Only after admin confirmation will contact be released.</p>
-          <p><strong>5. Profile Viewing Restriction (3-Account Rule):</strong> A member's profile may be viewed by a maximum of 3 unique accounts at any time. Once 3 accounts are evaluating a profile, it is hidden from all others until resolved.</p>
-          <p><strong>6. Profile Hold:</strong> Mutual interest places both profiles on exclusive hold, removed from all other searches.</p>
-          <p><strong>7. Match Finalisation:</strong> Finalised profiles are permanently removed from the active pool.</p>
-          <p><strong>8. Code of Conduct:</strong> Dignity, honesty and respect are mandatory. Misuse leads to termination and possible legal action.</p>
-          <p><strong>9. Governing Law:</strong> Telangana, India. Disputes subject to Hyderabad jurisdiction.</p>
+        <div id="reviewContent"></div>
+        <div style="background:rgba(253,246,216,0.5);border:1px solid rgba(184,150,12,0.2);border-radius:10px;padding:1rem 1.2rem;margin-bottom:1.4rem;">
+          <div style="font-family:'Cinzel',serif;font-size:0.5rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--crimson);margin-bottom:0.4rem;">Selected Membership</div>
+          <div id="reviewTier" style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--text);"></div>
         </div>
-        <div class="chk-row"><input type="checkbox" id="tcAgree"><label for="tcAgree">I agree to all Terms &amp; Conditions. I confirm I belong to the <strong>Reddy community, Hindu religion</strong>. I understand the post-engagement payment and 3-account viewing restriction.</label></div>
-        <button class="btn-step next" style="width:100%;text-align:center;justify-content:center;margin-top:0.2rem;" onclick="goStep(6)">Review My Details →</button>
+        <button class="btn-prim" onclick="doRegister()">Confirm &amp; Complete Registration</button>
+        <div class="step-nav" style="margin-top:0.8rem;"><button class="btn-step back" onclick="goStep(8)">← Back to Plan</button></div>
       </div>
-      <div class="step-nav"><button class="btn-step back" onclick="goStep(4)">← Back</button></div>
-    </div>
 
-    <!-- Step 6 — Review -->
-    <div class="form-step" id="fs6" style="position:relative;z-index:1;">
-      <div style="text-align:center;margin-bottom:2rem;">
-        <div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:300;font-style:italic;color:var(--crimson);margin-bottom:0.3rem;">Review Your Details</div>
-        <div style="font-family:'EB Garamond',serif;font-size:0.9rem;color:var(--muted);">Please review everything carefully before submitting. Click any step in the bar above to go back and edit.</div>
-      </div>
-      <div id="reviewContent"></div>
-      <div style="background:rgba(253,246,216,0.5);border:1px solid rgba(184,150,12,0.2);border-radius:10px;padding:1rem 1.2rem;margin-bottom:1.4rem;">
-        <div style="font-family:'Cinzel',serif;font-size:0.5rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--crimson);margin-bottom:0.4rem;">Selected Membership</div>
-        <div id="reviewTier" style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--text);"></div>
-      </div>
-      <button class="btn-prim" onclick="doRegister()">Confirm &amp; Complete Registration</button>
-      <div class="step-nav" style="margin-top:0.8rem;"><button class="btn-step back" onclick="goStep(5)">← Back to Membership</button></div>
     </div>
   </div>
 </div>
@@ -2289,6 +2432,20 @@ function showPage(id,skipHistory){
   if(id==='pgIntInMe') renderIntInMe();
   if(id==='pgStories') loadApprovedStories();
   if(id==='pgBranches'){if(document.getElementById('branchGrid'))document.getElementById('branchGrid').style.display='grid';if(document.getElementById('branchDetail'))document.getElementById('branchDetail').style.display='none';}
+  if(id==='pgSignup'){
+    // Reset to pre-step A each time signup page is opened
+    const pA=document.getElementById('preStepA');
+    const pB=document.getElementById('preStepB');
+    const rW=document.getElementById('regStepsWrap');
+    if(pA){pA.style.display='block';}
+    if(pB){pB.style.display='none';}
+    if(rW){rW.style.display='none';}
+    _regCurrentStep=1;
+    // Reset step bar and form steps visually
+    document.querySelectorAll('.form-step').forEach(s=>s.classList.remove('active'));
+    const fs1=document.getElementById('fs1');if(fs1)fs1.classList.add('active');
+    for(let i=1;i<=8;i++){const s=document.getElementById('si'+i);if(!s)continue;s.classList.remove('active','done');if(i===1)s.classList.add('active');}
+  }
 }
 function goBack(){
   showPage('pgHome');
@@ -2425,6 +2582,47 @@ async function doLogout(){
   showPage('pgHome');
 }
 
+// ═══════════ PRE-STEP FLOW ═══════════
+let _preState={who:'',gender:''};
+function selectProfileFor(who,gender){
+  _preState={who,gender};
+  // Update icon and title for preStepB
+  const icons={Myself:'🙋','My Son':'👦','My Daughter':'👧','My Brother':'👨','My Sister':'👩','A Friend':'🤝'};
+  const el_icon=document.getElementById('pse_icon');
+  const el_title=document.getElementById('pse_title');
+  if(el_icon) el_icon.textContent=icons[who]||'🙋';
+  if(el_title) el_title.textContent='Profile for '+who;
+  // Pre-set gender if known
+  if(gender){
+    setPseGender(gender);
+    document.getElementById('pse_gender_wrap').style.display='none';
+  } else {
+    document.getElementById('pse_gender_wrap').style.display='block';
+    setPseGender('Male');
+  }
+  _goPreStep(2);
+}
+function setPseGender(g){
+  document.getElementById('pgbMale').classList.toggle('sel',g==='Male');
+  document.getElementById('pgbFemale').classList.toggle('sel',g==='Female');
+  document.getElementById('gMale').checked=(g==='Male');
+  document.getElementById('gFemale').checked=(g==='Female');
+}
+function _goPreStep(n){
+  document.getElementById('preStepA').style.display=n===1?'block':'none';
+  document.getElementById('preStepB').style.display=n===2?'block':'none';
+  document.getElementById('regStepsWrap').style.display=n===3?'block':'none';
+  window.scrollTo(0,0);
+}
+function startSignupFromEmail(){
+  const name=document.getElementById('s_name').value.trim();
+  const email=document.getElementById('s_email').value.trim();
+  if(!name){toast('Please enter your full name.');return;}
+  if(!email||!/\S+@\S+\.\S+/.test(email)){toast('Please enter a valid email address.');return;}
+  _goPreStep(3);
+  goStep(1);
+}
+
 // ═══════════ REGISTRATION ═══════════
 let regTier=null;
 function pickTier(t){regTier=t;['VIP','VVIP','Elite'].forEach(x=>document.getElementById('tr'+x).classList.toggle('sel',x===t));}
@@ -2432,7 +2630,6 @@ let _regCurrentStep=1;
 function goStep(n){
   // Validate only when moving FORWARD from step 1
   if(n>_regCurrentStep&&_regCurrentStep===1){
-    if(!document.getElementById('s_name').value.trim()){toast('Please enter your full name.');return;}
     const dob=document.getElementById('s_dob').value;
     if(dob){
       const isMale=document.getElementById('gMale')?.checked!==false;
@@ -2440,12 +2637,15 @@ function goStep(n){
       const age=Math.floor((Date.now()-new Date(dob))/(365.25*24*3600*1000));
       if(age<minAge){toast(`Minimum age for ${isMale?'Male':'Female'} registration is ${minAge} years.`);return;}
     }
+  }
+  // Validate account fields when moving FORWARD from step 7
+  if(n>_regCurrentStep&&_regCurrentStep===7){
     if(!document.getElementById('s_mob').value.trim()){toast('Please enter your mobile number.');return;}
     if(!document.getElementById('s_user').value.trim()){toast('Please choose a username.');return;}
-    if(!document.getElementById('s_email').value.trim()){toast('Please enter your email address.');return;}
+    if(!document.getElementById('s_pwd').value||document.getElementById('s_pwd').value.length<6){toast('Please set a password (min 6 characters).');return;}
   }
   // Validate membership tier when moving to review
-  if(n===6){
+  if(n===9){
     if(!regTier){toast('Please select a membership tier first.');return;}
     if(!document.getElementById('tcAgree').checked){toast('Please accept the Terms & Conditions.');return;}
     _buildReview();
@@ -2453,7 +2653,7 @@ function goStep(n){
   _regCurrentStep=n;
   document.querySelectorAll('.form-step').forEach(s=>s.classList.remove('active'));
   document.getElementById('fs'+n).classList.add('active');
-  for(let i=1;i<=6;i++){
+  for(let i=1;i<=8;i++){
     const s=document.getElementById('si'+i);if(!s)continue;
     s.classList.remove('active','done');
     if(i===n)s.classList.add('active');
@@ -2551,7 +2751,7 @@ function _buildReview(){
   function rv(v){return(v&&v.trim()&&v!=='—')?v:'<span class="rev-val empty">— not filled —</span>';}
   const sections=[
     {title:'Basic Information',rows:[
-      ['Profile For',radio('gender')],['Full Name',val('s_name')],
+      ['Profile For',(_preState&&_preState.who?_preState.who+' · ':'')+radio('gender')],['Full Name',val('s_name')],
       ['Date of Birth',val('s_dob')],['Time of Birth',val('s_tob')],
       ['Place of Birth',val('s_pob')],['Mother Tongue',val('s_mt')],
       ['Marital Status',val('s_ms')],['Sub-Caste / Gotra',val('s_gotra')],
