@@ -1720,7 +1720,7 @@ body{font-size:17px;}
           <div style="font-family:'Cormorant Garamond',serif;font-size:0.85rem;color:var(--gold);">₹15,000/yr</div>
           <div style="font-family:'EB Garamond',serif;font-size:0.72rem;color:var(--muted);margin-top:0.3rem;line-height:1.5;">Browse verified profiles · Express interest · Bureau matchmaking</div>
         </div>
-        <div class="tier-rec-card recommended" id="trc_Elite" onclick="pickTierFromPopup('Elite')">
+        <div class="tier-rec-card" id="trc_Elite" onclick="pickTierFromPopup('Elite')">
           <div style="font-size:1.4rem;margin-bottom:0.3rem;">🔱</div>
           <div style="font-family:'Cinzel',serif;font-size:0.58rem;font-weight:700;color:var(--crimson);">Elite</div>
           <div style="font-family:'Cormorant Garamond',serif;font-size:0.85rem;color:var(--gold);">₹1,00,000/yr</div>
@@ -3974,6 +3974,11 @@ const TIER_REC={
 function showTierRecommendation(status){
   if(!status||!TIER_REC[status])return;
   const r=TIER_REC[status];
+  // Highlight recommended card in popup
+  ['VIP','Elite','VVIP'].forEach(t=>{
+    const c=document.getElementById('trc_'+t);
+    if(c)c.classList.toggle('recommended',t===r.rec);
+  });
   // Silently pre-select recommended tier
   pickTier(r.rec);
   // Show subtle inline notification near step bar
