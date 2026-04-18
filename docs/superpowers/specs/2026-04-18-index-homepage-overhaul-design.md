@@ -365,6 +365,128 @@ For all pages a user lands on after logging in:
 
 ---
 
+---
+
+## 9. Branches Page — Landmark Image Cards ★ NEW TREATMENT
+
+**Current problem:** Branch cards show meaningless generic emojis (🏛 🏙 🌿 🏺) that give no sense of place or prestige.
+
+**New design:** Each branch card has a **landmark header image zone** — a 140px tall card header showing a stylised SVG silhouette of a famous local landmark, on a warm gradient sky background. This makes each office feel rooted in its city and builds geographic trust.
+
+### Landmark assignments:
+| Branch | Landmark | SVG Silhouette |
+|--------|----------|----------------|
+| **Somajiguda, Hyderabad** (Head Office) | Charminar | Iconic four-minaret arch silhouette — crimson fill on champagne sky gradient |
+| **Kothapet, Hyderabad** | Golconda Fort | Hilltop fort silhouette with crenellated walls — crimson on warm amber gradient |
+| **Warangal** | Kakatiya Kala Thoranam (stone arch gateway) | Three-arch stone gate silhouette — crimson on blush-to-ivory gradient |
+| **Karimnagar** | Elgandal Fort | Hilltop fort with river below silhouette — crimson on soft rose-to-cream gradient |
+
+### Card redesign:
+- **Header zone (140px):** SVG landmark silhouette centred, `sky gradient` background unique per city
+- **Gold top accent bar** (3px) that animates `scaleX(0→1)` on hover — already exists, keep it
+- On hover: landmark silhouette subtly scales `1.0 → 1.06` with `transition: 0.3s ease`
+- **City name:** Cinzel 600, 1.1rem, `--primary` — bigger than current
+- **Branch label:** Josefin Sans 0.7rem uppercase, `--gold` — "Head Office" / "Branch Office"
+- **"Tap to view details →":** EB Garamond italic, 0.82rem, `--text-sub` — warmer than current grey muted
+
+### Why SVG not photos:
+SVG silhouettes are inline, zero-dependency, load instantly, and look prestigious (like a luxury hotel's city map illustration). They scale perfectly on all screens and can be recoloured with CSS. Real photos would require hosting and may appear low-quality on some devices.
+
+---
+
+## 10. Signup Page — "Who Is This For?" Card Redesign ★
+
+**Current problem:** Six cards use emojis (🙋 👦 👧 👨 👩 🤝) — inconsistent across Android/iOS, look unprofessional on a luxury site.
+
+**New design:** Replace emojis with **Lucide SVG icons** styled in crimson, inside a warm circular badge.
+
+### Icon replacements:
+| Option | Old Emoji | New Lucide Icon | Reasoning |
+|--------|-----------|-----------------|-----------|
+| Myself | 🙋 | `<User />` | Person silhouette — universal self-reference |
+| My Son | 👦 | `<UserCheck />` + small "♂" tag | Verified male addition |
+| My Daughter | 👧 | `<UserCheck />` + small "♀" tag | Verified female addition |
+| My Brother | 👨 | `<Users />` + "♂" tag | Two-person icon, male |
+| My Sister | 👩 | `<Users />` + "♀" tag | Two-person icon, female |
+| A Friend | 🤝 | `<Heart />` | Heart = care/connection, warmer than handshake |
+
+### Card redesign:
+- Icon container: `48px × 48px` warm circle, `background: rgba(123,31,46,0.07)`, `border-radius: 50%`
+- SVG icon: 24px, `--primary` colour, stroke `1.5px`
+- On selected: circle fills to `--primary`, icon turns white, card gets gold border
+- Label: Cinzel 600, 0.85rem, `--text` — bigger and bolder than current
+- Pre-step screen header icon (currently 💐 flower emoji): replace with ornamental SVG mandala/lotus in crimson
+
+### Additional signup UX improvements:
+- **Progress bar at top of multi-step form:** thin gold bar showing completion `0% → 100%` as steps advance. Current step number shown: "Step 3 of 6" in Josefin Sans above the bar.
+- **Step labels:** small breadcrumb row below progress bar — "Personal · Family · Career · Preferences · Photos · Review" — current step highlighted in crimson
+- **Auto-save toast:** warm toast notification "Progress saved ✓" appears at bottom whenever a draft is auto-saved (already fires in code, just needs better visual treatment)
+- **Gender selector:** replace ♂/♀ symbol buttons with Lucide `<User />` (Male) and `<User />` (Female) SVG pill buttons — styled more clearly
+
+---
+
+## 11. Site-Wide UX Clarity Improvements ★
+
+**Problem:** Users (especially older parents) can get lost — they don't know where they are, what to do next, or how the service works.
+
+### 11.1 Floating WhatsApp Quick-Contact Button
+- Fixed position: `bottom: 24px, right: 24px`
+- Circle button: `56px × 56px`, green `#25D366`, white WhatsApp SVG icon
+- On hover: expands to pill with text "Chat with Us" sliding in from left
+- On tap (mobile): opens `https://wa.me/917207999985` directly
+- Tooltip on first visit: "Have questions? Chat with us →" fades in after 4 seconds, auto-dismisses
+- Z-index: above everything except modals
+
+### 11.2 Floating "?" Help Button
+- Fixed position: `bottom: 24px, left: 24px`
+- Circle button: `48px × 48px`, `--primary` fill, white `?` in Cinzel
+- Opens a **Help Drawer** (slides in from bottom) with:
+  - "How does NRMB work?" — 4 bullet points, one per process step
+  - "How do I find matches?" — 2 bullet points
+  - "Is my information safe?" — 2 bullet points
+  - Call-to-action: "Call us: +91 72079 99985"
+- Dismiss: tap outside or `×` button
+
+### 11.3 Page Breadcrumb on All Inner Pages
+Every non-home page shows a warm breadcrumb bar just below the hero banner:
+```
+Home  ›  Browse Profiles
+```
+- Background: `--bg` warm ivory
+- Font: Josefin Sans 0.7rem, `--text-sub`
+- Home link: `--gold`, underline on hover
+- Current page: `--primary`, no underline, bold
+- Helps users always know where they are
+
+### 11.4 "Back to Home" Persistent Link
+On all inner pages, a subtle "← Back to Home" text link appears in the top-left below the nav. Styled as: Josefin Sans 0.7rem, `--text-muted`, `← arrow` in gold. Tapping takes user to `pgHome`.
+
+### 11.5 Browse Page — Guidance State
+When a newly registered user first visits Browse and has ≤3 matches showing, show a warm instructional card at top:
+```
+🔍 Here's How Browsing Works
+Profiles matching your community and preferences appear here.
+Heart a profile to show interest. Once both sides express interest, 
+contact details are shared by the bureau.
+[Got it — Continue Browsing]
+```
+Card: warm cream, gold border, EB Garamond 17px, dismissible.
+
+### 11.6 Empty State Improvements
+- **Liked Profiles (empty):** Large Lucide `<Heart />` icon in blush, "No profiles liked yet" in Cinzel, "Browse profiles and tap ♡ to shortlist" in EB Garamond italic. Link button: "Browse Profiles →"
+- **Interests Received (empty):** Lucide `<Mail />` in blush, "No interests received yet" text, "Complete your profile to attract more matches →" button
+
+### 11.7 First-Visit Welcome Toast
+On the very first page load (checked via `localStorage`), a warm welcome toast appears at bottom:
+```
+Welcome to Naveen Reddy Marriage Bureau
+Start by creating your profile — it takes just 5 minutes.
+[Create Profile]  [Maybe Later]
+```
+Toast: warm cream, gold border, rounded 20px, slides up from bottom. Auto-dismisses after 12 seconds.
+
+---
+
 ## 7. What Is NOT Changed
 - `landing.html` — completely untouched
 - Firebase logic, auth, routing, Firestore queries
