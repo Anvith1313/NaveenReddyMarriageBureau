@@ -221,7 +221,7 @@ body{font-family:'EB Garamond',serif;font-size:18px;line-height:1.7;background:v
 .login-glass{
   position:relative;z-index:2;
   width:100%;max-width:420px;
-  background:rgba(255,252,248,0.82);
+  background:rgba(255,255,255,0.9);
   backdrop-filter:blur(32px) saturate(1.6);
   border:1px solid rgba(184,137,42,0.3);
   border-radius:24px;
@@ -242,7 +242,7 @@ body{font-family:'EB Garamond',serif;font-size:18px;line-height:1.7;background:v
   position:absolute;
   top:50%;left:50%;
   transform:translate(-50%,-50%);
-  width:176px;height:176px;
+  width:120px;height:120px;
   border-radius:50%;
   background:radial-gradient(circle,
     rgba(184,137,42,0.18) 0%,
@@ -257,7 +257,7 @@ body{font-family:'EB Garamond',serif;font-size:18px;line-height:1.7;background:v
   position:absolute;
   top:50%;left:50%;
   transform:translate(-50%,-50%);
-  width:160px;height:160px;
+  width:108px;height:108px;
   border-radius:50%;
   border:1px solid rgba(184,137,42,0.22);
   box-shadow:0 0 16px rgba(184,137,42,0.1);
@@ -268,7 +268,7 @@ body{font-family:'EB Garamond',serif;font-size:18px;line-height:1.7;background:v
   to{opacity:1;transform:translate(-50%,-50%) scale(1.04);}
 }
 .lg-logo-inner{
-  width:148px;height:148px;
+  width:96px;height:96px;
   border-radius:50%;
   background:radial-gradient(circle at 38% 32%,
     rgba(255,255,253,0.98) 0%,
@@ -297,7 +297,7 @@ body{font-family:'EB Garamond',serif;font-size:18px;line-height:1.7;background:v
     inset 0 -1px 0 rgba(184,137,42,0.2);
 }
 .lg-logo-inner img{
-  width:128px;height:auto;object-fit:contain;
+  width:80px;height:auto;object-fit:contain;
   border-radius:50%;
   filter:
     drop-shadow(0 2px 8px rgba(123,31,46,0.12))
@@ -311,8 +311,8 @@ body{font-family:'EB Garamond',serif;font-size:18px;line-height:1.7;background:v
   transform:scale(1.03);
 }
 
-.lg-title{font-family:'Cinzel',serif;font-size:0.62rem;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);text-align:center;margin-bottom:0.25rem;}
-.lg-sub{font-family:'Cormorant Garamond',serif;font-size:0.82rem;font-style:italic;color:var(--muted);text-align:center;margin-bottom:0.45rem;}
+.lg-title{font-family:'Cinzel',serif;font-size:0.88rem;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);text-align:center;margin-bottom:0.25rem;}
+.lg-sub{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;color:var(--muted);text-align:center;margin-bottom:0.45rem;}
 .lg-caste{display:inline-block;width:100%;text-align:center;font-family:'Cinzel',serif;font-size:0.46rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--crimson);background:rgba(123,31,46,0.05);border:1px solid rgba(123,31,46,0.1);border-radius:20px;padding:0.28rem;margin-bottom:1.6rem;}
 
 .orn-line{display:flex;align-items:center;gap:0.6rem;margin-bottom:1.3rem;}
@@ -321,8 +321,8 @@ body{font-family:'EB Garamond',serif;font-size:18px;line-height:1.7;background:v
 
 /* underline inputs */
 .ui{position:relative;margin-bottom:1.4rem;}
-.ui label{display:block;font-family:'Cinzel',serif;font-size:0.48rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:0.42rem;}
-.ui input{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(184,137,42,0.22);outline:none;padding:0.52rem 0.2rem;font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--text);transition:border-color 0.3s;}
+.ui label{display:block;font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:0.42rem;}
+.ui input{width:100%;background:transparent;border:none;border-bottom:1.5px solid var(--border);outline:none;padding:0.55rem 0.2rem;font-family:'Cormorant Garamond',serif;font-size:1.15rem;color:var(--text);transition:border-color 0.3s;}
 .ui input::placeholder{color:rgba(107,83,64,0.28);font-style:italic;}
 .ui input:focus{border-bottom-color:var(--gold2);}
 .ui .uline{position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--gold2);transition:width 0.4s;}
@@ -331,11 +331,11 @@ body{font-family:'EB Garamond',serif;font-size:18px;line-height:1.7;background:v
 .ui .et:hover{opacity:1;}
 
 /* pill buttons */
-.btn-prim{width:100%;padding:0.95rem;background:linear-gradient(135deg,var(--primary),var(--primary2));border:none;border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.56rem;font-weight:600;letter-spacing:0.26em;text-transform:uppercase;color:rgba(255,248,220,0.96);box-shadow:0 6px 24px rgba(123,31,46,0.26);transition:all 0.3s;position:relative;overflow:hidden;margin-top:0.4rem;}
+.btn-prim{width:100%;padding:0.95rem;background:linear-gradient(135deg,var(--primary),var(--primary2));border:none;border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.75rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,248,220,0.96);box-shadow:0 6px 24px rgba(123,31,46,0.26);transition:all 0.3s;position:relative;overflow:hidden;margin-top:0.4rem;}
 .btn-prim::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.08),transparent);transition:left 0.5s;}
 .btn-prim:hover::before{left:100%;}
 .btn-prim:hover{box-shadow:0 10px 34px rgba(123,31,46,0.38);}
-.btn-sec{width:100%;padding:0.82rem;background:transparent;border:1.5px solid rgba(184,137,42,0.32);border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.52rem;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);transition:all 0.3s;margin-top:0.65rem;}
+.btn-sec{width:100%;padding:0.82rem;background:transparent;border:1.5px solid var(--border);border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.65rem;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);transition:all 0.3s;margin-top:0.65rem;}
 .btn-sec:hover{background:rgba(184,137,42,0.06);border-color:var(--gold);}
 
 .lg-foot{display:flex;justify-content:space-between;margin-top:1.4rem;border-top:1px solid rgba(184,137,42,0.1);padding-top:1.1rem;}
