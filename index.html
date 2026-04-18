@@ -331,7 +331,7 @@ body{font-family:'EB Garamond',serif;font-size:18px;line-height:1.7;background:v
 .ui .et:hover{opacity:1;}
 
 /* pill buttons */
-.btn-prim{width:100%;padding:0.95rem;background:linear-gradient(135deg,var(--primary),var(--primary2));border:none;border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.75rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,248,220,0.96);box-shadow:0 6px 24px rgba(123,31,46,0.26);transition:all 0.3s;position:relative;overflow:hidden;margin-top:0.4rem;}
+.btn-prim{width:100%;padding:0.95rem;background:linear-gradient(135deg,var(--primary),var(--primary2));border:none;border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.65rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,248,220,0.96);box-shadow:0 6px 24px rgba(123,31,46,0.26);transition:all 0.3s;position:relative;overflow:hidden;margin-top:0.4rem;}
 .btn-prim::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.08),transparent);transition:left 0.5s;}
 .btn-prim:hover::before{left:100%;}
 .btn-prim:hover{box-shadow:0 10px 34px rgba(123,31,46,0.38);}
@@ -691,7 +691,7 @@ body{font-family:'EB Garamond',serif;font-size:18px;line-height:1.7;background:v
 .tw-head{font-family:'Cinzel',serif;font-size:0.48rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1.1rem;}
 .tw-nums{display:flex;justify-content:center;gap:2rem;}
 .tw-unit{text-align:center;}
-.tw-n{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:600;color:var(--crimson);line-height:1;display:block;}
+.tw-n{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:700;color:var(--crimson);line-height:1;display:block;}
 .tw-l{font-family:'Cinzel',serif;font-size:0.42rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-top:0.2rem;}
 .tw-amt{margin-top:0.9rem;font-family:'EB Garamond',serif;font-size:0.86rem;color:var(--muted);line-height:1.7;}
 .tw-amt strong{color:var(--crimson);}
@@ -708,13 +708,13 @@ body{font-family:'EB Garamond',serif;font-size:18px;line-height:1.7;background:v
 .shine-wrap.featured::before{background:conic-gradient(from 0deg,transparent 0deg,rgba(174,134,0,0.85) 50deg,rgba(255,230,80,1) 90deg,rgba(174,134,0,0.85) 130deg,transparent 180deg 360deg);animation-duration:3.5s;}
 .mem-card{background:#fffcf8;border:none;border-radius:20px;padding:2.5rem 2rem;text-align:center;position:relative;z-index:1;transition:transform 0.3s;}
 .mem-card:hover{transform:translateY(-3px);}
-.shine-wrap.featured .mem-card{background:#fffdf4;}
+.shine-wrap.featured .mem-card{background:#fffdf4;border:2px solid var(--primary);box-shadow:var(--sh-card), 0 0 0 1px rgba(123,31,46,0.2);}
 .mem-icon{font-size:2rem;margin-bottom:1rem;}
-.mem-tier{font-family:'Cinzel',serif;font-size:0.78rem;font-weight:700;letter-spacing:0.1em;color:var(--crimson);margin-bottom:0.5rem;}
+.mem-tier{font-family:'Cinzel',serif;font-size:1.05rem;font-weight:700;letter-spacing:0.1em;color:var(--crimson);margin-bottom:0.5rem;}
 .shine-wrap.featured .mem-tier{color:#9a7200;}
 .mem-price{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:600;color:var(--text);margin-bottom:0.2rem;}
 .mem-period{font-family:'Cinzel',serif;font-size:0.44rem;letter-spacing:0.14em;color:var(--muted);margin-bottom:1.4rem;}
-.mem-feats{font-family:'EB Garamond',serif;font-size:0.82rem;color:var(--muted);line-height:1.9;margin-bottom:1.5rem;border-top:1px solid var(--border);padding-top:1.2rem;text-align:left;}
+.mem-feats{font-family:'EB Garamond',serif;font-size:0.95rem;color:var(--muted);line-height:2.1;margin-bottom:1.5rem;border-top:1px solid var(--border);padding-top:1.2rem;text-align:left;}
 
 /* ═══════════════════════════════════
    PRE-STEP SCREENS
@@ -2053,7 +2053,7 @@ body{font-size:17px;}
   <div class="sec-hd"><div class="sec-tag">Choose Your Plan</div><div class="sec-title">Invest in Your Future</div><div class="sec-sub">Select the membership that reflects your aspirations</div></div>
   <div class="mem-cards">
     <div class="shine-wrap"><div class="mem-card"><div class="mem-icon">👑</div><div class="mem-tier">VIP</div><div class="mem-price">₹15,000</div><div class="mem-period">per year</div><div class="mem-feats">✦ Full profile visibility<br>✦ Browse verified profiles<br>✦ Express interest<br>✦ Bureau matchmaking<br>✦ Post-engagement: ₹1,50,000/person</div><button class="btn-prim" onclick="showPage('pgSignup')">Join VIP</button></div></div>
-    <div class="shine-wrap featured"><div class="mem-card"><div class="mem-icon">🔱</div><div class="mem-tier">ELITE</div><div class="mem-price">₹1,00,000</div><div class="mem-period">per year</div><div class="mem-feats">✦ All VIP benefits<br>✦ Priority search results<br>✦ Dedicated manager<br>✦ NRI profile access<br>✦ Post-engagement: ₹3,00,000/person</div><button class="btn-prim" style="background:linear-gradient(135deg,#c9a84c,#b8960c);color:#fff;" onclick="showPage('pgSignup')">Join Elite</button></div></div>
+    <div class="shine-wrap featured"><div class="mem-card"><div class="mem-icon">🔱</div><div class="mem-tier">ELITE</div><div class="mem-price">₹1,00,000</div><div class="mem-period">per year</div><div class="mem-feats">✦ All VIP benefits<br>✦ Priority search results<br>✦ Dedicated manager<br>✦ NRI profile access<br>✦ Post-engagement: ₹3,00,000/person</div><button class="btn-prim" style="background:linear-gradient(135deg,var(--gold),var(--primary));color:#fff;" onclick="showPage('pgSignup')">Join Elite</button></div></div>
     <div class="shine-wrap"><div class="mem-card"><div class="mem-icon">💎</div><div class="mem-tier">VVIP</div><div class="mem-price">₹30,000</div><div class="mem-period">per year</div><div class="mem-feats">✦ All Elite benefits<br>✦ White-glove service<br>✦ Background verification<br>✦ Assisted shortlisting<br>✦ Post-engagement: ₹10,00,000/person</div><button class="btn-prim" onclick="showPage('pgSignup')">Join VVIP</button></div></div>
   </div>
 </div>
