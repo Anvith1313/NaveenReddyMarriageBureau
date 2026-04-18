@@ -15,18 +15,19 @@
   sandy limestone (#f0e8d4), lush garden feel.
 */
 :root{
-  --ocean : #0a2540;
-  --ocean2: #1a6b94;
-  --teal  : #2a9bc8;
-  --sky   : #b8dcf0;
-  --sand  : #e0cc96;
-  --white : #ffffff;
-  --ivory : #f5f8fa;
-  --light : #eaf4fb;
-  --dark  : #060d14;
-  --dark2 : #0a1e2c;
-  --muted : #3a5a70;
-  --bdr   : rgba(42,155,200,0.3);
+  --crimson:#7B1F2E;--crimson2:#9B2F40;
+  --primary:#7B1F2E;--primary2:#9B2F40;--primary-light:#FFF0F2;
+  --gold:#B8892A;--gold2:#8B5E3C;--gold3:#E8C4A0;--gold4:#FFF8EC;
+  --gold-bg:#FDF3E0;
+  --white:#FFFFFF;--offwhite:#FAFAFA;--cream:#FFF8F5;
+  --bg:#FAFAFA;--bg-warm:#FFF8F5;
+  --text:#1A0A08;--muted:#6B3A28;--text2:#4A2018;
+  --border:#E8D5C8;
+  --sh-soft:0 2px 16px rgba(123,31,46,0.08);
+  --sh-card:0 4px 28px rgba(123,31,46,0.11);
+  --sh-hover:0 12px 44px rgba(123,31,46,0.18);
+  --sh-cta:0 6px 24px rgba(123,31,46,0.32);
+  --nav-h:72px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
@@ -220,14 +221,14 @@ body{font-family:'EB Garamond',serif;background:var(--dark);overflow-x:hidden;-w
 .cta-sub{font-size:clamp(0.96rem,2.2vw,1.16rem);color:rgba(184,220,240,0.62);line-height:1.88;font-style:italic;margin-bottom:2.8rem;}
 .cta-btn{
   display:inline-block;padding:1.05rem 3rem;
-  background:linear-gradient(135deg,var(--ocean2),var(--teal));
+  background:var(--primary);
   color:var(--white);text-decoration:none;
-  font-family:'Cinzel',serif;font-size:0.96rem;letter-spacing:0.1em;
-  border-radius:50px;box-shadow:0 4px 30px rgba(26,107,148,0.45);
+  font-family:'Cinzel',serif;font-size:0.68rem;letter-spacing:0.1em;
+  border-radius:50px;box-shadow:var(--sh-cta);
   transition:transform 0.25s,box-shadow 0.25s;position:relative;overflow:hidden;
 }
 .cta-btn::before{content:'';position:absolute;inset:0;border-radius:50px;background:linear-gradient(135deg,rgba(255,255,255,0.12),transparent);}
-.cta-btn:hover{transform:translateY(-3px);box-shadow:0 8px 42px rgba(26,107,148,0.58);}
+.cta-btn:hover{transform:translateY(-3px);box-shadow:var(--sh-hover);}
 .cta-hint{margin-top:1.7rem;font-size:0.75rem;color:rgba(184,220,240,0.28);letter-spacing:0.08em;}
 
 .tap-ripple{position:fixed;border-radius:50%;pointer-events:none;border:2px solid rgba(42,155,200,0.55);transform:scale(0);z-index:9999;}
