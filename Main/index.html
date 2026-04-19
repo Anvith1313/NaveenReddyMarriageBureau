@@ -195,27 +195,21 @@ body{font-family:'EB Garamond',serif;font-size:18px;line-height:1.78;background:
 #pgHome.active{display:block;}
 
 .hero-section{
-  height:100vh;
-  background:linear-gradient(135deg,#7B1F2E 0%,#2D1810 45%,#1A0A08 75%,#120608 100%) !important;
-  background-size:cover;background-position:center center;
+  height:100vh;min-height:580px;
+  background-image:url('Assets/couple.jpg');
+  background-size:cover;background-position:center 30%;
   background-repeat:no-repeat;
   display:flex;align-items:center;justify-content:center;
   position:relative;overflow:hidden;
 }
-/* Radial glows */
+/* Warm vignette — keeps photo clear, text readable */
 .hero-section::before{
   content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
   background:
-    radial-gradient(ellipse 70% 55% at 15% 25%,rgba(184,137,42,0.28) 0%,transparent 65%),
-    radial-gradient(ellipse 55% 45% at 85% 75%,rgba(123,31,46,0.22) 0%,transparent 60%),
-    linear-gradient(to bottom,transparent 50%,rgba(15,5,30,0.6) 100%);
+    linear-gradient(to bottom,rgba(20,6,4,0.10) 0%,rgba(20,6,4,0.0) 30%,rgba(20,6,4,0.0) 55%,rgba(20,6,4,0.55) 100%),
+    linear-gradient(to right,rgba(20,6,4,0.18) 0%,transparent 20%,transparent 80%,rgba(20,6,4,0.18) 100%);
 }
-/* Dot grid texture */
-.hero-section::after{
-  content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
-  background-image:radial-gradient(circle,rgba(255,255,255,0.045) 1px,transparent 1px);
-  background-size:38px 38px;
-}
+.hero-section::after{display:none;}
 .hero-content{position:relative;z-index:3;text-align:center;padding:0 2rem;margin-top:var(--nav-h);}
 .hero-tag{font-family:'Cinzel',serif;font-size:0.62rem;font-weight:600;letter-spacing:0.32em;text-transform:uppercase;color:rgba(184,137,42,0.9);display:flex;align-items:center;justify-content:center;gap:1rem;margin-bottom:1.1rem;text-shadow:0 2px 10px rgba(0,0,0,0.35);}
 .hero-tag::before,.hero-tag::after{content:'';display:block;width:44px;height:1px;background:rgba(184,137,42,0.7);}
@@ -235,6 +229,20 @@ body{font-family:'EB Garamond',serif;font-size:18px;line-height:1.78;background:
 .hbtn.outline{background:rgba(255,255,255,0.08);backdrop-filter:blur(14px);border:1.5px solid rgba(212,175,55,0.7);color:rgba(255,255,255,0.95);box-shadow:inset 0 1px 0 rgba(255,255,255,0.12);}
 .hbtn.outline:hover{background:rgba(212,175,55,0.18);border-color:rgba(212,175,55,1);transform:translateY(-2px);box-shadow:0 6px 24px rgba(184,137,42,0.3);}
 
+/* ── Hero CTA spinning gold border ── */
+@property --cta-angle{syntax:'<angle>';initial-value:0deg;inherits:false;}
+@keyframes ctaBorderSpin{to{--cta-angle:360deg;}}
+.hero-cta-wrap{
+  display:inline-block;border-radius:50px;padding:2px;
+  background:conic-gradient(from var(--cta-angle,0deg),transparent 55%,#C9A84C 65%,#F0D060 72%,#D4AF37 78%,#C9A84C 84%,transparent 93%);
+  animation:ctaBorderSpin 2.8s linear infinite;
+  box-shadow:0 0 20px rgba(212,175,55,0.28);
+}
+.hero-cta-wrap .hbtn.primary{box-shadow:0 8px 32px rgba(123,31,46,0.42);}
+
+/* ── Scroll reveal base ── */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity 0.6s ease,transform 0.6s ease;}
+.reveal.in-view{opacity:1;transform:none;}
 
 /* HOME content below hero — doodle bg fills the rest */
 .home-below{
@@ -245,7 +253,12 @@ body{font-family:'EB Garamond',serif;font-size:18px;line-height:1.78;background:
 
 /* Stats */
 .stats-bar{background:var(--bg);border-top:1px solid var(--border-light);border-bottom:1px solid var(--border-light);display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:0;padding:2rem 1rem;}
-.stat-item{text-align:center;padding:0.8rem 2.2rem;position:relative;}
+.stat-item{text-align:center;padding:0.8rem 2.2rem;position:relative;opacity:0;transform:translateY(18px);transition:opacity 0.55s ease,transform 0.55s ease;}
+.stat-item.in-view{opacity:1;transform:none;}
+.stat-item:nth-child(2){transition-delay:0.08s;}
+.stat-item:nth-child(3){transition-delay:0.16s;}
+.stat-item:nth-child(4){transition-delay:0.24s;}
+.stat-item:nth-child(5){transition-delay:0.32s;}
 .stat-item:not(:last-child)::after{content:'◆';position:absolute;right:-0.2rem;top:50%;transform:translateY(-50%);color:var(--gold);font-size:0.55rem;opacity:0.6;}
 .stat-n{font-family:'Cinzel',serif;font-size:clamp(1.8rem,4vw,2.6rem);font-weight:700;color:var(--primary);line-height:1;}
 .stat-l{font-family:'Josefin Sans',sans-serif;font-size:0.78rem;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-sub);margin-top:0.3rem;}
@@ -270,28 +283,53 @@ body{font-family:'EB Garamond',serif;font-size:18px;line-height:1.78;background:
 .sec-title{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:600;font-style:italic;color:var(--primary);}
 .sec-sub{font-family:'EB Garamond',serif;font-size:1.05rem;color:var(--muted);margin-top:0.4rem;}
 
-/* ── Carousel section ── */
-.carousel-section{padding:5rem 0;position:relative;overflow:hidden;background:radial-gradient(ellipse 80% 60% at 20% 30%,rgba(253,243,224,0.9) 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 80% 70%,rgba(255,240,242,0.7) 0%,transparent 55%),radial-gradient(ellipse 100% 80% at 50% 50%,#FAF0E6 0%,#FDF8EF 100%);}
-.carousel-section::before{content:'';position:absolute;inset:0;pointer-events:none;opacity:0.04;background-image:radial-gradient(circle,var(--primary) 1px,transparent 1px);background-size:28px 28px;}
-.carousel-section .sec-hd{padding:0 1rem 2.5rem;}
+/* ── Features section (replaces 3D carousel) ── */
+@property --_angle{syntax:'<angle>';initial-value:0deg;inherits:false;}
+@keyframes borderSpin{to{--_angle:360deg;}}
+.feat-section{padding:5rem 0;background:#fff;}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.8rem;max-width:1020px;margin:0 auto;padding:0 2rem;}
+@media(max-width:900px){.feat-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:520px){.feat-grid{grid-template-columns:1fr;}}
+.feat-outer{
+  border-radius:22px;padding:2px;
+  background:conic-gradient(from var(--_angle,0deg),transparent 65%,rgba(212,175,55,0.5) 74%,rgba(212,175,55,0.88) 80%,rgba(212,175,55,0.5) 86%,transparent 95%);
+  animation:borderSpin 4.5s linear infinite;
+  opacity:0;transform:translateY(28px);
+  transition:opacity 0.55s ease,transform 0.55s ease;
+}
+.feat-outer.in-view{opacity:1;transform:none;}
+.feat-outer:nth-child(2){animation-delay:-1.5s;transition-delay:0.1s;}
+.feat-outer:nth-child(3){animation-delay:-3s;transition-delay:0.2s;}
+.feat-outer:nth-child(4){transition-delay:0.05s;}
+.feat-outer:nth-child(5){animation-delay:-2s;transition-delay:0.15s;}
+.feat-outer:nth-child(6){animation-delay:-1s;transition-delay:0.25s;}
+.feat-card{background:#fff;border-radius:20px;padding:2.2rem 1.8rem;text-align:center;height:100%;transition:transform 0.28s var(--ease-out);}
+.feat-icon{display:flex;align-items:center;justify-content:center;width:52px;height:52px;margin:0 auto 1.1rem;background:rgba(123,31,46,0.07);border-radius:50%;}
+.feat-icon svg{color:var(--primary);}
+.feat-title{font-family:'Cinzel',serif;font-size:0.95rem;font-weight:600;color:var(--primary);margin-bottom:0.6rem;line-height:1.3;}
+.feat-text{font-family:'EB Garamond',serif;font-size:17px;color:var(--text-body);line-height:1.75;}
+
+/* ── Ornamental divider ── */
 .orn-divider{display:flex;align-items:center;gap:1rem;justify-content:center;margin:0 auto 1rem;}
 .orn-divider::before,.orn-divider::after{content:'';flex:1;max-width:120px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
 .orn-divider span{color:var(--gold);font-size:0.75rem;letter-spacing:0.35em;font-family:'Josefin Sans',sans-serif;text-transform:uppercase;}
-.carousel-viewport{perspective:1200px;height:320px;position:relative;display:flex;align-items:center;justify-content:center;cursor:grab;user-select:none;touch-action:pan-y;}
-.carousel-viewport:active{cursor:grabbing;}
-.carousel-scene{width:0;height:0;transform-style:preserve-3d;will-change:transform;}
-@property --_angle{syntax:'<angle>';initial-value:0deg;inherits:false;}
-@keyframes borderSpin{to{--_angle:360deg;}}
-.feat-card{position:absolute;width:200px;background:rgba(255,255,255,0.95);backdrop-filter:blur(20px) saturate(1.3);border:1.5px solid transparent;border-radius:20px;padding:1.6rem 1.4rem;text-align:center;box-shadow:0 8px 32px rgba(123,31,46,0.12),0 2px 8px rgba(0,0,0,0.05);transform-style:preserve-3d;transition:opacity 0.3s,filter 0.3s;pointer-events:none;top:-130px;left:-100px;}
-.feat-card::before{content:'';position:absolute;inset:-1.5px;border-radius:21px;z-index:-1;background:conic-gradient(from var(--_angle,0deg),transparent 70%,#D4AF37 80%,transparent 90%);animation:borderSpin 3.5s linear infinite;}
-.feat-card .feat-icon{display:flex;align-items:center;justify-content:center;width:48px;height:48px;margin:0 auto 0.9rem;background:rgba(123,31,46,0.08);border-radius:50%;}
-.feat-card .feat-icon svg{color:var(--primary);}
-.feat-card .feat-title{font-family:'Cinzel',serif;font-size:0.95rem;font-weight:600;color:var(--primary);margin-bottom:0.5rem;line-height:1.3;}
-.feat-card .feat-text{font-family:'EB Garamond',serif;font-size:17px;color:var(--text-body);line-height:1.75;}
-.carousel-dots{display:flex;justify-content:center;gap:0.5rem;margin-top:2.2rem;}
-.cdot{width:8px;height:8px;border-radius:50%;background:rgba(184,137,42,0.3);cursor:pointer;transition:all 0.3s var(--ease-out);border:none;}
-.cdot.active{width:24px;border-radius:4px;background:var(--gold);}
-.carousel-hint{text-align:center;margin-top:1rem;font-family:'Josefin Sans',sans-serif;font-size:0.72rem;font-style:italic;color:var(--text-muted);letter-spacing:0.05em;transition:opacity 0.5s;}
+
+/* ── CTA band ── */
+.cta-band{background:linear-gradient(135deg,#7B1F2E 0%,#5A1520 100%);padding:5rem 2rem;text-align:center;position:relative;overflow:hidden;}
+.cta-band::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 70% 80% at 50% 50%,rgba(212,175,55,0.12) 0%,transparent 70%);}
+.cta-band-tag{font-family:'Cinzel',serif;font-size:0.62rem;font-weight:600;letter-spacing:0.3em;text-transform:uppercase;color:rgba(212,175,55,0.85);display:flex;align-items:center;justify-content:center;gap:1rem;margin-bottom:1rem;}
+.cta-band-tag::before,.cta-band-tag::after{content:'';display:block;width:36px;height:1px;background:rgba(212,175,55,0.6);}
+.cta-band-h{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3rem);font-weight:300;font-style:italic;color:#fff;margin-bottom:0.5rem;line-height:1.2;}
+.cta-band-sub{font-family:'EB Garamond',serif;font-size:1.1rem;color:rgba(255,248,220,0.82);margin-bottom:2.2rem;line-height:1.6;}
+@property --cta2-angle{syntax:'<angle>';initial-value:0deg;inherits:false;}
+@keyframes ctaBorderSpin2{to{--cta2-angle:360deg;}}
+.cta-band-btn-wrap{
+  display:inline-block;border-radius:50px;padding:2px;
+  background:conic-gradient(from var(--cta2-angle,0deg),transparent 55%,#C9A84C 65%,#F0D060 72%,#D4AF37 78%,#C9A84C 84%,transparent 93%);
+  animation:ctaBorderSpin2 2.8s linear infinite;
+  box-shadow:0 0 24px rgba(212,175,55,0.30);
+}
+.cta-band-btn{font-family:'Cinzel',serif;font-size:0.72rem;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;background:#fff;color:#7B1F2E;border:none;border-radius:50px;padding:1rem 2.8rem;cursor:pointer;transition:all 0.28s var(--ease-out);}
 
 /* Stories */
 .stories-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem;padding:0 4rem 4rem;position:relative;z-index:1;}
@@ -958,8 +996,8 @@ body{font-family:'EB Garamond',serif;font-size:18px;line-height:1.78;background:
   .login-glass{padding:2rem 1.4rem;margin:0 0.4rem;width:100%;max-width:100%;}
 
   /* ── HERO BACKGROUND — mobile adjustments ── */
-  .hero-section{height:calc(65vh + 1px);min-height:323px;margin-top:-1px;}
-  .hero-section::before{background:radial-gradient(ellipse 80% 60% at 50% 30%,rgba(184,137,42,0.3) 0%,transparent 70%),linear-gradient(to bottom,transparent 50%,rgba(15,5,30,0.7) 100%);}
+  .hero-section{height:calc(70vh + 1px);min-height:420px;margin-top:-1px;}
+  .hero-section::before{background:linear-gradient(to bottom,rgba(20,6,4,0.12) 0%,rgba(20,6,4,0.0) 25%,rgba(20,6,4,0.0) 50%,rgba(20,6,4,0.6) 100%);}
   /* Inner page banners */
   .signup-hero{height:153px;margin-top:-1px;}
   .signup-hero::before{background:linear-gradient(to bottom,rgba(255,251,245,0.52) 0%,transparent 25%,transparent 65%,rgba(255,251,245,0.9) 100%),linear-gradient(to right,rgba(123,31,46,0.15) 0%,transparent 15%,transparent 85%,rgba(123,31,46,0.15) 100%);}
@@ -1683,7 +1721,7 @@ checkCookieConsent();
       <h1 class="hero-h1" id="heroH1">Where Sacred Traditions Meet Timeless Love</h1>
       <p class="hero-h2">Hyderabad · Warangal · Karimnagar · and across India</p>
       <div class="hero-btns">
-        <button class="hbtn primary" onclick="showPage('pgSignup')" aria-label="Begin Your Journey">Begin Your Journey</button>
+        <div class="hero-cta-wrap"><button class="hbtn primary" onclick="showPage('pgSignup')" aria-label="Begin Your Journey">Begin Your Journey</button></div>
         <button class="hbtn outline" onclick="showPage('pgAbout')" aria-label="Learn More">Learn More</button>
       </div>
       <div class="hero-trust-row">
@@ -1704,7 +1742,7 @@ checkCookieConsent();
   </div>
 
   <!-- Everything below hero gets the doodle bg treatment -->
-  <div class="home-below doodle-bg">
+  <div class="home-below">
     <div class="stats-bar">
       <div class="stat-item"><div class="stat-n" data-target="10000" data-suffix="+">10K+</div><div class="stat-l">Registered Members</div></div>
       <div class="stat-item"><div class="stat-n" data-target="4500" data-suffix="+">4.5K+</div><div class="stat-l">Successful Matches</div></div>
@@ -1712,25 +1750,21 @@ checkCookieConsent();
       <div class="stat-item"><div class="stat-n" data-target="100" data-suffix="%">100%</div><div class="stat-l">Verified Profiles</div></div>
       <div class="stat-item"><div class="stat-n" data-target="50" data-suffix="+">50+</div><div class="stat-l">Districts Covered</div></div>
     </div>
-    <section class="carousel-section">
+    <section class="feat-section">
       <div class="sec-hd">
         <div class="orn-divider"><span>✦ &nbsp; &nbsp; ✦</span></div>
-        <div class="sec-tag" style="font-family:'Josefin Sans',sans-serif;font-size:0.72rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--gold);">Why Families Trust Us</div>
-        <div class="sec-title" style="font-family:'Cinzel',serif;font-size:clamp(1.8rem,4vw,2.4rem);font-weight:600;color:var(--primary);margin:0.5rem 0;">A Legacy of Honour Since 2000</div>
+        <div class="sec-tag">Why Families Trust Us</div>
+        <div class="sec-title">A Legacy of Honour Since 2000</div>
         <div class="sec-sub">Serving the Reddy community with privacy, dignity and dedication</div>
       </div>
-      <div class="carousel-viewport" id="carouselVP">
-        <div class="carousel-scene" id="carouselScene">
-          <div class="feat-card"><div class="feat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="feat-title">Complete Privacy</div><div class="feat-text">Contact details never shared without mutual interest and bureau approval.</div></div>
-          <div class="feat-card"><div class="feat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg></div><div class="feat-title">100% Verified</div><div class="feat-text">Every profile is personally screened by our bureau team before going live.</div></div>
-          <div class="feat-card"><div class="feat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="feat-title">Community Exclusive</div><div class="feat-text">Exclusively for the Reddy community, ensuring cultural and traditional compatibility.</div></div>
-          <div class="feat-card"><div class="feat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div><div class="feat-title">Family Conversation</div><div class="feat-text">Once contact is approved, families connect through our secure bureau channel.</div></div>
-          <div class="feat-card"><div class="feat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg></div><div class="feat-title">NRI Profiles</div><div class="feat-text">Extensive database of NRI Reddy profiles from USA, UK, Canada, Australia and UAE.</div></div>
-          <div class="feat-card"><div class="feat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div class="feat-title">Personal Service</div><div class="feat-text">Dedicated relationship managers guide you through every step of your journey.</div></div>
-        </div>
+      <div class="feat-grid">
+        <div class="feat-outer"><div class="feat-card"><div class="feat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="feat-title">Complete Privacy</div><div class="feat-text">Contact details never shared without mutual interest and bureau approval.</div></div></div>
+        <div class="feat-outer"><div class="feat-card"><div class="feat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg></div><div class="feat-title">100% Verified</div><div class="feat-text">Every profile is personally screened by our bureau team before going live.</div></div></div>
+        <div class="feat-outer"><div class="feat-card"><div class="feat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="feat-title">Community Exclusive</div><div class="feat-text">Exclusively for the Reddy community, ensuring cultural and traditional compatibility.</div></div></div>
+        <div class="feat-outer"><div class="feat-card"><div class="feat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div><div class="feat-title">Family Conversation</div><div class="feat-text">Once contact is approved, families connect through our secure bureau channel.</div></div></div>
+        <div class="feat-outer"><div class="feat-card"><div class="feat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg></div><div class="feat-title">NRI Profiles</div><div class="feat-text">Extensive database of NRI Reddy profiles from USA, UK, Canada, Australia and UAE.</div></div></div>
+        <div class="feat-outer"><div class="feat-card"><div class="feat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div class="feat-title">Personal Service</div><div class="feat-text">Dedicated relationship managers guide you through every step of your journey.</div></div></div>
       </div>
-      <div class="carousel-dots" id="carouselDots"></div>
-      <p class="carousel-hint" id="carouselHint">Drag left or right to explore →</p>
     </section>
     <section class="process-section">
       <div class="sec-hd">
@@ -1759,6 +1793,13 @@ checkCookieConsent();
         <div class="story-card"><div class="story-names">Deepa &amp; Vivek Reddy</div><div class="story-year">Married · August 2023 · London</div><div class="story-text">"Elite membership exceeded every expectation. As NRI members this was truly a premium experience."</div></div>
       </div>
     </div>
+    <!-- CTA band -->
+    <section class="cta-band">
+      <div class="cta-band-tag">Begin Your Story</div>
+      <div class="cta-band-h">Your Perfect Match Awaits</div>
+      <p class="cta-band-sub">Join thousands of Reddy families who found lifelong happiness through us.<br>Registration is free and takes less than five minutes.</p>
+      <div class="cta-band-btn-wrap"><button class="cta-band-btn" onclick="showPage('pgSignup')">Create Your Profile</button></div>
+    </section>
     <footer class="site-footer">
       <div class="footer-grid">
         <div class="fg-brand">
@@ -4955,64 +4996,12 @@ document.addEventListener('DOMContentLoaded',function(){
   statEls.forEach(el=>obs.observe(el));
 })();
 
-// ══ Scroll-triggered 3D Carousel ══
+// ══ Scroll reveal — feat cards + generic .reveal elements ══
 (function(){
-  const scene=document.getElementById('carouselScene');
-  const cards=document.querySelectorAll('#carouselScene .feat-card');
-  const dotsWrap=document.getElementById('carouselDots');
-  const hint=document.getElementById('carouselHint');
-  if(!scene||!cards.length)return;
-  const N=cards.length;
-  const RADIUS=window.innerWidth<500?180:280;
-  const TILT=12;
-  let currentAngle=0;
-
-  cards.forEach((c,i)=>{
-    c.style.transform=`rotateY(${(360/N)*i}deg) translateZ(${RADIUS}px)`;
-  });
-  scene.style.transformStyle='preserve-3d';
-  scene.style.transform=`rotateX(${TILT}deg) rotateY(0deg)`;
-
-  const dots=[];
-  if(dotsWrap){for(let i=0;i<N;i++){const d=document.createElement('button');d.className='cdot'+(i===0?' active':'');d.setAttribute('aria-label','Card '+(i+1));dotsWrap.appendChild(d);dots.push(d);}}
-  if(hint)hint.style.display='none';
-
-  function updateBrightness(angle){
-    const norm=(((-angle)%360)+360)%360;
-    const step=360/N;
-    cards.forEach((c,i)=>{
-      let diff=((norm-step*i)%360+360)%360;
-      if(diff>180)diff=360-diff;
-      c.style.filter=`brightness(${diff<step/2?1:Math.max(0.5,1-(diff/180)*0.5)})`;
-    });
-    dots.forEach((d,i)=>d.classList.toggle('active',i===Math.round(((((-angle)%360)+360)%360)/(360/N))%N));
-  }
-
-  function setAngle(a){
-    currentAngle=a;
-    scene.style.transform=`rotateX(${TILT}deg) rotateY(${a}deg)`;
-    updateBrightness(a);
-  }
-
-  // Scroll-driven rotation
-  const section=document.querySelector('.carousel-section');
-  if(!section)return;
-  let ticking=false;
-  function onScroll(){
-    if(ticking)return;
-    ticking=true;
-    requestAnimationFrame(()=>{
-      const rect=section.getBoundingClientRect();
-      const wh=window.innerHeight;
-      const sh=section.offsetHeight;
-      // progress 0→1 as section enters and passes through viewport
-      const progress=Math.max(0,Math.min(1,(-rect.top+wh*0.5)/(sh+wh*0.5)));
-      setAngle(progress*360);
-      ticking=false;
-    });
-  }
-  window.addEventListener('scroll',onScroll,{passive:true});
-  updateBrightness(0);
+  const io=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in-view');});
+  },{threshold:0.12});
+  document.querySelectorAll('.feat-outer,.reveal,.stat-item').forEach(el=>io.observe(el));
 })();
 
 // ══ Signup progress bar ══
