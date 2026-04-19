@@ -56,6 +56,27 @@ body{font-family:'EB Garamond',serif;font-size:18px;line-height:1.78;background:
   transition:left 0.55s var(--ease-out);pointer-events:none;
 }
 .btn-prim:hover::after,.hbtn.primary:hover::after,.btn-nav-up:hover::after{left:140%;}
+/* ── Page entrance animations ── */
+@keyframes navSlideDown{
+  from{transform:translateY(-80px);opacity:0;}
+  to{transform:translateY(0);opacity:1;}
+}
+@keyframes heroFadeUp{
+  from{transform:translateY(22px);opacity:0;}
+  to{transform:translateY(0);opacity:1;}
+}
+/* Navbar */
+.navbar{
+  animation:navSlideDown 0.8s cubic-bezier(0.22,1,0.36,1) both;
+}
+/* Hero elements — staggered, matching framer-motion timing */
+.hero-tag{animation:heroFadeUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.2s both;}
+.hero-brand{animation:heroFadeUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.35s both;}
+.hero-h1{animation:heroFadeUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.5s both;}
+.hero-h2{animation:heroFadeUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.62s both;}
+.hero-btns{animation:heroFadeUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.76s both;}
+.hero-trust-row{animation:heroFadeUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.9s both;}
+
 /* ── Reduced motion safety net ── */
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important;}
