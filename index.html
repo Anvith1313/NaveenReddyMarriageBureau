@@ -9,6 +9,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
 <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+<script type="module" src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.js"></script>
 <style>
 :root{
   /* ── Primaries — deep crimson ── */
@@ -119,38 +120,48 @@ body{font-family:'EB Garamond',serif;font-size:18px;line-height:1.78;background:
 }
 .navbar::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(123,31,46,0.25),transparent);}
 
-/* ── Social float buttons — WhatsApp + Instagram ── */
+/* ── Social float stack ── */
 @keyframes waGlow{
-  0%{box-shadow:0 4px 24px rgba(37,211,102,0.45);}
-  30%{box-shadow:0 0 0 6px rgba(37,211,102,0.25),0 0 0 14px rgba(37,211,102,0.10),0 4px 28px rgba(37,211,102,0.6);}
-  60%{box-shadow:0 0 0 4px rgba(37,211,102,0.2),0 0 0 10px rgba(37,211,102,0.08),0 4px 24px rgba(37,211,102,0.5);}
-  100%{box-shadow:0 4px 24px rgba(37,211,102,0.45);}
+  0%{box-shadow:0 6px 28px rgba(37,211,102,0.5);}
+  35%{box-shadow:0 0 0 7px rgba(37,211,102,0.22),0 0 0 16px rgba(37,211,102,0.09),0 6px 32px rgba(37,211,102,0.65);}
+  65%{box-shadow:0 0 0 5px rgba(37,211,102,0.16),0 0 0 12px rgba(37,211,102,0.06),0 6px 28px rgba(37,211,102,0.5);}
+  100%{box-shadow:0 6px 28px rgba(37,211,102,0.5);}
 }
-.wa-glowing{animation:waGlow 1.1s ease-in-out 4;}
-/* Shared pill style */
-.wa-float,.ig-float{
-  position:fixed;right:20px;z-index:800;
-  border-radius:50px;color:#fff;
-  display:flex;align-items:center;gap:0.45rem;
-  padding:0.55rem 0.9rem 0.55rem 0.6rem;
-  cursor:pointer;
-  transition:transform 0.25s var(--ease-out),box-shadow 0.25s;
-  text-decoration:none;white-space:nowrap;border:none;
+.wa-circle-glow{animation:waGlow 1.1s ease-in-out 4;}
+/* Stack container */
+.social-stack{position:fixed;bottom:28px;right:22px;z-index:800;display:flex;flex-direction:column;gap:14px;align-items:flex-end;}
+/* Each row: label card + circle */
+.sf-item{display:flex;align-items:center;gap:12px;cursor:pointer;text-decoration:none;}
+/* Frosted text card — always visible */
+.sf-card{
+  background:rgba(255,255,255,0.97);
+  backdrop-filter:blur(16px);
+  border:1px solid rgba(0,0,0,0.07);
+  border-radius:14px;
+  padding:0.55rem 1rem;
+  box-shadow:0 4px 22px rgba(0,0,0,0.10),0 1px 0 rgba(255,255,255,0.9);
+  text-align:right;
+  transition:transform 0.22s var(--ease-out),box-shadow 0.22s;
 }
-.wa-float{bottom:24px;background:#25D366;box-shadow:0 4px 24px rgba(37,211,102,0.45);}
-.wa-float:hover{transform:scale(1.04) translateY(-2px);box-shadow:0 8px 32px rgba(37,211,102,0.55);}
-.ig-float{bottom:82px;background:linear-gradient(135deg,#833AB4 0%,#C13584 38%,#E1306C 62%,#FD1D1D 80%,#FCAF45 100%);box-shadow:0 4px 24px rgba(193,53,132,0.45);}
-.ig-float:hover{transform:scale(1.04) translateY(-2px);box-shadow:0 8px 32px rgba(193,53,132,0.55);}
-/* Lottie icon sizing */
-.wa-float lottie-player,.ig-float lottie-player{width:26px;height:26px;flex-shrink:0;filter:brightness(0) invert(1);}
-/* Label stack */
-.wa-float .wa-label-wrap,.ig-float .ig-label-wrap{display:flex;flex-direction:column;line-height:1.2;}
-.wa-label-main,.ig-label-main{font-family:'Cinzel',serif;font-size:0.5rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#fff;}
-.wa-label-sub,.ig-label-sub{font-family:'Josefin Sans',sans-serif;font-size:0.58rem;font-weight:300;letter-spacing:0.04em;color:rgba(255,255,255,0.85);}
-@media(max-width:480px){
-  .wa-float .wa-label-wrap,.ig-float .ig-label-wrap{display:none;}
-  .wa-float,.ig-float{padding:0.7rem;border-radius:50%;width:50px;height:50px;justify-content:center;gap:0;}
-  .ig-float{bottom:80px;}
+.sf-item:hover .sf-card{transform:translateX(-4px);box-shadow:0 8px 30px rgba(0,0,0,0.14);}
+.sf-cta{font-family:'Cinzel',serif;font-size:0.7rem;font-weight:600;color:#1A0A08;letter-spacing:0.06em;display:block;line-height:1.4;white-space:nowrap;}
+.sf-hint{font-family:'Josefin Sans',sans-serif;font-size:0.6rem;color:var(--text-muted);letter-spacing:0.05em;display:block;margin-top:0.12rem;white-space:nowrap;}
+/* Coloured circle */
+.sf-btn{
+  width:56px;height:56px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  transition:transform 0.22s var(--ease-out),box-shadow 0.22s;
+}
+.sf-item:hover .sf-btn{transform:scale(1.12);}
+.sf-wa{background:#25D366;box-shadow:0 6px 28px rgba(37,211,102,0.5);}
+.sf-ig{background:linear-gradient(135deg,#833AB4 0%,#C13584 32%,#E1306C 60%,#FD1D1D 82%,#FCAF45 100%);box-shadow:0 6px 28px rgba(193,53,132,0.5);}
+.sf-btn lottie-player{width:30px;height:30px;filter:brightness(0) invert(1);}
+@media(max-width:600px){
+  .sf-card{display:none;}
+  .sf-btn{width:50px;height:50px;}
+  .sf-btn lottie-player{width:26px;height:26px;}
+  .social-stack{bottom:22px;right:16px;gap:12px;}
 }
 /* ── Welcome toast ── */
 .welcome-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120px);z-index:900;background:var(--bg-warm);border:1.5px solid var(--border);border-radius:20px;padding:1.1rem 1.4rem;box-shadow:var(--sh-card);max-width:340px;width:90%;transition:transform 0.45s var(--ease-out),opacity 0.45s;opacity:0;}
@@ -1306,6 +1317,9 @@ body{font-family:'EB Garamond',serif;font-size:18px;line-height:1.78;background:
 .pc-bookmark:hover {
   transform: scale(1.15);
   background: rgba(255,255,255,1);
+}
+.pc-bookmark dotlottie-player{
+  width:34px;height:34px;pointer-events:none;
 }
 .pc-bookmark svg {
   width: 24px;
@@ -3651,10 +3665,8 @@ function renderCard(){
   }
   area.innerHTML=`
     <div class="pcard">
-      <div class="pcard-head" style="background:${p.bg};"><span class="pc-emoji">${p.em}</span><div class="pc-tier-pill">${p.tier}</div><div class="pc-verify">✓ Verified</div><button class="pc-bookmark ${ST.savedProfiles&&ST.savedProfiles.includes(p.u)?'saved':''}" onclick="toggleSave('${p.u}',event)" title="Save for later">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-          </svg>
+      <div class="pcard-head" style="background:${p.bg};"><span class="pc-emoji">${p.em}</span><div class="pc-tier-pill">${p.tier}</div><div class="pc-verify">✓ Verified</div><button class="pc-bookmark ${ST.savedProfiles&&ST.savedProfiles.includes(p.u)?'saved':''}" data-bm="${p.u}" onclick="toggleSave('${p.u}',event)" title="Save for later">
+          <dotlottie-player id="lp-${p.u}" src="/LikeButton.lottie" speed="1.3"></dotlottie-player>
         </button></div>
       <div class="pcard-body">
         <div class="pc-name">${p.name}, ${p.age}</div>
@@ -3688,6 +3700,16 @@ function renderCard(){
       </div>
       ${(p.photos&&p.photos.length)?`<div class="pc-photo-label">Photos · ${p.photos.length}</div><div class="pc-photo-strip">${p.photos.map((url,i)=>`<img class="pc-photo-strip-thumb" src="${url}" alt="Photo ${i+1}" onclick="openPhotoLightbox(${JSON.stringify(p.photos)},${i})">`).join('')}</div>`:''}
     </div>`;
+  // If already saved, seek like animation to last frame
+  if(ST.savedProfiles&&ST.savedProfiles.includes(p.u)){
+    setTimeout(()=>{
+      const pl=document.getElementById('lp-'+p.u);
+      if(!pl) return;
+      const doSeek=()=>{try{pl.seek('100%');}catch(ex){}};
+      if(pl.getLottie&&pl.getLottie()) doSeek();
+      else pl.addEventListener('ready',doSeek,{once:true});
+    },80);
+  }
 }
 async function sendInt(toU){
   if(ST.interests.some(i=>(i.from===ST.user.u&&i.to===toU)||(i.from===toU&&i.to===ST.user.u))){toast('Interest already expressed.');return;}
@@ -3717,20 +3739,35 @@ function toggleSave(u,e){
   if(e) e.stopPropagation();
   if(!ST.savedProfiles) ST.savedProfiles=[];
   const idx=ST.savedProfiles.indexOf(u);
+  const btn=document.querySelector('[data-bm="'+u+'"]');
+  const player=document.getElementById('lp-'+u);
   if(idx>-1){
+    // Unlike — reset animation to frame 0
     ST.savedProfiles.splice(idx,1);
+    if(btn) btn.classList.remove('saved');
+    if(player) player.stop();
     toast('Removed from saved profiles.');
   } else {
+    // Like — play animation once, it stops at last frame automatically
     ST.savedProfiles.push(u);
+    if(btn) btn.classList.add('saved');
+    if(player){ player.seek(0); player.play(); }
     toast('Profile saved!');
   }
   updateLikedBadge();
-  renderCard();
   if(window.FIREBASE_READY && ST.user && ST.user.uid){
     const {doc,updateDoc,db}=window.FB;
     updateDoc(doc(db,'users',ST.user.uid),{savedProfiles:ST.savedProfiles})
       .catch(err=>console.warn('Could not save liked profiles:',err));
   }
+}
+// Pre-seek already-liked dotlottie players to last frame (liked page cards)
+function initLikePlayers(){
+  document.querySelectorAll('dotlottie-player[data-preloved="1"]').forEach(p=>{
+    const doSeek=()=>{try{p.seek('100%');}catch(ex){}};
+    if(p.getLottie&&p.getLottie()) doSeek();
+    else p.addEventListener('ready',doSeek,{once:true});
+  });
 }
 function updateLikedBadge(){
   const count = ST.savedProfiles ? ST.savedProfiles.length : 0;
@@ -4488,10 +4525,8 @@ function renderLikedPage(){
           <button onclick="removeSaved('${p.u}')" title="Remove from Liked"
             style="position:absolute;bottom:12px;right:62px;z-index:5;width:36px;height:36px;border-radius:50%;background:rgba(255,252,248,0.94);border:1px solid rgba(184,137,42,0.22);cursor:pointer;font-size:0.8rem;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.14);" aria-label="✕">✕</button>
           <!-- Heart (filled since saved) -->
-          <button class="pc-bookmark saved" onclick="toggleSave('${p.u}',event)" title="Remove from saved">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-            </svg>
+          <button class="pc-bookmark saved" data-bm="${p.u}" onclick="toggleSave('${p.u}',event)" title="Remove from saved">
+            <dotlottie-player id="lp-${p.u}" src="/LikeButton.lottie" speed="1.3" data-preloved="1"></dotlottie-player>
           </button>
         </div>
         <div class="pcard-body">
@@ -4520,6 +4555,8 @@ function renderLikedPage(){
       </div>
     </div>`;
   }).join('');
+  // Seek all pre-loved players to last frame (already-liked state)
+  setTimeout(initLikePlayers, 120);
 }
 function removeSaved(u){
   if(!ST.savedProfiles) return;
@@ -5116,38 +5153,41 @@ function dismissWelcomeToast(){
 // ── WhatsApp glow on page entry (3-5s) ──
 (function(){
   setTimeout(()=>{
-    const wa=document.getElementById('waFloat');
+    const wa=document.getElementById('waBtnCircle');
     if(wa){
-      wa.classList.add('wa-glowing');
-      setTimeout(()=>wa.classList.remove('wa-glowing'),4400);
+      wa.classList.add('wa-circle-glow');
+      setTimeout(()=>wa.classList.remove('wa-circle-glow'),4400);
     }
   },1200);
 })();
 
 </script>
 
-<!-- Instagram floating button — Lottieflow animated icon -->
-<div class="ig-float" id="igFloat" onclick="window.open('https://instagram.com/naveenreddymatrimony','_blank')" role="button" aria-label="Follow us on Instagram">
-  <lottie-player
-    src="https://cdn.prod.website-files.com/5d829bf092d4644f5c42e0ea/5e789e6aac14dc7e6943e1df_instagram.json"
-    background="transparent" speed="0.8" loop autoplay>
-  </lottie-player>
-  <div class="ig-label-wrap">
-    <span class="ig-label-main">Instagram</span>
-    <span class="ig-label-sub">Follow us</span>
-  </div>
-</div>
+<!-- Social float stack — Instagram + WhatsApp -->
+<div class="social-stack" id="socialStack">
 
-<!-- WhatsApp floating button — Lottieflow animated icon -->
-<div class="wa-float" id="waFloat" onclick="window.open('https://wa.me/917207999985','_blank')" role="button" aria-label="Contact us on WhatsApp">
-  <lottie-player
-    src="https://cdn.prod.website-files.com/5d829bf092d4644f5c42e0ea/5e789f361a20d5d32d9de899_wtsapp.json"
-    background="transparent" speed="0.8" loop autoplay>
-  </lottie-player>
-  <div class="wa-label-wrap">
-    <span class="wa-label-main">WhatsApp</span>
-    <span class="wa-label-sub">Contact us</span>
-  </div>
+  <a class="sf-item" href="https://instagram.com/naveenreddymatrimony" target="_blank" rel="noopener" aria-label="Follow us on Instagram">
+    <div class="sf-card">
+      <span class="sf-cta">Follow our journey</span>
+      <span class="sf-hint">Daily updates &amp; success stories</span>
+    </div>
+    <div class="sf-btn sf-ig">
+      <lottie-player src="https://cdn.prod.website-files.com/5d829bf092d4644f5c42e0ea/5e789e6aac14dc7e6943e1df_instagram.json"
+        background="transparent" speed="0.8" loop autoplay></lottie-player>
+    </div>
+  </a>
+
+  <a class="sf-item" href="https://wa.me/917207999985" target="_blank" rel="noopener" id="waRow" aria-label="Chat with us on WhatsApp">
+    <div class="sf-card">
+      <span class="sf-cta">Have a question?</span>
+      <span class="sf-hint">Chat with us — we reply fast</span>
+    </div>
+    <div class="sf-btn sf-wa" id="waBtnCircle">
+      <lottie-player src="https://cdn.prod.website-files.com/5d829bf092d4644f5c42e0ea/5e789f361a20d5d32d9de899_wtsapp.json"
+        background="transparent" speed="0.8" loop autoplay></lottie-player>
+    </div>
+  </a>
+
 </div>
 
 <!-- First-visit welcome toast -->
