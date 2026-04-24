@@ -1749,12 +1749,14 @@ body{font-size:18px;}
   border:2px solid #c0392b;font-family:Georgia,serif;padding:1.5rem;
   position:relative;
 }
-.bio-header{text-align:center;border-bottom:1px solid #c0392b;padding-bottom:0.8rem;margin-bottom:0.8rem;}
-.bio-meta{display:flex;justify-content:space-between;font-size:0.75rem;color:#c0392b;font-style:italic;margin-bottom:0.4rem;}
-.bio-logo-area{margin:0.3rem 0;}
-.bio-bureau{font-family:'Times New Roman',serif;font-size:1.3rem;font-weight:700;color:#c0392b;letter-spacing:0.04em;}
-.bio-sub{font-size:0.75rem;color:#555;letter-spacing:0.1em;text-transform:uppercase;}
-.bio-address{font-size:0.7rem;color:#c0392b;font-style:italic;text-decoration:underline;margin-top:0.3rem;}
+.bio-header{text-align:center;border-bottom:2px solid #c0392b;padding-bottom:0.8rem;margin-bottom:0.8rem;}
+.bio-meta{display:flex;justify-content:space-between;align-items:center;font-size:0.72rem;color:#c0392b;margin-bottom:0.3rem;}
+.bio-meta em{font-style:italic;}
+.bio-meta strong{font-style:normal;font-weight:700;}
+.bio-logo-img{display:block;margin:0.2rem auto;max-width:100%;height:auto;max-height:120px;object-fit:contain;}
+.bio-bureau{font-family:'Times New Roman',serif;font-size:1.15rem;font-weight:700;color:#c0392b;letter-spacing:0.06em;margin-top:0.2rem;}
+.bio-sub{font-size:0.65rem;color:#555;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:0.1rem;}
+.bio-address{font-size:0.72rem;color:#333;margin-top:0.4rem;}
 .bio-row{display:flex;gap:0.5rem;margin-bottom:0.35rem;font-size:0.85rem;}
 .bio-lbl{color:#c0392b;font-style:italic;font-weight:600;min-width:160px;flex-shrink:0;}
 .bio-val{color:#111;}
@@ -4520,12 +4522,14 @@ function _biodataFmt(p, logoSrc){
   /* age gap */
   const ageGap=(p.pp_af&&p.pp_at)?`${p.pp_af} - ${p.pp_at} Years`:'—';
   /* logo */
-  const logoHtml=logoSrc?`<img src="${logoSrc}" style="width:60px;height:60px;object-fit:contain;border-radius:50%;border:2px solid #c0392b;" alt="NRMB Logo">`:'<div style="width:60px;height:60px;border-radius:50%;border:2px solid #c0392b;display:flex;align-items:center;justify-content:center;font-family:serif;font-weight:700;font-size:1.1rem;color:#c0392b;">NR</div>';
+  const logoImgHtml=logoSrc
+    ?`<img src="${logoSrc}" class="bio-logo-img" alt="NRMB Logo">`
+    :`<div style="text-align:center;margin:0.4rem 0;"><div style="font-family:'Times New Roman',serif;font-size:1.8rem;font-weight:700;color:#c0392b;">NR</div><div class="bio-bureau">NAVEEN REDDY</div><div class="bio-sub">MARRIAGE BUREAU</div></div>`;
   return `<div class="biodata-sheet">
     <div class="bio-header">
-      <div class="bio-meta"><span><em>Since 2000</em></span><span style="font-style:normal;"><strong>Sl No : <span style="color:#c0392b;">${slId}</span></strong></span></div>
-      <div style="display:flex;align-items:center;justify-content:center;gap:1rem;margin:0.5rem 0 0.3rem;">${logoHtml}<div style="text-align:center;"><div class="bio-bureau">NAVEEN REDDY</div><div class="bio-sub">MARRIAGE BUREAU</div></div>${logoHtml}</div>
-      <div class="bio-address">Corporate office: <u style="color:${brC};">Somajiguda</u>, &nbsp;Branches: <u style="color:${brC};">Kothapet</u>, <u style="color:${brC};">Warangal</u>, <u style="color:${brC};">Karimnagar</u></div>
+      <div class="bio-meta"><em>Since 2000</em><strong>Sl No : ${slId}</strong></div>
+      ${logoImgHtml}
+      <div class="bio-address">Corporate office: <u style="color:${brC};text-decoration-color:${brC};">Somajiguda</u>&nbsp;&nbsp;Branches: <u style="color:${brC};text-decoration-color:${brC};">Kothapet</u>, <u style="color:${brC};text-decoration-color:${brC};">Warangal</u>, <u style="color:${brC};text-decoration-color:${brC};">Karimnagar</u></div>
     </div>
     ${row('Name of the '+gender,p.name)}
     ${row('Date of Birth',dobStr,'Height',p.ht||'—')}
@@ -4541,8 +4545,7 @@ function _biodataFmt(p, logoSrc){
     ${row('Occupation',p.prof||p.occ||'—')}
     ${p.co&&p.co!=='—'?row('Company Name',p.co):''}
     ${p.workplace&&p.workplace!=='—'?row(placeLabel,p.workplace):''}
-    ${salDisplay?row('Salary',salDisplay):''}
-    ${p.visa&&p.visa!=='—'?row('Visa Status',p.visa):''}
+    ${(salDisplay||p.visa)?row('Salary',salDisplay||'—','Visa Status',p.visa&&p.visa!=='—'?p.visa:'—'):''}
     ${p.sinceWork&&p.sinceWork!=='—'?row('Since Working',p.sinceWork):''}
     ${isDivorced&&p.divorceInfo&&p.divorceInfo!=='—'?row('Divorces',p.divorceInfo):''}
 
