@@ -2194,7 +2194,12 @@ checkCookieConsent();
 
   <!-- PRE-STEP A: Who is this for -->
   <div id="preStepA" class="pre-step-screen">
-    <div class="pre-step-icon">💐</div>
+    <div class="pre-step-icon">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--crimson)" stroke-width="1.5" style="display:block;margin:0 auto;">
+        <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/>
+        <path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/>
+      </svg>
+    </div>
     <div class="pre-step-title">Create a Profile For</div>
     <div class="pre-step-sub">Tell us who you are registering today</div>
     <div class="psf-grid">
@@ -2203,6 +2208,7 @@ checkCookieConsent();
       <div class="psf-card" onclick="selectProfileFor('My Daughter','Female')"><div class="psf-card-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="10" cy="7" r="4"/><circle cx="19" cy="5" r="2"/><line x1="19" y1="7" x2="19" y2="11"/><line x1="17" y1="9" x2="21" y2="9"/></svg></div><div class="psf-card-lbl">My Daughter</div></div>
       <div class="psf-card" onclick="selectProfileFor('My Brother','Male')"><div class="psf-card-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div><div class="psf-card-lbl">My Brother</div></div>
       <div class="psf-card" onclick="selectProfileFor('My Sister','Female')"><div class="psf-card-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div><div class="psf-card-lbl">My Sister</div></div>
+      <div class="psf-card" onclick="selectProfileFor('My Relative','')"><div class="psf-card-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/><circle cx="18" cy="8" r="3"/><path d="M21 21v-1.5a3 3 0 00-2-2.83"/></svg></div><div class="psf-card-lbl">My Relative</div></div>
       <div class="psf-card" onclick="selectProfileFor('A Friend','')"><div class="psf-card-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div><div class="psf-card-lbl">A Friend</div></div>
     </div>
     <div style="font-family:'EB Garamond',serif;font-size:0.82rem;color:var(--muted);font-style:italic;">Exclusively for Reddy Community · Hindu Religion</div>
@@ -2211,7 +2217,7 @@ checkCookieConsent();
   <!-- PRE-STEP B: Email + Name + Gender -->
   <div id="preStepB" class="pre-step-screen" style="display:none;">
     <button class="pse-back-link" onclick="_goPreStep(1)" aria-label="← Back">← Back</button>
-    <div class="pre-step-icon" id="pse_icon">🙋</div>
+    <div class="pre-step-icon" id="pse_icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--crimson)" stroke-width="1.5" style="display:block;margin:0 auto;"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
     <div class="pre-step-title" id="pse_title">Let's Start</div>
     <div class="pre-step-sub">Enter your details to begin your profile</div>
     <div style="max-width:380px;margin:0 auto;text-align:left;">
@@ -3321,10 +3327,18 @@ let _preState={who:'',gender:''};
 function selectProfileFor(who,gender){
   _preState={who,gender};
   // Update icon and title for preStepB
-  const icons={Myself:'🙋','My Son':'👦','My Daughter':'👧','My Brother':'👨','My Sister':'👩','A Friend':'🤝'};
+  const svgIcons={
+    Myself:'<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--crimson)" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
+    'My Son':'<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--crimson)" stroke-width="1.5"><path d="M16 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="10" cy="7" r="4"/><line x1="18" y1="8" x2="23" y2="3"/><polyline points="21 3 23 3 23 5"/></svg>',
+    'My Daughter':'<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--crimson)" stroke-width="1.5"><path d="M16 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="10" cy="7" r="4"/><circle cx="19" cy="5" r="2"/><line x1="19" y1="7" x2="19" y2="11"/><line x1="17" y1="9" x2="21" y2="9"/></svg>',
+    'My Brother':'<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--crimson)" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>',
+    'My Sister':'<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--crimson)" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>',
+    'My Relative':'<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--crimson)" stroke-width="1.5"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/><circle cx="18" cy="8" r="3"/><path d="M21 21v-1.5a3 3 0 00-2-2.83"/></svg>',
+    'A Friend':'<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--crimson)" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>',
+  };
   const el_icon=document.getElementById('pse_icon');
   const el_title=document.getElementById('pse_title');
-  if(el_icon) el_icon.textContent=icons[who]||'🙋';
+  if(el_icon) el_icon.innerHTML=svgIcons[who]||svgIcons['Myself'];
   if(el_title) el_title.textContent='Profile for '+who;
   // Pre-set gender if known
   if(gender){
@@ -4462,75 +4476,98 @@ function openBiodataView(){
   document.body.appendChild(el);
 }
 
-function generateBiodata(p){
-  const tier=p.tier||'VIP';
-  const slId=tier.toUpperCase()+' '+String(10000+Math.floor(Math.random()*9000));
-  const gender=p.g==='Female'?'Bride':'Groom';
-  const dobStr=p.dob&&p.dob!=='—'?new Date(p.dob).toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'}):p.dob||'—';
-  const inc=p.inc?formatIncomeDisplay(p.inc):(p.sal||'—');
-  // Format time of birth from 24h to 12h
-  function fmt12(t){if(!t||t==='—')return '';try{const[h,m]=t.split(':').map(Number);const ampm=h>=12?'PM':'AM';const h12=h%12||12;return h12+':'+String(m).padStart(2,'0')+' '+ampm;}catch(e){return t;}}
-  const tobStr=fmt12(p.tob);
-  const timePlace=(tobStr||p.pob&&p.pob!=='—')?[tobStr,p.pob&&p.pob!=='—'?p.pob:''].filter(Boolean).join(', '):'';
-  // Board-conditional school label
-  const boardLbl=p.board&&p.board!=='—'&&p.board!=='Other'?p.board+' School Name':'School Name';
-  function row(label,val,label2,val2){
-    if(label2!==undefined) return `<div class="bio-two"><div class="bio-row"><span class="bio-lbl">${label}</span><span class="bio-val"> : ${val||'—'}</span></div><div class="bio-row"><span class="bio-lbl">${label2}</span><span class="bio-val"> : ${val2||'—'}</span></div></div>`;
-    return `<div class="bio-row"><span class="bio-lbl">${label}</span><span class="bio-val"> : ${val||'—'}</span></div>`;
+function _biodataFmt(p, logoSrc){
+  /* ── helpers ── */
+  const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  function fmtDob(d){if(!d||d==='—')return '—';try{const dt=new Date(d);return `${String(dt.getDate()).padStart(2,'0')}-${MONTHS[dt.getMonth()]}-${dt.getFullYear()}`;}catch(e){return d;}}
+  function fmt12(t){if(!t||t==='—')return '';try{const[h,m]=t.split(':').map(Number);const ampm=h>=12?'PM':'AM';return (h%12||12)+':'+String(m).padStart(2,'0')+' '+ampm;}catch(e){return t;}}
+  function row(lbl,val,lbl2,val2){
+    if(lbl2!==undefined)return `<div class="bio-two"><div class="bio-row"><span class="bio-lbl">${lbl}</span><span class="bio-val"> : ${val||'—'}</span></div><div class="bio-row"><span class="bio-lbl">${lbl2}</span><span class="bio-val"> : ${val2||'—'}</span></div></div>`;
+    return `<div class="bio-row"><span class="bio-lbl">${lbl}</span><span class="bio-val"> : ${val||'—'}</span></div>`;
   }
-  const logoHtml=typeof IMGS!=='undefined'&&IMGS.logo?`<img src="data:image/jpeg;base64,${IMGS.logo}" style="width:62px;height:62px;object-fit:contain;border-radius:50%;border:2px solid #c0392b;" alt="NRMB Logo">`:'';
+  /* ── derived values ── */
+  const tier=p.tier||'VIP';
+  const uidHash=(p.u||'').split('').reduce((a,c,i)=>a+c.charCodeAt(0)*(i+7),0);
+  const slNum=10000+Math.abs(uidHash%90000);
+  const slId=`${tier.toUpperCase()} ${slNum}`;
+  const gender=p.g==='Female'?'Bride':'Groom';
+  const dobStr=fmtDob(p.dob);
+  const tobStr=fmt12(p.tob);
+  const timePlace=[tobStr,p.pob&&p.pob!=='—'?p.pob:''].filter(Boolean).join(', ');
+  /* education labels */
+  const boardLbl=p.board&&p.board!=='—'&&p.board!=='Other'?p.board+' School Name':'School Name';
+  const colVal=(p.col||'').trim();
+  const colLow=colVal.toLowerCase();
+  const pgLbl=colLow.startsWith('ms ')||colLow.includes(' ms ')||colLow.startsWith('m.s.')?'MS College Name':colLow.startsWith('mba')||colLow.includes(' mba ')?'MBA College Name':'PG College Name';
+  /* salary — show raw sal string, fall back to formatted inc */
+  const salDisplay=(p.sal&&p.sal!=='—'&&p.sal!=='0 L')?p.sal:(p.inc&&p.inc!=='—'?p.inc:'');
+  /* place label */
+  const isBusinessOcc=(p.emp==='Business / Self-Employed')||(p.prof||'').toLowerCase().includes('business')||(p.prof||'').toLowerCase().includes('director');
+  const placeLabel=isBusinessOcc?'Place of Business':'Place of Job';
+  /* branch color: blue for online, crimson for offline */
+  const isOnline=(p.registrationSource||'online')!=='offline';
+  const brC=isOnline?'#1565c0':'#c0392b';
+  /* siblings */
+  const bCnt=parseInt(p.br)||0, sCnt=parseInt(p.sr)||0;
+  const bMar=parseInt(p.brm)||0, sMar=parseInt(p.srm)||0;
+  let sibRows='';
+  if(bCnt>0)sibRows+=row(bCnt>1?'Brothers':'Brother',`${bCnt} (Married: ${bMar})`+(p.bro_occ&&p.bro_occ!=='—'?' / '+p.bro_occ:''));
+  if(sCnt>0)sibRows+=row(sCnt>1?'Sisters':'Sister',`${sCnt} (Married: ${sMar})`+(p.sis_occ&&p.sis_occ!=='—'?' / '+p.sis_occ:''));
+  if(!bCnt&&!sCnt)sibRows=row('Siblings','No Siblings');
+  /* divorce info */
+  const msVal=(p.ms||p.maritalStatus||'');
+  const isDivorced=msVal.toLowerCase().includes('divorce')||msVal.toLowerCase().includes('separated');
+  /* age gap */
+  const ageGap=(p.pp_af&&p.pp_at)?`${p.pp_af} - ${p.pp_at} Years`:'—';
+  /* logo */
+  const logoHtml=logoSrc?`<img src="${logoSrc}" style="width:60px;height:60px;object-fit:contain;border-radius:50%;border:2px solid #c0392b;" alt="NRMB Logo">`:'<div style="width:60px;height:60px;border-radius:50%;border:2px solid #c0392b;display:flex;align-items:center;justify-content:center;font-family:serif;font-weight:700;font-size:1.1rem;color:#c0392b;">NR</div>';
   return `<div class="biodata-sheet">
     <div class="bio-header">
-      <div class="bio-meta"><span><em>Since 2000</em></span><span><strong>Sl No : ${slId}</strong></span></div>
-      <div style="display:flex;align-items:center;justify-content:center;gap:0.7rem;margin:0.3rem 0 0.1rem;">
-        ${logoHtml}
-        <div>
-          <div class="bio-bureau">NAVEEN REDDY</div>
-          <div class="bio-sub">MARRIAGE BUREAU</div>
-        </div>
-        ${logoHtml}
-      </div>
-      <div class="bio-address">Corporate office: <u>Somajiguda</u>, Branches: <u>Kothapet</u>, <u>Warangal</u>, <u>Karimnagar</u></div>
+      <div class="bio-meta"><span><em>Since 2000</em></span><span style="font-style:normal;"><strong>Sl No : <span style="color:#c0392b;">${slId}</span></strong></span></div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:1rem;margin:0.5rem 0 0.3rem;">${logoHtml}<div style="text-align:center;"><div class="bio-bureau">NAVEEN REDDY</div><div class="bio-sub">MARRIAGE BUREAU</div></div>${logoHtml}</div>
+      <div class="bio-address">Corporate office: <u style="color:${brC};">Somajiguda</u>, &nbsp;Branches: <u style="color:${brC};">Kothapet</u>, <u style="color:${brC};">Warangal</u>, <u style="color:${brC};">Karimnagar</u></div>
     </div>
     ${row('Name of the '+gender,p.name)}
     ${row('Date of Birth',dobStr,'Height',p.ht||'—')}
-    ${timePlace?row('Time and Place of Birth',timePlace):''}
+    ${timePlace?row('Time and Place',timePlace):''}
     ${row('Complexion / Color',p.cx||'—','Gotram',p.gotra||p.fg||'—')}
-    ${row('Sub Caste',p.subCaste||p.gotra||'Reddy','Star / Nakshatra',p.nak||'—')}
-    ${row('Native District',p.nat||'—','Raasi',p.rashi||'—')}
+    ${row('Sub Caste',p.subCaste||'Reddy','Star',p.nak||'—')}
+    ${row('Native Dist',p.nat||p.native||'—','Raasi',p.rashi||'—')}
     ${row('Settled Place',p.city||'—')}
     ${p.school&&p.school!=='—'?row(boardLbl,p.school):''}
     ${p.inter&&p.inter!=='—'?row('Inter College Name',p.inter):''}
     ${p.engcol&&p.engcol!=='—'?row('Engineering College Name',p.engcol):''}
-    ${p.col&&p.col!=='—'?row('PG / MS College',p.col):''}
+    ${colVal&&colVal!=='—'?row(pgLbl,colVal):''}
     ${row('Occupation',p.prof||p.occ||'—')}
     ${p.co&&p.co!=='—'?row('Company Name',p.co):''}
-    ${p.workplace&&p.workplace!=='—'?row('Place of Job / Business',p.workplace):''}
-    ${inc&&inc!=='—'?row('Annual Income',inc):''}
+    ${p.workplace&&p.workplace!=='—'?row(placeLabel,p.workplace):''}
+    ${salDisplay?row('Salary',salDisplay):''}
     ${p.visa&&p.visa!=='—'?row('Visa Status',p.visa):''}
+    ${p.sinceWork&&p.sinceWork!=='—'?row('Since Working',p.sinceWork):''}
+    ${isDivorced&&p.divorceInfo&&p.divorceInfo!=='—'?row('Divorces',p.divorceInfo):''}
 
     <div class="bio-sec-title">FAMILY MEMBERS DETAILS</div>
-    ${row("Father's Name",p.fn||'—')}
     ${row("Father's Profession",p.fo||p.fp||'—')}
-    ${row("Mother's Name",p.mn||'—')}
     ${row("Mother's Profession",p.mo||'—')}
-    ${p.br&&p.br!=='0'?row('Brothers',p.br+' (Married: '+(p.brm||'0')+')' ):''}
-    ${p.sr&&p.sr!=='0'?row('Sisters',p.sr+' (Married: '+(p.srm||'0')+')' ):''}
-    ${(!p.br||p.br==='0')&&(!p.sr||p.sr==='0')?row('Siblings','No Siblings'):''}
+    ${sibRows}
     ${p.pval&&p.pval!=='—'?row('Property Value',p.pval):''}
 
     <div class="bio-sec-title">CHOICE PREFERRED</div>
-    ${p.pp_af&&p.pp_at?row('Age Preferred',p.pp_af+' to '+p.pp_at+' Years'):''}
-    ${p.pp_hf&&p.pp_hf!=='Any'?row('Height Preferred',p.pp_hf+' &amp; Above'):''}
+    ${row('Complexion / Color',p.pp_cx||'Fair','Age Gap',ageGap)}
+    ${p.pp_hf&&p.pp_hf!=='Any'?row('Height',p.pp_hf+' And Above'):''}
     ${p.pp_edu&&p.pp_edu!=='Any'?row('Qualification',p.pp_edu):''}
     ${p.pp_note&&p.pp_note!=='—'?row('Other Preferences',p.pp_note):''}
 
-    <div class="bio-footer">Relationship : Father / Guardian &nbsp;&nbsp;&nbsp; Contact : ${p.pgmob1||p.fmob||'—'}</div>
+    <div class="bio-footer">Relationship : ${p.rel||'Father'} &nbsp;&nbsp;&nbsp; Contact : ${p.pgmob1||p.fmob||'—'}</div>
     <div style="text-align:center;margin-top:0.8rem;display:flex;gap:0.6rem;justify-content:center;">
-      <button class="bio-close-btn" onclick="window.print()" aria-label="🖨 Print">🖨 Print</button>
-      <button class="bio-close-btn" onclick="document.getElementById('biodataOverlay').remove()" style="background:transparent;border:1px solid var(--crimson);color:var(--crimson);" aria-label="Close">Close</button>
+      <button class="bio-close-btn" onclick="window.print()">Print</button>
+      <button class="bio-close-btn" onclick="this.closest('.biodata-overlay').remove()" style="background:transparent;border:1px solid var(--crimson);color:var(--crimson);">Close</button>
     </div>
   </div>`;
+}
+function generateBiodata(p){
+  const logoSrc=typeof IMGS!=='undefined'&&IMGS.logo?`data:image/jpeg;base64,${IMGS.logo}`:'';
+  return _biodataFmt(p,logoSrc);
 }
 
 function formatIncomeDisplay(val){
@@ -4551,6 +4588,31 @@ function formatIncome(el){
 function openEditProfileRequest(){
   if(!ST.user){toast('Please log in first.');return;}
   const u=ST.user;
+  // ── 15-day cooldown check ──
+  if(window.FIREBASE_READY){
+    try{
+      const{getDoc,doc,db}=window.FB;
+      const snap=await getDoc(doc(db,'users',u.uid||u.u));
+      const ud=snap.exists()?snap.data():{};
+      if(ud.lastEditTs){
+        const daysSince=(Date.now()-new Date(ud.lastEditTs).getTime())/(1000*60*60*24);
+        if(daysSince<15){
+          const daysLeft=Math.ceil(15-daysSince);
+          const blk=document.createElement('div');
+          blk.style.cssText='position:fixed;inset:0;z-index:8500;background:rgba(10,5,0,0.55);backdrop-filter:blur(7px);display:flex;align-items:center;justify-content:center;padding:1rem;';
+          blk.innerHTML=`<div style="background:var(--offwhite);border:1px solid rgba(184,137,42,0.18);width:100%;max-width:480px;padding:2.4rem;box-shadow:0 40px 100px rgba(0,0,0,0.18);position:relative;">
+            <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--crimson),var(--gold2),var(--crimson));"></div>
+            <div style="font-family:'Cinzel',serif;font-size:1rem;font-weight:600;color:var(--crimson);margin-bottom:0.6rem;">Profile Edit Restricted</div>
+            <div style="font-family:'EB Garamond',serif;font-size:1rem;color:var(--text);line-height:1.7;margin-bottom:1rem;">Your last profile update request was submitted recently. You can submit a new request in <strong>${daysLeft} day${daysLeft!==1?'s':''}</strong>.</div>
+            <div style="background:rgba(184,137,42,0.08);border-left:2px solid var(--gold);padding:0.8rem 1rem;font-family:'EB Garamond',serif;font-size:0.9rem;color:var(--muted);font-style:italic;line-height:1.7;margin-bottom:1.4rem;">For urgent changes, please visit the bureau office or contact us directly. The admin can make updates on your behalf at any time.</div>
+            <button onclick="this.closest('div[style]').remove()" style="width:100%;padding:0.8rem;background:linear-gradient(135deg,var(--crimson),var(--crimson2));border:none;cursor:pointer;font-family:'Cinzel',serif;font-size:0.6rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,248,220,0.96);">Understood</button>
+          </div>`;
+          document.body.appendChild(blk);
+          return;
+        }
+      }
+    }catch(e){console.warn('Edit cooldown check:',e);}
+  }
   const existing=document.getElementById('editReqOv');if(existing)existing.remove();
   const ov=document.createElement('div');
   ov.id='editReqOv';
@@ -4603,22 +4665,48 @@ async function submitEditRequest(){
   });
   const note=document.getElementById('er_note')?.value.trim()||'';
   if(!Object.keys(changes).length&&!note){toast('No changes detected. Please update at least one field.');return;}
+  // ── Confirmation popup ──
+  const confirmed=await new Promise(resolve=>{
+    const cp=document.createElement('div');
+    cp.style.cssText='position:fixed;inset:0;z-index:9000;background:rgba(10,5,0,0.6);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:1rem;';
+    const changeList=Object.entries(changes).map(([k,v])=>`<li style="margin-bottom:0.3rem;"><strong>${k}:</strong> ${v}</li>`).join('');
+    cp.innerHTML=`<div style="background:var(--offwhite);border:1px solid rgba(184,137,42,0.22);width:100%;max-width:460px;padding:2.2rem;box-shadow:0 40px 100px rgba(0,0,0,0.2);position:relative;">
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--crimson),var(--gold2),var(--crimson));"></div>
+      <div style="font-family:'Cinzel',serif;font-size:1rem;font-weight:600;color:var(--crimson);margin-bottom:0.5rem;">Confirm Profile Update</div>
+      <div style="font-family:'EB Garamond',serif;font-size:0.95rem;color:var(--text);line-height:1.7;margin-bottom:0.8rem;">You are requesting changes to the following fields:</div>
+      <ul style="font-family:'EB Garamond',serif;font-size:0.9rem;color:var(--text);line-height:1.7;padding-left:1.2rem;margin-bottom:1rem;">${changeList}</ul>
+      <div style="background:rgba(123,31,46,0.06);border-left:2px solid var(--crimson);padding:0.7rem 1rem;font-family:'EB Garamond',serif;font-size:0.88rem;color:var(--crimson);font-style:italic;line-height:1.6;margin-bottom:1.4rem;">After submitting, you will not be able to request another profile update for <strong>15 days</strong>. The bureau admin will review and apply your changes.</div>
+      <div style="display:flex;gap:0.6rem;">
+        <button id="erConfYes" style="flex:1;padding:0.8rem;background:linear-gradient(135deg,var(--crimson),var(--crimson2));border:none;cursor:pointer;font-family:'Cinzel',serif;font-size:0.6rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,248,220,0.96);">Yes, Submit</button>
+        <button id="erConfNo" style="padding:0.8rem 1.4rem;background:transparent;border:1.5px solid rgba(184,137,42,0.3);cursor:pointer;font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);">Cancel</button>
+      </div>
+    </div>`;
+    document.body.appendChild(cp);
+    cp.querySelector('#erConfYes').onclick=()=>{cp.remove();resolve(true);};
+    cp.querySelector('#erConfNo').onclick=()=>{cp.remove();resolve(false);};
+  });
+  if(!confirmed)return;
   const btn=document.querySelector('#editReqOv button');
   if(btn){btn.textContent='Submitting…';btn.disabled=true;}
   try{
     if(window.FIREBASE_READY){
-      const {addDoc,collection,db}=window.FB;
+      const {addDoc,updateDoc,collection,doc,db}=window.FB;
+      const uid=ST.user.uid||ST.user.u;
       await addDoc(collection(db,'editRequests'),{
-        uid:ST.user.uid||ST.user.u,
-        u:ST.user.u,
-        name:ST.user.name,
-        email:ST.user.email,
-        changes,note,
-        status:'pending',
-        ts:new Date().toISOString()
+        uid,u:ST.user.u,name:ST.user.name,email:ST.user.email,
+        changes,note,status:'pending',ts:new Date().toISOString()
       });
+      // Lock 15-day cooldown on user record
+      await updateDoc(doc(db,'users',uid),{lastEditTs:new Date().toISOString()}).catch(()=>{});
+      // Notify admin
+      await addDoc(collection(db,'notifications'),{
+        uid:'__admin__',
+        msg:`${ST.user.name} submitted a profile edit request — fields: ${Object.keys(changes).join(', ')||'notes only'}`,
+        userUid:uid,userName:ST.user.name,type:'edit_request',
+        ts:new Date().toISOString(),read:false
+      }).catch(()=>{});
       document.getElementById('editReqOv')?.remove();
-      toast('✅ Update request submitted! The bureau admin will apply your changes shortly.');
+      toast('✅ Update request submitted! The bureau admin will review and apply your changes within 24 hours.');
     } else {
       toast('Service unavailable. Please contact the bureau directly.');
     }
