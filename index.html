@@ -391,6 +391,16 @@ body{font-family:'EB Garamond',serif;font-size:19px;line-height:1.82;background:
 .reveal{opacity:0;transform:translateY(22px);transition:opacity 0.6s ease,transform 0.6s ease;}
 .reveal.in-view{opacity:1;transform:none;}
 
+/* ── Fullpage scroll-snap — homepage only ── */
+html:has(#pgHome.active){scroll-snap-type:y proximity;scroll-behavior:smooth;}
+.hero-section{scroll-snap-align:start;}
+.stories-cta-slide{
+  scroll-snap-align:start;
+  min-height:100vh;
+  display:flex;flex-direction:column;justify-content:center;
+  background:linear-gradient(180deg,rgba(255,248,240,0.7) 0%,var(--bg) 100%);
+}
+
 /* HOME content below hero */
 .home-below{
   background:var(--offwhite);
@@ -424,7 +434,14 @@ body{font-family:'EB Garamond',serif;font-size:19px;line-height:1.82;background:
 /* ── Process section ── */
 @property --proc-angle{syntax:'<angle>';initial-value:0deg;inherits:false;}
 @keyframes procBorderSpin{to{--proc-angle:360deg;}}
-.process-section{padding:5rem 0;background:var(--bg-champagne);}
+.process-section{
+  background:var(--bg-champagne);
+  /* Fullpage snap slide */
+  scroll-snap-align:start;
+  min-height:100vh;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:3rem 0;
+}
 .process-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;max-width:1020px;margin:0 auto;padding:0 2rem;}
 @media(max-width:768px){.process-grid{grid-template-columns:repeat(2,1fr);}}
 @media(max-width:480px){.process-grid{grid-template-columns:1fr;}}
@@ -453,7 +470,17 @@ body{font-family:'EB Garamond',serif;font-size:19px;line-height:1.82;background:
 /* ── Features section (replaces 3D carousel) ── */
 @property --_angle{syntax:'<angle>';initial-value:0deg;inherits:false;}
 @keyframes borderSpin{to{--_angle:360deg;}}
-.feat-section{padding:5rem 0;background:linear-gradient(160deg,#FDF8EF 0%,#FFFBF5 40%,#FDF3E0 80%,#FFF8F5 100%);}
+.feat-snap-slide{
+  scroll-snap-align:start;
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  background:linear-gradient(160deg,#FDF8EF 0%,#FFFBF5 40%,#FDF3E0 80%,#FFF8F5 100%);
+}
+.feat-section{
+  flex:1;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:3rem 0 4rem;
+}
 .feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.8rem;max-width:1020px;margin:0 auto;padding:0 2rem;}
 @media(max-width:900px){.feat-grid{grid-template-columns:repeat(2,1fr);}}
 @media(max-width:520px){.feat-grid{grid-template-columns:1fr;}}
@@ -2017,14 +2044,16 @@ checkCookieConsent();
 
   <!-- Everything below hero gets the doodle bg treatment -->
   <div class="home-below">
-    <div class="stats-bar">
-      <div class="stat-item"><div class="stat-n" data-target="10000" data-suffix="+">10K+</div><div class="stat-l">Registered Members</div></div>
-      <div class="stat-item"><div class="stat-n" data-target="4500" data-suffix="+">4.5K+</div><div class="stat-l">Successful Matches</div></div>
-      <div class="stat-item"><div class="stat-n" data-target="25" data-suffix="+">25+</div><div class="stat-l">Years of Trust</div></div>
-      <div class="stat-item"><div class="stat-n" data-target="100" data-suffix="%">100%</div><div class="stat-l">Verified Profiles</div></div>
-      <div class="stat-item"><div class="stat-n" data-target="50" data-suffix="+">50+</div><div class="stat-l">Districts Covered</div></div>
-    </div>
-    <section class="feat-section">
+    <!-- SLIDE 2: Stats + Why Trust Us (snaps as one unit) -->
+    <div class="feat-snap-slide">
+      <div class="stats-bar">
+        <div class="stat-item"><div class="stat-n" data-target="10000" data-suffix="+">10K+</div><div class="stat-l">Registered Members</div></div>
+        <div class="stat-item"><div class="stat-n" data-target="4500" data-suffix="+">4.5K+</div><div class="stat-l">Successful Matches</div></div>
+        <div class="stat-item"><div class="stat-n" data-target="25" data-suffix="+">25+</div><div class="stat-l">Years of Trust</div></div>
+        <div class="stat-item"><div class="stat-n" data-target="100" data-suffix="%">100%</div><div class="stat-l">Verified Profiles</div></div>
+        <div class="stat-item"><div class="stat-n" data-target="50" data-suffix="+">50+</div><div class="stat-l">Districts Covered</div></div>
+      </div>
+      <section class="feat-section">
       <div class="sec-hd">
         <div class="orn-divider"><span>✦ &nbsp; &nbsp; ✦</span></div>
         <div class="sec-tag">Why Families Trust Us</div>
@@ -2040,6 +2069,8 @@ checkCookieConsent();
         <div class="feat-outer"><div class="feat-card"><div class="feat-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="rgba(184,137,42,0.15)" stroke="#B8892A" stroke-width="1.5" stroke-linejoin="round"/><polygon points="12 5.5 14.2 10 19 10.6 15.5 14 16.4 18.8 12 16.4 7.6 18.8 8.5 14 5 10.6 9.8 10 12 5.5" fill="rgba(123,31,46,0.1)"/></svg></div><div class="feat-title">Personal Service</div><div class="feat-text">Dedicated relationship managers guide you through every step of your journey.</div></div></div>
       </div>
     </section>
+    </div><!-- /.feat-snap-slide -->
+    <!-- SLIDE 3: How We Work -->
     <section class="process-section">
       <div class="sec-hd">
         <div class="orn-divider"><span>✦ &nbsp; &nbsp; ✦</span></div>
@@ -2055,25 +2086,29 @@ checkCookieConsent();
       </div>
     </section>
 
-    <div style="background:rgba(255,248,240,0.6);padding:0 0 0.5rem;">
-      <div class="sec-hd">
-        <div class="sec-tag">Happy Stories</div>
-        <div class="sec-title">Thousands of Blessed Unions</div>
-        <div class="sec-sub">Real couples, real happiness — facilitated by Naveen Reddy Marriage Bureau</div>
+    <!-- SLIDE 4: Stories + CTA -->
+    <div class="stories-cta-slide">
+      <div style="padding:0 0 0.5rem;">
+        <div class="sec-hd">
+          <div class="orn-divider"><span>✦ &nbsp; &nbsp; ✦</span></div>
+          <div class="sec-tag">Happy Stories</div>
+          <div class="sec-title">Thousands of Blessed Unions</div>
+          <div class="sec-sub">Real couples, real happiness — facilitated by Naveen Reddy Marriage Bureau</div>
+        </div>
+        <div class="stories-grid">
+          <div class="story-card"><div class="story-names">Priya &amp; Rahul Reddy</div><div class="story-year">Married · December 2023 · Hyderabad</div><div class="story-text">"NRMB's personal attention made all the difference. Within weeks we found the most perfect match."</div></div>
+          <div class="story-card"><div class="story-names">Ananya &amp; Kiran Reddy</div><div class="story-year">Married · March 2024 · Bangalore</div><div class="story-text">"The verification process gave us complete confidence. Forever grateful for this blessing."</div></div>
+          <div class="story-card"><div class="story-names">Deepa &amp; Vivek Reddy</div><div class="story-year">Married · August 2023 · London</div><div class="story-text">"Elite membership exceeded every expectation. As NRI members this was truly a premium experience."</div></div>
+        </div>
       </div>
-      <div class="stories-grid">
-        <div class="story-card"><div class="story-names">Priya &amp; Rahul Reddy</div><div class="story-year">Married · December 2023 · Hyderabad</div><div class="story-text">"NRMB's personal attention made all the difference. Within weeks we found the most perfect match."</div></div>
-        <div class="story-card"><div class="story-names">Ananya &amp; Kiran Reddy</div><div class="story-year">Married · March 2024 · Bangalore</div><div class="story-text">"The verification process gave us complete confidence. Forever grateful for this blessing."</div></div>
-        <div class="story-card"><div class="story-names">Deepa &amp; Vivek Reddy</div><div class="story-year">Married · August 2023 · London</div><div class="story-text">"Elite membership exceeded every expectation. As NRI members this was truly a premium experience."</div></div>
-      </div>
-    </div>
-    <!-- CTA band -->
-    <section class="cta-band">
+      <!-- CTA band -->
+      <section class="cta-band">
       <div class="cta-band-tag">Begin Your Story</div>
       <div class="cta-band-h">Your Perfect Match Awaits</div>
       <p class="cta-band-sub">Join thousands of Reddy families who found lifelong happiness through us.<br>Registration is free and takes less than five minutes.</p>
       <div class="cta-band-btn-wrap"><button class="cta-band-btn" onclick="showPage('pgSignup')">Create Your Profile</button></div>
     </section>
+    </div><!-- /.stories-cta-slide -->
     <footer class="site-footer">
       <div class="footer-grid">
         <div class="fg-brand">
