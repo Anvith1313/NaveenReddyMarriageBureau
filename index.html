@@ -118,47 +118,40 @@ body{font-family:'EB Garamond',serif;font-size:19px;line-height:1.82;background:
 .navbar::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(123,31,46,0.25),transparent);}
 
 /* ── Social float stack ── */
-@keyframes waGlow{
-  0%{box-shadow:0 6px 28px rgba(37,211,102,0.5);}
-  35%{box-shadow:0 0 0 7px rgba(37,211,102,0.22),0 0 0 16px rgba(37,211,102,0.09),0 6px 32px rgba(37,211,102,0.65);}
-  65%{box-shadow:0 0 0 5px rgba(37,211,102,0.16),0 0 0 12px rgba(37,211,102,0.06),0 6px 28px rgba(37,211,102,0.5);}
-  100%{box-shadow:0 6px 28px rgba(37,211,102,0.5);}
+@keyframes sfPulseWa{
+  0%,100%{box-shadow:0 4px 20px rgba(37,211,102,0.5);}
+  50%{box-shadow:0 0 0 6px rgba(37,211,102,0.18),0 4px 26px rgba(37,211,102,0.72);}
 }
-.wa-circle-glow{animation:waGlow 1.1s ease-in-out 4;}
-/* Stack container */
-.social-stack{position:fixed;bottom:28px;right:22px;z-index:800;display:flex;flex-direction:column;gap:14px;align-items:flex-end;}
-/* Each row: label card + circle */
-.sf-item{display:flex;align-items:center;gap:12px;cursor:pointer;text-decoration:none;}
-/* Frosted text card — always visible */
-.sf-card{
-  background:rgba(255,255,255,0.97);
-  backdrop-filter:blur(16px);
-  border:1px solid rgba(0,0,0,0.07);
-  border-radius:14px;
-  padding:0.55rem 1rem;
-  box-shadow:0 4px 22px rgba(0,0,0,0.10),0 1px 0 rgba(255,255,255,0.9);
-  text-align:right;
-  transition:transform 0.22s var(--ease-out),box-shadow 0.22s;
+@keyframes sfPulseIg{
+  0%,100%{box-shadow:0 4px 20px rgba(193,53,132,0.5);}
+  50%{box-shadow:0 0 0 6px rgba(193,53,132,0.18),0 4px 26px rgba(193,53,132,0.72);}
 }
-.sf-item:hover .sf-card{transform:translateX(-4px);box-shadow:0 8px 30px rgba(0,0,0,0.14);}
-.sf-cta{font-family:'Cinzel',serif;font-size:0.7rem;font-weight:600;color:#1A0A08;letter-spacing:0.06em;display:block;line-height:1.4;white-space:nowrap;}
-.sf-hint{font-family:'Josefin Sans',sans-serif;font-size:0.6rem;color:var(--text-muted);letter-spacing:0.05em;display:block;margin-top:0.12rem;white-space:nowrap;}
-/* Coloured circle */
+.social-stack{position:fixed;bottom:28px;right:22px;z-index:800;display:flex;flex-direction:column;gap:12px;align-items:flex-end;}
+.sf-item{display:flex;align-items:center;gap:10px;cursor:pointer;text-decoration:none;}
+/* Inline floating label — auto-hides after 5s */
+.sf-inline-label{
+  font-family:'Josefin Sans',sans-serif;font-size:0.68rem;font-weight:600;letter-spacing:0.07em;
+  color:#fff;background:rgba(10,4,2,0.58);backdrop-filter:blur(10px);
+  padding:0.26rem 0.75rem;border-radius:20px;white-space:nowrap;
+  opacity:1;transition:opacity 0.55s ease;pointer-events:none;
+  box-shadow:0 2px 10px rgba(0,0,0,0.2);
+}
+.sf-inline-label.sf-hidden{opacity:0;}
+/* Circle button — compact */
 .sf-btn{
-  width:56px;height:56px;border-radius:50%;
+  width:44px;height:44px;border-radius:50%;
   display:flex;align-items:center;justify-content:center;
   flex-shrink:0;
-  transition:transform 0.22s var(--ease-out),box-shadow 0.22s;
 }
-.sf-item:hover .sf-btn{transform:scale(1.12);}
-.sf-wa{background:#25D366;box-shadow:0 6px 28px rgba(37,211,102,0.5);}
-.sf-ig{background:linear-gradient(135deg,#833AB4 0%,#C13584 32%,#E1306C 60%,#FD1D1D 82%,#FCAF45 100%);box-shadow:0 6px 28px rgba(193,53,132,0.5);}
-.sf-btn lottie-player{width:30px;height:30px;filter:brightness(0) invert(1);}
+.sf-wa{background:#25D366;box-shadow:0 4px 20px rgba(37,211,102,0.5);animation:sfPulseWa 2.6s ease-in-out infinite;}
+.sf-ig{background:linear-gradient(135deg,#833AB4 0%,#C13584 32%,#E1306C 60%,#FD1D1D 82%,#FCAF45 100%);box-shadow:0 4px 20px rgba(193,53,132,0.5);animation:sfPulseIg 2.9s ease-in-out 0.5s infinite;}
+.sf-item:hover .sf-btn{filter:brightness(1.12);}
+.sf-btn lottie-player{width:26px;height:26px;filter:brightness(0) invert(1);}
 @media(max-width:600px){
-  .sf-card{display:none;}
-  .sf-btn{width:50px;height:50px;}
-  .sf-btn lottie-player{width:26px;height:26px;}
-  .social-stack{bottom:22px;right:16px;gap:12px;}
+  .sf-btn{width:42px;height:42px;}
+  .sf-btn lottie-player{width:24px;height:24px;}
+  .social-stack{bottom:82px;right:14px;gap:11px;}
+  .sf-inline-label{font-size:0.63rem;padding:0.22rem 0.6rem;}
 }
 /* ── Welcome toast ── */
 .welcome-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120px);z-index:900;background:var(--bg-warm);border:1.5px solid var(--border);border-radius:20px;padding:1.1rem 1.4rem;box-shadow:var(--sh-card);max-width:340px;width:90%;transition:transform 0.45s var(--ease-out),opacity 0.45s;opacity:0;}
@@ -169,6 +162,33 @@ body{font-family:'EB Garamond',serif;font-size:19px;line-height:1.82;background:
 .wt-cta{flex:1;padding:0.5rem;border-radius:50px;font-family:'Cinzel',serif;font-size:0.6rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;border:none;}
 .wt-cta.primary{background:var(--primary);color:#fff;}
 .wt-cta.secondary{background:transparent;border:1px solid var(--border);color:var(--text-muted);}
+/* ── Google sign-in suggestion popup ── */
+@keyframes gsiSlideIn{from{opacity:0;transform:translateY(-14px);}to{opacity:1;transform:translateY(0);}}
+@keyframes gsiSlideOut{to{opacity:0;transform:translateY(-10px);}}
+.gsi-popup{
+  position:fixed;top:82px;right:20px;z-index:1800;
+  background:#fff;border-radius:16px;
+  box-shadow:0 8px 48px rgba(0,0,0,0.16),0 2px 12px rgba(0,0,0,0.07);
+  padding:1.1rem 1.2rem 0.9rem;max-width:295px;width:calc(100vw - 28px);
+  border:1px solid rgba(0,0,0,0.07);
+  animation:gsiSlideIn 0.38s cubic-bezier(0.22,1,0.36,1) both;
+}
+.gsi-popup.gsi-hiding{animation:gsiSlideOut 0.28s ease forwards;}
+.gsi-popup-close{position:absolute;top:9px;right:12px;background:none;border:none;cursor:pointer;color:#999;font-size:1.1rem;line-height:1;padding:0.15rem 0.3rem;border-radius:50%;}
+.gsi-popup-close:hover{background:rgba(0,0,0,0.06);color:#555;}
+.gsi-popup-head{display:flex;align-items:center;gap:0.65rem;margin-bottom:0.6rem;}
+.gsi-popup-icon{width:36px;height:36px;border-radius:50%;border:1px solid #e8e8e8;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#fafafa;}
+.gsi-popup-title{font-family:'Cinzel',serif;font-size:0.75rem;font-weight:600;color:#1A0A08;letter-spacing:0.04em;line-height:1.3;}
+.gsi-popup-sub{font-family:'EB Garamond',serif;font-size:0.9rem;color:#7A4030;line-height:1.4;margin-bottom:0.75rem;}
+.gsi-popup-btn{
+  display:flex;align-items:center;gap:0.55rem;justify-content:center;
+  width:100%;padding:0.55rem 1rem;border:1.5px solid #e0e0e0;border-radius:8px;
+  background:#fff;cursor:pointer;font-family:'Josefin Sans',sans-serif;font-size:0.7rem;font-weight:600;letter-spacing:0.06em;color:#333;
+  transition:background 0.18s,border-color 0.18s;margin-bottom:0.42rem;
+}
+.gsi-popup-btn:hover{background:#f5f5f5;border-color:#ccc;}
+.gsi-popup-skip{display:block;width:100%;text-align:center;background:none;border:none;cursor:pointer;font-family:'EB Garamond',serif;font-size:0.85rem;color:#aaa;font-style:italic;padding:0.2rem;transition:color 0.18s;}
+.gsi-popup-skip:hover{color:#888;}
 /* ── Bottom nav ── */
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:700;background:var(--white);border-top:1px solid var(--border-light);display:flex;padding-bottom:env(safe-area-inset-bottom,0px);box-shadow:0 -2px 16px rgba(123,31,46,0.07);}
 .bnav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0.6rem 0.3rem;background:none;border:none;cursor:pointer;color:var(--text-muted);font-family:'Josefin Sans',sans-serif;font-size:0.6rem;letter-spacing:0.06em;text-transform:uppercase;gap:0.2rem;position:relative;min-height:56px;transition:color 0.2s;}
@@ -177,14 +197,14 @@ body{font-family:'EB Garamond',serif;font-size:19px;line-height:1.82;background:
 .bnav-item svg{flex-shrink:0;}
 .bnav-badge{position:absolute;top:6px;right:calc(50% - 16px);background:var(--primary);color:#fff;border-radius:50%;width:16px;height:16px;font-family:'Josefin Sans',sans-serif;font-size:0.55rem;display:flex;align-items:center;justify-content:center;}
 @media(min-width:769px){.bottom-nav{display:none!important;}}
-/* ── Logo ring frame — ring SVGs hidden, just show img ── */
-.logo-ring-wrap{position:relative;display:inline-flex;align-items:center;justify-content:center;width:50px;height:50px;flex-shrink:0;}
-.logo-ring-wrap .logo-ring-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
-.logo-ring-wrap img{width:44px;height:44px;object-fit:contain;border-radius:50%;position:relative;z-index:1;}
-.logo-ring-wrap.lg{width:80px;height:80px;}
-.logo-ring-wrap.lg img{width:72px;height:72px;}
-.logo-ring-wrap.md{width:60px;height:60px;}
-.logo-ring-wrap.md img{width:52px;height:52px;}
+/* ── Logo — no circle, full natural shape ── */
+.logo-ring-wrap{position:relative;display:inline-flex;align-items:center;justify-content:center;width:56px;height:56px;flex-shrink:0;}
+.logo-ring-wrap .logo-ring-svg{display:none;}
+.logo-ring-wrap img{width:56px;height:56px;object-fit:contain;border-radius:0;position:relative;z-index:1;filter:drop-shadow(0 2px 8px rgba(123,31,46,0.18));}
+.logo-ring-wrap.lg{width:88px;height:88px;}
+.logo-ring-wrap.lg img{width:88px;height:88px;}
+.logo-ring-wrap.md{width:68px;height:68px;}
+.logo-ring-wrap.md img{width:68px;height:68px;}
 
 .nav-left{display:flex;align-items:center;gap:0.9rem;cursor:pointer;}
 .nav-logo-img{
@@ -270,17 +290,18 @@ body{font-family:'EB Garamond',serif;font-size:19px;line-height:1.82;background:
 .hero-section::before{
   content:'';position:absolute;inset:0;z-index:2;pointer-events:none;
   background:
-    linear-gradient(to bottom,rgba(12,4,2,0.12) 0%,rgba(12,4,2,0.0) 28%,rgba(12,4,2,0.0) 52%,rgba(12,4,2,0.58) 100%),
-    linear-gradient(to right,rgba(12,4,2,0.22) 0%,transparent 22%,transparent 78%,rgba(12,4,2,0.22) 100%);
+    radial-gradient(ellipse 75% 55% at 50% 38%, rgba(8,2,1,0.62) 0%, rgba(8,2,1,0.22) 55%, transparent 100%),
+    linear-gradient(to bottom,rgba(12,4,2,0.32) 0%,rgba(12,4,2,0.04) 22%,rgba(12,4,2,0.08) 55%,rgba(12,4,2,0.76) 100%),
+    linear-gradient(to right,rgba(12,4,2,0.30) 0%,transparent 20%,transparent 80%,rgba(12,4,2,0.30) 100%);
 }
 .hero-section::after{display:none;}
 .hero-content{position:relative;z-index:3;text-align:center;padding:0 2rem;margin-top:var(--nav-h);}
 .hero-tag{font-family:'Cinzel',serif;font-size:0.62rem;font-weight:600;letter-spacing:0.32em;text-transform:uppercase;color:rgba(184,137,42,0.9);display:flex;align-items:center;justify-content:center;gap:1rem;margin-bottom:1.1rem;text-shadow:0 2px 10px rgba(0,0,0,0.35);}
 .hero-tag::before,.hero-tag::after{content:'';display:block;width:44px;height:1px;background:rgba(184,137,42,0.7);}
 /* Main brand name */
-.hero-brand{font-family:'Cinzel',serif;font-size:clamp(2rem,4vw,3.2rem);font-weight:700;color:#fff;letter-spacing:0.06em;text-transform:uppercase;line-height:1.18;margin-bottom:0.5rem;text-shadow:0 3px 24px rgba(0,0,0,0.45),0 1px 0 rgba(255,255,255,0.08);}
-.hero-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(1.3rem,2.5vw,1.6rem);font-weight:300;font-style:italic;color:rgba(255,248,220,0.92);text-shadow:0 2px 20px rgba(0,0,0,0.3);line-height:1.2;margin-bottom:0.7rem;}
-.hero-h2{font-family:'Cinzel',serif;font-size:clamp(0.52rem,0.9vw,0.68rem);font-weight:500;letter-spacing:0.22em;text-transform:uppercase;color:rgba(255,248,220,0.65);margin-bottom:2.2rem;}
+.hero-brand{font-family:'Cinzel',serif;font-size:clamp(2rem,4vw,3.2rem);font-weight:700;color:#FFF8EC;letter-spacing:0.06em;text-transform:uppercase;line-height:1.18;margin-bottom:0.5rem;text-shadow:0 1px 3px rgba(0,0,0,1),0 3px 12px rgba(0,0,0,0.9),0 8px 32px rgba(0,0,0,0.75),0 0 60px rgba(0,0,0,0.5);}
+.hero-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(1.3rem,2.5vw,1.6rem);font-weight:300;font-style:italic;color:rgba(255,248,220,0.98);text-shadow:0 1px 4px rgba(0,0,0,0.95),0 3px 16px rgba(0,0,0,0.75);line-height:1.2;margin-bottom:0.7rem;}
+.hero-h2{font-family:'Cinzel',serif;font-size:clamp(0.52rem,0.9vw,0.68rem);font-weight:500;letter-spacing:0.22em;text-transform:uppercase;color:rgba(255,248,220,0.82);text-shadow:0 1px 6px rgba(0,0,0,0.8);margin-bottom:2.2rem;}
 .hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
 .hero-trust-row{display:flex;gap:0.7rem;justify-content:center;flex-wrap:wrap;margin-top:1.8rem;position:relative;z-index:2;}
 .htrust-pill{display:inline-flex;align-items:center;gap:0.4rem;background:rgba(255,255,255,0.1);backdrop-filter:blur(14px);border:1px solid rgba(212,175,55,0.4);border-radius:50px;padding:0.38rem 1rem;font-family:'Josefin Sans',sans-serif;font-size:0.7rem;font-weight:400;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.9);}
@@ -1096,7 +1117,7 @@ body{font-family:'EB Garamond',serif;font-size:19px;line-height:1.82;background:
   /* ── HERO BACKGROUND — mobile adjustments ── */
   .hero-section{height:calc(70vh + 1px);min-height:420px;margin-top:-1px;}
   .hero-photo{top:-22%;bottom:-22%;}
-  .hero-section::before{background:linear-gradient(to bottom,rgba(12,4,2,0.15) 0%,rgba(12,4,2,0.0) 25%,rgba(12,4,2,0.0) 48%,rgba(12,4,2,0.65) 100%);}
+  .hero-section::before{background:radial-gradient(ellipse 90% 55% at 50% 38%,rgba(8,2,1,0.58) 0%,rgba(8,2,1,0.15) 55%,transparent 100%),linear-gradient(to bottom,rgba(12,4,2,0.35) 0%,rgba(12,4,2,0.05) 22%,rgba(12,4,2,0.12) 55%,rgba(12,4,2,0.78) 100%);}
   /* Inner page banners */
   .signup-hero{height:153px;margin-top:-1px;background-position:center 38%;}
   .signup-hero::before{background:linear-gradient(to bottom,rgba(255,251,245,0.52) 0%,transparent 25%,transparent 65%,rgba(255,251,245,0.9) 100%),linear-gradient(to right,rgba(123,31,46,0.15) 0%,transparent 15%,transparent 85%,rgba(123,31,46,0.15) 100%);}
@@ -2039,7 +2060,7 @@ checkCookieConsent();
           <div class="form-sec-title"><span>📋</span> Basic Details</div>
           <div class="g2">
             <div class="ff"><label>Date of Birth *</label><input id="s_dob" type="date"><small id="dobAgeHint" style="color:var(--muted);font-style:italic;font-size:0.8rem;">Min age: 21 for Male, 18 for Female</small></div>
-            <div class="ff"><label>Height *</label><select id="s_ht"><option value="">Select</option><option>4'10" (147cm)</option><option>4'11" (149cm)</option><option>5'0" (152cm)</option><option>5'1" (154cm)</option><option>5'2" (157cm)</option><option>5'3" (160cm)</option><option>5'4" (162cm)</option><option>5'5" (165cm)</option><option>5'6" (167cm)</option><option>5'7" (170cm)</option><option>5'8" (172cm)</option><option>5'9" (175cm)</option><option>5'10" (177cm)</option><option>5'11" (180cm)</option><option>6'0" (182cm)</option><option>6'1" (185cm)</option><option>6'2" (187cm)</option><option>6'3" (190cm)</option><option>6'4" (193cm)</option><option>6'5" (195cm)</option></select></div>
+            <div class="ff"><label>Height *</label><select id="s_ht"><option value="">Select</option><option>4'0" (121cm)</option><option>4'1" (124cm)</option><option>4'2" (127cm)</option><option>4'3" (130cm)</option><option>4'4" (132cm)</option><option>4'5" (135cm)</option><option>4'6" (137cm)</option><option>4'7" (140cm)</option><option>4'8" (142cm)</option><option>4'9" (145cm)</option><option>4'10" (147cm)</option><option>4'11" (150cm)</option><option>5'0" (152cm)</option><option>5'1" (155cm)</option><option>5'2" (157cm)</option><option>5'3" (160cm)</option><option>5'4" (163cm)</option><option>5'5" (165cm)</option><option>5'6" (168cm)</option><option>5'7" (170cm)</option><option>5'8" (173cm)</option><option>5'9" (175cm)</option><option>5'10" (178cm)</option><option>5'11" (180cm)</option><option>6'0" (183cm)</option><option>6'1" (185cm)</option><option>6'2" (188cm)</option><option>6'3" (191cm)</option><option>6'4" (193cm)</option><option>6'5" (196cm)</option><option>6'6" (198cm)</option><option>6'7" (201cm)</option><option>6'8" (203cm)</option><option>6'9" (206cm)</option><option>6'10" (208cm)</option><option>6'11" (211cm)</option><option>7'0" (213cm)</option><option>7'1" (216cm)</option><option>7'2" (218cm)</option><option>7'3" (221cm)</option><option>7'4" (224cm)</option><option>7'5" (226cm)</option><option>7'6" (229cm)</option></select></div>
             <div class="ff"><label>Weight (kg)</label><input id="s_wt" type="number" placeholder="e.g. 65"></div>
             <div class="ff"><label>Mother Tongue *</label><select id="s_mt"><option value="">Select</option><option>Telugu</option><option>Kannada</option><option>Tamil</option><option>Hindi</option><option>Marathi</option><option>Gujarati</option><option>Bengali</option><option>Malayalam</option><option>Odia</option><option>Punjabi</option><option>Other</option></select></div>
             <div class="ff"><label>Complexion</label><select id="s_cx"><option value="">Select</option><option>Very Fair</option><option>Fair</option><option>Wheatish</option><option>Wheatish Brown</option><option>Dark</option></select></div>
@@ -2148,10 +2169,10 @@ checkCookieConsent();
         <div class="form-sec"><div class="form-sec-title"><span>💑</span> Partner Preferences</div><div class="g2">
           <div class="ff"><label>Preferred Age From <small style="color:var(--muted);font-weight:normal;font-style:italic;">(min 18 for bride, 21 for groom)</small></label><input id="pp_af" type="number" min="18" max="70" placeholder="e.g. 22"></div>
           <div class="ff"><label>Preferred Age To</label><input id="pp_at" type="number" min="18" max="80" placeholder="e.g. 30"></div>
-          <div class="ff"><label>Min Height</label><select id="pp_hf"><option value="">Any</option><option>5'0"</option><option>5'2"</option><option>5'4"</option><option>5'5"</option><option>5'6"</option><option>5'7"</option><option>5'8"</option><option>5'10"</option><option>6'0"</option></select></div>
+          <div class="ff"><label>Min Height</label><select id="pp_hf"><option value="">Any</option><option>4'0"</option><option>4'6"</option><option>4'10"</option><option>5'0"</option><option>5'1"</option><option>5'2"</option><option>5'3"</option><option>5'4"</option><option>5'5"</option><option>5'6"</option><option>5'7"</option><option>5'8"</option><option>5'9"</option><option>5'10"</option><option>5'11"</option><option>6'0"</option><option>6'1"</option><option>6'2"</option><option>6'3"</option><option>6'4"</option><option>6'6"</option><option>6'9"</option><option>7'0"+</option></select></div>
           <div class="ff"><label>Expected Education</label><select id="pp_edu"><option value="">Any</option><option>Graduate &amp; Above</option><option>Post Graduate</option><option>Professional Degree</option><option>Doctorate</option></select></div>
           <div class="ff"><label>Expected Profession</label><input id="pp_occ" type="text" placeholder="e.g. Doctor, Engineer, Any"></div>
-          <div class="ff"><label>Expected Income</label><select id="pp_inc"><option value="">Any</option><option>4 L+</option><option>6 L+</option><option>10 L+</option><option>20 L+</option><option>50 L+</option></select></div>
+          <div class="ff"><label>Expected Income</label><select id="pp_inc"><option value="">Any</option><option>Below 2 L</option><option>2 L+</option><option>3 L+</option><option>5 L+</option><option>7 L+</option><option>10 L+</option><option>15 L+</option><option>20 L+</option><option>30 L+</option><option>50 L+</option><option>75 L+</option><option>1 Cr+</option><option>2 Cr+</option><option>5 Cr+</option><option>10 Cr+</option></select></div>
           <div class="ff"><label>Preferred Location</label><input id="pp_st" type="text" placeholder="e.g. Hyderabad, London, Any"></div>
           <div class="ff"><label>NRI Acceptable?</label><select id="pp_nri"><option>Open to NRI</option><option>Prefer India-based</option><option>No Preference</option></select></div>
         </div><div class="ff" style="margin-top:0.5rem;"><label>Other Expectations</label><textarea id="pp_note" placeholder="Any specific expectations about partner or family…" rows="3"></textarea></div></div>
@@ -2303,7 +2324,7 @@ checkCookieConsent();
     <div class="fb-label">Refine Your Search</div>
     <div class="fb-row">
       <div class="fb-g"><div class="fb-l">Age</div><select class="fb-s" id="fA"><option value="">Any Age</option><option>18–20</option><option>21–25</option><option>26–30</option><option>31–35</option><option>36–40</option><option>40+</option></select></div>
-      <div class="fb-g"><div class="fb-l">Height</div><select class="fb-s" id="fH"><option value="">Any</option><option>4'10"</option><option>5'0"</option><option>5'2"</option><option>5'4"</option><option>5'5"</option><option>5'6"</option><option>5'7"</option><option>5'8"</option><option>5'10"</option><option>6'0"</option><option>6'2"</option></select></div>
+      <div class="fb-g"><div class="fb-l">Height</div><select class="fb-s" id="fH"><option value="">Any</option><option>4'0"</option><option>4'6"</option><option>4'10"</option><option>5'0"</option><option>5'2"</option><option>5'4"</option><option>5'5"</option><option>5'6"</option><option>5'7"</option><option>5'8"</option><option>5'10"</option><option>6'0"</option><option>6'2"</option><option>6'4"</option><option>6'6"</option><option>7'0"+</option></select></div>
       <div class="fb-g"><div class="fb-l">Income</div><select class="fb-s" id="fI"><option value="">Any</option><option>Below 3 Lakhs</option><option>3–6 Lakhs</option><option>6–10 Lakhs</option><option>10–20 Lakhs</option><option>20–50 Lakhs</option><option>50L–1 Crore</option><option>1 Crore+</option></select></div>
       <div class="fb-g"><div class="fb-l">Country</div><select class="fb-s" id="fC"><option value="">Any</option><option>India</option><option>USA</option><option>UK</option><option>Canada</option><option>Australia</option><option>UAE</option><option>Singapore</option><option>Germany</option></select></div>
       <div class="fb-g"><div class="fb-l">State</div><select class="fb-s" id="fS"><option value="">Any</option><option>Telangana</option><option>Andhra Pradesh</option><option>Karnataka</option><option>Tamil Nadu</option><option>Maharashtra</option><option>Delhi</option><option>Gujarat</option><option>Kerala</option></select></div>
@@ -5231,15 +5252,33 @@ function dismissWelcomeToast(){
     setTimeout(dismissWelcomeToast,14000);
   },4500);
 })();
-// ── WhatsApp glow on page entry (3-5s) ──
+// ── Social float inline labels — auto-hide after 5.5s ──
 (function(){
-  setTimeout(()=>{
-    const wa=document.getElementById('waBtnCircle');
-    if(wa){
-      wa.classList.add('wa-circle-glow');
-      setTimeout(()=>wa.classList.remove('wa-circle-glow'),4400);
-    }
-  },1200);
+  setTimeout(function(){
+    ['sfIgLabel','sfWaLabel'].forEach(function(id){
+      var el=document.getElementById(id);
+      if(el)el.classList.add('sf-hidden');
+    });
+  },5500);
+})();
+
+// ── Google sign-in suggestion popup ──
+function dismissGsiPopup(){
+  var el=document.getElementById('gsiPopup');
+  if(!el||el.style.display==='none')return;
+  clearTimeout(window._gsiTimer);
+  el.classList.add('gsi-hiding');
+  setTimeout(function(){el.style.display='none';el.classList.remove('gsi-hiding');},300);
+}
+(function(){
+  if(sessionStorage.getItem('gsi_shown')||localStorage.getItem('nrmb_uid'))return;
+  sessionStorage.setItem('gsi_shown','1');
+  setTimeout(function(){
+    if(window.ST&&window.ST.user)return;
+    var el=document.getElementById('gsiPopup');
+    if(el){el.style.display='block';}
+    window._gsiTimer=setTimeout(dismissGsiPopup,8000);
+  },1400);
 })();
 
 </script>
@@ -5248,10 +5287,7 @@ function dismissWelcomeToast(){
 <div class="social-stack" id="socialStack">
 
   <a class="sf-item" href="https://instagram.com/naveenreddymatrimony" target="_blank" rel="noopener" aria-label="Follow us on Instagram">
-    <div class="sf-card">
-      <span class="sf-cta">Follow our journey</span>
-      <span class="sf-hint">Daily updates &amp; success stories</span>
-    </div>
+    <span class="sf-inline-label" id="sfIgLabel">Follow our journey</span>
     <div class="sf-btn sf-ig">
       <lottie-player src="https://cdn.prod.website-files.com/5d829bf092d4644f5c42e0ea/5e789e6aac14dc7e6943e1df_instagram.json"
         background="transparent" speed="0.8" loop autoplay></lottie-player>
@@ -5259,10 +5295,7 @@ function dismissWelcomeToast(){
   </a>
 
   <a class="sf-item" href="https://wa.me/919848221166" target="_blank" rel="noopener" id="waRow" aria-label="Chat with us on WhatsApp">
-    <div class="sf-card">
-      <span class="sf-cta">Have a question?</span>
-      <span class="sf-hint">Chat with us — we reply fast</span>
-    </div>
+    <span class="sf-inline-label" id="sfWaLabel">Chat with us</span>
     <div class="sf-btn sf-wa" id="waBtnCircle">
       <lottie-player src="https://cdn.prod.website-files.com/5d829bf092d4644f5c42e0ea/5e789f361a20d5d32d9de899_wtsapp.json"
         background="transparent" speed="0.8" loop autoplay></lottie-player>
@@ -5305,6 +5338,33 @@ function dismissWelcomeToast(){
     <span>My Profile</span>
   </button>
 </nav>
+
+<!-- Google sign-in suggestion popup — shows on first visit -->
+<div class="gsi-popup" id="gsiPopup" style="display:none;" role="dialog" aria-modal="true" aria-label="Sign in with Google">
+  <button class="gsi-popup-close" onclick="dismissGsiPopup()" aria-label="Close">&#x2715;</button>
+  <div class="gsi-popup-head">
+    <div class="gsi-popup-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+      </svg>
+    </div>
+    <div class="gsi-popup-title">Quick Sign In</div>
+  </div>
+  <div class="gsi-popup-sub">Use your Google account to create or access your profile — takes just one click.</div>
+  <button class="gsi-popup-btn" onclick="doGoogleSignIn();dismissGsiPopup()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+    </svg>
+    Continue with Google
+  </button>
+  <button class="gsi-popup-skip" onclick="dismissGsiPopup()">Not now</button>
+</div>
 
 </body>
 </html>
