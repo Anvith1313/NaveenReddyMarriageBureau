@@ -1759,15 +1759,18 @@ body{font-size:18px;}
 }
 /* ── Header ── */
 .bio-header{text-align:center;border-bottom:2px solid #8b1a2a;padding-bottom:0.7rem;margin-bottom:0.7rem;}
-.bio-meta{display:flex;justify-content:space-between;align-items:center;font-size:0.72rem;color:#8b1a2a;margin-bottom:0.25rem;font-family:'Times New Roman',serif;}
-.bio-meta em{font-style:italic;font-size:0.7rem;}
-.bio-meta strong{font-style:normal;font-weight:700;font-size:0.7rem;}
-.bio-logo-img{display:block;margin:0.15rem auto;max-width:100%;height:auto;max-height:110px;object-fit:contain;}
-.bio-address{font-size:0.7rem;color:#222;margin-top:0.35rem;font-family:'Times New Roman',serif;}
+.bio-meta-row{display:flex;justify-content:space-between;align-items:center;font-size:0.72rem;color:#8b1a2a;margin-bottom:0.2rem;font-family:'Times New Roman',serif;}
+.bio-meta-row em{font-style:italic;font-size:0.7rem;}
+.bio-meta-row strong{font-style:normal;font-weight:700;font-size:0.7rem;}
+.bio-logo-img{display:block;margin:0;max-width:100%;height:auto;max-height:70px;object-fit:contain;}
+.bio-bureau-name{font-family:'Times New Roman',Georgia,serif;font-size:1.3rem;font-weight:700;color:#8b1a2a;letter-spacing:0.06em;margin:0.1rem 0 0;}
+.bio-bureau-divider{color:#8b1a2a;font-size:0.85rem;margin:0.05rem 0;letter-spacing:0.25em;}
+.bio-bureau-sub{font-family:'Times New Roman',Georgia,serif;font-size:0.72rem;font-weight:600;color:#222;letter-spacing:0.12em;margin-bottom:0.15rem;}
+.bio-address{font-size:0.7rem;color:#222;margin-top:0.25rem;font-family:'Times New Roman',serif;}
 .bio-address u{text-decoration-color:inherit;}
 /* ── Rows ── */
 .bio-row{display:flex;align-items:baseline;gap:0;margin-bottom:0.28rem;font-size:0.82rem;font-family:'Times New Roman',serif;}
-.bio-lbl{color:#8b1a2a;font-style:italic;font-weight:600;min-width:155px;flex-shrink:0;font-size:0.82rem;}
+.bio-lbl{color:#8b1a2a;font-style:italic;font-weight:700;min-width:155px;flex-shrink:0;font-size:0.82rem;}
 .bio-colon{color:#222;padding:0 0.25rem;flex-shrink:0;}
 .bio-val{color:#111;flex:1;font-size:0.82rem;}
 .bio-two{display:grid;grid-template-columns:1fr 1fr;gap:0.1rem 0.8rem;margin-bottom:0.1rem;}
@@ -4578,10 +4581,10 @@ function _biodataFmt(p, logoSrc){
     if(!v||v==='—'||v===''||v==='0')return '—';
     const n=parseFloat(String(v).replace(/[^0-9.]/g,''));
     if(isNaN(n)||n<=0)return String(v);
-    if(n>=10000000)return (n/10000000).toFixed(2).replace(/\.?0+$/,'')+' Crore P.A.';
-    if(n>=100000)  return (n/100000).toFixed(1).replace(/\.?0+$/,'')+' Lakhs P.A.';
-    if(n>=1000)    return (n/1000).toFixed(0)+' Thousand P.A.';
-    return n+' P.A.';
+    if(n>=10000000)return (n/10000000).toFixed(2).replace(/\.?0+$/,'')+' Crore,PA';
+    if(n>=100000)  return (n/100000).toFixed(1).replace(/\.?0+$/,'')+' Lakhs,PA';
+    if(n>=1000)    return (n/1000).toFixed(0)+' Thousand,PA';
+    return n+',PA';
   }
   /* ── derived values ── */
   const tier=p.tier||'VIP';
@@ -4611,20 +4614,22 @@ function _biodataFmt(p, logoSrc){
   let sibRows='';
   if(bCnt>0)sibRows+=row(bCnt>1?'Brothers':'Brother',`${bCnt} (Married: ${bMar})`+(p.bro_occ&&p.bro_occ!=='—'?' / '+p.bro_occ:''));
   if(sCnt>0)sibRows+=row(sCnt>1?'Sisters':'Sister',`${sCnt} (Married: ${sMar})`+(p.sis_occ&&p.sis_occ!=='—'?' / '+p.sis_occ:''));
-  if(!bCnt&&!sCnt)sibRows=row('Siblings','No Siblings');
+  if(!bCnt&&!sCnt)sibRows=row('','No Siblings');
   /* divorce info */
   const msVal=(p.ms||p.maritalStatus||'');
   const isDivorced=msVal.toLowerCase().includes('divorce')||msVal.toLowerCase().includes('separated');
   /* age gap */
   const ageGap=(p.pp_af&&p.pp_at)?`${p.pp_af} - ${p.pp_at} Years`:'—';
   /* logo */
-  const logoImgHtml=logoSrc
+  const logoCenterHtml=logoSrc
     ?`<img src="${logoSrc}" class="bio-logo-img" alt="NRMB Logo">`
-    :`<div style="text-align:center;margin:0.4rem 0;"><div style="font-family:'Times New Roman',serif;font-size:1.8rem;font-weight:700;color:#c0392b;">NR</div><div class="bio-bureau">NAVEEN REDDY</div><div class="bio-sub">MARRIAGE BUREAU</div></div>`;
+    :`<div style="font-family:'Times New Roman',serif;font-size:1.5rem;font-weight:700;color:#8b1a2a;line-height:1;">NR</div>`;
   return `<div class="biodata-sheet">
     <div class="bio-header">
-      <div class="bio-meta"><em>Since 2000</em><strong>Sl No : ${slId}</strong></div>
-      ${logoImgHtml}
+      <div class="bio-meta-row"><em>Since 2000</em>${logoCenterHtml}<strong>Sl No : ${slId}</strong></div>
+      <div class="bio-bureau-name">NAVEEN REDDY</div>
+      <div class="bio-bureau-divider">✦ &nbsp; ✦ &nbsp; ✦</div>
+      <div class="bio-bureau-sub">MARRIAGE BUREAU</div>
       <div class="bio-address">Corporate office: <u style="color:${brC};text-decoration-color:${brC};">Somajiguda</u>&nbsp;&nbsp;Branches: <u style="color:${brC};text-decoration-color:${brC};">Kothapet</u>, <u style="color:${brC};text-decoration-color:${brC};">Warangal</u>, <u style="color:${brC};text-decoration-color:${brC};">Karimnagar</u></div>
     </div>
     ${row('Name of the '+gender,p.name)}
