@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Naveen Reddy Marriage Bureau — Est. 2000</title>
+<link rel="preload" href="Assets/Logo-transparent.webp" as="image" fetchpriority="high">
+<link rel="preload" href="Assets/Temple.webp" as="image" fetchpriority="high">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cinzel:wght@400;500;600;700;900&family=Josefin+Sans:wght@200;300;400&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
@@ -294,7 +296,7 @@ body{font-family:'EB Garamond',serif;font-size:19px;line-height:1.82;background:
 .hero-photo{
   position:absolute;
   top:-28%;left:-3%;right:-3%;bottom:-28%;
-  background-image:url('Assets/Temple.png');
+  background-image:url('Assets/Temple.webp');
   background-size:cover;
   background-position:center 48%;
   z-index:0;
@@ -410,7 +412,7 @@ html:has(#pgHome.active){scroll-snap-type:y proximity;scroll-behavior:smooth;}
 /* Doodle watermark — tiled gently, very faint */
 .home-below::before{
   content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
-  background-image:url('Assets/Doodle.png');
+  background-image:url('Assets/Doodle.webp');
   background-size:520px auto;
   background-repeat:repeat;
   background-position:center top;
@@ -632,7 +634,7 @@ html:has(#pgHome.active){scroll-snap-type:y proximity;scroll-behavior:smooth;}
 }
 .signup-hero{
   height:clamp(160px,24vh,240px);
-  background-image:url('Assets/Temple.png');
+  background-image:url('Assets/Temple.webp');
   background-size:cover;
   background-position:center 40%;
   display:flex;align-items:center;justify-content:center;
@@ -1810,6 +1812,39 @@ body{font-size:18px;}
 .bdet-map-btn{display:inline-flex;align-items:center;gap:0.4rem;margin-top:0.4rem;padding:0.35rem 0.9rem;background:var(--crimson);color:#fff;border-radius:50px;font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;font-weight:600;transition:opacity .2s;}
 .bdet-map-btn:hover{opacity:0.85;}
 
+/* ── SPLASH SCREEN ── */
+#splashScreen{
+  position:fixed;inset:0;z-index:999999;
+  background:linear-gradient(160deg,#1c0507 0%,#100304 55%,#07010a 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  clip-path:inset(0 0 0% 0);
+  transition:clip-path 0.85s cubic-bezier(0.76,0,0.24,1);
+  pointer-events:all;
+  will-change:clip-path;
+}
+#splashScreen.splash-hide{clip-path:inset(0 0 100% 0);pointer-events:none;}
+.splash-inner{display:flex;flex-direction:column;align-items:center;gap:1.2rem;opacity:0;animation:splashIn 0.7s cubic-bezier(0.34,1.56,0.64,1) 0.2s forwards;}
+@keyframes splashIn{to{opacity:1;}}
+.splash-logo-img{width:clamp(180px,40vw,280px);height:auto;object-fit:contain;filter:drop-shadow(0 0 40px rgba(212,175,55,0.35));}
+.splash-bureau-name{font-family:'Cinzel',serif;font-size:clamp(1rem,3.5vw,1.5rem);font-weight:600;letter-spacing:0.18em;color:rgba(255,248,220,0.92);text-transform:uppercase;text-align:center;}
+.splash-bureau-sub{font-family:'EB Garamond',serif;font-size:clamp(0.75rem,2vw,0.95rem);color:rgba(212,175,55,0.7);letter-spacing:0.3em;text-transform:uppercase;margin-top:-0.6rem;}
+.splash-divider{display:flex;align-items:center;gap:0.7rem;margin:0 0 0.2rem;}
+.splash-divider::before,.splash-divider::after{content:'';width:40px;height:1px;background:linear-gradient(90deg,transparent,rgba(212,175,55,0.5));}
+.splash-divider::after{background:linear-gradient(270deg,transparent,rgba(212,175,55,0.5));}
+.splash-divider span{color:rgba(212,175,55,0.7);font-size:0.7rem;}
+.splash-bar{width:clamp(100px,28vw,180px);height:1px;background:rgba(212,175,55,0.12);position:relative;overflow:hidden;border-radius:1px;}
+.splash-bar-shimmer{position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(212,175,55,0.8),transparent);animation:splashShimmer 1.4s ease-in-out infinite;}
+@keyframes splashShimmer{0%{left:-100%;}100%{left:100%;}}
+/* Hero entrance animation */
+.hero-entering .hero-tag,.hero-entering .hero-brand,.hero-entering .hero-h1,.hero-entering .hero-h2,.hero-entering .hero-btns,.hero-entering .hero-trust-row{opacity:0;animation:heroSlideUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards;}
+@keyframes heroSlideUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+.hero-entering .hero-tag{animation-delay:0.05s;}
+.hero-entering .hero-brand{animation-delay:0.18s;}
+.hero-entering .hero-h1{animation-delay:0.30s;}
+.hero-entering .hero-h2{animation-delay:0.42s;}
+.hero-entering .hero-btns{animation-delay:0.54s;}
+.hero-entering .hero-trust-row{animation-delay:0.66s;}
+
 </style>
   <!-- Firebase SDK -->
   <script type="module">
@@ -1851,6 +1886,17 @@ body{font-size:18px;}
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
 <body>
+
+<!-- ══════ SPLASH SCREEN ══════ -->
+<div id="splashScreen" role="status" aria-label="Loading Naveen Reddy Marriage Bureau">
+  <div class="splash-inner">
+    <img src="Assets/Logo-transparent.webp" class="splash-logo-img" alt="NRMB Logo" width="280" height="160">
+    <div class="splash-bureau-name">Naveen Reddy Marriage Bureau</div>
+    <div class="splash-divider"><span>✦</span></div>
+    <div class="splash-bureau-sub">Since 2000 · Hyderabad</div>
+    <div class="splash-bar"><div class="splash-bar-shimmer"></div></div>
+  </div>
+</div>
 
 <!-- ══════ COOKIE CONSENT ══════ -->
 <div id="cookieConsent" style="display:none;position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);z-index:10000;width:min(92vw,560px);opacity:0;transition:opacity 0.45s cubic-bezier(0.22,1,0.36,1),transform 0.45s cubic-bezier(0.22,1,0.36,1);">
@@ -5675,5 +5721,36 @@ function dismissGsiPopup(){
   <button class="gsi-popup-skip" onclick="dismissGsiPopup()">Not now</button>
 </div>
 
+
+<script>
+/* ── SPLASH SCREEN LOGIC ── */
+(function(){
+  var splash = document.getElementById('splashScreen');
+  var heroContent = document.querySelector('.hero-content');
+  if(!splash) return;
+
+  var dismissed = false;
+  function dismissSplash(){
+    if(dismissed) return;
+    dismissed = true;
+    splash.classList.add('splash-hide');
+    // Trigger hero entrance animation
+    if(heroContent){
+      heroContent.classList.add('hero-entering');
+    }
+    setTimeout(function(){ splash.remove(); }, 900);
+  }
+
+  // Dismiss after assets load OR after max 2.8s, whichever is first
+  var minTimer = setTimeout(dismissSplash, 2800);
+  window.addEventListener('load', function(){
+    // Minimum 1.2s so logo has time to animate in
+    var elapsed = performance.now();
+    var remaining = Math.max(0, 1200 - elapsed);
+    clearTimeout(minTimer);
+    setTimeout(dismissSplash, remaining);
+  });
+})();
+</script>
 </body>
 </html>
