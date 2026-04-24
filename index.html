@@ -48,7 +48,7 @@
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{font-family:'EB Garamond',serif;font-size:18px;line-height:1.78;background:var(--bg);color:var(--text-body);overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;}
+body{font-family:'EB Garamond',serif;font-size:19px;line-height:1.82;background:var(--bg);color:var(--text-body);overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;}
 
 /* ── Shimmer sweep on all primary buttons ── */
 .btn-prim,.hbtn.primary,.btn-nav-up{position:relative;overflow:hidden;}
@@ -58,26 +58,23 @@ body{font-family:'EB Garamond',serif;font-size:18px;line-height:1.78;background:
   transition:left 0.55s var(--ease-out);pointer-events:none;
 }
 .btn-prim:hover::after,.hbtn.primary:hover::after,.btn-nav-up:hover::after{left:140%;}
-/* ── Page entrance animations ── */
+/* ── Page entrance animations — only fire on first visit via .page-enter class ── */
 @keyframes navSlideDown{
-  from{transform:translateY(-80px);opacity:0;}
+  from{transform:translateY(-64px);opacity:0;}
   to{transform:translateY(0);opacity:1;}
 }
 @keyframes heroFadeUp{
-  from{transform:translateY(22px);opacity:0;}
+  from{transform:translateY(18px);opacity:0;}
   to{transform:translateY(0);opacity:1;}
 }
-/* Navbar */
-.navbar{
-  animation:navSlideDown 0.8s cubic-bezier(0.22,1,0.36,1) both;
-}
-/* Hero elements — staggered, matching framer-motion timing */
-.hero-tag{animation:heroFadeUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.2s both;}
-.hero-brand{animation:heroFadeUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.35s both;}
-.hero-h1{animation:heroFadeUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.5s both;}
-.hero-h2{animation:heroFadeUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.62s both;}
-.hero-btns{animation:heroFadeUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.76s both;}
-.hero-trust-row{animation:heroFadeUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.9s both;}
+/* Applied by JS only on first load — removed immediately after so re-visits don't re-animate */
+.navbar.first-load{animation:navSlideDown 0.65s cubic-bezier(0.22,1,0.36,1) both;}
+.first-load .hero-tag{animation:heroFadeUp 0.55s cubic-bezier(0.22,1,0.36,1) 0.15s both;}
+.first-load .hero-brand{animation:heroFadeUp 0.55s cubic-bezier(0.22,1,0.36,1) 0.28s both;}
+.first-load .hero-h1{animation:heroFadeUp 0.55s cubic-bezier(0.22,1,0.36,1) 0.4s both;}
+.first-load .hero-h2{animation:heroFadeUp 0.55s cubic-bezier(0.22,1,0.36,1) 0.5s both;}
+.first-load .hero-btns{animation:heroFadeUp 0.55s cubic-bezier(0.22,1,0.36,1) 0.62s both;}
+.first-load .hero-trust-row{animation:heroFadeUp 0.55s cubic-bezier(0.22,1,0.36,1) 0.74s both;}
 
 /* ── Reduced motion safety net ── */
 @media(prefers-reduced-motion:reduce){
@@ -247,6 +244,7 @@ body{font-family:'EB Garamond',serif;font-size:18px;line-height:1.78;background:
 ═══════════════════════════════════ */
 .page{display:none;min-height:100vh;padding-top:var(--nav-h);}
 .page.active{display:block;}
+@media(max-width:768px){body.logged-in .page{padding-bottom:72px;}}
 
 /* ═══════════════════════════════════
    HOME HERO
@@ -316,15 +314,14 @@ body{font-family:'EB Garamond',serif;font-size:18px;line-height:1.78;background:
   position:relative;
   padding-bottom:0;
 }
-/* Doodle watermark — single large instance, no tiling, very faint */
+/* Doodle watermark — tiled gently, very faint */
 .home-below::before{
   content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
   background-image:url('Assets/Doodle.png');
-  background-size:cover;
-  background-repeat:no-repeat;
+  background-size:520px auto;
+  background-repeat:repeat;
   background-position:center top;
-  background-attachment:local;
-  opacity:0.055;
+  opacity:0.04;
 }
 .home-below > *{position:relative;z-index:1;}
 
@@ -561,8 +558,9 @@ body{font-family:'EB Garamond',serif;font-size:18px;line-height:1.78;background:
 .rev-val.empty{color:rgba(107,83,64,0.35);font-style:italic;}
 @media(max-width:768px){.rev-grid{grid-template-columns:1fr;}}
 
-.form-step{display:none;}
-.form-step.active{display:block;}
+.form-step{display:none;opacity:0;transform:translateY(14px);transition:opacity 0.38s cubic-bezier(0.22,1,0.36,1),transform 0.38s cubic-bezier(0.22,1,0.36,1);}
+.form-step.active{display:block;opacity:1;transform:translateY(0);}
+.form-step.step-out{opacity:0;transform:translateY(-10px);}
 
 .form-sec{background:rgba(255,255,255,0.88);backdrop-filter:blur(6px);border:1px solid var(--border);border-radius:16px;padding:2rem 2.2rem;margin-bottom:1.4rem;}
 .form-sec-title{font-family:'Cinzel',serif;font-size:0.85rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--crimson);padding-bottom:1rem;border-bottom:1px solid var(--border);margin-bottom:1.5rem;display:flex;align-items:center;gap:0.6rem;}
@@ -818,16 +816,23 @@ body{font-family:'EB Garamond',serif;font-size:18px;line-height:1.78;background:
 /* ═══════════════════════════════════
    OVERLAYS
 ═══════════════════════════════════ */
-.overlay{position:fixed;inset:0;z-index:900;background:rgba(10,5,0,0.55);backdrop-filter:blur(7px);display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity 0.3s;}
+.overlay{position:fixed;inset:0;z-index:900;background:rgba(10,5,0,0.6);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity 0.32s;}
 .overlay.open{opacity:1;pointer-events:all;}
-.ov-mod{background:var(--offwhite);border:1px solid rgba(184,137,42,0.18);border-radius:20px;width:100%;max-width:640px;max-height:92vh;overflow:hidden;display:flex;flex-direction:column;position:relative;transform:translateY(18px) scale(0.97);transition:transform 0.35s cubic-bezier(0.34,1.2,0.64,1);box-shadow:0 40px 100px rgba(0,0,0,0.2);}
+/* Spinning gold border wrapper around modal */
+@property --ov-angle{syntax:'<angle>';initial-value:0deg;inherits:false;}
+@keyframes ovBorderSpin{to{--ov-angle:360deg;}}
+.ov-border-spin{border-radius:22px;padding:2px;background:conic-gradient(from var(--ov-angle,0deg),rgba(212,175,55,0.05) 0%,rgba(200,168,44,0.5) 30%,#F0D060 45%,#D4AF37 55%,rgba(200,168,44,0.5) 70%,rgba(212,175,55,0.05) 100%);animation:ovBorderSpin 3.5s linear infinite;box-shadow:0 0 40px rgba(184,137,42,0.18),0 40px 100px rgba(0,0,0,0.22);}
+.overlay.open .ov-border-spin{animation:ovBorderSpin 3.5s linear infinite;}
+.ov-mod{background:var(--offwhite);border-radius:20px;width:100%;max-width:640px;max-height:92vh;overflow:hidden;display:flex;flex-direction:column;position:relative;transform:translateY(22px) scale(0.96);transition:transform 0.38s cubic-bezier(0.34,1.2,0.64,1);}
 .overlay.open .ov-mod{transform:translateY(0) scale(1);}
 .ov-head{padding:1.7rem 2.2rem 1.2rem;border-bottom:1px solid var(--border);flex-shrink:0;background:linear-gradient(180deg,var(--cream),rgba(253,248,240,0.4));position:relative;}
-.ov-head::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--crimson),var(--gold2),var(--crimson));border-radius:20px 20px 0 0;}
-.ov-title{font-family:'Cinzel',serif;font-size:1.1rem;font-weight:600;color:var(--crimson);letter-spacing:0.04em;}
-.ov-sub{font-family:'Cormorant Garamond',serif;font-size:0.88rem;font-style:italic;color:var(--muted);margin-top:0.2rem;}
-.ov-close{position:absolute;top:1.3rem;right:1.5rem;background:rgba(184,137,42,0.08);border:none;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:0.9rem;color:var(--muted);transition:all 0.2s;display:flex;align-items:center;justify-content:center;}
-.ov-close:hover{background:var(--crimson);color:#fff;}
+.ov-head::before{content:'✦';position:absolute;top:1.4rem;left:2.2rem;font-size:0.55rem;color:var(--gold);opacity:0.6;}
+.ov-title{font-family:'Cinzel',serif;font-size:1.15rem;font-weight:600;color:var(--crimson);letter-spacing:0.04em;padding-left:1.2rem;}
+.ov-sub{font-family:'Cormorant Garamond',serif;font-size:1rem;font-style:italic;color:var(--muted);margin-top:0.2rem;padding-left:1.2rem;}
+.ov-close{position:absolute;top:1.3rem;right:1.5rem;background:rgba(184,137,42,0.1);border:1px solid rgba(184,137,42,0.2);width:32px;height:32px;border-radius:50%;cursor:pointer;color:var(--gold2);transition:all 0.22s;display:flex;align-items:center;justify-content:center;}
+.ov-close:hover{background:var(--crimson);border-color:var(--crimson);color:#fff;}
+.ov-close::before{content:'';display:block;width:12px;height:1.5px;background:currentColor;transform:rotate(45deg);position:absolute;}
+.ov-close::after{content:'';display:block;width:12px;height:1.5px;background:currentColor;transform:rotate(-45deg);position:absolute;}
 .ov-body{padding:1.7rem 2.2rem;overflow-y:auto;flex:1;}
 
 /* Chat */
@@ -1454,9 +1459,33 @@ body{font-size:17px;}
 }
 .back-home-btn:hover{background:rgba(123,31,46,0.1) !important;color:var(--crimson) !important;}
 
-/* ── CASTE/COMMUNITY COLOR FIX ── */
-.hero-tag{color:rgba(255,248,220,0.96) !important;text-shadow:0 2px 8px rgba(0,0,0,0.5);}
-.hero-tag::before,.hero-tag::after{background:rgba(255,248,220,0.7)!important;}
+/* ══ GLOBAL TEXT SIZE OVERRIDES — ensure all age groups can read comfortably ══ */
+.ff label{font-size:0.74rem !important;letter-spacing:0.1em;}
+.ff input,.ff select,.ff textarea{font-size:1.15rem !important;line-height:1.6;}
+.form-sec-title{font-size:0.9rem !important;}
+.btn-step{font-size:0.68rem !important;letter-spacing:0.14em;}
+.nav-link{font-size:0.75rem !important;letter-spacing:0.12em;}
+.btn-nav-in,.btn-nav-up{font-size:0.68rem !important;letter-spacing:0.14em;}
+.bnav-item{font-size:0.65rem !important;}
+.stat-l{font-size:0.82rem !important;}
+.feat-text,.story-text,.process-text{font-size:1.05rem !important;line-height:1.72;}
+.feat-title,.process-title{font-size:1.05rem !important;}
+.sec-sub{font-size:1.05rem !important;}
+.sec-tag{font-size:0.78rem !important;letter-spacing:0.2em;}
+.htrust-pill{font-size:0.75rem !important;}
+.hbtn{font-size:0.72rem !important;letter-spacing:0.18em;}
+.pc-name{font-size:1.15rem !important;}
+.pc-meta{font-size:0.88rem !important;}
+.ui label{font-size:0.72rem !important;}
+.ui input{font-size:1.2rem !important;}
+.wt-body{font-size:1rem !important;}
+.toast{font-size:1rem !important;}
+.ov-title{font-size:1.2rem !important;}
+.ov-sub{font-size:0.95rem !important;}
+.modal-title{font-size:1.2rem !important;}
+/* ── COMMUNITY TAG — orange so it pops on photo background ── */
+.hero-tag{color:#FF9A3C !important;text-shadow:0 2px 10px rgba(0,0,0,0.6);}
+.hero-tag::before,.hero-tag::after{background:rgba(255,154,60,0.75)!important;}
 .btn-nav-in{color:var(--crimson) !important;border-color:rgba(123,31,46,0.3) !important;}
 .btn-nav-in:hover{border-color:var(--crimson) !important;background:rgba(123,31,46,0.06) !important;}
 .hbtn.outline{border-color:rgba(255,255,255,0.7) !important;color:#fff !important;}
@@ -1597,99 +1626,50 @@ body{font-size:17px;}
 </head>
 <body>
 
-<!-- ══════ COOKIE CONSENT BANNER ══════ -->
-<div id="cookieConsent" class="cookie-banner" style="display: none;">
-  <div class="cookie-content">
-    <p>We use cookies to enhance your experience. By continuing to visit this site you agree to our use of cookies.</p>
-    <div class="cookie-buttons">
-      <button class="cookie-btn cookie-accept" onclick="acceptCookies()" aria-label="Accept">Accept</button>
-      <button class="cookie-btn cookie-decline" onclick="declineCookies()" aria-label="Decline">Decline</button>
+<!-- ══════ COOKIE CONSENT ══════ -->
+<div id="cookieConsent" style="display:none;position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);z-index:10000;width:min(92vw,560px);opacity:0;transition:opacity 0.45s cubic-bezier(0.22,1,0.36,1),transform 0.45s cubic-bezier(0.22,1,0.36,1);">
+  <div style="background:var(--bg-warm);border-radius:20px;padding:2px;background:conic-gradient(from var(--ck-angle,0deg),rgba(212,175,55,0.08) 0%,rgba(200,168,44,0.55) 30%,#F0D060 45%,#D4AF37 55%,rgba(200,168,44,0.55) 70%,rgba(212,175,55,0.08) 100%);animation:ckBorderSpin 4s linear infinite;" id="ckBorderWrap">
+    <div style="background:var(--bg-warm);border-radius:18px;padding:1.4rem 1.6rem;">
+      <div style="display:flex;align-items:flex-start;gap:1rem;">
+        <div style="flex-shrink:0;width:36px;height:36px;background:linear-gradient(135deg,var(--gold),var(--gold-bright));border-radius:50%;display:flex;align-items:center;justify-content:center;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <div style="flex:1;">
+          <div style="font-family:'Cinzel',serif;font-size:0.8rem;font-weight:600;letter-spacing:0.1em;color:var(--primary);margin-bottom:0.3rem;">Your Privacy Matters</div>
+          <p style="font-family:'EB Garamond',serif;font-size:0.98rem;color:var(--text-body);margin:0;line-height:1.6;">We use cookies to personalise your experience and remember your preferences. By continuing, you agree to our use of cookies.</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:0.7rem;margin-top:1.1rem;justify-content:flex-end;">
+        <button onclick="declineCookies()" style="padding:0.5rem 1.4rem;background:transparent;border:1.5px solid var(--border);border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.62rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);transition:all 0.22s;" onmouseover="this.style.borderColor='var(--gold2)'" onmouseout="this.style.borderColor='var(--border)'">Decline</button>
+        <button onclick="acceptCookies()" style="padding:0.5rem 1.6rem;background:linear-gradient(135deg,#9B2F40,#7B1F2E);border:none;border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.62rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#fff;box-shadow:0 4px 16px rgba(123,31,46,0.28);transition:all 0.22s;" onmouseover="this.style.boxShadow='0 6px 22px rgba(123,31,46,0.42)'" onmouseout="this.style.boxShadow='0 4px 16px rgba(123,31,46,0.28)'">Accept All</button>
+      </div>
     </div>
   </div>
 </div>
 <style>
-.cookie-banner {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-  border-top: 2px solid #d4af37;
-  padding: 20px;
-  z-index: 10000;
-  box-shadow: 0 -4px 20px rgba(0,0,0,0.3);
-  font-family: 'EB Garamond', serif;
-}
-.cookie-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 15px;
-}
-.cookie-content p {
-  color: #fefcf8;
-  font-size: 16px;
-  margin: 0;
-  flex: 1;
-  min-width: 280px;
-}
-.cookie-buttons {
-  display: flex;
-  gap: 10px;
-}
-.cookie-btn {
-  padding: 10px 25px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-family: 'Cinzel', serif;
-  font-size: 14px;
-  transition: all 0.3s ease;
-}
-.cookie-accept {
-  background: linear-gradient(135deg, #8b0000 0%, #a52a2a 100%);
-  color: #d4af37;
-  border: 1px solid #d4af37;
-}
-.cookie-accept:hover {
-  background: linear-gradient(135deg, #a52a2a 0%, #8b0000 100%);
-  box-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
-}
-.cookie-decline {
-  background: transparent;
-  color: #fefcf8;
-  border: 1px solid #666;
-}
-.cookie-decline:hover {
-  border-color: #fefcf8;
-}
+@property --ck-angle{syntax:'<angle>';initial-value:0deg;inherits:false;}
+@keyframes ckBorderSpin{to{--ck-angle:360deg;}}
 </style>
 <script>
-// XSS Protection - Escape HTML to prevent script injection
-function escapeHtml(str) {
-  if (!str) return '';
-  const div = document.createElement('div');
-  div.textContent = str;
-  return div.innerHTML;
-}
-
-// Cookie Consent Functions
-function checkCookieConsent() {
-  const consent = localStorage.getItem('cookieConsent');
-  if (!consent) {
-    document.getElementById('cookieConsent').style.display = 'block';
+function escapeHtml(str){if(!str)return'';const d=document.createElement('div');d.textContent=str;return d.innerHTML;}
+function checkCookieConsent(){
+  if(!localStorage.getItem('cookieConsent')){
+    const el=document.getElementById('cookieConsent');
+    el.style.display='block';
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{el.style.opacity='1';el.style.transform='translateX(-50%) translateY(0)';}));
   }
 }
-function acceptCookies() {
-  localStorage.setItem('cookieConsent', 'accepted');
-  document.getElementById('cookieConsent').style.display = 'none';
+function acceptCookies(){
+  localStorage.setItem('cookieConsent','accepted');
+  const el=document.getElementById('cookieConsent');
+  el.style.opacity='0';el.style.transform='translateX(-50%) translateY(20px)';
+  setTimeout(()=>el.style.display='none',460);
 }
-function declineCookies() {
-  localStorage.setItem('cookieConsent', 'declined');
-  document.getElementById('cookieConsent').style.display = 'none';
+function declineCookies(){
+  localStorage.setItem('cookieConsent','declined');
+  const el=document.getElementById('cookieConsent');
+  el.style.opacity='0';el.style.transform='translateX(-50%) translateY(20px)';
+  setTimeout(()=>el.style.display='none',460);
 }
 checkCookieConsent();
 </script>
@@ -1820,7 +1800,6 @@ checkCookieConsent();
       <p class="hero-h2">Hyderabad · Warangal · Karimnagar · and across India</p>
       <div class="hero-btns">
         <div class="hero-cta-wrap"><button class="hbtn primary" onclick="showPage('pgSignup')" aria-label="Begin Your Journey">Begin Your Journey</button></div>
-        <button class="hbtn outline" onclick="showPage('pgAbout')" aria-label="Learn More">Learn More</button>
       </div>
       <div class="hero-trust-row">
         <div class="htrust-pill">
@@ -1948,8 +1927,8 @@ checkCookieConsent();
       <div style="width:60px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:0.9rem auto 0;"></div>
     </div>
     <div class="orn-line"><span>Secure Sign In</span></div>
-    <div class="ui"><label>Username</label><input id="lu" type="text" placeholder="Enter your username"><div class="uline"></div></div>
-    <div class="ui"><label>Password</label><input id="lp" type="password" placeholder="Your private password"><button class="et" onclick="tpwd('lp',this)" aria-label="👁">👁</button><div class="uline"></div></div>
+    <div class="ui"><label>Email or Username</label><input id="lu" type="text" placeholder="Enter email or username" autocomplete="username"><div class="uline"></div></div>
+    <div class="ui"><label>Password</label><input id="lp" type="password" placeholder="Your password" autocomplete="current-password"><button class="et" onclick="tpwd('lp',this)" aria-label="Show password" title="Show/hide password"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button><div class="uline"></div></div>
     <button class="btn-prim" onclick="doLogin()" aria-label="Sign In">Sign In</button>
     <div style="display:flex;align-items:center;gap:0.8rem;margin:0.5rem 0;">
       <div style="flex:1;height:1px;background:var(--border);"></div>
@@ -2167,8 +2146,8 @@ checkCookieConsent();
       <!-- STEP 6: Partner Preferences -->
       <div class="form-step" id="fs6" style="position:relative;z-index:1;">
         <div class="form-sec"><div class="form-sec-title"><span>💑</span> Partner Preferences</div><div class="g2">
-          <div class="ff"><label>Preferred Age From</label><input id="pp_af" type="number" placeholder="e.g. 22"></div>
-          <div class="ff"><label>Preferred Age To</label><input id="pp_at" type="number" placeholder="e.g. 30"></div>
+          <div class="ff"><label>Preferred Age From <small style="color:var(--muted);font-weight:normal;font-style:italic;">(min 18 for bride, 21 for groom)</small></label><input id="pp_af" type="number" min="18" max="70" placeholder="e.g. 22"></div>
+          <div class="ff"><label>Preferred Age To</label><input id="pp_at" type="number" min="18" max="80" placeholder="e.g. 30"></div>
           <div class="ff"><label>Min Height</label><select id="pp_hf"><option value="">Any</option><option>5'0"</option><option>5'2"</option><option>5'4"</option><option>5'5"</option><option>5'6"</option><option>5'7"</option><option>5'8"</option><option>5'10"</option><option>6'0"</option></select></div>
           <div class="ff"><label>Expected Education</label><select id="pp_edu"><option value="">Any</option><option>Graduate &amp; Above</option><option>Post Graduate</option><option>Professional Degree</option><option>Doctorate</option></select></div>
           <div class="ff"><label>Expected Profession</label><input id="pp_occ" type="text" placeholder="e.g. Doctor, Engineer, Any"></div>
@@ -2245,7 +2224,7 @@ checkCookieConsent();
     <div class="m-head">
       <div class="m-title" id="tierRecTitle">Recommended Membership</div>
       <div class="m-sub" id="tierRecSub">Based on your family status</div>
-      <button class="m-close" onclick="closeOv('tierRecOv')" aria-label="✕">✕</button>
+      <button class="m-close ov-close" onclick="closeOv('tierRecOv')" aria-label="Close"></button>
     </div>
     <div class="m-body">
       <div id="tierRecMsg" style="font-family:'EB Garamond',serif;font-size:0.92rem;color:var(--muted);line-height:1.8;margin-bottom:1.4rem;padding:0.8rem 1rem;background:rgba(253,246,216,0.5);border-left:3px solid var(--gold2);border-radius:4px;"></div>
@@ -2307,15 +2286,28 @@ checkCookieConsent();
   <!-- Referral Card (populated by renderReferralCard()) -->
   <div id="referralCardWrap"></div>
 
+  <!-- Global search bar -->
+  <div style="background:var(--bg-warm);border-bottom:1px solid var(--border-light);padding:1rem 1.5rem 0.6rem;position:sticky;top:var(--nav-h);z-index:40;">
+    <div style="max-width:700px;margin:0 auto;position:relative;">
+      <div style="position:absolute;left:1rem;top:50%;transform:translateY(-50%);pointer-events:none;">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--gold2)" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </div>
+      <input id="globalSearch" type="search" placeholder="Search by name, city, occupation, gotra…" autocomplete="off"
+        style="width:100%;padding:0.72rem 1rem 0.72rem 2.6rem;background:#fff;border:1.5px solid var(--border);border-radius:50px;font-family:'EB Garamond',serif;font-size:1.05rem;color:var(--text);outline:none;transition:border-color 0.22s,box-shadow 0.22s;box-shadow:0 2px 12px rgba(123,31,46,0.06);"
+        oninput="loadProfiles()"
+        onfocus="this.style.borderColor='var(--gold)';this.style.boxShadow='0 0 0 3px rgba(184,137,42,0.12)'"
+        onblur="this.style.borderColor='var(--border)';this.style.boxShadow='0 2px 12px rgba(123,31,46,0.06)'">
+    </div>
+  </div>
   <div class="filter-bar">
     <div class="fb-label">Refine Your Search</div>
     <div class="fb-row">
       <div class="fb-g"><div class="fb-l">Age</div><select class="fb-s" id="fA"><option value="">Any Age</option><option>18–20</option><option>21–25</option><option>26–30</option><option>31–35</option><option>36–40</option><option>40+</option></select></div>
-      <div class="fb-g"><div class="fb-l">Height</div><select class="fb-s" id="fH"><option value="">Any</option><option>5'0"</option><option>5'4"</option><option>5'6"</option><option>5'8"</option><option>6'0"</option></select></div>
-      <div class="fb-g"><div class="fb-l">Income</div><select class="fb-s" id="fI"><option value="">Any</option><option>4–10 Lakhs</option><option>10–20 Lakhs</option><option>20–50 Lakhs</option><option>50L+</option></select></div>
-      <div class="fb-g"><div class="fb-l">Country</div><select class="fb-s" id="fC"><option value="">Any</option><option>India</option><option>USA</option><option>UK</option><option>Canada</option><option>Australia</option><option>UAE</option></select></div>
-      <div class="fb-g"><div class="fb-l">State</div><select class="fb-s" id="fS"><option value="">Any</option><option>Telangana</option><option>Andhra Pradesh</option><option>Karnataka</option><option>Tamil Nadu</option></select></div>
-      <div class="fb-g"><div class="fb-l">Native / District</div><input class="fb-i" id="fD" placeholder="e.g. Warangal" style="width:110px;"></div>
+      <div class="fb-g"><div class="fb-l">Height</div><select class="fb-s" id="fH"><option value="">Any</option><option>4'10"</option><option>5'0"</option><option>5'2"</option><option>5'4"</option><option>5'5"</option><option>5'6"</option><option>5'7"</option><option>5'8"</option><option>5'10"</option><option>6'0"</option><option>6'2"</option></select></div>
+      <div class="fb-g"><div class="fb-l">Income</div><select class="fb-s" id="fI"><option value="">Any</option><option>Below 3 Lakhs</option><option>3–6 Lakhs</option><option>6–10 Lakhs</option><option>10–20 Lakhs</option><option>20–50 Lakhs</option><option>50L–1 Crore</option><option>1 Crore+</option></select></div>
+      <div class="fb-g"><div class="fb-l">Country</div><select class="fb-s" id="fC"><option value="">Any</option><option>India</option><option>USA</option><option>UK</option><option>Canada</option><option>Australia</option><option>UAE</option><option>Singapore</option><option>Germany</option></select></div>
+      <div class="fb-g"><div class="fb-l">State</div><select class="fb-s" id="fS"><option value="">Any</option><option>Telangana</option><option>Andhra Pradesh</option><option>Karnataka</option><option>Tamil Nadu</option><option>Maharashtra</option><option>Delhi</option><option>Gujarat</option><option>Kerala</option></select></div>
+      <div class="fb-g"><div class="fb-l">District</div><input class="fb-i" id="fD" placeholder="e.g. Warangal"></div>
       <button class="fb-btn" onclick="loadProfiles()" aria-label="Search">Search</button>
     </div>
   </div>
@@ -2804,8 +2796,8 @@ checkCookieConsent();
 </div>
 
 <!-- OVERLAYS -->
-<div class="overlay" id="forgotOv" onclick="bgC(event,'forgotOv')"><div class="ov-mod" style="max-width:420px;"><div class="ov-head"><div class="ov-title">Password Recovery</div><div class="ov-sub">Enter your registered email to receive a reset link</div><button class="ov-close" onclick="closeOv('forgotOv')" aria-label="✕">✕</button></div><div class="ov-body"><div class="ff"><label>Registered Email</label><input type="email" id="forgotEmail" placeholder="your@email.com"></div><button class="btn-prim" onclick="doForgotPassword()" aria-label="Send Reset Link">Send Reset Link</button></div></div></div>
-<div class="overlay chat-ov" id="chatOv" onclick="bgC(event,'chatOv')"><div class="ov-mod" style="max-width:650px;"><div class="ch-head"><span>💬</span><span class="ch-title" id="chatTitle">Family Conversation</span><button class="ov-close" onclick="closeOv('chatOv')" aria-label="✕">✕</button></div><div class="chatbody" id="chatBody"></div><div class="chat-inp-row"><input class="chat-inp" id="chatInp" placeholder="Type your message…" onkeydown="if(event.key==='Enter')sendChat()"><button class="chat-send" onclick="sendChat()" aria-label="Send">Send</button></div></div></div>
+<div class="overlay" id="forgotOv" onclick="bgC(event,'forgotOv')"><div class="ov-border-spin"><div class="ov-mod" style="max-width:420px;"><div class="ov-head"><div class="ov-title">Password Recovery</div><div class="ov-sub">Enter your registered email to receive a reset link</div><button class="ov-close" onclick="closeOv('forgotOv')" aria-label="Close"></button></div><div class="ov-body"><div class="ff"><label>Registered Email</label><input type="email" id="forgotEmail" placeholder="your@email.com"></div><button class="btn-prim" onclick="doForgotPassword()" aria-label="Send Reset Link">Send Reset Link</button></div></div></div></div>
+<div class="overlay chat-ov" id="chatOv" onclick="bgC(event,'chatOv')"><div class="ov-border-spin"><div class="ov-mod" style="max-width:650px;"><div class="ch-head"><span style="font-size:1rem;">✦</span><span class="ch-title" id="chatTitle">Family Conversation</span><button class="ov-close" onclick="closeOv('chatOv')" aria-label="Close"></button></div><div class="chatbody" id="chatBody"></div><div class="chat-inp-row"><input class="chat-inp" id="chatInp" placeholder="Type your message…" onkeydown="if(event.key==='Enter')sendChat()"><button class="chat-send" onclick="sendChat()" aria-label="Send">Send</button></div></div></div></div>
 
 <div class="toast" id="toastEl"></div>
 
@@ -2832,6 +2824,19 @@ checkCookieConsent();
     <div class="esm-btns">
       <button class="btn-prim esm-continue" onclick="_saveAndExit()" aria-label="Save &amp; Exit">Save &amp; Exit</button>
       <button class="esm-ghost-btn" onclick="_skipAndExit()" aria-label="Skip &amp; Exit">Skip &amp; Exit</button>
+    </div>
+  </div>
+</div>
+
+<!-- DRAFT RESTORE MODAL -->
+<div id="draftRestoreOv" class="esm-overlay" style="display:none;" onclick="if(event.target===this)_draftDecline()">
+  <div class="esm-card" style="max-width:440px;">
+    <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,rgba(184,137,42,0.15),rgba(253,246,216,0.6));border:1.5px solid rgba(184,137,42,0.3);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:1.5rem;">✦</div>
+    <div class="esm-title" style="margin-bottom:0.5rem;">Welcome Back!</div>
+    <div class="esm-body" style="margin-bottom:1.4rem;">We found saved registration details for this email. Would you like to restore your previous progress?</div>
+    <div class="esm-btns">
+      <button class="btn-prim esm-continue" onclick="_draftAccept()" aria-label="Restore My Details">Restore My Details</button>
+      <button class="esm-ghost-btn" onclick="_draftDecline()" aria-label="Start Fresh">Start Fresh</button>
     </div>
   </div>
 </div>
@@ -2990,6 +2995,7 @@ function setBottomNav(activeId){
   document.querySelectorAll('.bnav-item').forEach(b=>b.classList.toggle('active',b.id===activeId));
 }
 function _applyLogin(prof){
+  document.body.classList.add('logged-in');
   document.getElementById('acctName').textContent=(prof.name||'Member').split(' ')[0];
   const nlLikedEl=document.getElementById('nlLiked');if(nlLikedEl)nlLikedEl.style.display='flex';
   document.getElementById('acctTier').textContent=(prof.tier||'VIP')+' Account';
@@ -3060,6 +3066,7 @@ async function doGoogleSignIn(){
 }
 
 async function doLogout(){
+  document.body.classList.remove('logged-in');
   _stopRealTimeListeners();
   if(window.FIREBASE_READY){try{await window.FB.signOut(window.FB.auth);}catch(e){}}
   ST.user=null;ST.profiles=[];
@@ -3138,16 +3145,27 @@ function goStep(n){
     if(!document.getElementById('tcAgree').checked){toast('Please accept the Terms & Conditions.');return;}
     _buildReview();
   }
+  const prevStep=document.querySelector('.form-step.active');
+  if(prevStep){
+    prevStep.classList.add('step-out');
+    setTimeout(()=>{
+      prevStep.classList.remove('active','step-out');
+      const nextStep=document.getElementById('fs'+n);
+      if(nextStep){nextStep.classList.add('active');requestAnimationFrame(()=>nextStep.style.cssText='');}
+    },200);
+  } else {
+    document.querySelectorAll('.form-step').forEach(s=>s.classList.remove('active','step-out'));
+    const nextStep=document.getElementById('fs'+n);
+    if(nextStep) nextStep.classList.add('active');
+  }
   _regCurrentStep=n;
-  document.querySelectorAll('.form-step').forEach(s=>s.classList.remove('active'));
-  document.getElementById('fs'+n).classList.add('active');
   for(let i=1;i<=8;i++){
     const s=document.getElementById('si'+i);if(!s)continue;
     s.classList.remove('active','done');
     if(i===n)s.classList.add('active');
     else if(i<n)s.classList.add('done');
   }
-  window.scrollTo(0,160);
+  setTimeout(()=>window.scrollTo({top:160,behavior:'smooth'}),220);
   // Re-init custom selects for this step (handles any selects that weren't initialized yet)
   window._initCustomSelects&&window._initCustomSelects(document.getElementById('fs'+n));
 }
@@ -3205,6 +3223,27 @@ function _skipAndExit(){
   showPage('pgHome');
 }
 // Restore draft when user types their email in step 1
+let _pendingDraftData=null;
+function _draftAccept(){
+  document.getElementById('draftRestoreOv').style.display='none';
+  if(!_pendingDraftData)return;
+  const data=_pendingDraftData;
+  if(data.gender){
+    document.getElementById('gMale').checked=data.gender==='Male';
+    document.getElementById('gFemale').checked=data.gender==='Female';
+  }
+  Object.keys(data).forEach(id=>{
+    if(id==='gender'||id==='savedAt')return;
+    const el=document.getElementById(id);
+    if(el)el.value=data[id];
+  });
+  _pendingDraftData=null;
+  toast('Your saved details have been restored!');
+}
+function _draftDecline(){
+  document.getElementById('draftRestoreOv').style.display='none';
+  _pendingDraftData=null;
+}
 (function(){
   const waitEl=setInterval(()=>{
     const emailEl=document.getElementById('s_email');
@@ -3217,22 +3256,45 @@ function _skipAndExit(){
         const{getDoc,doc,db}=window.FB;
         const snap=await getDoc(doc(db,'drafts',email));
         if(!snap.exists())return;
-        const data=snap.data();
-        if(!confirm('We found saved progress for this email. Restore your previous details?'))return;
-        if(data.gender){
-          document.getElementById('gMale').checked=data.gender==='Male';
-          document.getElementById('gFemale').checked=data.gender==='Female';
-        }
-        Object.keys(data).forEach(id=>{
-          if(id==='gender'||id==='savedAt')return;
-          const el=document.getElementById(id);
-          if(el)el.value=data[id];
-        });
-        toast('✅ Your saved details have been restored!');
+        _pendingDraftData=snap.data();
+        document.getElementById('draftRestoreOv').style.display='flex';
       }catch(e){}
     });
   },300);
 })();
+// ═══════════ COUNTRY → STATE DROPDOWN ═══════════
+const _INDIA_STATES=['Andhra Pradesh','Arunachal Pradesh','Assam','Bihar','Chhattisgarh','Goa','Gujarat','Haryana','Himachal Pradesh','Jharkhand','Karnataka','Kerala','Madhya Pradesh','Maharashtra','Manipur','Meghalaya','Mizoram','Nagaland','Odisha','Punjab','Rajasthan','Sikkim','Tamil Nadu','Telangana','Tripura','Uttar Pradesh','Uttarakhand','West Bengal','Andaman and Nicobar Islands','Chandigarh','Dadra and Nagar Haveli and Daman and Diu','Delhi','Jammu and Kashmir','Ladakh','Lakshadweep','Puducherry'];
+const _US_STATES=['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming'];
+const _AU_STATES=['New South Wales','Victoria','Queensland','South Australia','Western Australia','Tasmania','Australian Capital Territory','Northern Territory'];
+const _CA_PROVINCES=['Alberta','British Columbia','Manitoba','New Brunswick','Newfoundland and Labrador','Northwest Territories','Nova Scotia','Nunavut','Ontario','Prince Edward Island','Quebec','Saskatchewan','Yukon'];
+const _UK_REGIONS=['England','Scotland','Wales','Northern Ireland'];
+function onCountryChange(){
+  const country=document.getElementById('s_country')?.value||'';
+  const stateWrap=document.getElementById('s_state_wrap');
+  const stateSel=document.getElementById('s_state');
+  if(!stateSel)return;
+  let stateList=[];
+  if(country==='India')stateList=_INDIA_STATES;
+  else if(country==='United States')stateList=_US_STATES;
+  else if(country==='Australia')stateList=_AU_STATES;
+  else if(country==='Canada')stateList=_CA_PROVINCES;
+  else if(country==='United Kingdom')stateList=_UK_REGIONS;
+  stateSel.innerHTML='<option value="">Select State</option>';
+  stateList.forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=s;stateSel.appendChild(o);});
+  // Auto-select India when country=India
+  if(country==='India'&&!stateSel.value){stateSel.value='Telangana';}
+  // Show/hide state field
+  if(stateWrap)stateWrap.style.display=stateList.length?'':'none';
+  // Reinit custom selects
+  window._initCustomSelects&&window._initCustomSelects(stateWrap||document.getElementById('fs2'));
+  // Trigger visa field for NRI
+  onResidenceChange&&onResidenceChange();
+}
+// Also init state on page load when country is pre-filled (draft restore)
+function _initStateFromCountry(){
+  const c=document.getElementById('s_country')?.value;
+  if(c)onCountryChange();
+}
 function _buildReview(){
   function val(id){const e=document.getElementById(id);return e?e.value.trim():'—';}
   function radio(name){const e=document.querySelector(`input[name=${name}]:checked`);return e?e.value:'—';}
@@ -3606,22 +3668,21 @@ function loadProfiles(){
   const fCtry=document.getElementById('fC')?.value||'';
   const fSt=document.getElementById('fS')?.value||'';
   const fDist=(document.getElementById('fD')?.value||'').trim().toLowerCase();
+  const fGlobal=(document.getElementById('globalSearch')?.value||'').trim().toLowerCase();
   function parseAgeRange(r){if(!r)return null;const m=r.match(/(\d+)[–-](\d+)/);if(m)return{min:+m[1],max:+m[2]};if(r==='40+')return{min:40,max:999};return null;}
   function htToInches(s){if(!s)return 0;const m=s.match(/(\d+)'(\d+)?/);return m?(+m[1])*12+(+(m[2]||0)):0;}
   const ageR=parseAgeRange(fAge);
   const htMin=htToInches(fHt);
-  const incOrder=['4–10 Lakhs','10–20 Lakhs','20–50 Lakhs','50L+'];
+  const incOrder=['Below 3 Lakhs','3–6 Lakhs','6–10 Lakhs','10–20 Lakhs','20–50 Lakhs','50L–1 Crore','1 Crore+','4–10 Lakhs','50L+'];
   const incIdx=incOrder.indexOf(fInc);
   function incPass(pInc){
     if(!fInc)return true;
-    const pi=incOrder.findIndex(x=>pInc&&pInc.includes(x.split(' ')[0]));
-    if(pi<0){// try partial match
-      const pLower=(pInc||'').toLowerCase();
-      if(fInc==='50L+')return pLower.includes('50l')||pLower.includes('crore')||pLower.includes('1 cr');
-      if(fInc==='4–10 Lakhs')return pLower.includes('4–10')||pLower.includes('4-10')||pLower.includes('5 l')||pLower.includes('6 l')||pLower.includes('7 l')||pLower.includes('8 l')||pLower.includes('9 l');
-      return pi>=incIdx;
-    }
-    return pi>=incIdx;
+    const pLower=(pInc||'').toLowerCase();
+    if(fInc==='1 Crore+')return pLower.includes('crore')||pLower.includes('1 cr')||pLower.includes('50l – 1');
+    if(fInc==='50L–1 Crore')return pLower.includes('50l')||pLower.includes('crore');
+    if(fInc==='20–50 Lakhs')return pLower.includes('20')||pLower.includes('30')||pLower.includes('40')||pLower.includes('50');
+    if(fInc==='10–20 Lakhs')return pLower.includes('10')||pLower.includes('15')||pLower.includes('20');
+    return true;
   }
   ST.browsePool=ST.profiles.filter(p=>{
     if(p.status==='deleted')return false;
@@ -3635,6 +3696,10 @@ function loadProfiles(){
     if(fCtry&&(p.country||'').toLowerCase()!==fCtry.toLowerCase())return false;
     if(fSt&&(p.state||'').toLowerCase()!==fSt.toLowerCase())return false;
     if(fDist&&!(p.nat||'').toLowerCase().includes(fDist))return false;
+    if(fGlobal){
+      const haystack=[p.name,p.city,p.state,p.nat,p.prof,p.edu,p.gotra,p.occ,p.inc,p.country].map(v=>(v||'').toLowerCase()).join(' ');
+      if(!haystack.includes(fGlobal))return false;
+    }
     return true;
   });
   ST.browseIdx=0;renderCard();
@@ -5089,6 +5154,22 @@ document.addEventListener('DOMContentLoaded',function(){
   };
   window._initCustomSelects(document);
 
+  // ── First-load entrance animation (fires once, then removed so re-visits don't re-animate) ──
+  if(!sessionStorage.getItem('_navAnimated')){
+    sessionStorage.setItem('_navAnimated','1');
+    const nav=document.querySelector('.navbar');
+    const hero=document.getElementById('pgHome');
+    if(nav) nav.classList.add('first-load');
+    if(hero) hero.classList.add('first-load');
+    setTimeout(()=>{
+      if(nav) nav.classList.remove('first-load');
+      if(hero) hero.classList.remove('first-load');
+    },1600);
+  }
+
+  // ── Trigger state dropdown if country is pre-set ──
+  if(document.getElementById('s_country')?.value){onCountryChange();}
+
 });
 
 // ══ Count-up stats ══
@@ -5177,7 +5258,7 @@ function dismissWelcomeToast(){
     </div>
   </a>
 
-  <a class="sf-item" href="https://wa.me/917207999985" target="_blank" rel="noopener" id="waRow" aria-label="Chat with us on WhatsApp">
+  <a class="sf-item" href="https://wa.me/919848221166" target="_blank" rel="noopener" id="waRow" aria-label="Chat with us on WhatsApp">
     <div class="sf-card">
       <span class="sf-cta">Have a question?</span>
       <span class="sf-hint">Chat with us — we reply fast</span>
