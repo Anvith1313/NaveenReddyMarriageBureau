@@ -4576,7 +4576,7 @@ function _biodataFmt(p, logoSrc){
   const tier=p.tier||'VIP';
   const uidHash=(p.u||'').split('').reduce((a,c,i)=>a+c.charCodeAt(0)*(i+7),0);
   const slNum=10000+Math.abs(uidHash%90000);
-  const slId=`${tier.toUpperCase()} ${slNum}`;
+  const slId=p.slid&&p.slid!=='—'?p.slid:`${tier.toUpperCase()} ${slNum}`;
   const gender=p.g==='Female'?'Bride':'Groom';
   const dobStr=fmtDob(p.dob);
   const tobStr=fmt12(p.tob);
@@ -4633,14 +4633,10 @@ function _biodataFmt(p, logoSrc){
     ${row("Father's Profession",p.fo||p.fp||'—')}
     ${row("Mother's Profession",p.mo||'—')}
     ${sibRows}
-    ${p.pval&&p.pval!=='—'?row('Property Value',p.pval):''}
-
     <div class="bio-sec-title">CHOICE PREFERRED</div>
     ${row('Complexion / Color',p.pp_cx||'Fair','Age Gap',ageGap)}
     ${p.pp_hf&&p.pp_hf!=='Any'?row('Height',p.pp_hf+' And Above'):''}
     ${p.pp_edu&&p.pp_edu!=='Any'?row('Qualification',p.pp_edu):''}
-    ${p.pp_note&&p.pp_note!=='—'?row('Other Preferences',p.pp_note):''}
-
     <div class="bio-footer"><span style="color:#8b1a2a;font-style:italic;font-weight:700;">Relationship</span><span style="color:#111;font-style:italic;font-weight:400;"> : ${p.rel||'Father'}</span></div>
     <div class="bio-action-row">
       <button class="bio-close-btn" onclick="window.print()">🖨 Print</button>
