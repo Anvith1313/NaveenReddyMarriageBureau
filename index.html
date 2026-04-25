@@ -1761,9 +1761,7 @@ body{font-size:18px;}
 .bio-meta-row em{font-style:italic;font-weight:700;}
 .bio-meta-row strong{font-style:normal;font-weight:700;}
 .bio-logo-main{display:block;margin:0 auto 0.1rem;width:42%;max-width:260px;height:auto;object-fit:contain;}
-.bio-address{text-align:center;font-size:0.78rem;color:#8b1a2a;font-style:italic;font-weight:700;margin:0.15rem 0 0.35rem;font-family:'Times New Roman',Georgia,serif;text-decoration:underline;text-underline-offset:2px;}
-.bio-address u{text-decoration:none;}
-.bio-divider{border:none;border-top:1.5px solid #8b1a2a;margin:0 0 0.55rem;}
+.bio-address{text-align:center;font-size:0.78rem;color:#8b1a2a;font-style:italic;font-weight:700;margin:0.15rem 0 0;padding-bottom:0.3rem;border-bottom:1.5px solid #8b1a2a;margin-bottom:0.5rem;font-family:'Times New Roman',Georgia,serif;text-decoration:none;}
 /* ── Rows ── */
 .bio-row{display:flex;align-items:baseline;margin-bottom:0.35rem;font-size:0.92rem;font-family:'Times New Roman',Georgia,serif;line-height:1.45;}
 .bio-lbl{color:#8b1a2a;font-style:italic;font-weight:700;min-width:222px;flex-shrink:0;font-size:0.92rem;}
@@ -1771,11 +1769,12 @@ body{font-size:18px;}
 .bio-val{color:#111;flex:1;font-size:0.92rem;font-style:italic;}
 .bio-two{display:grid;grid-template-columns:1fr 1fr;gap:0;}
 .bio-two .bio-row{margin-bottom:0.35rem;}
-.bio-two .bio-lbl{min-width:130px;}
+.bio-two > .bio-row:first-child .bio-lbl{min-width:222px;}
+.bio-two > .bio-row:last-child .bio-lbl{min-width:100px;}
 /* ── Section headers ── */
 .bio-sec-title{font-style:italic;font-weight:700;text-decoration:underline;text-underline-offset:2px;color:#8b1a2a;margin:1.1rem 0 0.55rem;font-size:0.94rem;font-family:'Times New Roman',Georgia,serif;}
 /* ── Footer ── */
-.bio-footer{text-align:right;font-style:italic;font-weight:700;color:#8b1a2a;font-size:0.88rem;margin-top:auto;padding-top:0.7rem;font-family:'Times New Roman',Georgia,serif;}
+.bio-footer{text-align:right;font-style:italic;font-weight:700;color:#111;font-size:0.88rem;margin-top:0.7rem;font-family:'Times New Roman',Georgia,serif;}
 /* ── Print & Close buttons ── */
 .bio-action-row{display:flex;gap:0.5rem;justify-content:center;margin-top:0.9rem;}
 .bio-close-btn{padding:0.55rem 1.8rem;background:#8b1a2a;color:#fff;border:none;cursor:pointer;font-family:'Cinzel',serif;font-size:0.58rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;}
@@ -1789,7 +1788,7 @@ body{font-size:18px;}
   .bio-val{color:#111!important;}
   .bio-address{color:#8b1a2a!important;}
   .bio-sec-title{color:#8b1a2a!important;}
-  .bio-footer{color:#8b1a2a!important;}
+  .bio-footer{color:#111!important;}
   .bio-meta-row{color:#8b1a2a!important;}
   *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
   .bio-action-row,.bio-close-btn{display:none!important;}
@@ -4594,7 +4593,7 @@ function _biodataFmt(p, logoSrc){
   const placeLabel=isBusinessOcc?'Place of Business':'Place of Job';
   /* branch color: blue for online, crimson for offline */
   const isOnline=(p.registrationSource||'online')!=='offline';
-  const brC='#8b1a2a';
+  const brC=isOnline?'#111':'#8b1a2a';
   /* siblings */
   const bCnt=parseInt(p.br)||0, sCnt=parseInt(p.sr)||0;
   const bMar=parseInt(p.brm)||0, sMar=parseInt(p.srm)||0;
@@ -4611,8 +4610,7 @@ function _biodataFmt(p, logoSrc){
   return `<div class="biodata-sheet">
     <div class="bio-meta-row"><em>Since 2000</em><strong>SI No : ${slId}</strong></div>
     <img src="${_BIODATA_LOGO}" class="bio-logo-main" alt="Naveen Reddy Marriage Bureau">
-    <div class="bio-address">Corporate office: Somajiguda, Branches: Kothapet, Warangal, Karimnagar</div>
-    <hr class="bio-divider">
+    <div class="bio-address">Corporate office: Somajiguda, Branches: <span style="color:${brC};">Kothapet, Warangal, Karimnagar</span></div>
     ${row('Name of the '+gender,p.name)}
     ${row('Date of Birth',dobStr,'Height',p.ht||'—')}
     ${timePlace?row('Time and Place',timePlace):''}
@@ -4643,7 +4641,7 @@ function _biodataFmt(p, logoSrc){
     ${p.pp_edu&&p.pp_edu!=='Any'?row('Qualification',p.pp_edu):''}
     ${p.pp_note&&p.pp_note!=='—'?row('Other Preferences',p.pp_note):''}
 
-    <div class="bio-footer"><span style="font-style:italic;font-weight:700;color:#8b1a2a;">Relationship</span> : ${p.rel||'Father'}</div>
+    <div class="bio-footer"><span style="color:#8b1a2a;font-style:italic;font-weight:700;">Relationship</span><span style="color:#111;font-style:italic;font-weight:400;"> : ${p.rel||'Father'}</span></div>
     <div class="bio-action-row">
       <button class="bio-close-btn" onclick="window.print()">🖨 Print</button>
       <button class="bio-close-btn outline" onclick="this.closest('.biodata-overlay').remove()">Close</button>
