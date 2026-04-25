@@ -1757,10 +1757,10 @@ body{font-size:18px;}
   display:flex;
   flex-direction:column;
 }
-.bio-meta-row{display:flex;justify-content:space-between;align-items:center;font-size:0.82rem;color:#F20000;margin-bottom:0.15rem;font-family:'Times New Roman',Georgia,serif;}
+.bio-meta-row{display:flex;justify-content:space-between;align-items:center;font-size:0.82rem;color:#F20000;margin-bottom:0.05rem;font-family:'Times New Roman',Georgia,serif;}
 .bio-meta-row em{font-style:italic;font-weight:700;}
 .bio-meta-row strong{font-style:normal;font-weight:700;}
-.bio-logo-main{display:block;margin:0 auto 0.1rem;width:68%;max-width:400px;height:auto;object-fit:contain;}
+.bio-logo-main{display:block;margin:0 auto 0.05rem;align-self:center;width:68%;max-width:400px;height:auto;object-fit:contain;}
 .bio-address{text-align:center;font-size:0.78rem;font-style:italic;font-weight:700;margin:0.1rem 0 0.35rem;font-family:'Times New Roman',Georgia,serif;text-decoration:underline;text-underline-offset:2px;}
 /* ── Rows ── */
 .bio-row{display:flex;align-items:baseline;margin-bottom:0.35rem;font-size:0.92rem;font-family:'Times New Roman',Georgia,serif;line-height:1.45;}
@@ -1782,8 +1782,8 @@ body{font-size:18px;}
 /* ── Print styles ── */
 @media print{
   body > *:not(.biodata-overlay){display:none!important;}
-  .biodata-overlay{position:static!important;background:none!important;padding:0!important;display:block!important;}
-  .biodata-sheet{width:100%!important;min-height:auto!important;box-shadow:none!important;border:6px double #F20000!important;padding:6mm 10mm 6mm!important;}
+  .biodata-overlay{position:static!important;background:white!important;padding:12.7mm!important;box-sizing:border-box!important;display:block!important;width:210mm!important;min-height:297mm!important;}
+  .biodata-sheet{width:100%!important;min-height:calc(297mm - 25.4mm)!important;box-shadow:none!important;border:6px double #F20000!important;padding:6mm 10mm!important;box-sizing:border-box!important;}
   .bio-lbl{color:#F20000!important;}
   .bio-val{color:#111!important;}
   .bio-address{text-decoration:underline!important;}
@@ -1792,7 +1792,7 @@ body{font-size:18px;}
   .bio-meta-row{color:#F20000!important;}
   *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
   .bio-action-row,.bio-close-btn{display:none!important;}
-  @page{size:A4 portrait;margin:12.7mm 12.7mm 12.7mm 12.7mm;}
+  @page{size:A4 portrait;margin:0;}
 }
 
 /* ── PHOTOS SECTION ── */
