@@ -1749,48 +1749,48 @@ body{font-size:18px;}
   background:#fff;
   width:210mm;
   min-height:297mm;
-  border:6px double #F20000;
-  font-family:'Times New Roman',Georgia,serif;
+  border:6px double #E60000;
+  font-family:Cambria,serif;
   padding:8mm 14mm 8mm;
   box-shadow:0 8px 48px rgba(0,0,0,0.22);
   box-sizing:border-box;
   display:flex;
   flex-direction:column;
 }
-.bio-meta-row{display:flex;justify-content:space-between;align-items:center;font-size:0.82rem;color:#F20000;margin-bottom:0.05rem;font-family:'Times New Roman',Georgia,serif;}
+.bio-meta-row{display:flex;justify-content:space-between;align-items:center;font-size:12pt;color:#E60000;margin-bottom:0.05rem;font-family:Cambria,serif;}
 .bio-meta-row em{font-style:italic;font-weight:700;}
 .bio-meta-row strong{font-style:normal;font-weight:700;}
 .bio-logo-main{display:block;margin:0 auto 0.05rem;width:42%;max-width:240px;height:auto;object-fit:contain;}
-.bio-address{text-align:center;font-size:0.78rem;font-style:italic;font-weight:700;margin:0.1rem 0 0.35rem;font-family:'Times New Roman',Georgia,serif;text-decoration:underline;text-underline-offset:2px;}
+.bio-address{text-align:center;font-size:12pt;font-style:italic;font-weight:700;margin:0.1rem 0 0.35rem;font-family:Cambria,serif;text-decoration:underline;text-underline-offset:2px;}
 /* ── Rows ── */
-.bio-row{display:flex;align-items:baseline;margin-bottom:0.35rem;font-size:0.92rem;font-family:'Times New Roman',Georgia,serif;line-height:1.45;}
-.bio-lbl{color:#F20000;font-style:italic;font-weight:700;min-width:222px;flex-shrink:0;font-size:0.92rem;}
-.bio-colon{color:#111;padding-right:0.35rem;flex-shrink:0;}
-.bio-val{color:#111;flex:1;font-size:0.92rem;font-style:italic;}
+.bio-row{display:flex;align-items:baseline;margin-bottom:0.3rem;font-size:14pt;font-family:Cambria,serif;line-height:1.4;}
+.bio-lbl{color:#E60000;font-style:italic;font-weight:700;min-width:222px;flex-shrink:0;font-size:14pt;}
+.bio-colon{color:#111;padding-right:0.3rem;flex-shrink:0;}
+.bio-val{color:#111;flex:1;font-size:14pt;font-style:italic;}
 .bio-two{display:grid;grid-template-columns:55% 45%;column-gap:0;}
-.bio-two .bio-row{margin-bottom:0.35rem;}
+.bio-two .bio-row{margin-bottom:0.3rem;}
 .bio-two > .bio-row:first-child .bio-lbl{min-width:222px;}
 .bio-two > .bio-row:last-child .bio-lbl{min-width:100px;}
 .bio-spacer{flex:1;min-height:0.5rem;}
 /* ── Section headers ── */
-.bio-sec-title{font-style:italic;font-weight:700;text-decoration:underline;text-underline-offset:2px;color:#F20000;margin:0.3rem 0 0.4rem;font-size:0.94rem;font-family:'Times New Roman',Georgia,serif;}
+.bio-sec-title{font-style:italic;font-weight:700;text-decoration:underline;text-underline-offset:2px;color:#E60000;margin:0.3rem 0 0.35rem;font-size:16pt;font-family:Cambria,serif;}
 /* ── Footer ── */
-.bio-footer{display:flex;align-items:baseline;padding-left:55%;font-size:0.92rem;font-family:'Times New Roman',Georgia,serif;margin-top:0.3rem;}
+.bio-footer{display:flex;align-items:baseline;padding-left:55%;font-size:14pt;font-family:Cambria,serif;margin-top:0.3rem;}
 /* ── Print & Close buttons ── */
 .bio-action-row{display:flex;gap:0.5rem;justify-content:center;margin-top:0.9rem;}
-.bio-close-btn{padding:0.55rem 1.8rem;background:#F20000;color:#fff;border:none;cursor:pointer;font-family:'Cinzel',serif;font-size:0.58rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;}
-.bio-close-btn.outline{background:transparent;border:1.5px solid #F20000;color:#F20000;}
+.bio-close-btn{padding:0.55rem 1.8rem;background:#E60000;color:#fff;border:none;cursor:pointer;font-family:'Cinzel',serif;font-size:0.58rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;}
+.bio-close-btn.outline{background:transparent;border:1.5px solid #E60000;color:#E60000;}
 /* ── Print styles ── */
 @media print{
   body > *:not(.biodata-overlay){display:none!important;}
   .biodata-overlay{position:static!important;background:white!important;padding:12.7mm!important;box-sizing:border-box!important;display:block!important;width:210mm!important;min-height:297mm!important;}
-  .biodata-sheet{width:100%!important;min-height:calc(297mm - 25.4mm)!important;box-shadow:none!important;border:6px double #F20000!important;padding:6mm 10mm!important;box-sizing:border-box!important;}
-  .bio-lbl{color:#F20000!important;}
+  .biodata-sheet{width:100%!important;min-height:calc(297mm - 25.4mm)!important;box-shadow:none!important;border:6px double #E60000!important;padding:6mm 10mm!important;box-sizing:border-box!important;}
+  .bio-lbl{color:#E60000!important;}
   .bio-val{color:#111!important;}
   .bio-address{text-decoration:underline!important;}
-  .bio-sec-title{color:#F20000!important;}
+  .bio-sec-title{color:#E60000!important;}
   .bio-footer{color:#111!important;}
-  .bio-meta-row{color:#F20000!important;}
+  .bio-meta-row{color:#E60000!important;}
   *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
   .bio-action-row,.bio-close-btn{display:none!important;}
   @page{size:A4 portrait;margin:0;}
@@ -4611,7 +4611,7 @@ function _biodataFmt(p, logoSrc){
   return `<div class="biodata-sheet">
     <div class="bio-meta-row"><em>Since 2000</em><span><span style="font-style:italic;font-weight:700;">SI No :</span> <strong style="color:#111;">${slId}</strong></span></div>
     <img src="${_BIODATA_LOGO}" class="bio-logo-main" alt="Naveen Reddy Marriage Bureau">
-    <div class="bio-address"><span style="color:#F20000">Corporate office:</span> <span style="color:#0000FF">Somajiguda,</span>&nbsp; <span style="color:#F20000">Branches:</span> <span style="color:#000000">Kothapet, Warangal, Karimnagar</span></div>
+    <div class="bio-address"><span style="color:#E60000">Corporate office:</span> <span style="color:#0000FF">Somajiguda,</span>&nbsp; <span style="color:#E60000">Branches:</span> <span style="color:#000000">Kothapet, Warangal, Karimnagar</span></div>
     ${row('Name of the '+gender,p.name)}
     ${row('Date of Birth',dobStr,'Height',p.ht||'—')}
     ${timePlace?row('Time and Place',timePlace):''}
