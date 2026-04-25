@@ -1765,17 +1765,17 @@ body{font-size:18px;}
 .bio-address u{text-decoration:none;}
 .bio-divider{border:none;border-top:1.5px solid #8b1a2a;margin:0 0 0.55rem;}
 /* ── Rows ── */
-.bio-row{display:flex;align-items:baseline;margin-bottom:0.28rem;font-size:0.87rem;font-family:'Times New Roman',Georgia,serif;line-height:1.4;}
-.bio-lbl{color:#8b1a2a;font-style:italic;font-weight:700;min-width:185px;flex-shrink:0;font-size:0.87rem;}
+.bio-row{display:flex;align-items:baseline;margin-bottom:0.35rem;font-size:0.92rem;font-family:'Times New Roman',Georgia,serif;line-height:1.45;}
+.bio-lbl{color:#8b1a2a;font-style:italic;font-weight:700;min-width:222px;flex-shrink:0;font-size:0.92rem;}
 .bio-colon{color:#111;padding-right:0.35rem;flex-shrink:0;}
-.bio-val{color:#111;flex:1;font-size:0.87rem;font-style:italic;}
+.bio-val{color:#111;flex:1;font-size:0.92rem;font-style:italic;}
 .bio-two{display:grid;grid-template-columns:1fr 1fr;gap:0;}
-.bio-two .bio-row{margin-bottom:0.28rem;}
-.bio-two .bio-lbl{min-width:135px;}
+.bio-two .bio-row{margin-bottom:0.35rem;}
+.bio-two .bio-lbl{min-width:130px;}
 /* ── Section headers ── */
-.bio-sec-title{font-style:italic;font-weight:700;text-decoration:underline;text-underline-offset:2px;color:#8b1a2a;margin:0.75rem 0 0.4rem;font-size:0.92rem;font-family:'Times New Roman',Georgia,serif;}
+.bio-sec-title{font-style:italic;font-weight:700;text-decoration:underline;text-underline-offset:2px;color:#8b1a2a;margin:1.1rem 0 0.55rem;font-size:0.94rem;font-family:'Times New Roman',Georgia,serif;}
 /* ── Footer ── */
-.bio-footer{text-align:right;font-style:italic;font-weight:700;color:#8b1a2a;font-size:0.85rem;margin-top:auto;padding-top:0.7rem;font-family:'Times New Roman',Georgia,serif;}
+.bio-footer{text-align:right;font-style:italic;font-weight:700;color:#8b1a2a;font-size:0.88rem;margin-top:auto;padding-top:0.7rem;font-family:'Times New Roman',Georgia,serif;}
 /* ── Print & Close buttons ── */
 .bio-action-row{display:flex;gap:0.5rem;justify-content:center;margin-top:0.9rem;}
 .bio-close-btn{padding:0.55rem 1.8rem;background:#8b1a2a;color:#fff;border:none;cursor:pointer;font-family:'Cinzel',serif;font-size:0.58rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;}
@@ -4627,7 +4627,7 @@ function _biodataFmt(p, logoSrc){
     ${row('Occupation',p.prof||p.occ||'—')}
     ${p.co&&p.co!=='—'?row('Company Name',p.co):''}
     ${p.workplace&&p.workplace!=='—'?row(placeLabel,p.workplace):''}
-    ${(salDisplay||p.visa)?row('Salary',salDisplay||'—','Visa Status',p.visa&&p.visa!=='—'?p.visa:'—'):''}
+    ${salDisplay&&salDisplay!=='—'?(p.visa&&p.visa!=='—'?row('Salary',salDisplay,'Visa Status',p.visa):row('Salary',salDisplay)):''}
     ${p.sinceWork&&p.sinceWork!=='—'?row('Since Working',p.sinceWork):''}
     ${isDivorced&&p.divorceInfo&&p.divorceInfo!=='—'?row('Divorces',p.divorceInfo):''}
 
