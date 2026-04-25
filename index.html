@@ -1749,7 +1749,7 @@ body{font-size:18px;}
   background:#fff;
   width:210mm;
   min-height:297mm;
-  border:6px double #8b1a2a;
+  border:6px double #F20000;
   font-family:'Times New Roman',Georgia,serif;
   padding:8mm 14mm 8mm;
   box-shadow:0 8px 48px rgba(0,0,0,0.22);
@@ -1757,14 +1757,14 @@ body{font-size:18px;}
   display:flex;
   flex-direction:column;
 }
-.bio-meta-row{display:flex;justify-content:space-between;align-items:center;font-size:0.82rem;color:#8b1a2a;margin-bottom:0.15rem;font-family:'Times New Roman',Georgia,serif;}
+.bio-meta-row{display:flex;justify-content:space-between;align-items:center;font-size:0.82rem;color:#F20000;margin-bottom:0.15rem;font-family:'Times New Roman',Georgia,serif;}
 .bio-meta-row em{font-style:italic;font-weight:700;}
 .bio-meta-row strong{font-style:normal;font-weight:700;}
-.bio-logo-main{display:block;margin:0 auto 0.1rem;width:42%;max-width:260px;height:auto;object-fit:contain;}
-.bio-address{text-align:center;font-size:0.78rem;color:#8b1a2a;font-style:italic;font-weight:700;margin:0.15rem 0 0.4rem;font-family:'Times New Roman',Georgia,serif;text-decoration:none;}
+.bio-logo-main{display:block;margin:0 auto 0.1rem;width:68%;max-width:420px;height:auto;object-fit:contain;}
+.bio-address{text-align:center;font-size:0.78rem;color:#F20000;font-style:italic;font-weight:700;margin:0.15rem 0 0.4rem;font-family:'Times New Roman',Georgia,serif;text-decoration:underline;text-underline-offset:2px;}
 /* ── Rows ── */
 .bio-row{display:flex;align-items:baseline;margin-bottom:0.35rem;font-size:0.92rem;font-family:'Times New Roman',Georgia,serif;line-height:1.45;}
-.bio-lbl{color:#8b1a2a;font-style:italic;font-weight:700;min-width:222px;flex-shrink:0;font-size:0.92rem;}
+.bio-lbl{color:#F20000;font-style:italic;font-weight:700;min-width:222px;flex-shrink:0;font-size:0.92rem;}
 .bio-colon{color:#111;padding-right:0.35rem;flex-shrink:0;}
 .bio-val{color:#111;flex:1;font-size:0.92rem;font-style:italic;}
 .bio-two{display:grid;grid-template-columns:1fr 1fr;gap:0;}
@@ -1772,24 +1772,24 @@ body{font-size:18px;}
 .bio-two > .bio-row:first-child .bio-lbl{min-width:222px;}
 .bio-two > .bio-row:last-child .bio-lbl{min-width:100px;}
 /* ── Section headers ── */
-.bio-sec-title{font-style:italic;font-weight:700;text-decoration:underline;text-underline-offset:2px;color:#8b1a2a;margin:1.1rem 0 0.55rem;font-size:0.94rem;font-family:'Times New Roman',Georgia,serif;}
+.bio-sec-title{font-style:italic;font-weight:700;text-decoration:underline;text-underline-offset:2px;color:#F20000;margin:1.1rem 0 0.55rem;font-size:0.94rem;font-family:'Times New Roman',Georgia,serif;}
 /* ── Footer ── */
 .bio-footer{text-align:right;font-style:italic;font-weight:700;color:#111;font-size:0.88rem;margin-top:0.7rem;font-family:'Times New Roman',Georgia,serif;}
 /* ── Print & Close buttons ── */
 .bio-action-row{display:flex;gap:0.5rem;justify-content:center;margin-top:0.9rem;}
-.bio-close-btn{padding:0.55rem 1.8rem;background:#8b1a2a;color:#fff;border:none;cursor:pointer;font-family:'Cinzel',serif;font-size:0.58rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;}
-.bio-close-btn.outline{background:transparent;border:1.5px solid #8b1a2a;color:#8b1a2a;}
+.bio-close-btn{padding:0.55rem 1.8rem;background:#F20000;color:#fff;border:none;cursor:pointer;font-family:'Cinzel',serif;font-size:0.58rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;}
+.bio-close-btn.outline{background:transparent;border:1.5px solid #F20000;color:#F20000;}
 /* ── Print styles ── */
 @media print{
   body > *:not(.biodata-overlay){display:none!important;}
   .biodata-overlay{position:static!important;background:none!important;padding:0!important;display:block!important;}
-  .biodata-sheet{width:100%!important;min-height:auto!important;box-shadow:none!important;border:6px double #8b1a2a!important;padding:6mm 10mm 6mm!important;}
-  .bio-lbl{color:#8b1a2a!important;}
+  .biodata-sheet{width:100%!important;min-height:auto!important;box-shadow:none!important;border:6px double #F20000!important;padding:6mm 10mm 6mm!important;}
+  .bio-lbl{color:#F20000!important;}
   .bio-val{color:#111!important;}
-  .bio-address{color:#8b1a2a!important;}
-  .bio-sec-title{color:#8b1a2a!important;}
+  .bio-address{color:#F20000!important;text-decoration:underline!important;}
+  .bio-sec-title{color:#F20000!important;}
   .bio-footer{color:#111!important;}
-  .bio-meta-row{color:#8b1a2a!important;}
+  .bio-meta-row{color:#F20000!important;}
   *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
   .bio-action-row,.bio-close-btn{display:none!important;}
   @page{size:A4 portrait;margin:10mm;}
@@ -4610,7 +4610,7 @@ function _biodataFmt(p, logoSrc){
   return `<div class="biodata-sheet">
     <div class="bio-meta-row"><em>Since 2000</em><strong>SI No : ${slId}</strong></div>
     <img src="${_BIODATA_LOGO}" class="bio-logo-main" alt="Naveen Reddy Marriage Bureau">
-    <div class="bio-address">Corporate office: <u>Somajiguda</u>,&nbsp; Branches: <u>Kothapet</u>, <u>Warangal</u>, <u>Karimnagar</u></div>
+    <div class="bio-address">Corporate office: Somajiguda,&nbsp; Branches: Kothapet, Warangal, Karimnagar</div>
     ${row('Name of the '+gender,p.name)}
     ${row('Date of Birth',dobStr,'Height',p.ht||'—')}
     ${timePlace?row('Time and Place',timePlace):''}
