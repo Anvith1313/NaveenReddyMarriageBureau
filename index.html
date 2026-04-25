@@ -1760,8 +1760,8 @@ body{font-size:18px;}
 .bio-meta-row{display:flex;justify-content:space-between;align-items:center;font-size:0.82rem;color:#F20000;margin-bottom:0.15rem;font-family:'Times New Roman',Georgia,serif;}
 .bio-meta-row em{font-style:italic;font-weight:700;}
 .bio-meta-row strong{font-style:normal;font-weight:700;}
-.bio-logo-main{display:block;margin:0 auto 0.1rem;width:68%;max-width:420px;height:auto;object-fit:contain;}
-.bio-address{text-align:center;font-size:0.78rem;color:#F20000;font-style:italic;font-weight:700;margin:0.15rem 0 0.4rem;font-family:'Times New Roman',Georgia,serif;text-decoration:underline;text-underline-offset:2px;}
+.bio-logo-main{display:block;margin:0 auto 0.1rem;width:68%;max-width:400px;max-height:72px;height:auto;object-fit:contain;}
+.bio-address{text-align:center;font-size:0.78rem;font-style:italic;font-weight:700;margin:0.1rem 0 0.35rem;font-family:'Times New Roman',Georgia,serif;text-decoration:underline;text-underline-offset:2px;}
 /* ── Rows ── */
 .bio-row{display:flex;align-items:baseline;margin-bottom:0.35rem;font-size:0.92rem;font-family:'Times New Roman',Georgia,serif;line-height:1.45;}
 .bio-lbl{color:#F20000;font-style:italic;font-weight:700;min-width:222px;flex-shrink:0;font-size:0.92rem;}
@@ -1786,7 +1786,7 @@ body{font-size:18px;}
   .biodata-sheet{width:100%!important;min-height:auto!important;box-shadow:none!important;border:6px double #F20000!important;padding:6mm 10mm 6mm!important;}
   .bio-lbl{color:#F20000!important;}
   .bio-val{color:#111!important;}
-  .bio-address{color:#F20000!important;text-decoration:underline!important;}
+  .bio-address{text-decoration:underline!important;}
   .bio-sec-title{color:#F20000!important;}
   .bio-footer{color:#111!important;}
   .bio-meta-row{color:#F20000!important;}
@@ -4610,7 +4610,7 @@ function _biodataFmt(p, logoSrc){
   return `<div class="biodata-sheet">
     <div class="bio-meta-row"><em>Since 2000</em><strong>SI No : ${slId}</strong></div>
     <img src="${_BIODATA_LOGO}" class="bio-logo-main" alt="Naveen Reddy Marriage Bureau">
-    <div class="bio-address">Corporate office: Somajiguda,&nbsp; Branches: Kothapet, Warangal, Karimnagar</div>
+    <div class="bio-address"><span style="color:#F20000">Corporate office:</span> <span style="color:#0000FF">Somajiguda,</span>&nbsp; <span style="color:#F20000">Branches:</span> <span style="color:#000000">Kothapet, Warangal, Karimnagar</span></div>
     ${row('Name of the '+gender,p.name)}
     ${row('Date of Birth',dobStr,'Height',p.ht||'—')}
     ${timePlace?row('Time and Place',timePlace):''}
