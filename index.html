@@ -1783,7 +1783,7 @@ body{font-size:18px;}
 @media print{
   body > *:not(.biodata-overlay){display:none!important;}
   .biodata-overlay{position:static!important;background:none!important;padding:0!important;display:block!important;}
-  .biodata-sheet{width:210mm!important;min-height:297mm!important;box-shadow:none!important;border:6px double #8b1a2a!important;padding:8mm 14mm 8mm!important;}
+  .biodata-sheet{width:100%!important;min-height:auto!important;box-shadow:none!important;border:6px double #8b1a2a!important;padding:6mm 10mm 6mm!important;}
   .bio-lbl{color:#8b1a2a!important;}
   .bio-val{color:#111!important;}
   .bio-address{color:#8b1a2a!important;}
@@ -1792,7 +1792,7 @@ body{font-size:18px;}
   .bio-meta-row{color:#8b1a2a!important;}
   *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
   .bio-action-row,.bio-close-btn{display:none!important;}
-  @page{size:A4 portrait;margin:0;}
+  @page{size:A4 portrait;margin:10mm;}
 }
 
 /* ── PHOTOS SECTION ── */
@@ -4610,7 +4610,7 @@ function _biodataFmt(p, logoSrc){
   return `<div class="biodata-sheet">
     <div class="bio-meta-row"><em>Since 2000</em><strong>SI No : ${slId}</strong></div>
     <img src="${_BIODATA_LOGO}" class="bio-logo-main" alt="Naveen Reddy Marriage Bureau">
-    <div class="bio-address">Corporate office: Somajiguda, Branches: <span style="color:${brC};">Kothapet, Warangal, Karimnagar</span></div>
+    <div class="bio-address">Corporate office: <u>Somajiguda</u>,&nbsp; Branches: <u>Kothapet</u>, <u>Warangal</u>, <u>Karimnagar</u></div>
     ${row('Name of the '+gender,p.name)}
     ${row('Date of Birth',dobStr,'Height',p.ht||'—')}
     ${timePlace?row('Time and Place',timePlace):''}
