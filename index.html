@@ -1767,12 +1767,13 @@ body{font-size:18px;}
 .bio-lbl{color:#F20000;font-style:italic;font-weight:700;min-width:222px;flex-shrink:0;font-size:0.92rem;}
 .bio-colon{color:#111;padding-right:0.35rem;flex-shrink:0;}
 .bio-val{color:#111;flex:1;font-size:0.92rem;font-style:italic;}
-.bio-two{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+.bio-two{display:grid;grid-template-columns:1fr 1fr;column-gap:2rem;}
 .bio-two .bio-row{margin-bottom:0.35rem;}
-.bio-two > .bio-row:first-child .bio-lbl{min-width:222px;}
-.bio-two > .bio-row:last-child .bio-lbl{min-width:100px;}
+.bio-two > .bio-row:first-child .bio-lbl{min-width:200px;}
+.bio-two > .bio-row:last-child .bio-lbl{min-width:90px;}
+.bio-spacer{flex:1;min-height:0.5rem;}
 /* ── Section headers ── */
-.bio-sec-title{font-style:italic;font-weight:700;text-decoration:underline;text-underline-offset:2px;color:#F20000;margin:1.1rem 0 0.55rem;font-size:0.94rem;font-family:'Times New Roman',Georgia,serif;}
+.bio-sec-title{font-style:italic;font-weight:700;text-decoration:underline;text-underline-offset:2px;color:#F20000;margin:0.3rem 0 0.4rem;font-size:0.94rem;font-family:'Times New Roman',Georgia,serif;}
 /* ── Footer ── */
 .bio-footer{text-align:right;font-style:italic;font-weight:700;color:#111;font-size:0.88rem;margin-top:0.7rem;font-family:'Times New Roman',Georgia,serif;}
 /* ── Print & Close buttons ── */
@@ -4628,16 +4629,17 @@ function _biodataFmt(p, logoSrc){
     ${salDisplay&&salDisplay!=='—'?(p.visa&&p.visa!=='—'?row('Salary',salDisplay,'Visa Status',p.visa):row('Salary',salDisplay)):''}
     ${p.sinceWork&&p.sinceWork!=='—'?row('Since Working',p.sinceWork):''}
     ${isDivorced&&p.divorceInfo&&p.divorceInfo!=='—'?row('Divorces',p.divorceInfo):''}
-
+    <div class="bio-spacer"></div>
     <div class="bio-sec-title">FAMILY MEMBERS DETAILS</div>
     ${row("Father's Profession",p.fo||p.fp||'—')}
     ${row("Mother's Profession",p.mo||'—')}
     ${sibRows}
+    <div class="bio-spacer"></div>
     <div class="bio-sec-title">CHOICE PREFERRED</div>
     ${row('Complexion / Color',p.pp_cx||'Fair','Age Gap',ageGap)}
     ${p.pp_hf&&p.pp_hf!=='Any'?row('Height',p.pp_hf+' And Above'):''}
     ${p.pp_edu&&p.pp_edu!=='Any'?row('Qualification',p.pp_edu):''}
-    <div class="bio-footer"><span style="color:#8b1a2a;font-style:italic;font-weight:700;">Relationship</span><span style="color:#111;font-style:italic;font-weight:400;"> : ${p.rel||'Father'}</span></div>
+    <div class="bio-footer"><span style="color:#F20000;font-style:italic;font-weight:700;">Relationship</span><span style="color:#111;font-style:italic;font-weight:400;"> : ${p.rel||'Father'}</span></div>
     <div class="bio-action-row">
       <button class="bio-close-btn" onclick="window.print()">🖨 Print</button>
       <button class="bio-close-btn outline" onclick="this.closest('.biodata-overlay').remove()">Close</button>
