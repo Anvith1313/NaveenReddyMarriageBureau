@@ -1744,73 +1744,56 @@ body{font-size:18px;}
 .income-display{font-family:'Cormorant Garamond',serif;font-size:0.9rem;font-style:italic;color:var(--gold);margin-top:0.25rem;min-height:1.2em;}
 
 /* ── BIODATA STYLES ── */
-.biodata-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.60);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1rem;overflow-y:auto;}
+.biodata-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.60);z-index:9999;display:flex;align-items:flex-start;justify-content:center;padding:1.5rem 1rem;overflow-y:auto;}
 .biodata-sheet{
   background:#fff;
-  width:min(700px,100%);
-  max-height:90vh;overflow-y:auto;
+  width:210mm;
+  min-height:297mm;
   border:6px double #8b1a2a;
   font-family:'Times New Roman',Georgia,serif;
-  padding:1rem 1.2rem;
-  position:relative;
+  padding:10mm 12mm;
   box-shadow:0 8px 48px rgba(0,0,0,0.22);
   box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
 }
-/* ── Header ── */
-.bio-header{text-align:center;border-bottom:2px solid #8b1a2a;padding-bottom:0.5rem;margin-bottom:0.6rem;}
-.bio-meta-row{display:flex;justify-content:space-between;align-items:center;font-size:0.8rem;color:#8b1a2a;margin-bottom:0.25rem;font-family:'Times New Roman',serif;}
-.bio-meta-row em{font-style:italic;font-weight:700;font-size:0.8rem;}
-.bio-meta-row strong{font-style:normal;font-weight:700;font-size:0.8rem;}
-.bio-logo-main{display:block;margin:0 auto 0.15rem;max-width:320px;width:100%;height:auto;object-fit:contain;}
-.bio-address{font-size:0.76rem;color:#8b1a2a;margin-top:0.1rem;font-family:'Times New Roman',serif;font-style:italic;font-weight:700;text-decoration:none;}
-.bio-address u{text-decoration:underline;text-underline-offset:1px;}
+.bio-meta-row{display:flex;justify-content:space-between;align-items:center;font-size:0.82rem;color:#8b1a2a;margin-bottom:0.2rem;font-family:'Times New Roman',Georgia,serif;}
+.bio-meta-row em{font-style:italic;font-weight:700;}
+.bio-meta-row strong{font-style:normal;font-weight:700;}
+.bio-logo-main{display:block;margin:0 auto 0.1rem;width:68%;max-width:420px;height:auto;object-fit:contain;}
+.bio-address{text-align:center;font-size:0.78rem;color:#8b1a2a;font-style:italic;font-weight:700;margin:0.15rem 0 0.4rem;font-family:'Times New Roman',Georgia,serif;}
+.bio-address u{text-decoration:underline;text-underline-offset:2px;}
+.bio-divider{border:none;border-top:1.5px solid #8b1a2a;margin:0 0 0.55rem;}
 /* ── Rows ── */
-.bio-row{display:flex;align-items:baseline;gap:0;margin-bottom:0.28rem;font-size:0.87rem;font-family:'Times New Roman',serif;}
-.bio-lbl{color:#8b1a2a;font-style:italic;font-weight:700;min-width:190px;flex-shrink:0;font-size:0.87rem;}
-.bio-colon{color:#222;padding:0 0.2rem 0 0;flex-shrink:0;}
-.bio-val{color:#111;flex:1;font-size:0.87rem;font-style:italic;}
-.bio-two{display:grid;grid-template-columns:1fr 1fr;gap:0.05rem 0.4rem;margin-bottom:0.05rem;}
-.bio-two .bio-row{margin-bottom:0.28rem;}
-.bio-two .bio-lbl{min-width:140px;}
+.bio-row{display:flex;align-items:baseline;margin-bottom:0.3rem;font-size:0.88rem;font-family:'Times New Roman',Georgia,serif;line-height:1.4;}
+.bio-lbl{color:#8b1a2a;font-style:italic;font-weight:700;min-width:195px;flex-shrink:0;font-size:0.88rem;}
+.bio-colon{color:#222;padding-right:0.3rem;flex-shrink:0;}
+.bio-val{color:#111;flex:1;font-size:0.88rem;font-style:italic;}
+.bio-two{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+.bio-two .bio-row{margin-bottom:0.3rem;}
+.bio-two .bio-lbl{min-width:148px;}
 /* ── Section headers ── */
-.bio-sec-title{
-  font-style:italic;font-weight:700;text-decoration:underline;
-  color:#8b1a2a;margin:0.8rem 0 0.4rem;font-size:0.95rem;
-  font-family:'Times New Roman',serif;letter-spacing:0.02em;
-}
+.bio-sec-title{font-style:italic;font-weight:700;text-decoration:underline;text-underline-offset:2px;color:#8b1a2a;margin:0.75rem 0 0.4rem;font-size:0.92rem;font-family:'Times New Roman',Georgia,serif;}
 /* ── Footer ── */
-.bio-footer{
-  text-align:right;font-style:italic;font-weight:700;color:#8b1a2a;font-size:0.82rem;
-  margin-top:0.6rem;padding-top:0;border-top:none;
-  font-family:'Times New Roman',serif;
-}
+.bio-footer{text-align:right;font-style:italic;font-weight:700;color:#8b1a2a;font-size:0.85rem;margin-top:auto;padding-top:0.7rem;font-family:'Times New Roman',Georgia,serif;}
 /* ── Print & Close buttons ── */
 .bio-action-row{display:flex;gap:0.5rem;justify-content:center;margin-top:0.9rem;}
-.bio-close-btn{
-  padding:0.55rem 1.8rem;background:#8b1a2a;color:#fff;border:none;
-  cursor:pointer;font-family:'Cinzel',serif;font-size:0.58rem;font-weight:600;
-  letter-spacing:0.14em;text-transform:uppercase;
-}
+.bio-close-btn{padding:0.55rem 1.8rem;background:#8b1a2a;color:#fff;border:none;cursor:pointer;font-family:'Cinzel',serif;font-size:0.58rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;}
 .bio-close-btn.outline{background:transparent;border:1.5px solid #8b1a2a;color:#8b1a2a;}
 /* ── Print styles ── */
 @media print{
   body > *:not(.biodata-overlay){display:none!important;}
-  .biodata-overlay{position:fixed!important;inset:0!important;background:none!important;padding:0!important;display:block!important;overflow:visible!important;}
-  .biodata-sheet{
-    max-height:none!important;overflow:visible!important;
-    width:195mm!important;max-width:195mm!important;
-    box-shadow:none!important;border:6px double #8b1a2a!important;
-    padding:8mm 10mm!important;
-    position:absolute!important;top:0!important;left:50%!important;transform:translateX(-50%)!important;
-  }
+  .biodata-overlay{position:static!important;background:none!important;padding:0!important;display:block!important;}
+  .biodata-sheet{width:210mm!important;min-height:297mm!important;box-shadow:none!important;border:6px double #8b1a2a!important;padding:10mm 12mm!important;}
   .bio-lbl{color:#8b1a2a!important;}
   .bio-val{color:#111!important;}
   .bio-address{color:#8b1a2a!important;}
   .bio-sec-title{color:#8b1a2a!important;}
   .bio-footer{color:#8b1a2a!important;}
+  .bio-meta-row{color:#8b1a2a!important;}
   *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
   .bio-action-row,.bio-close-btn{display:none!important;}
-  @page{size:A4 portrait;margin:8mm;}
+  @page{size:A4 portrait;margin:0;}
 }
 
 /* ── PHOTOS SECTION ── */
@@ -4626,11 +4609,10 @@ function _biodataFmt(p, logoSrc){
   const ageGap=(p.pp_af&&p.pp_at)?`${p.pp_af} - ${p.pp_at} Years`:'—';
   /* logo */
   return `<div class="biodata-sheet">
-    <div class="bio-header">
-      <div class="bio-meta-row"><em>Since 2000</em><strong>SI No : ${slId}</strong></div>
-      <img src="${_BIODATA_LOGO}" class="bio-logo-main" alt="Naveen Reddy Marriage Bureau">
-      <div class="bio-address">Corporate office: <u><span style="color:${brC};">Somajiguda</span></u>, &nbsp;Branches: <u><span style="color:${brC};">Kothapet</span></u>, <u><span style="color:${brC};">Warangal</span></u>, <u><span style="color:${brC};">Karimnagar</span></u></div>
-    </div>
+    <div class="bio-meta-row"><em>Since 2000</em><strong>SI No : ${slId}</strong></div>
+    <img src="${_BIODATA_LOGO}" class="bio-logo-main" alt="Naveen Reddy Marriage Bureau">
+    <div class="bio-address">Corporate office: <u>Somajiguda</u>,&nbsp; Branches: <u><span style="color:${brC};">Kothapet</span></u>, <u><span style="color:${brC};">Warangal</span></u>, <u><span style="color:${brC};">Karimnagar</span></u></div>
+    <hr class="bio-divider">
     ${row('Name of the '+gender,p.name)}
     ${row('Date of Birth',dobStr,'Height',p.ht||'—')}
     ${timePlace?row('Time and Place',timePlace):''}
