@@ -393,10 +393,9 @@ body{font-family:'EB Garamond',serif;font-size:19px;line-height:1.82;background:
 .reveal.in-view{opacity:1;transform:none;}
 
 /* ── Fullpage scroll-snap — homepage only ── */
-html:has(#pgHome.active){scroll-snap-type:y proximity;scroll-behavior:smooth;}
-.hero-section{scroll-snap-align:start;}
+html:has(#pgHome.active){scroll-behavior:smooth;}
+
 .stories-cta-slide{
-  scroll-snap-align:start;
   min-height:100vh;
   display:flex;flex-direction:column;justify-content:center;
   background:linear-gradient(180deg,rgba(255,248,240,0.7) 0%,var(--bg) 100%);
@@ -437,8 +436,6 @@ html:has(#pgHome.active){scroll-snap-type:y proximity;scroll-behavior:smooth;}
 @keyframes procBorderSpin{to{--proc-angle:360deg;}}
 .process-section{
   background:var(--bg-champagne);
-  /* Fullpage snap slide */
-  scroll-snap-align:start;
   min-height:100vh;
   display:flex;flex-direction:column;justify-content:center;
   padding:3rem 0;
@@ -472,7 +469,6 @@ html:has(#pgHome.active){scroll-snap-type:y proximity;scroll-behavior:smooth;}
 @property --_angle{syntax:'<angle>';initial-value:0deg;inherits:false;}
 @keyframes borderSpin{to{--_angle:360deg;}}
 .feat-snap-slide{
-  scroll-snap-align:start;
   min-height:100vh;
   display:flex;flex-direction:column;
   background:linear-gradient(160deg,#FDF8EF 0%,#FFFBF5 40%,#FDF3E0 80%,#FFF8F5 100%);
@@ -1845,12 +1841,11 @@ body{font-size:18px;}
   position:fixed;inset:0;z-index:999999;
   background:linear-gradient(160deg,#1c0507 0%,#100304 55%,#07010a 100%);
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  clip-path:inset(0 0 0% 0);
-  transition:clip-path 0.85s cubic-bezier(0.76,0,0.24,1);
+  opacity:1;
+  transition:opacity 0.6s ease;
   pointer-events:all;
-  will-change:clip-path;
 }
-#splashScreen.splash-hide{clip-path:inset(0 0 100% 0);pointer-events:none;}
+#splashScreen.splash-hide{opacity:0;pointer-events:none;}
 .splash-inner{display:flex;flex-direction:column;align-items:center;gap:1.2rem;opacity:0;animation:splashIn 0.7s cubic-bezier(0.34,1.56,0.64,1) 0.2s forwards;}
 @keyframes splashIn{to{opacity:1;}}
 .splash-logo-img{width:clamp(180px,40vw,280px);height:auto;object-fit:contain;filter:drop-shadow(0 0 40px rgba(212,175,55,0.35));}
@@ -1975,14 +1970,7 @@ checkCookieConsent();
 </script>
 <!-- ══════ END COOKIE CONSENT ══════ -->
 
-<!-- ══════ LANDING PAGE REDIRECT — remove this block to disable ══════ -->
-<script>
-  if(!sessionStorage.getItem('nrmb_lp')){
-    sessionStorage.setItem('nrmb_lp','1');
-    window.location.replace('landing.html');
-  }
-</script>
-<!-- ══════ END LANDING PAGE REDIRECT ══════ -->
+
 
 <!-- ══════ PUBLIC NAVBAR ══════ -->
 <nav class="navbar" id="mainNav">
