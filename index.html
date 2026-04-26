@@ -1757,10 +1757,10 @@ body{font-size:18px;}
   display:flex;
   flex-direction:column;
 }
-.bio-meta-row{display:flex;justify-content:space-between;align-items:center;font-size:12pt;color:#E60000;margin-bottom:0.2rem;font-family:Cambria,serif;}
+.bio-meta-row{display:flex;justify-content:space-between;align-items:center;font-size:12pt;color:#E60000;margin-bottom:0;font-family:Cambria,serif;}
 .bio-meta-row em{font-style:italic;font-weight:700;}
 .bio-meta-row strong{font-style:normal;font-weight:700;}
-.bio-logo-main{max-width:46%;max-height:26mm;width:auto;height:auto;object-fit:contain;display:block;}
+.bio-logo-main{display:block;margin:0 auto 0.15rem;width:58%;max-width:360px;height:auto;object-fit:contain;}
 .bio-address{text-align:center;font-size:12pt;font-style:italic;font-weight:700;margin:0.1rem 0 0.9rem;font-family:Cambria,serif;text-decoration:underline;text-underline-offset:2px;}
 /* ── Rows ── */
 .bio-row{display:flex;align-items:baseline;margin-bottom:0.3rem;font-size:14pt;font-family:Cambria,serif;line-height:1.4;}
@@ -4552,7 +4552,7 @@ function openBiodataView(){
   document.body.appendChild(el);
 }
 
-const _BIODATA_LOGO='/LOGO-biodata.png';
+const _BIODATA_LOGO='/Biodata-logo.jpg';
 function _biodataFmt(p, logoSrc){
   /* ── helpers ── */
   const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -4609,7 +4609,8 @@ function _biodataFmt(p, logoSrc){
   const ageGap=(p.pp_af&&p.pp_at)?`${p.pp_af} - ${p.pp_at} Years`:'—';
   /* logo */
   return `<div class="biodata-sheet">
-    <div class="bio-meta-row"><em>Since 2000</em><img src="${_BIODATA_LOGO}" class="bio-logo-main" alt="Naveen Reddy Marriage Bureau"><span><span style="font-style:italic;font-weight:700;">SI No :</span> <strong style="color:#111;">${slId}</strong></span></div>
+    <div class="bio-meta-row"><em>Since 2000</em><span><span style="font-style:italic;font-weight:700;">SI No :</span> <strong style="color:#111;">${slId}</strong></span></div>
+    <img src="${_BIODATA_LOGO}" class="bio-logo-main" alt="Naveen Reddy Marriage Bureau">
 
     <div class="bio-address"><span style="color:#E60000">Corporate office:</span> <span style="color:#0000FF">Somajiguda,</span>&nbsp; <span style="color:#E60000">Branches:</span> <span style="color:#000000">Kothapet, Warangal, Karimnagar</span></div>
     ${row('Name of the '+gender,p.name)}
