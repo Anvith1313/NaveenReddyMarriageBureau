@@ -1773,7 +1773,7 @@ body{font-size:18px;}
 .bio-two > .bio-row:last-child .bio-lbl{min-width:100px;}
 .bio-spacer{flex:1;min-height:0.5rem;}
 /* ── Section headers ── */
-.bio-sec-title{font-style:italic;font-weight:700;text-decoration:underline;text-underline-offset:2px;color:#E60000;margin:0.55rem 0 1.6rem;font-size:16pt;font-family:Cambria,serif;}.bio-gap{height:0.6rem;flex-shrink:0;}
+.bio-sec-title{font-style:italic;font-weight:700;text-decoration:underline;text-underline-offset:2px;color:#E60000;margin:0.55rem 0 1.6rem;font-size:16pt;font-family:Cambria,serif;}.bio-gap{height:0.6rem;flex-shrink:0;}.bio-anchor{height:1rem;flex-shrink:0;}
 /* ── Footer ── */
 .bio-footer{display:flex;align-items:baseline;padding-left:65%;font-size:14pt;font-family:Cambria,serif;margin-top:0.3rem;}
 /* ── Print & Close buttons ── */
@@ -4635,7 +4635,7 @@ function _biodataFmt(p, logoSrc){
     ${row("Mother's Profession",p.mo||'—')}
     <div class="bio-gap"></div>
     ${sibRows}
-    <div class="bio-spacer"></div>
+    <div class="bio-anchor"></div>
     <div class="bio-sec-title">CHOICE PREFERRED</div>
     ${row('Complexion / Color',p.pp_cx||'Fair','Age Gap',ageGap)}
     ${p.pp_hf&&p.pp_hf!=='Any'?row('Height',p.pp_hf+' And Above'):''}
