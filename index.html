@@ -3305,6 +3305,11 @@ function setBottomNav(activeId){
 }
 function _applyLogin(prof){
   document.body.classList.add('logged-in');
+  // Write lastLogin timestamp so admin activity log can track it
+  if(window.FIREBASE_READY&&(prof.uid||prof.u)){
+    const {doc,updateDoc,db}=window.FB;
+    updateDoc(doc(db,'users',prof.uid||prof.u),{lastLogin:new Date().toISOString()}).catch(()=>{});
+  }
   document.getElementById('acctName').textContent=(prof.name||'Member').split(' ')[0];
   const nlLikedEl=document.getElementById('nlLiked');if(nlLikedEl)nlLikedEl.style.display='flex';
   document.getElementById('acctTier').textContent=(prof.tier||'VIP')+' Account';
@@ -4095,7 +4100,7 @@ function renderCard(){
 }
 async function sendInt(toU){
   if(ST.interests.some(i=>(i.from===ST.user.u&&i.to===toU)||(i.from===toU&&i.to===ST.user.u))){toast('Interest already expressed.');return;}
-  const int={from:ST.user.u,to:toU,status:'pending',date:new Date().toISOString().split('T')[0],fromName:ST.user.name,toName:(ST.profiles.find(p=>p.u===toU)||{}).name||toU};
+  const int={from:ST.user.u,to:toU,status:'pending',date:new Date().toISOString().split('T')[0],createdAt:new Date().toISOString(),fromName:ST.user.name,toName:(ST.profiles.find(p=>p.u===toU)||{}).name||toU};
   if(window.FIREBASE_READY){
     try{
       const {doc,setDoc,db,collection,addDoc}=window.FB;
@@ -4139,7 +4144,7 @@ function toggleSave(u,e){
   updateLikedBadge();
   if(window.FIREBASE_READY && ST.user && ST.user.uid){
     const {doc,updateDoc,db}=window.FB;
-    updateDoc(doc(db,'users',ST.user.uid),{savedProfiles:ST.savedProfiles})
+    updateDoc(doc(db,'users',ST.user.uid),{savedProfiles:ST.savedProfiles,updatedAt:new Date().toISOString()})
       .catch(err=>console.warn('Could not save liked profiles:',err));
   }
 }
@@ -4225,8 +4230,8 @@ function respondToInterest(fromU,response){
     const {getDocs,query,where}=window.FB;
     getDocs(query(collection(db,'interests'),where('from','==',fromU),where('to','==',ST.user.u))).then(snap=>{
       snap.forEach(d=>{
-        if(response==='mutual') updateDoc(doc(db,'interests',d.id),{status:'mutual'});
-        else updateDoc(doc(db,'interests',d.id),{status:'not_interested'});
+        if(response==='mutual') updateDoc(doc(db,'interests',d.id),{status:'mutual',updatedAt:new Date().toISOString()});
+        else updateDoc(doc(db,'interests',d.id),{status:'not_interested',updatedAt:new Date().toISOString()});
       });
     }).catch(()=>{});
     const fromProf=ST.profiles.find(p=>p.u===fromU)||{};
@@ -4501,7 +4506,7 @@ async function uploadMyPhoto(file){
     const url=await getDownloadURL(ref);
     photos.push(url);
     ST.user.photos=photos;
-    if(ST.user.uid)await updateDoc(doc(db,'users',ST.user.uid),{photos});
+    if(ST.user.uid)await updateDoc(doc(db,'users',ST.user.uid),{photos,updatedAt:new Date().toISOString()});
     renderMyPhotos();
     toast('✅ Photo uploaded!');
   }catch(e){toast('Upload failed: '+e.message);}
@@ -4513,7 +4518,7 @@ async function deleteMyPhoto(idx){
   photos.splice(idx,1);
   ST.user.photos=photos;
   if(window.FIREBASE_READY&&ST.user.uid){
-    try{const {updateDoc,doc,db}=window.FB;await updateDoc(doc(db,'users',ST.user.uid),{photos});}catch(e){}
+    try{const {updateDoc,doc,db}=window.FB;await updateDoc(doc(db,'users',ST.user.uid),{photos,updatedAt:new Date().toISOString()});}catch(e){}
   }
   renderMyPhotos();
   toast('Photo removed.');
@@ -4911,7 +4916,7 @@ async function bookAppointment(){
       await window.FB.addDoc(window.FB.collection(window.FB.db,'appointments'),{
         name,mob,branch,date,time,purpose,msg:msg||'',
         uid:ST.user?.uid||'',username:ST.user?.u||'guest',
-        status:'pending',ts:new Date().toISOString()
+        status:'pending',ts:new Date().toISOString(),createdAt:new Date().toISOString()
       });
     }
     toast('✅ Appointment requested! We will call you to confirm.');
@@ -5274,7 +5279,7 @@ async function submitStory(){
     if(window.FIREBASE_READY){
       await window.FB.addDoc(window.FB.collection(window.FB.db,'stories'),{
         names:`${n1} & ${n2}`,year:yr,location:loc||'',text:msg,contact:contact||'',
-        status:'pending',ts:new Date().toISOString(),
+        status:'pending',ts:new Date().toISOString(),createdAt:new Date().toISOString(),
         submittedBy:ST.user?.u||'visitor'
       });
     }
