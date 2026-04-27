@@ -3443,6 +3443,12 @@ function startSignupFromEmail(){
 // ═══════════ REGISTRATION ═══════════
 let regTier=null;
 function pickTier(t){regTier=t;['VIP','VVIP','Elite'].forEach(x=>document.getElementById('tr'+x).classList.toggle('sel',x===t));}
+const _msMap={'Never Married':'ms_NM','Divorced':'ms_DV','Widowed':'ms_WD','Awaiting Divorce':'ms_AD'};
+function pickMs(v){
+  const sel=document.getElementById('s_ms');
+  if(sel)sel.value=v;
+  Object.entries(_msMap).forEach(([k,id])=>{const el=document.getElementById(id);if(el)el.classList.toggle('sel',k===v);});
+}
 let _regCurrentStep=1;
 function goStep(n){
   // Validate only when moving FORWARD from step 1
