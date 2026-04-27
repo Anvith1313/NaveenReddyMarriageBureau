@@ -1992,7 +1992,7 @@ checkCookieConsent();
           </linearGradient>
         </defs>
       </svg>
-      <img class="nav-logo-img" id="navLogo" src="" alt="NRMB Logo">
+      <img class="nav-logo-img" id="navLogo" src="Assets/Logo-transparent.webp" alt="NRMB Logo">
     </div>
     <div class="nav-brand-text">
       <span class="nb-main">Naveen Reddy Marriage Bureau</span>
@@ -2035,7 +2035,7 @@ checkCookieConsent();
 <!-- ══════ DASHBOARD TOPBAR ══════ -->
 <nav class="dash-topbar" id="dashNav" style="display:none;">
   <div class="dt-left">
-    <img class="dt-logo" id="dashLogo" src="" alt="NRMB">
+    <img class="dt-logo" id="dashLogo" src="Assets/Logo-transparent.webp" alt="NRMB">
     <div class="dt-brand">Naveen Reddy Marriage Bureau<small>Reddy Community · Est. 2000</small></div>
   </div>
   <div class="dt-right">
@@ -2176,7 +2176,7 @@ checkCookieConsent();
     <footer class="site-footer">
       <div class="footer-grid">
         <div class="fg-brand">
-          <div class="fb-logo"><img id="footLogo" src="" alt="NRMB" style="width:38px;height:38px;object-fit:contain;"><span class="fb-name">Naveen Reddy Marriage Bureau</span></div>
+          <div class="fb-logo"><img id="footLogo" src="Assets/Logo-transparent.webp" alt="NRMB" style="width:38px;height:38px;object-fit:contain;"><span class="fb-name">Naveen Reddy Marriage Bureau</span></div>
           <p>Serving the Reddy community with trust, honour and dedication since 2000. Making happy marriages happen throughout Telangana and beyond.</p>
         </div>
         
@@ -2213,7 +2213,7 @@ checkCookieConsent();
             </linearGradient>
           </defs>
         </svg>
-        <img id="loginLogo" src="" alt="NRMB">
+        <img id="loginLogo" src="Assets/Logo-transparent.webp" alt="NRMB">
       </div>
     </div>
     <div style="text-align:center;margin-bottom:1.4rem;">
@@ -2722,7 +2722,7 @@ checkCookieConsent();
       <p>Every profile is personally verified. Every match is made with care. Every union we facilitate carries our name and honour.</p>
       <p><strong style="color:var(--crimson);">One Network, Four Branches:</strong> All profiles registered at any branch — Somajiguda, Kothapet, Warangal or Karimnagar — are accessible through every branch. You can visit any office closest to you, regardless of where your profile was registered. Our entire member database is unified throughout Telangana.</p>
     </div>
-    <div class="about-ornament"><div class="orn-circle"><img id="abtLogo" src="" alt="NRMB"></div></div>
+    <div class="about-ornament"><div class="orn-circle"><img id="abtLogo" src="Assets/Logo-transparent.webp" alt="NRMB"></div></div>
   </div>
 </div>
 
@@ -4655,7 +4655,7 @@ function formatIncome(el){
   display.textContent=el.value?formatIncomeDisplay(el.value):'';
 }
 
-function openEditProfileRequest(){
+async function openEditProfileRequest(){
   if(!ST.user){toast('Please log in first.');return;}
   const u=ST.user;
   // ── 15-day cooldown check ──
