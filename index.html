@@ -2322,13 +2322,13 @@ checkCookieConsent();
         <div style="margin-top:0.6rem;font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--crimson);background:rgba(123,31,46,0.05);border:1px solid rgba(123,31,46,0.1);border-radius:20px;padding:0.3rem 1.2rem;display:inline-block;">🕉 Exclusively for Reddy Community · Hindu Religion</div>
       </div>
       <div class="step-bar" style="position:relative;z-index:1;">
-        <div class="step-item active" id="si1" onclick="goStepBack(1)"><div class="step-circle">1</div><div class="step-lbl">About</div></div>
-        <div class="step-item" id="si2" onclick="goStepBack(2)"><div class="step-circle">2</div><div class="step-lbl">Location</div></div>
-        <div class="step-item" id="si3" onclick="goStepBack(3)"><div class="step-circle">3</div><div class="step-lbl">Community</div></div>
-        <div class="step-item" id="si4" onclick="goStepBack(4)"><div class="step-circle">4</div><div class="step-lbl">Career</div></div>
-        <div class="step-item" id="si5" onclick="goStepBack(5)"><div class="step-circle">5</div><div class="step-lbl">Family</div></div>
-        <div class="step-item" id="si6" onclick="goStepBack(6)"><div class="step-circle">6</div><div class="step-lbl">Partner</div></div>
-        <div class="step-item" id="si7" onclick="goStepBack(7)"><div class="step-circle">7</div><div class="step-lbl">Account</div></div>
+        <div class="step-item active" id="si1" onclick="goStepNav(1)"><div class="step-circle">1</div><div class="step-lbl">About</div></div>
+        <div class="step-item" id="si2" onclick="goStepNav(2)"><div class="step-circle">2</div><div class="step-lbl">Location</div></div>
+        <div class="step-item" id="si3" onclick="goStepNav(3)"><div class="step-circle">3</div><div class="step-lbl">Community</div></div>
+        <div class="step-item" id="si4" onclick="goStepNav(4)"><div class="step-circle">4</div><div class="step-lbl">Career</div></div>
+        <div class="step-item" id="si5" onclick="goStepNav(5)"><div class="step-circle">5</div><div class="step-lbl">Family</div></div>
+        <div class="step-item" id="si6" onclick="goStepNav(6)"><div class="step-circle">6</div><div class="step-lbl">Partner</div></div>
+        <div class="step-item" id="si7" onclick="goStepNav(7)"><div class="step-circle">7</div><div class="step-lbl">Account</div></div>
         <div class="step-item" id="si8"><div class="step-circle">8</div><div class="step-lbl">Plan</div></div>
       </div>
 
@@ -3450,6 +3450,7 @@ function pickMs(v){
   Object.entries(_msMap).forEach(([k,id])=>{const el=document.getElementById(id);if(el)el.classList.toggle('sel',k===v);});
 }
 let _regCurrentStep=1;
+let _maxReachedStep=1;
 function goStep(n){
   // Validate only when moving FORWARD from step 1
   if(n>_regCurrentStep&&_regCurrentStep===1){
@@ -3487,6 +3488,7 @@ function goStep(n){
     if(nextStep) nextStep.classList.add('active');
   }
   _regCurrentStep=n;
+  if(n>_maxReachedStep)_maxReachedStep=n;
   for(let i=1;i<=8;i++){
     const s=document.getElementById('si'+i);if(!s)continue;
     s.classList.remove('active','done');
@@ -3497,11 +3499,12 @@ function goStep(n){
   // Re-init custom selects for this step (handles any selects that weren't initialized yet)
   window._initCustomSelects&&window._initCustomSelects(document.getElementById('fs'+n));
 }
-// Allow clicking done steps in the bar to go back freely
-function goStepBack(n){
-  if(n>=_regCurrentStep)return; // can only go back, not jump ahead
+// Navigate to any previously reached step (both back and forward within visited steps)
+function goStepNav(n){
+  if(n>_maxReachedStep)return; // can't jump past highest reached step
   goStep(n);
 }
+function goStepBack(n){goStepNav(n);}// legacy alias
 
 // ── EXIT SIGNUP MODAL LOGIC ──
 function _showExitSignupModal(){
@@ -3813,7 +3816,7 @@ async function doRegister(){
   }catch(e){
     if(e.code==='auth/email-already-in-use'){
       // Navigate back to Account step (step 7) where email is entered — keep all data intact
-      goStepBack(7);
+      goStep(7);
       setTimeout(()=>{
         const emailEl=document.getElementById('s_email');
         if(emailEl){
@@ -5433,8 +5436,6 @@ document.addEventListener('DOMContentLoaded',function(){
       // Collect option data
       let opts=[];
       if(type==='select'){
-        const first=sel.options[0];
-        if(first&&first.value==='')first.disabled=true;
         opts=Array.from(sel.options).filter(o=>!o.disabled).map(o=>({val:o.value,text:o.text}));
       } else {
         const dl=document.getElementById(sel.getAttribute('list')||'');
@@ -5456,13 +5457,17 @@ document.addEventListener('DOMContentLoaded',function(){
       const syncDisplay=()=>{
         const val=sel.value;
         const isEmpty=!val||val==='';
-        span.className='csel-val'+(isEmpty?' csel-placeholder':'');
         if(isEmpty){
-          span.textContent=getLabel();
+          const firstOpt=type==='select'?sel.options[0]:null;
+          const anyText=(firstOpt&&firstOpt.value==='')?firstOpt.text:null;
+          if(anyText){span.className='csel-val';span.textContent=anyText;}
+          else{span.className='csel-val csel-placeholder';span.textContent=getLabel();}
         } else if(type==='select'){
+          span.className='csel-val';
           const opt=sel.options[sel.selectedIndex];
           span.textContent=opt?opt.text:val;
         } else {
+          span.className='csel-val';
           span.textContent=val;
         }
       };
@@ -5509,7 +5514,7 @@ document.addEventListener('DOMContentLoaded',function(){
         opts.forEach(opt=>{
           const item=document.createElement('div');
           const curVal=type==='select'?sel.value:sel.value;
-          item.className='csel-item'+(opt.val&&opt.val===curVal?' csel-selected':'');
+          item.className='csel-item'+(opt.val===curVal?' csel-selected':'');
           item.textContent=opt.text;
           item.addEventListener('click',e=>{
             e.stopPropagation();
