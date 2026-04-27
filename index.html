@@ -2349,7 +2349,7 @@ checkCookieConsent();
           <div class="g2">
             <div class="ff"><label>Date of Birth *</label><input id="s_dob" type="date"><small id="dobAgeHint" style="color:var(--muted);font-style:italic;font-size:0.8rem;">Min age: 21 for Male, 18 for Female</small></div>
             <div class="ff"><label>Height *</label><select id="s_ht"><option value="">Select</option><option>4'0" (121cm)</option><option>4'1" (124cm)</option><option>4'2" (127cm)</option><option>4'3" (130cm)</option><option>4'4" (132cm)</option><option>4'5" (135cm)</option><option>4'6" (137cm)</option><option>4'7" (140cm)</option><option>4'8" (142cm)</option><option>4'9" (145cm)</option><option>4'10" (147cm)</option><option>4'11" (150cm)</option><option>5'0" (152cm)</option><option>5'1" (155cm)</option><option>5'2" (157cm)</option><option>5'3" (160cm)</option><option>5'4" (163cm)</option><option>5'5" (165cm)</option><option>5'6" (168cm)</option><option>5'7" (170cm)</option><option>5'8" (173cm)</option><option>5'9" (175cm)</option><option>5'10" (178cm)</option><option>5'11" (180cm)</option><option>6'0" (183cm)</option><option>6'1" (185cm)</option><option>6'2" (188cm)</option><option>6'3" (191cm)</option><option>6'4" (193cm)</option><option>6'5" (196cm)</option><option>6'6" (198cm)</option><option>6'7" (201cm)</option><option>6'8" (203cm)</option><option>6'9" (206cm)</option><option>6'10" (208cm)</option><option>6'11" (211cm)</option><option>7'0" (213cm)</option><option>7'1" (216cm)</option><option>7'2" (218cm)</option><option>7'3" (221cm)</option><option>7'4" (224cm)</option><option>7'5" (226cm)</option><option>7'6" (229cm)</option></select></div>
-            <div class="ff"><label>Weight (kg)</label><input id="s_wt" type="number" placeholder="e.g. 65"></div>
+
             <div class="ff"><label>Mother Tongue *</label><select id="s_mt"><option value="">Select</option><option>Telugu</option><option>Kannada</option><option>Tamil</option><option>Hindi</option><option>Marathi</option><option>Gujarati</option><option>Bengali</option><option>Malayalam</option><option>Odia</option><option>Punjabi</option><option>Other</option></select></div>
             <div class="ff"><label>Complexion</label><select id="s_cx"><option value="">Select</option><option>Very Fair</option><option>Fair</option><option>Wheatish</option><option>Wheatish Brown</option><option>Dark</option></select></div>
             <div class="ff"><label>Body Type</label><select id="s_bt"><option value="">Select</option><option>Slim</option><option>Athletic</option><option>Average</option><option>Heavy</option></select></div>
@@ -3636,7 +3636,7 @@ function _buildReview(){
       ['Username',val('s_user')],
     ]},
     {title:'Physical Attributes',rows:[
-      ['Height',val('s_ht')],['Weight',val('s_wt')?val('s_wt')+' kg':'—'],
+      ['Height',val('s_ht')],
       ['Complexion',val('s_cx')],['Body Type',val('s_bt')],
       ['Blood Group',val('s_bg')],['Differently Abled',val('s_da')],
     ]},
@@ -3737,7 +3737,7 @@ async function doRegister(){
     workplace:document.getElementById('s_workplace').value.trim()||'—',
     visa:document.getElementById('s_visa').value.trim()||'—',
     pploc:document.getElementById('pp_st').value.trim()||'Any',
-    wt:document.getElementById('s_wt').value||'—',
+    wt:'—',
     cx:document.getElementById('s_cx').value||'—',
     bt:document.getElementById('s_bt').value||'—',
     bl:document.getElementById('s_bg').value||'—',
@@ -3805,8 +3805,22 @@ async function doRegister(){
       toast('Registration successful! Welcome to Reddy Elite Matrimony.');
     }
   }catch(e){
-    const msg=e.code==='auth/email-already-in-use'?'This email is already registered. Please login.':e.code==='auth/weak-password'?'Password must be at least 6 characters.':'Registration failed: '+e.message;
-    toast(msg);
+    if(e.code==='auth/email-already-in-use'){
+      // Navigate back to Account step (step 7) where email is entered — keep all data intact
+      goStepBack(7);
+      setTimeout(()=>{
+        const emailEl=document.getElementById('s_email');
+        if(emailEl){
+          emailEl.style.border='2px solid #c0392b';
+          emailEl.style.boxShadow='0 0 0 3px rgba(192,57,43,0.18)';
+          emailEl.focus();
+          emailEl.addEventListener('input',()=>{emailEl.style.border='';emailEl.style.boxShadow='';},{once:true});
+        }
+      },300);
+      toast('⚠ This email is already registered. Please use a different email — all your other details have been kept.');
+    } else {
+      toast(e.code==='auth/weak-password'?'Password must be at least 6 characters.':'Registration failed: '+e.message);
+    }
     if(btn){btn.textContent='Complete Registration';btn.disabled=false;}
   }
 }
