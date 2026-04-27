@@ -4650,9 +4650,11 @@ function _biodataFmt(p, logoSrc){
     ${sibRows}
     <div class="bio-anchor"></div>
     <div class="bio-sec-title">CHOICE PREFERRED</div>
-    ${row('Complexion / Color',p.pp_cx||'Fair','Age Gap',ageGap)}
-    ${p.pp_hf&&p.pp_hf!=='Any'?row('Height',p.pp_hf+' And Above'):''}
-    ${p.pp_edu&&p.pp_edu!=='Any'?row('Qualification',p.pp_edu):''}
+    ${row('Age Range',ageGap,'Complexion / Color',p.pp_cx||'Any')}
+    ${row('Height',(p.pp_hf&&p.pp_hf!=='Any')?p.pp_hf+' And Above':'Any','Qualification',p.pp_edu||'Any')}
+    ${row('Profession',p.pp_occ||'Any','Expected Income',p.pp_inc||'Any')}
+    ${row('Preferred Location',p.pploc||p.pp_loc||'Any','NRI Preference',p.pp_nri||'Any')}
+    ${(p.pp_note&&p.pp_note.trim())?row('Other Notes',p.pp_note):''}
     <div class="bio-footer"><span class="bio-lbl" style="min-width:100px;">Relationship</span><span class="bio-colon">:</span><span class="bio-val">${p.rel||'Father'}</span></div>
     <div class="bio-action-row">
       <button class="bio-close-btn" onclick="window.print()">🖨 Print</button>
