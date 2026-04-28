@@ -936,6 +936,30 @@ html:has(#pgHome.active){scroll-behavior:smooth;}
   background-size:cover;background-position:center;
   position:relative;
 }
+/* ═══ BROWSE PAGE — Instagram grid ═══ */
+#pgBrowse{background:#f5f0eb;padding-top:var(--nav-h);}
+#pgBrowse.active{display:block;}
+.browse-hdr{position:sticky;top:var(--nav-h);z-index:40;background:rgba(255,252,248,0.97);backdrop-filter:blur(12px);border-bottom:1px solid rgba(212,175,55,0.15);padding:0.7rem 0.9rem 0;}
+.browse-srch{position:relative;margin-bottom:0.55rem;}
+.browse-srch svg{position:absolute;left:0.85rem;top:50%;transform:translateY(-50%);pointer-events:none;}
+#browseSearch{width:100%;padding:0.55rem 1rem 0.55rem 2.4rem;background:#eee8e0;border:none;border-radius:50px;font-family:'EB Garamond',serif;font-size:1rem;outline:none;color:var(--text);}
+.browse-chips{display:flex;gap:0.5rem;overflow-x:auto;padding-bottom:0.65rem;scrollbar-width:none;}
+.browse-chips::-webkit-scrollbar{display:none;}
+.bchip{flex-shrink:0;padding:0.28rem 0.85rem;border-radius:50px;border:1.5px solid rgba(184,137,42,0.3);background:transparent;font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(107,83,64,0.65);cursor:pointer;transition:all 0.18s;}
+.bchip.active,.bchip:active{background:var(--crimson);border-color:var(--crimson);color:#fff;}
+.browse-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;padding:2px;padding-bottom:80px;}
+@media(min-width:600px){.browse-grid{grid-template-columns:repeat(3,1fr);}}
+@media(min-width:900px){.browse-grid{grid-template-columns:repeat(4,1fr);gap:4px;padding:4px;padding-bottom:20px;}}
+.bgc{position:relative;aspect-ratio:3/4;overflow:hidden;cursor:pointer;background:#e8d5c4;}
+.bgc-photo{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:3.5rem;background-size:cover;background-position:center top;}
+.bgc-grad{position:absolute;bottom:0;left:0;right:0;padding:2.4rem 0.6rem 0.55rem;background:linear-gradient(to top,rgba(0,0,0,0.72) 0%,transparent 100%);}
+.bgc-name{font-family:'Cormorant Garamond',serif;font-size:0.88rem;font-weight:600;color:#fff;line-height:1.2;}
+.bgc-city{font-family:'EB Garamond',serif;font-size:0.72rem;color:rgba(255,255,255,0.78);}
+.bgc-tier{position:absolute;top:0.4rem;left:0.4rem;padding:0.16rem 0.45rem;border-radius:50px;background:rgba(0,0,0,0.42);font-family:'Cinzel',serif;font-size:0.46rem;letter-spacing:0.08em;text-transform:uppercase;color:rgba(212,175,55,0.92);}
+.bgc-heart{position:absolute;top:0.38rem;right:0.38rem;width:28px;height:28px;background:rgba(0,0,0,0.38);border:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:0.88rem;color:#fff;transition:transform 0.15s;}
+.bgc-heart.saved{color:#e63946;}
+.bgc-heart:active{transform:scale(1.3);}
+.browse-empty{grid-column:1/-1;text-align:center;padding:3rem 1rem;color:var(--muted);font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-style:italic;}
 .profile-area::before{
   content:'';position:absolute;inset:0;
   background:rgba(255,252,248,0.72);
@@ -2667,6 +2691,26 @@ checkCookieConsent();
 </div>
 
 <!-- ══════════════════════════════════════
+     PAGE: BROWSE (Instagram grid)
+══════════════════════════════════════ -->
+<div id="pgBrowse" class="page" style="display:none;">
+  <div class="browse-hdr">
+    <div class="browse-srch">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(184,137,42,0.7)" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="browseSearch" type="search" placeholder="Search by name, city, profession…" autocomplete="off" oninput="renderBrowseGrid()">
+    </div>
+    <div class="browse-chips">
+      <button class="bchip active" onclick="setBrowseFilter('all',this)">All</button>
+      <button class="bchip" onclick="setBrowseFilter('female',this)">Brides</button>
+      <button class="bchip" onclick="setBrowseFilter('male',this)">Grooms</button>
+      <button class="bchip" onclick="setBrowseFilter('india',this)">India</button>
+      <button class="bchip" onclick="setBrowseFilter('abroad',this)">Abroad</button>
+    </div>
+  </div>
+  <div class="browse-grid" id="browseGrid"></div>
+</div>
+
+<!-- ══════════════════════════════════════
      PAGE: MY PROFILE
 ══════════════════════════════════════ -->
 <div id="pgMyProfile" class="page doodle-bg" style="display:none;">
@@ -3259,7 +3303,7 @@ function showPage(id,skipHistory){
     p.style.display='none';p.classList.remove('active');
   });
   const pg=document.getElementById(id);if(!pg)return;
-  const isDash=(ST.user&&['pgDash','pgMyProfile','pgCongrats','pgLiked','pgIntInMe'].includes(id))||['pgDash','pgMyProfile','pgCongrats'].includes(id);
+  const isDash=(ST.user&&['pgDash','pgMyProfile','pgCongrats','pgLiked','pgIntInMe','pgBrowse'].includes(id))||['pgDash','pgMyProfile','pgCongrats'].includes(id);
   const isLogin=id==='pgLogin';
   document.getElementById('mainNav').style.display=(isDash||isLogin)?'none':'flex';
   document.getElementById('dashNav').style.display=isDash?'flex':'none';
@@ -3274,6 +3318,7 @@ function showPage(id,skipHistory){
   if(id==='pgLiked') renderLikedPage();
   if(id==='pgIntInMe') renderIntInMe();
   if(id==='pgStories') loadApprovedStories();
+  if(id==='pgBrowse') renderBrowseGrid();
   if(id==='pgBranches'){if(document.getElementById('branchGrid'))document.getElementById('branchGrid').style.display='grid';if(document.getElementById('branchDetail'))document.getElementById('branchDetail').style.display='none';}
   if(id==='pgSignup'){
     // Reset to pre-step A each time signup page is opened
@@ -4285,6 +4330,75 @@ async function sendInt(toU){
   }
 }
 function nextCard(){ST.browseIdx++;renderCard();}
+
+/* ─── Browse Grid (Instagram-style) ─── */
+var _browseFilter='all';
+function renderBrowseGrid(){
+  const grid=document.getElementById('browseGrid');if(!grid)return;
+  const q=(document.getElementById('browseSearch')?.value||'').toLowerCase().trim();
+  const pool=ST.profiles.filter(p=>{
+    if(ST.user&&p.u===ST.user?.u)return false;
+    if(_browseFilter==='female'&&p.g!=='Female')return false;
+    if(_browseFilter==='male'&&p.g!=='Male')return false;
+    if(_browseFilter==='india'&&(p.country||'').toLowerCase()!=='india')return false;
+    if(_browseFilter==='abroad'&&(p.country||'India').toLowerCase()==='india')return false;
+    if(q&&!(p.name||'').toLowerCase().includes(q)&&!(p.city||'').toLowerCase().includes(q)&&!(p.prof||p.occ||'').toLowerCase().includes(q))return false;
+    return true;
+  });
+  if(!pool.length){grid.innerHTML='<div class="browse-empty">No profiles found</div>';return;}
+  grid.innerHTML=pool.map(p=>{
+    const saved=ST.savedProfiles&&ST.savedProfiles.includes(p.u);
+    const hasPhoto=p.photos&&p.photos.length>0;
+    const photoBg=hasPhoto?`background-image:url('${p.photos[0]}');background-size:cover;background-position:center top;background-color:${p.bg||'#fce4ec'};`:`background:${p.bg||'#fce4ec'};`;
+    return `<div class="bgc" onclick="openBrowseCard('${p.u}')">
+      <div class="bgc-photo" style="${photoBg}">${!hasPhoto?`<span>${p.em||'👤'}</span>`:''}</div>
+      <div class="bgc-grad">
+        <div class="bgc-name">${p.name}, ${p.age}</div>
+        <div class="bgc-city">${p.city||''}${p.country&&p.country!=='India'?' · '+p.country:''}</div>
+      </div>
+      <div class="bgc-tier">${p.tier||'VIP'}</div>
+      <button class="bgc-heart${saved?' saved':''}" onclick="event.stopPropagation();_browseToggleHeart('${p.u}',this)" aria-label="${saved?'Unsave':'Save'}">${saved?'♥':'♡'}</button>
+    </div>`;
+  }).join('');
+}
+function setBrowseFilter(f,btn){
+  _browseFilter=f;
+  document.querySelectorAll('.bchip').forEach(c=>c.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  renderBrowseGrid();
+}
+function openBrowseCard(uid){
+  const p=ST.profiles.find(x=>x.u===uid);if(!p)return;
+  // Show full detail overlay
+  const overlay=document.createElement('div');
+  overlay.id='browseCardOv';
+  overlay.style.cssText='position:fixed;inset:0;z-index:900;background:rgba(0,0,0,0.55);display:flex;align-items:flex-end;overflow:hidden;';
+  overlay.innerHTML=`<div style="width:100%;max-height:92vh;overflow-y:auto;background:#fff;border-radius:22px 22px 0 0;padding:1.4rem 1.2rem 100px;animation:slideUp 0.3s cubic-bezier(0.34,1.2,0.64,1);">
+    <div style="width:40px;height:4px;background:rgba(0,0,0,0.15);border-radius:2px;margin:0 auto 1.2rem;"></div>
+    <div style="display:flex;gap:1rem;align-items:center;margin-bottom:1rem;">
+      <div style="width:72px;height:72px;border-radius:50%;background:${p.bg||'#fce4ec'};display:flex;align-items:center;justify-content:center;font-size:2.2rem;flex-shrink:0;${p.photos&&p.photos[0]?`background-image:url('${p.photos[0]}');background-size:cover;background-position:center;`:''}"></div>
+      <div><div style="font-family:'Cinzel',serif;font-size:1rem;font-weight:700;color:var(--primary);">${p.name}, ${p.age}</div>
+      <div style="font-family:'EB Garamond',serif;font-size:0.9rem;color:var(--muted);">${p.prof||p.occ||'—'} · ${p.city||'—'}</div>
+      <div style="margin-top:0.3rem;padding:0.15rem 0.6rem;background:rgba(123,31,46,0.08);border-radius:50px;display:inline-block;font-family:'Cinzel',serif;font-size:0.5rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--crimson);">${p.tier||'VIP'} · ✓ Verified</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem 1rem;font-family:'EB Garamond',serif;font-size:0.95rem;margin-bottom:1.2rem;">
+      ${[['Height',p.ht],['Education',p.edu],['Income',p.inc],['Native',p.nat||p.native],['Diet',p.diet],['Rashi',p.rashi],['Nakshatra',p.nak],['Mother Tongue',p.mt]].filter(x=>x[1]&&x[1]!=='—').map(x=>`<div><div style="font-size:0.7rem;color:var(--muted);font-family:'Cinzel',serif;letter-spacing:0.08em;text-transform:uppercase;">${x[0]}</div><div style="color:var(--text);font-weight:500;">${x[1]}</div></div>`).join('')}
+    </div>
+    <button onclick="sendInterest('${p.u}','${p.name}')" style="width:100%;padding:0.85rem;background:linear-gradient(135deg,#9B2F40,#7B1F2E);border:none;border-radius:50px;color:#fff;font-family:'Cinzel',serif;font-size:0.62rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;cursor:pointer;box-shadow:0 4px 16px rgba(123,31,46,0.3);margin-bottom:0.6rem;">Send Interest</button>
+    <button onclick="document.getElementById('browseCardOv').remove()" style="width:100%;padding:0.72rem;background:transparent;border:1.5px solid rgba(184,137,42,0.3);border-radius:50px;color:var(--primary);font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;cursor:pointer;">Close</button>
+  </div>`;
+  if(!document.getElementById('slideUpKf')){const s=document.createElement('style');s.id='slideUpKf';s.textContent='@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}';document.head.appendChild(s);}
+  overlay.addEventListener('click',e=>{if(e.target===overlay)overlay.remove();});
+  document.body.appendChild(overlay);
+}
+function _browseToggleHeart(uid,btn){
+  toggleSave(uid,{stopPropagation:()=>{}});
+  setTimeout(()=>{
+    const saved=ST.savedProfiles&&ST.savedProfiles.includes(uid);
+    btn.textContent=saved?'♥':'♡';
+    btn.classList.toggle('saved',saved);
+  },100);
+}
 
 function toggleSave(u,e){
   if(e) e.stopPropagation();
