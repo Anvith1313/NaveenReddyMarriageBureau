@@ -206,8 +206,8 @@ body{font-family:'EB Garamond',serif;font-size:19px;line-height:1.82;background:
 .logo-ring-wrap{position:relative;display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;flex-shrink:0;}
 .logo-ring-wrap .logo-ring-svg{display:none;}
 .logo-ring-wrap img{width:48px;height:48px;object-fit:contain;border-radius:0;position:relative;z-index:1;}
-.logo-ring-wrap.lg{width:88px;height:88px;}
-.logo-ring-wrap.lg img{width:88px;height:88px;}
+.logo-ring-wrap.lg{width:64px;height:64px;}
+.logo-ring-wrap.lg img{width:64px;height:64px;}
 .logo-ring-wrap.md{width:68px;height:68px;}
 .logo-ring-wrap.md img{width:68px;height:68px;}
 
@@ -545,7 +545,7 @@ html:has(#pgHome.active){scroll-behavior:smooth;}
 /* ═══════════════════════════════════
    LOGIN PAGE
 ═══════════════════════════════════ */
-#pgLogin{padding-top:0;display:none;width:100%;min-height:100vh;position:relative;background:url('/Assets/Temple.png') center center / cover no-repeat !important;}
+#pgLogin{padding-top:0;display:none;width:100%;height:100vh;overflow:hidden;position:relative;background:url('/Assets/Temple.png') center center / cover no-repeat !important;}
 #pgLogin.active{display:flex;align-items:center;justify-content:center;}
 #pgVerify.active{display:flex;align-items:center;justify-content:center;}
 #pgLogin::before{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(to bottom,rgba(18,6,8,0.45) 0%,rgba(123,31,46,0.38) 40%,rgba(18,6,8,0.55) 100%);}
@@ -554,11 +554,11 @@ html:has(#pgHome.active){scroll-behavior:smooth;}
 .login-glass{
   position:relative;z-index:1;
   width:100%;max-width:420px;
-  background:rgba(255,255,255,0.96);
+  background:rgba(255,255,255,0.93);
   backdrop-filter:blur(32px) saturate(1.5);
   border:1px solid rgba(212,175,55,0.25);
   border-radius:24px;
-  padding:2.8rem 3rem 2.5rem;
+  padding:1.6rem 2.4rem 1.4rem;
   box-shadow:0 32px 80px rgba(0,0,0,0.4),0 1px 0 rgba(255,255,255,0.9),0 0 0 1px rgba(212,175,55,0.1);
 }
 .login-glass::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--primary),#D4AF37,var(--primary-hover),#D4AF37,var(--primary));border-radius:24px 24px 0 0;}
@@ -590,12 +590,12 @@ html:has(#pgHome.active){scroll-behavior:smooth;}
 .lg-sub{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;color:var(--muted);text-align:center;margin-bottom:0.45rem;}
 .lg-caste{display:inline-block;width:100%;text-align:center;font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--crimson);background:rgba(123,31,46,0.05);border:1px solid rgba(123,31,46,0.1);border-radius:20px;padding:0.28rem;margin-bottom:1.6rem;}
 
-.orn-line{display:flex;align-items:center;gap:0.6rem;margin-bottom:1.3rem;}
+.orn-line{display:flex;align-items:center;gap:0.6rem;margin-bottom:0.7rem;}
 .orn-line::before,.orn-line::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(184,137,42,0.28),transparent);}
 .orn-line span{font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);white-space:nowrap;}
 
 /* underline inputs */
-.ui{position:relative;margin-bottom:1.4rem;}
+.ui{position:relative;margin-bottom:0.85rem;}
 .ui label{display:block;font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--primary);margin-bottom:0.42rem;}
 .ui input{width:100%;background:transparent;border:none;border-bottom:1.5px solid var(--border);outline:none;padding:0.55rem 0.2rem;font-family:'Cormorant Garamond',serif;font-size:1.15rem;color:var(--text);transition:border-color 0.3s;}
 .ui input::placeholder{color:rgba(123,31,46,0.22);font-style:italic;}
@@ -606,14 +606,14 @@ html:has(#pgHome.active){scroll-behavior:smooth;}
 .ui .et:hover{opacity:1;}
 
 /* pill buttons */
-.btn-prim{width:100%;padding:0.95rem;background:linear-gradient(135deg,#9B2F40 0%,#7B1F2E 60%,#5A1520 100%);border:none;border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.65rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:#fff;box-shadow:0 6px 28px rgba(123,31,46,0.35),inset 0 1px 0 rgba(255,255,255,0.15);transition:all 0.28s;position:relative;overflow:hidden;margin-top:0.4rem;}
+.btn-prim{width:100%;padding:0.75rem;background:linear-gradient(135deg,#9B2F40 0%,#7B1F2E 60%,#5A1520 100%);border:none;border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.65rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:#fff;box-shadow:0 6px 28px rgba(123,31,46,0.35),inset 0 1px 0 rgba(255,255,255,0.15);transition:all 0.28s;position:relative;overflow:hidden;margin-top:0.2rem;}
 .btn-prim::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.1),transparent);transition:left 0.5s;}
 .btn-prim:hover::before{left:100%;}
 .btn-prim:hover{box-shadow:0 10px 38px rgba(123,31,46,0.5);transform:translateY(-1px);}
-.btn-sec{width:100%;padding:0.82rem;background:transparent;border:1.5px solid var(--border);border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.65rem;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--primary);transition:all 0.28s;margin-top:0.65rem;}
+.btn-sec{width:100%;padding:0.65rem;background:transparent;border:1.5px solid var(--border);border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.65rem;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--primary);transition:all 0.28s;margin-top:0.4rem;}
 .btn-sec:hover{background:var(--primary-light);border-color:var(--primary);}
 
-.lg-foot{display:flex;justify-content:space-between;margin-top:1.4rem;border-top:1px solid rgba(184,137,42,0.1);padding-top:1.1rem;}
+.lg-foot{display:flex;justify-content:space-between;margin-top:0.7rem;border-top:1px solid rgba(184,137,42,0.1);padding-top:0.65rem;}
 .glink{background:none;border:none;cursor:pointer;font-family:'Cormorant Garamond',serif;font-size:0.86rem;font-style:italic;color:var(--gold);transition:color 0.2s;}
 .glink:hover{color:var(--crimson);}
 
@@ -2221,7 +2221,7 @@ checkCookieConsent();
 ══════════════════════════════════════ -->
 <div id="pgLogin" class="page" style="display:none;">
   <div class="login-glass">
-    <div style="text-align:center;margin-bottom:1.2rem;">
+    <div style="text-align:center;margin-bottom:0.7rem;">
       <div class="logo-ring-wrap lg" style="margin:0 auto;">
         <svg class="logo-ring-svg" viewBox="0 0 88 88" xmlns="http://www.w3.org/2000/svg">
           <circle cx="44" cy="44" r="41" fill="rgba(184,137,42,0.08)"/>
@@ -2242,17 +2242,17 @@ checkCookieConsent();
         <img id="loginLogo" src="Assets/Logo-transparent.webp" alt="NRMB">
       </div>
     </div>
-    <div style="text-align:center;margin-bottom:1.4rem;">
-      <div style="font-family:'Josefin Sans',sans-serif;font-size:0.68rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem;">Welcome Back</div>
-      <div class="lg-title" style="font-family:'Cinzel',serif;font-size:1.25rem;font-weight:700;color:var(--primary);">Naveen Reddy Marriage Bureau</div>
-      <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;color:var(--text-body);margin-top:0.25rem;">A sacred journey continues here</div>
-      <div style="width:60px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:0.9rem auto 0;"></div>
+    <div style="text-align:center;margin-bottom:0.8rem;">
+      <div style="font-family:'Josefin Sans',sans-serif;font-size:0.65rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:0.2rem;">Welcome Back</div>
+      <div class="lg-title" style="font-family:'Cinzel',serif;font-size:1.15rem;font-weight:700;color:var(--primary);">Naveen Reddy Marriage Bureau</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.92rem;color:var(--text-body);margin-top:0.15rem;">A sacred journey continues here</div>
+      <div style="width:60px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:0.55rem auto 0;"></div>
     </div>
     <div class="orn-line"><span>Secure Sign In</span></div>
     <div class="ui"><label>Email or Username</label><input id="lu" type="text" placeholder="Enter email or username" autocomplete="username"><div class="uline"></div></div>
     <div class="ui"><label>Password</label><input id="lp" type="password" placeholder="Your password" autocomplete="current-password"><button class="et" onclick="tpwd('lp',this)" aria-label="Show password" title="Show/hide password"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button><div class="uline"></div></div>
     <button class="btn-prim" onclick="doLogin()" aria-label="Sign In">Sign In</button>
-    <div style="display:flex;align-items:center;gap:0.8rem;margin:0.5rem 0;">
+    <div style="display:flex;align-items:center;gap:0.8rem;margin:0.3rem 0;">
       <div style="flex:1;height:1px;background:var(--border);"></div>
       <span style="font-family:'Cormorant Garamond',serif;font-size:0.8rem;color:var(--muted);font-style:italic;">or</span>
       <div style="flex:1;height:1px;background:var(--border);"></div>
@@ -3262,7 +3262,7 @@ function showPage(id,skipHistory){
   const pg=document.getElementById(id);if(!pg)return;
   const isDash=(ST.user&&['pgDash','pgMyProfile','pgCongrats','pgLiked','pgIntInMe'].includes(id))||['pgDash','pgMyProfile','pgCongrats'].includes(id);
   const isLogin=id==='pgLogin';
-  document.getElementById('mainNav').style.display=isDash?'none':'flex';
+  document.getElementById('mainNav').style.display=(isDash||isLogin)?'none':'flex';
   document.getElementById('dashNav').style.display=isDash?'flex':'none';
   if(isLogin){
     pg.style.display='flex';
