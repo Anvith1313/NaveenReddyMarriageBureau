@@ -4740,12 +4740,13 @@ function _biodataFmt(p, logoSrc){
     ${salDisplay&&salDisplay!=='—'?(p.visa&&p.visa!=='—'?row('Salary',salDisplay,'Visa Status',p.visa):row('Salary',salDisplay)):''}
     ${p.sinceWork&&p.sinceWork!=='—'?row('Since Working',p.sinceWork):''}
     ${isDivorced&&p.divorceInfo&&p.divorceInfo!=='—'?row('Divorces',p.divorceInfo):''}
+    <div class="bio-spacer"></div>
     <div class="bio-sec-title">FAMILY MEMBERS DETAILS</div>
     ${row("Father's Profession",p.fo||p.fp||'—')}
     ${row("Mother's Profession",p.mo||'—')}
     <div class="bio-gap"></div>
     ${sibRows}
-    <div class="bio-spacer"></div>
+    <div class="bio-anchor"></div>
     <div class="bio-sec-title">CHOICE PREFERRED</div>
     ${row('Age Range',ageGap,'Complexion / Color',p.pp_cx||'Any')}
     ${row('Height',(p.pp_hf&&p.pp_hf!=='Any')?p.pp_hf+' And Above':'Any','Qualification',p.pp_edu||'Any')}
