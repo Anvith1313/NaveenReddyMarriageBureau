@@ -943,11 +943,18 @@ html:has(#pgHome.active){scroll-behavior:smooth;}
 .browse-srch{position:relative;margin-bottom:0.55rem;}
 .browse-srch svg{position:absolute;left:0.85rem;top:50%;transform:translateY(-50%);pointer-events:none;}
 #browseSearch{width:100%;padding:0.55rem 1rem 0.55rem 2.4rem;background:#eee8e0;border:none;border-radius:50px;font-family:'EB Garamond',serif;font-size:1rem;outline:none;color:var(--text);}
-.browse-filters{display:flex;gap:0.45rem;overflow-x:auto;padding-bottom:0.65rem;scrollbar-width:none;align-items:center;}
-.browse-filters::-webkit-scrollbar{display:none;}
-.bf-sel{flex-shrink:0;padding:0.28rem 1.3rem 0.28rem 0.6rem;border-radius:50px;border:1.5px solid rgba(184,137,42,0.3);background:#fff;font-family:'Cinzel',serif;font-size:0.52rem;letter-spacing:0.07em;text-transform:uppercase;color:rgba(107,83,64,0.8);cursor:pointer;outline:none;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='6'%3E%3Cpath d='M0 0l4.5 6 4.5-6z' fill='%23b8960c'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 0.5rem center;background-size:8px 5px;transition:border-color 0.18s,background-color 0.18s;}
-.bf-sel:focus,.bf-sel:hover{border-color:var(--gold);background-color:#fdf8ee;}
-.bf-sel option{background:#fff;font-family:sans-serif;}
+.browse-filter-bar{display:flex;gap:0.45rem;overflow-x:auto;padding-bottom:0.55rem;scrollbar-width:none;align-items:center;}
+.browse-filter-bar::-webkit-scrollbar{display:none;}
+.bfpill{flex-shrink:0;display:flex;align-items:center;gap:0.3rem;padding:0.3rem 0.85rem;border-radius:50px;border:1.5px solid rgba(184,137,42,0.3);background:transparent;font-family:'Cinzel',serif;font-size:0.52rem;letter-spacing:0.08em;text-transform:uppercase;color:rgba(107,83,64,0.7);cursor:pointer;transition:all 0.18s;white-space:nowrap;}
+.bfpill svg{flex-shrink:0;transition:transform 0.2s;}
+.bfpill.open svg,.bfpill.has-val svg{transform:rotate(180deg);}
+.bfpill.has-val{background:var(--crimson);border-color:var(--crimson);color:#fff;}
+.bfpill.has-val svg path{fill:#fff;}
+.browse-tags{display:none;flex-wrap:wrap;gap:0.35rem;padding:0 0 0.6rem;overflow-x:auto;scrollbar-width:none;}
+.browse-tags::-webkit-scrollbar{display:none;}
+.bftag{display:inline-flex;align-items:center;gap:0.3rem;padding:0.22rem 0.55rem 0.22rem 0.7rem;border-radius:50px;background:rgba(123,31,46,0.08);border:1px solid rgba(123,31,46,0.15);font-family:'EB Garamond',serif;font-size:0.82rem;color:var(--crimson);cursor:pointer;transition:background 0.15s;white-space:nowrap;}
+.bftag:hover{background:rgba(123,31,46,0.14);}
+.bftag-x{font-size:0.95rem;opacity:0.6;line-height:1;}
 .browse-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;padding:2px;padding-bottom:80px;}
 @media(min-width:600px){.browse-grid{grid-template-columns:repeat(3,1fr);}}
 @media(min-width:900px){.browse-grid{grid-template-columns:repeat(4,1fr);gap:4px;padding:4px;padding-bottom:20px;}}
@@ -2700,39 +2707,14 @@ checkCookieConsent();
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(184,137,42,0.7)" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
       <input id="browseSearch" type="search" placeholder="Search by name, city, profession…" autocomplete="off" oninput="renderBrowseGrid()">
     </div>
-    <div class="browse-filters">
-      <select id="bfA" class="bf-sel" onchange="renderBrowseGrid()">
-        <option value="">Any Age</option>
-        <option>18–20</option><option>21–25</option><option>26–30</option>
-        <option>31–35</option><option>36–40</option><option>40+</option>
-      </select>
-      <select id="bfH" class="bf-sel" onchange="renderBrowseGrid()">
-        <option value="">Any Height</option>
-        <option>4'10"</option><option>5'0"</option><option>5'2"</option>
-        <option>5'4"</option><option>5'5"</option><option>5'6"</option>
-        <option>5'7"</option><option>5'8"</option><option>5'10"</option>
-        <option>6'0"</option><option>6'2"</option>
-      </select>
-      <select id="bfI" class="bf-sel" onchange="renderBrowseGrid()">
-        <option value="">Any Income</option>
-        <option>3–6 Lakhs</option><option>6–10 Lakhs</option>
-        <option>10–20 Lakhs</option><option>20–50 Lakhs</option>
-        <option>50L–1 Crore</option><option>1 Crore+</option>
-      </select>
-      <select id="bfC" class="bf-sel" onchange="renderBrowseGrid()">
-        <option value="">Any Country</option>
-        <option>India</option><option>USA</option><option>UK</option>
-        <option>Canada</option><option>Australia</option><option>UAE</option>
-        <option>Singapore</option><option>Germany</option>
-      </select>
-      <select id="bfS" class="bf-sel" onchange="renderBrowseGrid()">
-        <option value="">Any State</option>
-        <option>Telangana</option><option>Andhra Pradesh</option>
-        <option>Karnataka</option><option>Tamil Nadu</option>
-        <option>Maharashtra</option><option>Delhi</option>
-        <option>Gujarat</option><option>Kerala</option>
-      </select>
+    <div class="browse-filter-bar">
+      <button class="bfpill" id="bfpill-age" onclick="openBrowseFilter('age',this)">Age<svg width="10" height="7" viewBox="0 0 10 7"><path d="M0 0l5 7 5-7z" fill="rgba(107,83,64,0.5)"/></svg></button>
+      <button class="bfpill" id="bfpill-height" onclick="openBrowseFilter('height',this)">Height<svg width="10" height="7" viewBox="0 0 10 7"><path d="M0 0l5 7 5-7z" fill="rgba(107,83,64,0.5)"/></svg></button>
+      <button class="bfpill" id="bfpill-income" onclick="openBrowseFilter('income',this)">Income<svg width="10" height="7" viewBox="0 0 10 7"><path d="M0 0l5 7 5-7z" fill="rgba(107,83,64,0.5)"/></svg></button>
+      <button class="bfpill" id="bfpill-country" onclick="openBrowseFilter('country',this)">Country<svg width="10" height="7" viewBox="0 0 10 7"><path d="M0 0l5 7 5-7z" fill="rgba(107,83,64,0.5)"/></svg></button>
+      <button class="bfpill" id="bfpill-state" onclick="openBrowseFilter('state',this)">State / Region<svg width="10" height="7" viewBox="0 0 10 7"><path d="M0 0l5 7 5-7z" fill="rgba(107,83,64,0.5)"/></svg></button>
     </div>
+    <div class="browse-tags" id="browseTags"></div>
   </div>
   <div class="browse-grid" id="browseGrid"></div>
 </div>
@@ -4358,34 +4340,171 @@ async function sendInt(toU){
 }
 function nextCard(){ST.browseIdx++;renderCard();}
 
-/* ─── Browse Grid (Instagram-style) ─── */
+/* ─── Browse Grid — multi-select filter system ─── */
+var _browseFilters={age:[],height:[],income:[],country:[],state:[]};
+var _openBrowseKey=null;
+var _BF_OPTS={
+  age:['18–20','21–25','26–30','31–35','36–40','40+'],
+  height:["4'10\"","5'0\"","5'2\"","5'4\"","5'5\"","5'6\"","5'7\"","5'8\"","5'10\"","6'0\"","6'2\"","6'4\""],
+  income:['Below 3 Lakhs','3–6 Lakhs','6–10 Lakhs','10–20 Lakhs','20–50 Lakhs','50L–1 Crore','1 Crore+'],
+  country:['India','USA','UK','Canada','Australia','UAE','Singapore','Germany','New Zealand','Netherlands','Qatar','Bahrain','Saudi Arabia'],
+};
+var _STATES_BY_COUNTRY={
+  India:['Andhra Pradesh','Arunachal Pradesh','Assam','Bihar','Chhattisgarh','Delhi','Goa','Gujarat','Haryana','Himachal Pradesh','Jharkhand','Karnataka','Kerala','Madhya Pradesh','Maharashtra','Manipur','Meghalaya','Mizoram','Nagaland','Odisha','Punjab','Rajasthan','Sikkim','Tamil Nadu','Telangana','Tripura','Uttar Pradesh','Uttarakhand','West Bengal'],
+  USA:['Alabama','Alaska','Arizona','California','Colorado','Connecticut','Florida','Georgia','Hawaii','Illinois','Indiana','Maryland','Massachusetts','Michigan','Minnesota','Missouri','Nevada','New Jersey','New York','North Carolina','Ohio','Oregon','Pennsylvania','Tennessee','Texas','Virginia','Washington','Wisconsin'],
+  UK:['East of England','East Midlands','Greater London','North East','North West','Northern Ireland','Scotland','South East','South West','Wales','West Midlands','Yorkshire'],
+  Canada:['Alberta','British Columbia','Manitoba','New Brunswick','Newfoundland','Nova Scotia','Ontario','Prince Edward Island','Quebec','Saskatchewan'],
+  Australia:['Australian Capital Territory','New South Wales','Northern Territory','Queensland','South Australia','Tasmania','Victoria','Western Australia'],
+  UAE:['Abu Dhabi','Ajman','Dubai','Fujairah','Ras Al Khaimah','Sharjah','Umm Al Quwain'],
+  Singapore:['Central Region','East Region','North Region','North-East Region','West Region'],
+  Germany:['Baden-Württemberg','Bavaria','Berlin','Brandenburg','Bremen','Hamburg','Hesse','Lower Saxony','Mecklenburg-Vorpommern','North Rhine-Westphalia','Rhineland-Palatinate','Saarland','Saxony','Saxony-Anhalt','Schleswig-Holstein','Thuringia'],
+  'New Zealand':['Auckland','Bay of Plenty','Canterbury','Gisborne','Hawke\'s Bay','Manawatu-Whanganui','Marlborough','Nelson','Northland','Otago','Southland','Taranaki','Tasman','Waikato','Wellington','West Coast'],
+  Netherlands:['Drenthe','Flevoland','Friesland','Gelderland','Groningen','Limburg','North Brabant','North Holland','Overijssel','South Holland','Utrecht','Zeeland'],
+  Qatar:['Ad Dawhah','Al Khawr','Al Rayyan','Al Wakrah','Ash Shamal','Az Za\'ayin','Madinat ash Shamal','Umm Salal'],
+  Bahrain:['Capital','Muharraq','Northern','Southern'],
+  'Saudi Arabia':['Al Bahah','Al Hudud ash Shamaliyah','Al Jawf','Al Madinah','Al Qassim','Ar Riyad','Ash Sharqiyah','Asir','Ha\'il','Jazan','Makkah','Najran','Tabuk'],
+};
+function _getStateOpts(){
+  var sel=_browseFilters.country;
+  if(!sel.length){var all=[];Object.values(_STATES_BY_COUNTRY).forEach(function(arr){all=all.concat(arr);});return all.sort();}
+  var states=[];sel.forEach(function(c){if(_STATES_BY_COUNTRY[c])states=states.concat(_STATES_BY_COUNTRY[c]);});
+  return states.filter(function(v,i,a){return a.indexOf(v)===i;}).sort();
+}
+function openBrowseFilter(key,pill){
+  var existing=document.getElementById('browseFilterSheet');
+  if(_openBrowseKey===key&&existing){closeBrowseFilter();return;}
+  closeBrowseFilter();
+  _openBrowseKey=key;
+  pill.classList.add('open');
+  var opts=key==='state'?_getStateOpts():_BF_OPTS[key];
+  var current=_browseFilters[key];
+  var labels={age:'Age Range',height:'Height',income:'Income Range',country:'Country',state:'State / Region'};
+  var sheet=document.createElement('div');
+  sheet.id='browseFilterSheet';
+  sheet.style.cssText='position:fixed;inset:0;z-index:950;display:flex;flex-direction:column;justify-content:flex-end;';
+  var itemsHtml=opts.map(function(o){
+    var chk=current.indexOf(o)>-1;
+    return '<label class="bfsheet-item" data-val="'+o.replace(/"/g,'&quot;')+'">'+
+      '<div class="bfsheet-chk'+(chk?' chk-on':'')+'">'+
+        (chk?'<svg width="12" height="9" viewBox="0 0 12 9"><polyline points="1,4.5 4.5,8 11,1" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>':'')+
+      '</div>'+
+      '<span>'+o+'</span>'+
+    '</label>';
+  }).join('');
+  sheet.innerHTML=
+    '<div style="position:absolute;inset:0;background:rgba(0,0,0,0.38);" id="bfSheetBd"></div>'+
+    '<div style="position:relative;background:#fff;border-radius:20px 20px 0 0;max-height:72vh;display:flex;flex-direction:column;z-index:1;">'+
+      '<div style="display:flex;align-items:center;justify-content:space-between;padding:1rem 1.2rem 0.75rem;border-bottom:1px solid rgba(212,175,55,0.15);">'+
+        '<span style="font-family:\'Cinzel\',serif;font-size:0.68rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--primary);">'+labels[key]+'</span>'+
+        '<div style="display:flex;align-items:center;gap:0.9rem;">'+
+          '<button onclick="_clearBrowseFilter(\''+key+'\')" style="font-family:\'Cinzel\',serif;font-size:0.55rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);background:none;border:none;cursor:pointer;padding:0;">Clear</button>'+
+          '<button onclick="closeBrowseFilter()" style="width:28px;height:28px;border-radius:50%;background:rgba(0,0,0,0.07);border:none;cursor:pointer;font-size:1.1rem;line-height:1;display:flex;align-items:center;justify-content:center;color:var(--text);">×</button>'+
+        '</div>'+
+      '</div>'+
+      '<div style="overflow-y:auto;padding:0.5rem 0 env(safe-area-inset-bottom,0.5rem);" id="bfSheetList">'+itemsHtml+'</div>'+
+    '</div>';
+  document.getElementById('bfSheetBd',sheet)&&void 0;
+  sheet.querySelector('#bfSheetBd').addEventListener('click',closeBrowseFilter);
+  sheet.querySelectorAll('.bfsheet-item').forEach(function(lbl){
+    lbl.addEventListener('click',function(){_toggleBrowseOpt(key,lbl.dataset.val);});
+  });
+  if(!document.getElementById('bfSheetStyle')){
+    var st=document.createElement('style');st.id='bfSheetStyle';
+    st.textContent='.bfsheet-item{display:flex;align-items:center;gap:0.85rem;padding:0.78rem 1.2rem;cursor:pointer;transition:background 0.12s;}.bfsheet-item:active{background:rgba(123,31,46,0.04);}.bfsheet-chk{width:22px;height:22px;border-radius:6px;border:2px solid rgba(184,137,42,0.4);background:transparent;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s;}.bfsheet-chk.chk-on{border-color:var(--crimson);background:var(--crimson);}.bfsheet-item span{font-family:\'EB Garamond\',serif;font-size:1.02rem;color:var(--text);}';
+    document.head.appendChild(st);
+  }
+  document.body.appendChild(sheet);
+}
+function closeBrowseFilter(){
+  var s=document.getElementById('browseFilterSheet');if(s)s.remove();
+  if(_openBrowseKey){var p=document.getElementById('bfpill-'+_openBrowseKey);if(p)p.classList.remove('open');}
+  _openBrowseKey=null;
+}
+function _toggleBrowseOpt(key,val){
+  var arr=_browseFilters[key];
+  var idx=arr.indexOf(val);
+  if(idx>-1)arr.splice(idx,1);else arr.push(val);
+  var chk=document.querySelector('.bfsheet-item[data-val="'+val.replace(/"/g,'\\"')+'"] .bfsheet-chk');
+  if(chk){
+    var on=arr.indexOf(val)>-1;
+    chk.className='bfsheet-chk'+(on?' chk-on':'');
+    chk.innerHTML=on?'<svg width="12" height="9" viewBox="0 0 12 9"><polyline points="1,4.5 4.5,8 11,1" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>':'';
+  }
+  if(key==='country'){
+    var validStates=_getStateOpts();
+    _browseFilters.state=_browseFilters.state.filter(function(s){return validStates.indexOf(s)>-1;});
+  }
+  _updateBrowsePills();renderBrowseTags();renderBrowseGrid();
+}
+function _clearBrowseFilter(key){
+  _browseFilters[key]=[];
+  if(key==='country')_browseFilters.state=[];
+  closeBrowseFilter();
+  _updateBrowsePills();renderBrowseTags();renderBrowseGrid();
+}
+function _updateBrowsePills(){
+  var labels={age:'Age',height:'Height',income:'Income',country:'Country',state:'State / Region'};
+  Object.keys(_browseFilters).forEach(function(k){
+    var pill=document.getElementById('bfpill-'+k);if(!pill)return;
+    var vals=_browseFilters[k];
+    var svgHtml='<svg width="10" height="7" viewBox="0 0 10 7"><path d="M0 0l5 7 5-7z" fill="'+(vals.length?'rgba(255,255,255,0.7)':'rgba(107,83,64,0.5)')+'"/></svg>';
+    if(vals.length){pill.classList.add('has-val');pill.innerHTML=labels[k]+' ('+vals.length+')'+svgHtml;}
+    else{pill.classList.remove('has-val');pill.innerHTML=labels[k]+svgHtml;}
+  });
+}
+function renderBrowseTags(){
+  var wrap=document.getElementById('browseTags');if(!wrap)return;
+  var tags=[];
+  Object.keys(_browseFilters).forEach(function(k){
+    _browseFilters[k].forEach(function(v){
+      tags.push('<button class="bftag" onclick="removeBrowseTag(\''+k+'\',this.dataset.v)" data-v="'+v.replace(/'/g,'&#39;')+'"><span>'+v+'</span><span class="bftag-x">×</span></button>');
+    });
+  });
+  wrap.style.display=tags.length?'flex':'none';
+  wrap.innerHTML=tags.join('');
+}
+function removeBrowseTag(key,val){
+  var arr=_browseFilters[key];var idx=arr.indexOf(val);
+  if(idx>-1)arr.splice(idx,1);
+  if(key==='country'){var vs=_getStateOpts();_browseFilters.state=_browseFilters.state.filter(function(s){return vs.indexOf(s)>-1;});}
+  _updateBrowsePills();renderBrowseTags();renderBrowseGrid();
+}
 function renderBrowseGrid(){
-  const grid=document.getElementById('browseGrid');if(!grid)return;
-  const q=(document.getElementById('browseSearch')?.value||'').toLowerCase().trim();
-  const myGender=ST.user?.g||'';
-  const targetGender=myGender==='Male'?'Female':myGender==='Female'?'Male':'';
-  const fAge=document.getElementById('bfA')?.value||'';
-  const fHt=document.getElementById('bfH')?.value||'';
-  const fInc=document.getElementById('bfI')?.value||'';
-  const fCtry=document.getElementById('bfC')?.value||'';
-  const fSt=document.getElementById('bfS')?.value||'';
-  function _parseAgeR(r){if(!r)return null;const m=r.match(/(\d+)[–\-](\d+)/);if(m)return{min:+m[1],max:+m[2]};if(r==='40+')return{min:40,max:999};return null;}
-  function _htIn(s){if(!s)return 0;const m=s.match(/(\d+)'(\d+)?/);return m?(+m[1])*12+(+(m[2]||0)):0;}
-  const ageR=_parseAgeR(fAge);const htMin=_htIn(fHt);
-  function _incOk(pInc){if(!fInc)return true;const pl=(pInc||'').toLowerCase();
-    if(fInc==='1 Crore+')return pl.includes('crore')||pl.includes('1 cr');
-    if(fInc==='50L–1 Crore')return pl.includes('50l')||pl.includes('crore');
-    if(fInc==='20–50 Lakhs')return pl.includes('20')||pl.includes('30')||pl.includes('40')||pl.includes('50');
-    if(fInc==='10–20 Lakhs')return pl.includes('10')||pl.includes('15')||pl.includes('20');
-    return true;}
-  const pool=ST.profiles.filter(p=>{
+  var grid=document.getElementById('browseGrid');if(!grid)return;
+  var q=(document.getElementById('browseSearch')?.value||'').toLowerCase().trim();
+  var myGender=ST.user?.g||'';
+  var targetGender=myGender==='Male'?'Female':myGender==='Female'?'Male':'';
+  var fAges=_browseFilters.age;
+  var fHts=_browseFilters.height;
+  var fIncs=_browseFilters.income;
+  var fCtry=_browseFilters.country;
+  var fSt=_browseFilters.state;
+  function _parseAgeR(r){if(!r)return null;var m=r.match(/(\d+)[–\-](\d+)/);if(m)return{min:+m[1],max:+m[2]};if(r==='40+')return{min:40,max:999};return null;}
+  function _htIn(s){if(!s)return 0;var m=s.match(/(\d+)'(\d+)?/);return m?(+m[1])*12+(+(m[2]||0)):0;}
+  function _ageOk(age){if(!fAges.length)return true;return fAges.some(function(r){var rng=_parseAgeR(r);return rng&&+age>=rng.min&&+age<=rng.max;});}
+  function _htOk(ht){if(!fHts.length)return true;var hi=_htIn(ht);return fHts.some(function(h){return _htIn(h)===hi;});}
+  function _incOk(pInc){
+    if(!fIncs.length)return true;
+    var pl=(pInc||'').toLowerCase();
+    return fIncs.some(function(fInc){
+      if(fInc==='1 Crore+')return pl.includes('crore')||pl.includes('1 cr');
+      if(fInc==='50L–1 Crore')return pl.includes('50l')||pl.includes('crore');
+      if(fInc==='20–50 Lakhs')return pl.includes('20')||pl.includes('30')||pl.includes('40')||pl.includes('50');
+      if(fInc==='10–20 Lakhs')return pl.includes('10')||pl.includes('15')||pl.includes('20');
+      if(fInc==='6–10 Lakhs')return pl.includes('6')||pl.includes('7')||pl.includes('8')||pl.includes('9')||pl.includes('10');
+      if(fInc==='3–6 Lakhs')return pl.includes('3')||pl.includes('4')||pl.includes('5')||pl.includes('6');
+      if(fInc==='Below 3 Lakhs')return pl.includes('1')||pl.includes('2')||pl.includes('below')||pl.includes('less');
+      return true;
+    });
+  }
+  var pool=ST.profiles.filter(function(p){
     if(ST.user&&p.u===ST.user?.u)return false;
     if(targetGender&&p.g!==targetGender)return false;
-    if(ageR&&(+p.age<ageR.min||+p.age>ageR.max))return false;
-    if(htMin&&_htIn(p.ht)<htMin)return false;
+    if(!_ageOk(p.age))return false;
+    if(!_htOk(p.ht))return false;
     if(!_incOk(p.inc))return false;
-    if(fCtry&&(p.country||'').toLowerCase()!==fCtry.toLowerCase())return false;
-    if(fSt&&(p.state||'').toLowerCase()!==fSt.toLowerCase())return false;
+    if(fCtry.length&&fCtry.indexOf(p.country||'')===-1)return false;
+    if(fSt.length&&fSt.indexOf(p.state||'')===-1)return false;
     if(q&&!(p.name||'').toLowerCase().includes(q)&&!(p.city||'').toLowerCase().includes(q)&&!(p.prof||p.occ||'').toLowerCase().includes(q))return false;
     return true;
   });
