@@ -1779,17 +1779,17 @@ body{font-size:18px;}
 .bio-logo-main{height:38mm;aspect-ratio:55/32;object-fit:contain;display:block;margin-bottom:0.4rem;}
 .bio-address{text-align:center;font-size:12pt;font-style:italic;font-weight:700;margin:0 0 1.3rem;font-family:Cambria,serif;text-decoration:underline;text-underline-offset:2px;}
 /* ── Rows ── */
-.bio-row{display:flex;align-items:baseline;margin-bottom:0.3rem;font-size:14pt;font-family:Cambria,serif;line-height:1.4;}
+.bio-row{display:flex;align-items:baseline;margin-bottom:0.3rem;font-size:14pt;font-family:Cambria,serif;line-height:1.4;flex-shrink:0;}
 .bio-lbl{color:#E60000;font-style:italic;font-weight:700;min-width:222px;flex-shrink:0;font-size:14pt;}
 .bio-colon{color:#111;padding-right:0.3rem;flex-shrink:0;}
 .bio-val{color:#111;flex:1;font-size:14pt;font-style:italic;}
-.bio-two{display:grid;grid-template-columns:65% 35%;column-gap:0;}
+.bio-two{display:grid;grid-template-columns:65% 35%;column-gap:0;flex-shrink:0;}
 .bio-two .bio-row{margin-bottom:0.3rem;}
 .bio-two > .bio-row:first-child .bio-lbl{min-width:222px;}
 .bio-two > .bio-row:last-child .bio-lbl{min-width:100px;}
-.bio-spacer{flex:1;min-height:0.5rem;}
+.bio-spacer{flex:1;min-height:0;flex-shrink:1;}
 /* ── Section headers ── */
-.bio-sec-title{font-style:italic;font-weight:700;text-decoration:underline;text-underline-offset:2px;color:#E60000;margin:0.55rem 0 1.6rem;font-size:16pt;font-family:Cambria,serif;}.bio-gap{height:0.6rem;flex-shrink:0;}.bio-anchor{height:1rem;flex-shrink:0;}
+.bio-sec-title{font-style:italic;font-weight:700;text-decoration:underline;text-underline-offset:2px;color:#E60000;margin:0.55rem 0 1.6rem;font-size:16pt;font-family:Cambria,serif;flex-shrink:0;}.bio-gap{height:0.6rem;flex-shrink:0;}.bio-anchor{height:1rem;flex-shrink:0;}
 /* ── Footer ── */
 .bio-footer{display:flex;align-items:baseline;padding-left:65%;font-size:14pt;font-family:Cambria,serif;margin-top:0.3rem;}
 /* ── Print & Close buttons ── */
