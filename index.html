@@ -2298,6 +2298,15 @@ checkCookieConsent();
     <div style="font-family:'EB Garamond',serif;font-size:0.82rem;color:var(--muted);font-style:italic;">Exclusively for Reddy Community · Hindu Religion</div>
   </div>
 
+  <!-- PRE-STEP A2: Relationship clarification -->
+  <div id="preStepA2" class="pre-step-screen" style="display:none;">
+    <button class="pse-back-link" onclick="_goPreStep(1)" aria-label="← Back">← Back</button>
+    <div class="pre-step-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--crimson)" stroke-width="1.5" style="display:block;margin:0 auto;"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+    <div class="pre-step-title" id="psa2_title">Your Relationship</div>
+    <div class="pre-step-sub" id="psa2_sub">How are you related to the candidate?</div>
+    <div class="psf-grid" id="psa2_cards" style="max-width:360px;margin:1.6rem auto 0;justify-content:center;"></div>
+  </div>
+
   <!-- PRE-STEP B: Email + Name + Gender -->
   <div id="preStepB" class="pre-step-screen" style="display:none;">
     <button class="pse-back-link" onclick="_goPreStep(1)" aria-label="← Back">← Back</button>
@@ -3428,8 +3437,7 @@ async function doLogout(){
 // ═══════════ PRE-STEP FLOW ═══════════
 let _preState={who:'',gender:''};
 function selectProfileFor(who,gender){
-  _preState={who,gender};
-  // Update icon and title for preStepB
+  _preState={who,gender,rel:''};
   const svgIcons={
     Myself:'<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--crimson)" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
     'My Son':'<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--crimson)" stroke-width="1.5"><path d="M16 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="10" cy="7" r="4"/><line x1="18" y1="8" x2="23" y2="3"/><polyline points="21 3 23 3 23 5"/></svg>',
@@ -3451,6 +3459,31 @@ function selectProfileFor(who,gender){
     document.getElementById('pse_gender_wrap').style.display='block';
     setPseGender('Male');
   }
+  // For ambiguous cases, show clarification step
+  const psa2Title=document.getElementById('psa2_title');
+  const psa2Sub=document.getElementById('psa2_sub');
+  const psa2Cards=document.getElementById('psa2_cards');
+  const card=(lbl,rel)=>`<div class="psf-card" onclick="selectRelForProfile('${rel}')"><div class="psf-card-lbl">${lbl}</div></div>`;
+  if(who==='My Son'||who==='My Daughter'){
+    psa2Title.textContent='Are you the Father or Mother?';
+    psa2Sub.textContent='You are registering for your '+(who==='My Son'?'son':'daughter')+'. Tell us your relationship.';
+    psa2Cards.innerHTML=card('Father','Father')+card('Mother','Mother');
+    _goPreStep(1.5);return;
+  }
+  if(who==='My Brother'){
+    psa2Title.textContent='Are you his Brother or Sister?';
+    psa2Sub.textContent='You are registering for your brother. Tell us your relationship.';
+    psa2Cards.innerHTML=card('Brother','Brother')+card('Sister','Sister');
+    _goPreStep(1.5);return;
+  }
+  if(who==='My Sister'){
+    psa2Title.textContent='Are you her Brother or Sister?';
+    psa2Sub.textContent='You are registering for your sister. Tell us your relationship.';
+    psa2Cards.innerHTML=card('Brother','Brother')+card('Sister','Sister');
+    _goPreStep(1.5);return;
+  }
+  // Myself, My Relative, A Friend — rel is unambiguous
+  _preState.rel=who==='Myself'?'Self':(who==='My Relative'?'Relative':'Friend');
   _goPreStep(2);
 }
 function setPseGender(g){
@@ -3459,8 +3492,13 @@ function setPseGender(g){
   document.getElementById('gMale').checked=(g==='Male');
   document.getElementById('gFemale').checked=(g==='Female');
 }
+function selectRelForProfile(rel){
+  _preState.rel=rel;
+  _goPreStep(2);
+}
 function _goPreStep(n){
   document.getElementById('preStepA').style.display=n===1?'block':'none';
+  document.getElementById('preStepA2').style.display=n===1.5?'block':'none';
   document.getElementById('preStepB').style.display=n===2?'block':'none';
   document.getElementById('regStepsWrap').style.display=n===3?'block':'none';
   window.scrollTo(0,0);
@@ -3872,7 +3910,7 @@ async function doRegister(){
     pp_nri:document.getElementById('pp_nri').value||'No Preference',
     pp_note:document.getElementById('pp_note').value.trim()||'—',
     about:document.getElementById('s_about').value.trim()||'—',
-    rel:(()=>{const m={'Myself':'Self','My Son':'Father','My Daughter':'Father','My Brother':'Brother','My Sister':'Sister','My Relative':'Relative','A Friend':'Friend'};return m[_preState?.who]||'Father';})(),
+    rel:_preState?.rel||'Father',
     photoURL:'',createdAt:new Date().toISOString()
   };
   try{
