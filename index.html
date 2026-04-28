@@ -548,7 +548,7 @@ html:has(#pgHome.active){scroll-behavior:smooth;}
 #pgLogin{padding-top:0;display:none;width:100%;height:100vh;overflow:hidden;position:relative;background:url('/Assets/Temple.png') center center / cover no-repeat !important;}
 #pgLogin.active{display:flex;align-items:center;justify-content:center;}
 #pgVerify.active{display:flex;align-items:center;justify-content:center;}
-#pgLogin::before{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(to bottom,rgba(18,6,8,0.45) 0%,rgba(123,31,46,0.38) 40%,rgba(18,6,8,0.55) 100%);}
+#pgLogin::before{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;background:rgba(0,0,0,0.22);}
 
 /* Frosted glass login card */
 .login-glass{
@@ -2221,13 +2221,12 @@ checkCookieConsent();
 ══════════════════════════════════════ -->
 <div id="pgLogin" class="page" style="display:none;">
   <div class="login-glass">
-    <div style="display:flex;align-items:center;gap:0.9rem;margin-bottom:1rem;padding-bottom:0.85rem;border-bottom:1px solid rgba(212,175,55,0.15);">
-      <img id="loginLogo" src="Assets/Logo-transparent.webp" alt="NRMB" style="width:52px;height:52px;border-radius:50%;border:2px solid rgba(212,175,55,0.45);flex-shrink:0;">
-      <div>
-        <div style="font-family:'Josefin Sans',sans-serif;font-size:0.6rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:0.18rem;">Welcome Back</div>
-        <div style="font-family:'Cinzel',serif;font-size:1rem;font-weight:700;color:var(--primary);line-height:1.2;">Naveen Reddy<br>Marriage Bureau</div>
-        <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.82rem;color:var(--muted);margin-top:0.12rem;">A sacred journey continues here</div>
-      </div>
+    <div style="text-align:center;margin-bottom:0.8rem;">
+      <img id="loginLogo" src="Assets/Logo-transparent.webp" alt="NRMB" style="width:68px;height:68px;border-radius:50%;border:2px solid rgba(212,175,55,0.5);box-shadow:0 0 0 4px rgba(212,175,55,0.12),0 6px 20px rgba(123,31,46,0.15);margin-bottom:0.55rem;">
+      <div style="font-family:'Josefin Sans',sans-serif;font-size:0.6rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:0.15rem;">Welcome Back</div>
+      <div style="font-family:'Cinzel',serif;font-size:1.05rem;font-weight:700;color:var(--primary);line-height:1.25;">Naveen Reddy Marriage Bureau</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.88rem;color:var(--muted);margin-top:0.12rem;">A sacred journey continues here</div>
+      <div style="width:50px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:0.5rem auto 0;"></div>
     </div>
     <div class="ui"><label>Email or Username</label><input id="lu" type="text" placeholder="Enter email or username" autocomplete="username"><div class="uline"></div></div>
     <div class="ui"><label>Password</label><input id="lp" type="password" placeholder="Your password" autocomplete="current-password"><button class="et" onclick="tpwd('lp',this)" aria-label="Show password" title="Show/hide password"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button><div class="uline"></div></div>
