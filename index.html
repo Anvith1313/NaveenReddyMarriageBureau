@@ -5728,12 +5728,7 @@ function pickTierFromPopup(t){
   const _dashSet=new Set(['pgDash','pgMyProfile','pgCongrats','pgLiked','pgIntInMe','pgBrowse']);
   window.showPage=function(id,skipHistory){
     if(!skipHistory&&id!==document.querySelector('.page.active')?.id){
-      // Dash-to-dash navigation collapses into one history entry so back always exits cleanly
-      if(window.ST&&window.ST.user&&_dashSet.has(id)){
-        history.replaceState({page:id},'','#'+id);
-      } else {
-        history.pushState({page:id},'','#'+id);
-      }
+      history.pushState({page:id},'','#'+id);
     }
     return _sp(id,skipHistory);
   };
@@ -5770,26 +5765,23 @@ function pickTierFromPopup(t){
         return;
       }
     }
-    // Step 3: if scrolled down, go to top of current page first
+    // Step 3: logged-in dash pages — intercept BEFORE scroll check to prevent site exit
+    if(window.ST&&window.ST.user&&_dashSet.has(curId)){
+      history.pushState({page:curId},'','#'+curId); // anchor position in history
+      if(curId==='pgDash'){
+        _showLogoutConfirm();
+      } else {
+        _sp('pgDash',true);
+      }
+      return;
+    }
+    // Step 4: if scrolled down on a public page, scroll to top first
     if(window.scrollY>80){
       window.scrollTo({top:0,behavior:'smooth'});
       history.pushState({page:curId},'','#'+curId);
       return;
     }
-    // Step 4: logged-in back button — sub-pages go to pgDash; pgDash shows logout confirm
-    if(window.ST&&window.ST.user){
-      const dashPages=['pgDash','pgMyProfile','pgCongrats','pgLiked','pgIntInMe','pgBrowse'];
-      if(dashPages.includes(curId)){
-        history.pushState({page:curId},'','#'+curId); // hold position — don't navigate away
-        if(curId==='pgDash'){
-          _showLogoutConfirm();
-        } else {
-          _sp('pgDash',true);
-        }
-        return;
-      }
-    }
-    // Step 5: normal navigation
+    // Step 5: normal navigation for public pages
     const pg=e.state?.page||(location.hash.replace('#','')||'pgHome');
     _sp(pg,true);
   });
