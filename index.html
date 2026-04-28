@@ -49,7 +49,7 @@
   --ease-out:cubic-bezier(0.22,1,0.36,1);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;}
+html{scroll-behavior:smooth;background:#0e0604;}
 body{font-family:'EB Garamond',serif;font-size:19px;line-height:1.82;background:var(--bg);color:var(--text-body);overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;}
 
 /* ── Shimmer sweep on all primary buttons ── */
@@ -2222,7 +2222,10 @@ checkCookieConsent();
 <div id="pgLogin" class="page" style="display:none;">
   <div class="login-glass">
     <div style="text-align:center;margin-bottom:0.8rem;">
-      <img id="loginLogo" src="Assets/Logo-transparent.webp" alt="NRMB" style="width:76px;height:auto;margin-bottom:0.5rem;filter:drop-shadow(0 4px 12px rgba(123,31,46,0.2));">
+      <div style="position:relative;width:96px;height:96px;margin:0 auto 0.65rem;display:flex;align-items:center;justify-content:center;">
+        <div style="position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle,#fff 60%,rgba(212,175,55,0.08) 100%);border:1.5px solid rgba(212,175,55,0.7);box-shadow:0 0 0 5px rgba(212,175,55,0.18),0 0 0 6px rgba(212,175,55,0.06),0 8px 32px rgba(123,31,46,0.25),0 2px 8px rgba(212,175,55,0.2);"></div>
+        <img id="loginLogo" src="Assets/Logo-transparent.webp" alt="NRMB" style="position:relative;z-index:1;width:74px;height:auto;">
+      </div>
       <div style="font-family:'Josefin Sans',sans-serif;font-size:0.6rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:0.15rem;">Welcome Back</div>
       <div style="font-family:'Cinzel',serif;font-size:1.05rem;font-weight:700;color:var(--primary);line-height:1.25;">Naveen Reddy Marriage Bureau</div>
       <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.88rem;color:var(--muted);margin-top:0.12rem;">A sacred journey continues here</div>
