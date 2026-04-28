@@ -4418,7 +4418,10 @@ function renderCard(){
           <button class="btn-interest" onclick="sendInt('${p.u}')" aria-label="Express Interest">Express Interest</button>
           <button class="btn-pass" onclick="nextCard()" aria-label="Pass">Pass</button>
         </div>
-        <button onclick="openOtherBiodata('${p.u}')" style="width:100%;margin-top:0.6rem;padding:0.55rem 1rem;background:transparent;border:1.5px solid var(--gold2);border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.6rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold2);transition:all 0.2s;" onmouseover="this.style.background='var(--gold4)'" onmouseout="this.style.background='transparent'" aria-label="📄 View Biodata">📄 View Biodata</button>
+        <div style="display:flex;gap:0.5rem;margin-top:0.6rem;">
+          <button onclick="openProfileDetails('${p.u}')" style="flex:1;padding:0.55rem 0.6rem;background:rgba(123,31,46,0.06);border:1.5px solid rgba(123,31,46,0.18);border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.58rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--crimson);transition:all 0.2s;" onmouseover="this.style.background='rgba(123,31,46,0.11)'" onmouseout="this.style.background='rgba(123,31,46,0.06)'" aria-label="View Full Details">📋 Full Details</button>
+          <button onclick="openOtherBiodata('${p.u}')" style="flex:1;padding:0.55rem 0.6rem;background:transparent;border:1.5px solid var(--gold2);border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.58rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold2);transition:all 0.2s;" onmouseover="this.style.background='var(--gold4)'" onmouseout="this.style.background='transparent'" aria-label="View Biodata">📄 Biodata</button>
+        </div>
       </div>
       ${(p.photos&&p.photos.length)?`<div class="pc-photo-label">Photos · ${p.photos.length}</div><div class="pc-photo-strip">${p.photos.map((url,i)=>`<img class="pc-photo-strip-thumb" src="${url}" alt="Photo ${i+1}" onclick="openPhotoLightbox(${JSON.stringify(p.photos)},${i})">`).join('')}</div>`:''}
     </div>`;
@@ -4716,6 +4719,7 @@ function openBrowseCard(uid){
       ${[['Height',p.ht],['Education',p.edu],['Income',p.inc],['Native',p.nat||p.native],['Diet',p.diet],['Rashi',p.rashi],['Nakshatra',p.nak],['Mother Tongue',p.mt]].filter(x=>x[1]&&x[1]!=='—').map(x=>`<div><div style="font-size:0.7rem;color:var(--muted);font-family:'Cinzel',serif;letter-spacing:0.08em;text-transform:uppercase;">${x[0]}</div><div style="color:var(--text);font-weight:500;">${x[1]}</div></div>`).join('')}
     </div>
     <button onclick="sendInterest('${p.u}','${p.name}')" style="width:100%;padding:0.85rem;background:linear-gradient(135deg,#9B2F40,#7B1F2E);border:none;border-radius:50px;color:#fff;font-family:'Cinzel',serif;font-size:0.62rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;cursor:pointer;box-shadow:0 4px 16px rgba(123,31,46,0.3);margin-bottom:0.6rem;">Send Interest</button>
+    <button onclick="openProfileDetails('${p.u}')" style="width:100%;padding:0.72rem;background:rgba(123,31,46,0.06);border:1.5px solid rgba(123,31,46,0.18);border-radius:50px;color:var(--crimson);font-family:'Cinzel',serif;font-size:0.6rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;cursor:pointer;margin-bottom:0.5rem;">📋 View Full Details</button>
     <button onclick="document.getElementById('browseCardOv').remove()" style="width:100%;padding:0.72rem;background:transparent;border:1.5px solid rgba(184,137,42,0.3);border-radius:50px;color:var(--primary);font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;cursor:pointer;">Close</button>
   </div>`;
   if(!document.getElementById('slideUpKf')){const s=document.createElement('style');s.id='slideUpKf';s.textContent='@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}';document.head.appendChild(s);}
@@ -5642,6 +5646,7 @@ function renderLikedPage(){
             <button class="btn-interest" onclick="sendInt('${p.u}')" aria-label="Express Interest">Express Interest</button>
             <button class="btn-pass" onclick="removeSaved('${p.u}');renderLikedPage();" title="Remove" aria-label="Remove">Remove</button>
           </div>
+          <button onclick="openProfileDetails('${p.u}')" style="width:100%;margin-top:0.5rem;padding:0.55rem 1rem;background:rgba(123,31,46,0.06);border:1.5px solid rgba(123,31,46,0.18);border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.58rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--crimson);transition:all 0.2s;" onmouseover="this.style.background='rgba(123,31,46,0.11)'" onmouseout="this.style.background='rgba(123,31,46,0.06)'" aria-label="View Full Details">📋 View Full Details</button>
         </div>
       </div>
     </div>`;
@@ -5922,6 +5927,56 @@ function _showLogoutConfirm(){
     '</div>';
   m.querySelector('#_lsBackdrop').addEventListener('click',()=>m.remove());
   document.body.appendChild(m);
+}
+
+function openProfileDetails(uid){
+  const p=ST.profiles.find(x=>x.u===uid);if(!p)return;
+  function row(label,val){
+    if(!val||val==='—'||val==='')return'';
+    return`<div style="padding:0.55rem 0;border-bottom:1px solid rgba(184,137,42,0.1);display:flex;gap:0.6rem;align-items:baseline;flex-wrap:wrap;">
+      <span style="font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);min-width:110px;flex-shrink:0;">${label}</span>
+      <span style="font-family:'EB Garamond',serif;font-size:0.95rem;color:var(--text);font-weight:500;">${val}</span>
+    </div>`;
+  }
+  function sec(title,rows){
+    const body=rows.join('');if(!body)return'';
+    return`<div style="margin-bottom:1.2rem;">
+      <div style="font-family:'Cinzel',serif;font-size:0.58rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--crimson);padding:0.4rem 0 0.5rem;border-bottom:2px solid rgba(123,31,46,0.12);margin-bottom:0.3rem;">${title}</div>
+      ${body}
+    </div>`;
+  }
+  const inc=p.inc?formatIncomeDisplay(p.inc):'';
+  const siblings=(p.br&&p.br!=='0'||p.sr&&p.sr!=='0')?
+    `${p.br||'0'} Brother${p.br==='1'?'':'s'} (${p.brm||'0'} married), ${p.sr||'0'} Sister${p.sr==='1'?'':'s'} (${p.srm||'0'} married)`:'';
+  const workLoc=[p.wcountry,p.wstate,p.wcity].filter(v=>v&&v!=='—').join(', ');
+  const html=`
+    <div style="display:flex;gap:0.9rem;align-items:center;margin-bottom:1.2rem;">
+      <div style="width:64px;height:64px;border-radius:50%;background:${p.bg||'#fce4ec'};display:flex;align-items:center;justify-content:center;font-size:2rem;flex-shrink:0;${p.photos&&p.photos[0]?`background-image:url('${p.photos[0]}');background-size:cover;background-position:center;`:''}" ></div>
+      <div>
+        <div style="font-family:'Cinzel',serif;font-size:1rem;font-weight:700;color:var(--primary);">${p.name}, ${p.age}</div>
+        <div style="font-family:'EB Garamond',serif;font-size:0.88rem;color:var(--muted);">${p.prof||p.occ||''} · ${p.city||''}, ${p.country||''}</div>
+        <div style="margin-top:0.25rem;padding:0.12rem 0.55rem;background:rgba(123,31,46,0.07);border-radius:50px;display:inline-block;font-family:'Cinzel',serif;font-size:0.48rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--crimson);">${p.tier||'VIP'} · ✓ Verified</div>
+      </div>
+    </div>
+    ${sec('Personal',[ row('Age',p.age+' Years'), row('Date of Birth',p.dob&&p.dob!=='—'?new Date(p.dob).toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'}):''), row('Gender',p.g), row('Mother Tongue',p.mt), row('Marital Status',p.ms), row('Residential Status',p.res) ])}
+    ${sec('Physical',[ row('Height',p.ht), row('Complexion',p.cx), row('Body Type',p.bt), row('Blood Group',p.bl), row('Differently Abled',p.da==='No'?'':p.da) ])}
+    ${sec('Education & Career',[ row('Education',p.edu), row('Employed In',p.emp), row('Occupation',p.prof||p.occ), row('Company / Org',p.co), row('Annual Income',inc), row(workLoc?'Work Location':'',''), row('Work Location',workLoc), row('Visa Status',p.visa) ])}
+    ${sec('Astrological',[ row('Gotra / Sub-Caste',p.gotra), row("Father's Gotra",p.fg), row('Rashi',p.rashi), row('Nakshatra',p.nak), row('Place of Birth',p.pob), row('Time of Birth',p.tob) ])}
+    ${sec('Location',[ row('City',p.city), row('State',p.state), row('Country',p.country), row('Native Place',p.nat||p.native) ])}
+    ${sec('Family',[ row('Family Type',p.ft), row('Family Values',p.fv), row('Family Status',p.fst), row('Siblings',siblings), row("Father's Status",p.fas), row("Father's Occupation",p.fo), row("Mother's Status",p.mas), row("Mother's Occupation",p.mo), row('Property Value',p.pval) ])}
+    ${p.about&&p.about!=='—'?sec('About',[`<div style="font-family:'EB Garamond',serif;font-size:0.95rem;color:var(--text);line-height:1.8;padding:0.4rem 0;">${p.about}</div>`]):''}
+    <p style="font-family:'EB Garamond',serif;font-size:0.8rem;font-style:italic;color:var(--muted);text-align:center;margin-top:0.5rem;">Contact details are private and shared only after mutual interest and bureau approval.</p>`;
+  const ov=document.createElement('div');
+  ov.id='profileDetailsOv';
+  ov.style.cssText='position:fixed;inset:0;z-index:950;background:rgba(0,0,0,0.52);display:flex;align-items:flex-end;';
+  ov.innerHTML=`<div style="width:100%;max-height:90vh;overflow-y:auto;background:#fffdf7;border-radius:22px 22px 0 0;padding:1.4rem 1.3rem calc(2rem + env(safe-area-inset-bottom));animation:slideUp 0.3s cubic-bezier(0.34,1.2,0.64,1);">
+    <div style="width:40px;height:4px;background:rgba(0,0,0,0.13);border-radius:2px;margin:0 auto 1.2rem;"></div>
+    ${html}
+    <button onclick="document.getElementById('profileDetailsOv').remove()" style="width:100%;padding:0.82rem;background:transparent;border:1.5px solid rgba(184,137,42,0.3);border-radius:50px;font-family:'Cinzel',serif;font-size:0.6rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--primary);cursor:pointer;margin-top:0.4rem;">Close</button>
+  </div>`;
+  ov.addEventListener('click',e=>{if(e.target===ov)ov.remove();});
+  const existing=document.getElementById('profileDetailsOv');if(existing)existing.remove();
+  document.body.appendChild(ov);
 }
 
 function _confirmOpen(title, subtitle, url){
