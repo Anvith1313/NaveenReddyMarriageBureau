@@ -5793,6 +5793,7 @@ function pickTierFromPopup(t){
         _showLogoutConfirm();
       } else {
         _sp('pgDash',true);
+        if(typeof setBottomNav==='function') setBottomNav('bn-home');
       }
       return;
     }
