@@ -5472,12 +5472,24 @@ function sendIntFromLiked(u){
   sendInt(u);
   ST.savedProfiles = ST.savedProfiles.filter(x=>x!==u);
   renderLiked();
+  updateLikedBadge();
+  if(window.FIREBASE_READY&&ST.user&&ST.user.uid){
+    const {doc,updateDoc,db}=window.FB;
+    updateDoc(doc(db,'users',ST.user.uid),{savedProfiles:ST.savedProfiles,updatedAt:new Date().toISOString()})
+      .catch(err=>console.warn('Could not update liked profiles:',err));
+  }
 }
 
 function removeFromLiked(u){
   ST.savedProfiles = ST.savedProfiles.filter(x=>x!==u);
   renderLiked();
+  updateLikedBadge();
   toast('Removed from Liked profiles.');
+  if(window.FIREBASE_READY&&ST.user&&ST.user.uid){
+    const {doc,updateDoc,db}=window.FB;
+    updateDoc(doc(db,'users',ST.user.uid),{savedProfiles:ST.savedProfiles,updatedAt:new Date().toISOString()})
+      .catch(err=>console.warn('Could not update liked profiles:',err));
+  }
 }
 
 function renderLikedPage(){
@@ -5765,9 +5777,18 @@ function pickTierFromPopup(t){
         return;
       }
     }
-    // Step 3: logged-in dash pages — intercept BEFORE scroll check to prevent site exit
+    // Step 3: logged-in dash pages — intercept before scroll check to prevent site exit
     if(window.ST&&window.ST.user&&_dashSet.has(curId)){
-      history.pushState({page:curId},'','#'+curId); // anchor position in history
+      // On a sub-page scrolled down: scroll to top first, next back press goes to pgDash
+      const pageEl=document.getElementById(curId);
+      const scrolled=window.scrollY>80||(pageEl&&pageEl.scrollTop>80);
+      if(scrolled&&curId!=='pgDash'){
+        window.scrollTo({top:0,behavior:'smooth'});
+        if(pageEl)pageEl.scrollTo({top:0,behavior:'smooth'});
+        history.pushState({page:curId},'','#'+curId);
+        return;
+      }
+      history.pushState({page:curId},'','#'+curId); // anchor position
       if(curId==='pgDash'){
         _showLogoutConfirm();
       } else {
