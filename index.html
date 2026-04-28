@@ -3370,13 +3370,17 @@ async function doLogin(){
     if(!emailOrUser.includes('@')){
       if(window.FIREBASE_READY){
         const {getDocs,collection,query,where,db}=window.FB;
-        const q=query(collection(db,'users'),where('u','==',emailOrUser));
-        const snap=await getDocs(q);
-        if(snap.empty){toast('Username not found. Please register first.');if(btn){btn.textContent='Sign In';btn.disabled=false;}return;}
-        email=snap.docs[0].data().email;
+        let snap=await getDocs(query(collection(db,'users'),where('u','==',emailOrUser)));
+        // Try lowercase if original case not found
+        if(snap.empty) snap=await getDocs(query(collection(db,'users'),where('u','==',emailOrUser.toLowerCase())));
+        // Try uppercase first letter as last resort
+        if(snap.empty){const cap=emailOrUser.charAt(0).toUpperCase()+emailOrUser.slice(1).toLowerCase();snap=await getDocs(query(collection(db,'users'),where('u','==',cap)));}
+        if(snap.empty){toast('Username not found. Please check spelling or login with your email.');if(btn){btn.textContent='Sign In';btn.disabled=false;}return;}
+        const docEmail=snap.docs[0].data().email;
+        if(!docEmail){toast('Account issue — please login with your registered email address.');if(btn){btn.textContent='Sign In';btn.disabled=false;}return;}
+        email=docEmail;
       } else {
-        // fallback local
-        const prof=ST.profiles.find(x=>x.u===emailOrUser);
+        const prof=ST.profiles.find(x=>x.u===emailOrUser)||ST.profiles.find(x=>(x.u||'').toLowerCase()===emailOrUser.toLowerCase());
         if(!prof){toast('Username not found.');if(btn){btn.textContent='Sign In';btn.disabled=false;}return;}
         _applyLogin(prof);if(btn){btn.textContent='Sign In';btn.disabled=false;}return;
       }
@@ -3489,6 +3493,8 @@ async function doLogout(){
   _stopRealTimeListeners();
   if(window.FIREBASE_READY){try{await window.FB.signOut(window.FB.auth);}catch(e){}}
   ST.user=null;ST.profiles=[];
+  _browseFilters={age:[],height:[],income:[],country:[],state:[]};
+  closeBrowseFilter();_updateBrowsePills();renderBrowseTags();
   const nlLikedEl=document.getElementById('nlLiked');
   if(nlLikedEl)nlLikedEl.style.display='none';
   const bn=document.getElementById('bottomNav');if(bn)bn.style.display='none';
@@ -4343,6 +4349,27 @@ function nextCard(){ST.browseIdx++;renderCard();}
 /* ─── Browse Grid — multi-select filter system ─── */
 var _browseFilters={age:[],height:[],income:[],country:[],state:[]};
 var _openBrowseKey=null;
+var _COUNTRY_ALIASES={
+  'United States':'usa us america united states of america',
+  'United Kingdom':'uk gb britain england scotland wales great britain',
+  'United Arab Emirates':'uae dubai abu dhabi emirates',
+  'Saudi Arabia':'ksa kingdom saudi',
+  'South Korea':'korea republic of korea rok',
+  'North Korea':'korea dprk',
+  'New Zealand':'nz kiwi',
+  'Russia':'russian federation ussr',
+  'Czech Republic':'czechia czech',
+  'South Africa':'rsa',
+  'Trinidad and Tobago':'trinidad tobago',
+  'Bosnia and Herzegovina':'bosnia herzegovina bih',
+  'Congo (Republic)':'congo brazzaville',
+  'Congo (Democratic Republic)':'drc congo kinshasa',
+  'Papua New Guinea':'png',
+  'Dominican Republic':'dr dominican',
+  'Saint Kitts and Nevis':'st kitts nevis',
+  'Saint Lucia':'st lucia',
+  'Saint Vincent and the Grenadines':'st vincent grenadines',
+};
 var _BF_OPTS={
   age:['18–20','21–25','26–30','31–35','36–40','40+'],
   height:["4'0\"","4'1\"","4'2\"","4'3\"","4'4\"","4'5\"","4'6\"","4'7\"","4'8\"","4'9\"","4'10\"","4'11\"","5'0\"","5'1\"","5'2\"","5'3\"","5'4\"","5'5\"","5'6\"","5'7\"","5'8\"","5'9\"","5'10\"","5'11\"","6'0\"","6'1\"","6'2\"","6'3\"","6'4\"","6'5\"","6'6\"","6'7\"","6'8\"","6'9\"","6'10\"","6'11\"","7'0\"","7'1\"","7'2\"","7'3\"","7'4\"","7'5\"","7'6\""],
@@ -4401,11 +4428,13 @@ function openBrowseFilter(key,pill){
   sheet.style.cssText='position:fixed;inset:0;z-index:950;display:flex;flex-direction:column;justify-content:flex-end;';
   var itemsHtml=opts.map(function(o){
     var chk=current.indexOf(o)>-1;
-    return '<label class="bfsheet-item" data-val="'+o.replace(/"/g,'&quot;').replace(/'/g,'&#39;')+'">'+
+    var searchText=o.toLowerCase()+(key==='country'&&_COUNTRY_ALIASES[o]?' '+_COUNTRY_ALIASES[o]:'');
+    var aliasLabel=key==='country'&&_COUNTRY_ALIASES[o]?'<span style="font-size:0.72rem;color:rgba(107,83,64,0.45);margin-left:0.3rem;font-family:\'Cinzel\',serif;text-transform:uppercase;letter-spacing:0.05em;">'+((_COUNTRY_ALIASES[o].split(' ')[0]||'').toUpperCase())+'</span>':'';
+    return '<label class="bfsheet-item" data-val="'+o.replace(/"/g,'&quot;').replace(/'/g,'&#39;')+'" data-search="'+searchText.replace(/"/g,'&quot;')+'">'+
       '<div class="bfsheet-chk'+(chk?' chk-on':'')+'">'+
         (chk?'<svg width="12" height="9" viewBox="0 0 12 9"><polyline points="1,4.5 4.5,8 11,1" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>':'')+
       '</div>'+
-      '<span>'+o+'</span>'+
+      '<span>'+o+aliasLabel+'</span>'+
     '</label>';
   }).join('');
   var searchBar=hasSearch?
@@ -4443,7 +4472,8 @@ function openBrowseFilter(key,pill){
     if(si)si.addEventListener('input',function(){
       var q=this.value.toLowerCase();
       sheet.querySelectorAll('.bfsheet-item').forEach(function(item){
-        item.style.display=item.querySelector('span').textContent.toLowerCase().includes(q)?'':'none';
+        var haystack=item.dataset.search||item.querySelector('span').textContent.toLowerCase();
+        item.style.display=haystack.includes(q)?'':'none';
       });
     });
   }
