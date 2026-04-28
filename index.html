@@ -1979,7 +1979,19 @@ body{font-size:18px;}
       stRef, uploadBytes, getDownloadURL
     };
     window.FIREBASE_READY = true;
-    // removed: console.log
+    // Auto-restore session on page load if Firebase still has a valid token
+    onAuthStateChanged(auth, async(firebaseUser)=>{
+      if(window.ST&&window.ST.user) return; // already logged in this session
+      if(!firebaseUser||!firebaseUser.emailVerified) return;
+      try{
+        const snap=await getDoc(doc(db,'users',firebaseUser.uid));
+        if(!snap.exists()) return;
+        const prof={...snap.data(),uid:firebaseUser.uid};
+        window.ST.user=prof;
+        window.ST.savedProfiles=Array.isArray(prof.savedProfiles)?prof.savedProfiles:[];
+        if(typeof _applyLogin==='function') _applyLogin(prof);
+      }catch(e){ console.warn('Session restore failed:',e); }
+    });
   </script>
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
@@ -2664,8 +2676,8 @@ checkCookieConsent();
   <!-- Referral Card (populated by renderReferralCard()) -->
   <div id="referralCardWrap"></div>
 
-  <!-- Global search bar -->
-  <div style="background:var(--bg-warm);border-bottom:1px solid var(--border-light);padding:1rem 1.5rem 0.6rem;position:sticky;top:var(--nav-h);z-index:40;">
+  <!-- Global search bar (hidden — search lives on Browse page) -->
+  <div style="display:none;background:var(--bg-warm);border-bottom:1px solid var(--border-light);padding:1rem 1.5rem 0.6rem;position:sticky;top:var(--nav-h);z-index:40;">
     <div style="max-width:700px;margin:0 auto;position:relative;">
       <div style="position:absolute;left:1rem;top:50%;transform:translateY(-50%);pointer-events:none;">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--gold2)" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -2677,7 +2689,7 @@ checkCookieConsent();
         onblur="this.style.borderColor='var(--border)';this.style.boxShadow='0 2px 12px rgba(123,31,46,0.06)'">
     </div>
   </div>
-  <div class="filter-bar">
+  <div class="filter-bar" style="display:none;">
     <div class="fb-label">Refine Your Search</div>
     <div class="fb-row">
       <div class="fb-g"><div class="fb-l">Age</div><select class="fb-s" id="fA"><option value="">Any Age</option><option>18–20</option><option>21–25</option><option>26–30</option><option>31–35</option><option>36–40</option><option>40+</option></select></div>
@@ -2690,10 +2702,8 @@ checkCookieConsent();
     </div>
   </div>
   <div class="profile-area" id="pArea">
-    <div class="idle-wrap">
+    <div class="idle-wrap" style="display:none;">
       <img class="idle-illustration" id="idleIllustration" src="" alt="Wedding illustration">
-      <div class="idle-t">Your journey begins here</div>
-      <div class="idle-s">Set your preferences above and discover your destined match</div>
     </div>
   </div>
 </div>
@@ -3370,17 +3380,13 @@ async function doLogin(){
     if(!emailOrUser.includes('@')){
       if(window.FIREBASE_READY){
         const {getDocs,collection,query,where,db}=window.FB;
-        let snap=await getDocs(query(collection(db,'users'),where('u','==',emailOrUser)));
-        // Try lowercase if original case not found
-        if(snap.empty) snap=await getDocs(query(collection(db,'users'),where('u','==',emailOrUser.toLowerCase())));
-        // Try uppercase first letter as last resort
-        if(snap.empty){const cap=emailOrUser.charAt(0).toUpperCase()+emailOrUser.slice(1).toLowerCase();snap=await getDocs(query(collection(db,'users'),where('u','==',cap)));}
-        if(snap.empty){toast('Username not found. Please check spelling or login with your email.');if(btn){btn.textContent='Sign In';btn.disabled=false;}return;}
+        const snap=await getDocs(query(collection(db,'users'),where('u','==',emailOrUser)));
+        if(snap.empty){toast('Username not found. Please enter your exact registered username or use your email.');if(btn){btn.textContent='Sign In';btn.disabled=false;}return;}
         const docEmail=snap.docs[0].data().email;
-        if(!docEmail){toast('Account issue — please login with your registered email address.');if(btn){btn.textContent='Sign In';btn.disabled=false;}return;}
+        if(!docEmail){toast('Account error — please login with your registered email address directly.');if(btn){btn.textContent='Sign In';btn.disabled=false;}return;}
         email=docEmail;
       } else {
-        const prof=ST.profiles.find(x=>x.u===emailOrUser)||ST.profiles.find(x=>(x.u||'').toLowerCase()===emailOrUser.toLowerCase());
+        const prof=ST.profiles.find(x=>x.u===emailOrUser);
         if(!prof){toast('Username not found.');if(btn){btn.textContent='Sign In';btn.disabled=false;}return;}
         _applyLogin(prof);if(btn){btn.textContent='Sign In';btn.disabled=false;}return;
       }
@@ -4195,6 +4201,7 @@ async function uploadProfilePhoto(file){
 }
 
 // ═══════════ BROWSE ═══════════
+function _htIn(s){if(!s)return 0;const m=s.match(/(\d+)'(\d+)?/);return m?(+m[1])*12+(+(m[2]||0)):0;}
 function loadProfiles(){
   if(!ST.user)return;
   const held=new Set();
@@ -4207,47 +4214,58 @@ function loadProfiles(){
     if(myTier==='vvip') return t==='vvip'||t==='vip';
     return t==='vip';
   }
-  // Read filter values
-  const fAge=document.getElementById('fA')?.value||'';
-  const fHt=document.getElementById('fH')?.value||'';
-  const fInc=document.getElementById('fI')?.value||'';
-  const fCtry=document.getElementById('fC')?.value||'';
-  const fSt=document.getElementById('fS')?.value||'';
-  const fDist=(document.getElementById('fD')?.value||'').trim().toLowerCase();
-  const fGlobal=(document.getElementById('globalSearch')?.value||'').trim().toLowerCase();
-  function parseAgeRange(r){if(!r)return null;const m=r.match(/(\d+)[–-](\d+)/);if(m)return{min:+m[1],max:+m[2]};if(r==='40+')return{min:40,max:999};return null;}
-  function htToInches(s){if(!s)return 0;const m=s.match(/(\d+)'(\d+)?/);return m?(+m[1])*12+(+(m[2]||0)):0;}
-  const ageR=parseAgeRange(fAge);
-  const htMin=htToInches(fHt);
-  const incOrder=['Below 3 Lakhs','3–6 Lakhs','6–10 Lakhs','10–20 Lakhs','20–50 Lakhs','50L–1 Crore','1 Crore+','4–10 Lakhs','50L+'];
-  const incIdx=incOrder.indexOf(fInc);
-  function incPass(pInc){
-    if(!fInc)return true;
-    const pLower=(pInc||'').toLowerCase();
-    if(fInc==='1 Crore+')return pLower.includes('crore')||pLower.includes('1 cr')||pLower.includes('50l – 1');
-    if(fInc==='50L–1 Crore')return pLower.includes('50l')||pLower.includes('crore');
-    if(fInc==='20–50 Lakhs')return pLower.includes('20')||pLower.includes('30')||pLower.includes('40')||pLower.includes('50');
-    if(fInc==='10–20 Lakhs')return pLower.includes('10')||pLower.includes('15')||pLower.includes('20');
-    return true;
+  // Preference-based scoring — sorts profiles: exact match → close → rest
+  const u=ST.user;
+  const ppAf=+(u.pp_af)||0, ppAt=+(u.pp_at)||99;
+  const ppHfIn=_htIn(u.pp_hf&&u.pp_hf!=='Any'?u.pp_hf:'');
+  const ppLoc=(u.pploc||u.pp_loc||'').toLowerCase().trim();
+  const ppInc=u.pp_inc&&u.pp_inc!=='Any'?u.pp_inc:'';
+  const ppNri=u.pp_nri||'No Preference';
+  function _prefScore(p){
+    let s=0;
+    // Age (0–40)
+    const age=+p.age||0;
+    if(ppAf&&ppAt<90){
+      if(age>=ppAf&&age<=ppAt)s+=40;
+      else if(age>=ppAf-3&&age<=ppAt+3)s+=20;
+      else if(age>=ppAf-7&&age<=ppAt+7)s+=8;
+    } else s+=20;
+    // Height (0–25)
+    if(ppHfIn){const ph=_htIn(p.ht);if(ph>=ppHfIn)s+=25;else if(ph>=ppHfIn-2)s+=12;}
+    else s+=25;
+    // Income (0–15)
+    if(ppInc){
+      const pl=(p.inc||'').toLowerCase();
+      if(ppInc==='1 Crore+'&&(pl.includes('crore')||pl.includes('1 cr')))s+=15;
+      else if(ppInc==='50L–1 Crore'&&(pl.includes('50l')||pl.includes('crore')))s+=15;
+      else if(ppInc==='20–50 Lakhs'&&(pl.includes('20')||pl.includes('30')||pl.includes('40')||pl.includes('50')))s+=15;
+      else if(ppInc==='10–20 Lakhs'&&(pl.includes('10')||pl.includes('15')||pl.includes('20')))s+=15;
+      else s+=5;
+    } else s+=15;
+    // Location (0–15)
+    if(ppLoc&&ppLoc!=='any'){
+      const hay=((p.state||'')+(p.city||'')+(p.nat||'')).toLowerCase();
+      if(hay.includes(ppLoc))s+=15;
+    } else s+=8;
+    // NRI (0–5)
+    const isNri=p.country&&p.country!=='India';
+    if(ppNri==='NRI Preferred'&&isNri)s+=5;
+    else if(ppNri==='India Only'&&!isNri)s+=5;
+    else s+=3;
+    return s;
   }
-  ST.browsePool=ST.profiles.filter(p=>{
+  // Build full pool (all eligible profiles, no hard filters)
+  const pool=ST.profiles.filter(p=>{
     if(p.status==='deleted')return false;
     if(p.u===ST.user.u||p.g===ST.user.g)return false;
     if(!tierVisible(p.tier))return false;
     if(held.has(p.u))return false;
     if(ST.interests.some(i=>(i.from===ST.user.u&&i.to===p.u)||(i.from===p.u&&i.to===ST.user.u)))return false;
-    if(ageR&&(+p.age<ageR.min||+p.age>ageR.max))return false;
-    if(htMin&&htToInches(p.ht)<htMin)return false;
-    if(!incPass(p.inc))return false;
-    if(fCtry&&(p.country||'').toLowerCase()!==fCtry.toLowerCase())return false;
-    if(fSt&&(p.state||'').toLowerCase()!==fSt.toLowerCase())return false;
-    if(fDist&&!(p.nat||'').toLowerCase().includes(fDist))return false;
-    if(fGlobal){
-      const haystack=[p.name,p.city,p.state,p.nat,p.prof,p.edu,p.gotra,p.occ,p.inc,p.country].map(v=>(v||'').toLowerCase()).join(' ');
-      if(!haystack.includes(fGlobal))return false;
-    }
     return true;
   });
+  // Sort: preferred (score≥55) → close match (score≥30) → rest — cards never run out
+  pool.sort((a,b)=>_prefScore(b)-_prefScore(a));
+  ST.browsePool=pool;
   ST.browseIdx=0;renderCard();
 }
 function renderCard(){
