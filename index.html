@@ -2127,6 +2127,7 @@ checkCookieConsent();
   </div>
   <div class="dt-right">
     <button class="dash-nav-btn" onclick="showPage('pgDash')"><span class="dbtn-icon">🏠</span>Home</button>
+    <button class="dash-nav-btn" onclick="showPage('pgBranches')"><span class="dbtn-icon">📍</span>Branches</button>
     <button class="dash-nav-btn" onclick="showPage('pgMyProfile')"><span class="dbtn-icon">👤</span>My Profile</button>
     <button class="dash-nav-btn" id="likedNavBtn" onclick="showPage('pgLiked')" style="position:relative;">
       <span class="dbtn-icon">🤍</span>Liked
@@ -2157,6 +2158,7 @@ checkCookieConsent();
     <button class="mob-dash-link" onclick="showPage('pgMyProfile');closeDashMenu()"><span>👤</span>My Profile</button>
     <button class="mob-dash-link" onclick="showPage('pgLiked');closeDashMenu()"><span>🤍</span>Liked</button>
     <button class="mob-dash-link" onclick="showPage('pgIntInMe');closeDashMenu()"><span>💌</span>Interests Received</button>
+    <button class="mob-dash-link" onclick="showPage('pgBranches');closeDashMenu()"><span>📍</span>Our Branches</button>
     <button class="mob-dash-link" onclick="openNotifPanel();closeDashMenu()"><span>🔔</span>Notifications</button>
     <button class="mob-dash-link signout" onclick="doLogout();closeDashMenu()"><span>🚪</span>Sign Out</button>
   </div>
@@ -2705,6 +2707,93 @@ checkCookieConsent();
     <div class="idle-wrap" style="display:none;">
       <img class="idle-illustration" id="idleIllustration" src="" alt="Wedding illustration">
     </div>
+  </div>
+
+  <!-- Branches section on dashboard -->
+  <div style="max-width:1020px;margin:2rem auto 0;padding:0 1.5rem 4rem;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;flex-wrap:wrap;gap:0.8rem;">
+      <div>
+        <div style="font-family:'Cinzel',serif;font-size:0.62rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold2);margin-bottom:0.3rem;">Serving You Throughout Telangana</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.65rem;font-weight:700;color:var(--text);line-height:1.2;">Our Branch Offices</div>
+      </div>
+      <button onclick="showPage('pgBranches')" style="padding:0.55rem 1.5rem;background:none;border:1.5px solid rgba(184,137,42,0.4);border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.6rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);transition:all 0.2s;white-space:nowrap;" onmouseover="this.style.background='rgba(184,137,42,0.07)'" onmouseout="this.style.background='none'" aria-label="View All Branches">View All →</button>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;">
+      <div class="branch-card" onclick="showPage('pgBranches');setTimeout(()=>openBranch('hyd'),120)" style="padding:0;">
+        <div class="branch-landmark-header" style="height:90px;overflow:hidden;">
+          <svg viewBox="0 0 220 130" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet" style="width:100%;height:100%;">
+            <defs><linearGradient id="dsky1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FDF3E0"/><stop offset="100%" stop-color="#FAF0E6"/></linearGradient></defs>
+            <rect width="220" height="130" fill="url(#dsky1)"/>
+            <ellipse cx="110" cy="112" rx="22" ry="8" fill="#7B1F2E" opacity="0.85"/>
+            <rect x="95" y="94" width="30" height="20" rx="3" fill="#7B1F2E" opacity="0.85"/>
+            <ellipse cx="110" cy="90" rx="18" ry="6" fill="#7B1F2E"/>
+            <path d="M96,89 Q102,55 118,89 Z" fill="#7B1F2E"/>
+            <circle cx="110" cy="56" r="13" fill="#7B1F2E"/>
+            <ellipse cx="110" cy="44" rx="6" ry="9" fill="#7B1F2E"/>
+          </svg>
+        </div>
+        <div class="branch-city" style="font-size:0.9rem;padding:0.6rem 1rem 0.1rem;">Somajiguda</div>
+        <div class="branch-state" style="font-size:0.72rem;padding:0 1rem 0.2rem;">Hyderabad — Head Office</div>
+        <div class="branch-tap" style="font-size:0.65rem;padding:0 1rem 0.8rem;">Tap to view details →</div>
+      </div>
+      <div class="branch-card" onclick="showPage('pgBranches');setTimeout(()=>openBranch('ktp'),120)" style="padding:0;">
+        <div class="branch-landmark-header" style="height:90px;overflow:hidden;">
+          <svg viewBox="0 0 220 130" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet" style="width:100%;height:100%;">
+            <defs><linearGradient id="dsky2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FDF8EC"/><stop offset="100%" stop-color="#FAF0E6"/></linearGradient></defs>
+            <rect width="220" height="130" fill="url(#dsky2)"/>
+            <rect x="88" y="68" width="44" height="52" fill="#7B1F2E" opacity="0.85"/>
+            <path d="M96,118 L96,85 Q110,72 124,85 L124,118 Z" fill="url(#dsky2)"/>
+            <rect x="60" y="80" width="14" height="40" fill="#7B1F2E" opacity="0.8" rx="2"/>
+            <ellipse cx="67" cy="76" rx="5" ry="5" fill="#7B1F2E" opacity="0.9"/>
+            <path d="M64,72 L67,62 L70,72Z" fill="#B8892A"/>
+            <rect x="146" y="80" width="14" height="40" fill="#7B1F2E" opacity="0.8" rx="2"/>
+            <ellipse cx="153" cy="76" rx="5" ry="5" fill="#7B1F2E" opacity="0.9"/>
+            <path d="M150,72 L153,62 L156,72Z" fill="#B8892A"/>
+          </svg>
+        </div>
+        <div class="branch-city" style="font-size:0.9rem;padding:0.6rem 1rem 0.1rem;">Kothapet</div>
+        <div class="branch-state" style="font-size:0.72rem;padding:0 1rem 0.2rem;">Dilsukhnagar, Hyderabad</div>
+        <div class="branch-tap" style="font-size:0.65rem;padding:0 1rem 0.8rem;">Tap to view details →</div>
+      </div>
+      <div class="branch-card" onclick="showPage('pgBranches');setTimeout(()=>openBranch('wgl'),120)" style="padding:0;">
+        <div class="branch-landmark-header" style="height:90px;overflow:hidden;">
+          <svg viewBox="0 0 220 130" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet" style="width:100%;height:100%;">
+            <defs><linearGradient id="dsky3" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FFF5F5"/><stop offset="100%" stop-color="#FAEAE6"/></linearGradient></defs>
+            <rect width="220" height="130" fill="url(#dsky3)"/>
+            <rect x="88" y="60" width="22" height="58" rx="2" fill="#7B1F2E" opacity="0.9"/>
+            <path d="M88,80 Q99,44 110,80" fill="none" stroke="#7B1F2E" stroke-width="10" stroke-linecap="round" opacity="0.9"/>
+            <ellipse cx="99" cy="60" rx="14" ry="5.5" fill="#9B2F40" opacity="0.85"/>
+            <path d="M96,55 L99,40 L102,55Z" fill="#B8892A"/>
+            <circle cx="99" cy="39" r="4" fill="#D4AF37"/>
+            <rect x="110" y="60" width="22" height="58" rx="2" fill="#7B1F2E" opacity="0.9"/>
+            <path d="M110,80 Q121,44 132,80" fill="none" stroke="#7B1F2E" stroke-width="10" stroke-linecap="round" opacity="0.9"/>
+            <path d="M118,55 L121,40 L124,55Z" fill="#B8892A"/>
+            <circle cx="121" cy="39" r="4" fill="#D4AF37"/>
+          </svg>
+        </div>
+        <div class="branch-city" style="font-size:0.9rem;padding:0.6rem 1rem 0.1rem;">Warangal</div>
+        <div class="branch-state" style="font-size:0.72rem;padding:0 1rem 0.2rem;">Hanamkonda, Telangana</div>
+        <div class="branch-tap" style="font-size:0.65rem;padding:0 1rem 0.8rem;">Tap to view details →</div>
+      </div>
+      <div class="branch-card" onclick="showPage('pgBranches');setTimeout(()=>openBranch('krm'),120)" style="padding:0;">
+        <div class="branch-landmark-header" style="height:90px;overflow:hidden;">
+          <svg viewBox="0 0 220 130" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet" style="width:100%;height:100%;">
+            <defs><linearGradient id="dsky4" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FEF9EC"/><stop offset="100%" stop-color="#FAF0E0"/></linearGradient></defs>
+            <rect width="220" height="130" fill="url(#dsky4)"/>
+            <path d="M85,72 L85,58 L90,58 L90,62 L96,62 L96,58 L102,58 L102,62 L108,62 L108,58 L112,58 L112,62 L118,62 L118,58 L124,58 L124,62 L130,62 L130,58 L135,58 L135,72Z" fill="#7B1F2E" opacity="0.88"/>
+            <rect x="82" y="72" width="56" height="8" rx="1" fill="#7B1F2E" opacity="0.85"/>
+            <rect x="78" y="54" width="14" height="26" rx="2" fill="#9B2F40" opacity="0.85"/>
+            <rect x="128" y="54" width="14" height="26" rx="2" fill="#9B2F40" opacity="0.85"/>
+            <line x1="110" y1="47" x2="110" y2="28" stroke="#B8892A" stroke-width="1.5"/>
+            <path d="M110,28 L122,33 L110,38Z" fill="#D4AF37"/>
+          </svg>
+        </div>
+        <div class="branch-city" style="font-size:0.9rem;padding:0.6rem 1rem 0.1rem;">Karimnagar</div>
+        <div class="branch-state" style="font-size:0.72rem;padding:0 1rem 0.2rem;">Telangana</div>
+        <div class="branch-tap" style="font-size:0.65rem;padding:0 1rem 0.8rem;">Tap to view details →</div>
+      </div>
+    </div>
+    <p style="font-family:'Cormorant Garamond',serif;font-size:0.88rem;font-style:italic;color:var(--muted);text-align:center;margin-top:1rem;line-height:1.7;">All profiles registered at <em>any branch</em> are accessible through every branch. <strong style="color:var(--crimson);">Please call before visiting.</strong></p>
   </div>
 </div>
 
@@ -3322,7 +3411,7 @@ function showPage(id,skipHistory){
     p.style.display='none';p.classList.remove('active');
   });
   const pg=document.getElementById(id);if(!pg)return;
-  const isDash=(ST.user&&['pgDash','pgMyProfile','pgCongrats','pgLiked','pgIntInMe','pgBrowse'].includes(id))||['pgDash','pgMyProfile','pgCongrats'].includes(id);
+  const isDash=(ST.user&&['pgDash','pgMyProfile','pgCongrats','pgLiked','pgIntInMe','pgBrowse','pgBranches'].includes(id))||['pgDash','pgMyProfile','pgCongrats'].includes(id);
   const isLogin=id==='pgLogin';
   document.getElementById('mainNav').style.display=(isDash||isLogin)?'none':'flex';
   document.getElementById('dashNav').style.display=isDash?'flex':'none';
@@ -3334,6 +3423,8 @@ function showPage(id,skipHistory){
   pg.classList.add('active');
   window.scrollTo(0,0);
   updateBackBars();
+  var _pageNavMap={pgDash:'bn-home',pgBrowse:'bn-browse',pgLiked:'bn-liked',pgIntInMe:'bn-interests',pgMyProfile:'bn-profile'};
+  if(_pageNavMap[id]&&typeof setBottomNav==='function') setBottomNav(_pageNavMap[id]);
   if(id==='pgLiked') renderLikedPage();
   if(id==='pgIntInMe') renderIntInMe();
   if(id==='pgStories') loadApprovedStories();
@@ -5737,7 +5828,7 @@ function pickTierFromPopup(t){
 (function(){
   // Override showPage to push browser history state
   const _sp=window.showPage;
-  const _dashSet=new Set(['pgDash','pgMyProfile','pgCongrats','pgLiked','pgIntInMe','pgBrowse']);
+  const _dashSet=new Set(['pgDash','pgMyProfile','pgCongrats','pgLiked','pgIntInMe','pgBrowse','pgBranches']);
   window.showPage=function(id,skipHistory){
     if(!skipHistory&&id!==document.querySelector('.page.active')?.id){
       history.pushState({page:id},'','#'+id);
