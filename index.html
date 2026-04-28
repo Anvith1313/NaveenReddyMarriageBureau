@@ -2221,34 +2221,14 @@ checkCookieConsent();
 ══════════════════════════════════════ -->
 <div id="pgLogin" class="page" style="display:none;">
   <div class="login-glass">
-    <div style="text-align:center;margin-bottom:0.7rem;">
-      <div class="logo-ring-wrap lg" style="margin:0 auto;">
-        <svg class="logo-ring-svg" viewBox="0 0 88 88" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="44" cy="44" r="41" fill="rgba(184,137,42,0.08)"/>
-          <circle cx="44" cy="44" r="40" fill="none" stroke="url(#goldRingLg)" stroke-width="2"/>
-          <circle cx="44" cy="44" r="32" fill="none" stroke="rgba(184,137,42,0.4)" stroke-width="1"/>
-          <path d="M44,4 L45.8,7 L44,10 L42.2,7Z" fill="#D4AF37"/>
-          <path d="M44,78 L45.8,81 L44,84 L42.2,81Z" fill="#D4AF37"/>
-          <path d="M4,44 L7,45.8 L10,44 L7,42.2Z" fill="#D4AF37"/>
-          <path d="M78,44 L81,45.8 L84,44 L81,42.2Z" fill="#D4AF37"/>
-          <defs>
-            <linearGradient id="goldRingLg" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#C9A84C"/><stop offset="30%" stop-color="#E8C96A"/>
-              <stop offset="55%" stop-color="#B8892A"/><stop offset="80%" stop-color="#D4AF37"/>
-              <stop offset="100%" stop-color="#9A6C1A"/>
-            </linearGradient>
-          </defs>
-        </svg>
-        <img id="loginLogo" src="Assets/Logo-transparent.webp" alt="NRMB">
+    <div style="display:flex;align-items:center;gap:0.9rem;margin-bottom:1rem;padding-bottom:0.85rem;border-bottom:1px solid rgba(212,175,55,0.15);">
+      <img id="loginLogo" src="Assets/Logo-transparent.webp" alt="NRMB" style="width:52px;height:52px;border-radius:50%;border:2px solid rgba(212,175,55,0.45);flex-shrink:0;">
+      <div>
+        <div style="font-family:'Josefin Sans',sans-serif;font-size:0.6rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:0.18rem;">Welcome Back</div>
+        <div style="font-family:'Cinzel',serif;font-size:1rem;font-weight:700;color:var(--primary);line-height:1.2;">Naveen Reddy<br>Marriage Bureau</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.82rem;color:var(--muted);margin-top:0.12rem;">A sacred journey continues here</div>
       </div>
     </div>
-    <div style="text-align:center;margin-bottom:0.8rem;">
-      <div style="font-family:'Josefin Sans',sans-serif;font-size:0.65rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:0.2rem;">Welcome Back</div>
-      <div class="lg-title" style="font-family:'Cinzel',serif;font-size:1.15rem;font-weight:700;color:var(--primary);">Naveen Reddy Marriage Bureau</div>
-      <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.92rem;color:var(--text-body);margin-top:0.15rem;">A sacred journey continues here</div>
-      <div style="width:60px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:0.55rem auto 0;"></div>
-    </div>
-    <div class="orn-line"><span>Secure Sign In</span></div>
     <div class="ui"><label>Email or Username</label><input id="lu" type="text" placeholder="Enter email or username" autocomplete="username"><div class="uline"></div></div>
     <div class="ui"><label>Password</label><input id="lp" type="password" placeholder="Your password" autocomplete="current-password"><button class="et" onclick="tpwd('lp',this)" aria-label="Show password" title="Show/hide password"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button><div class="uline"></div></div>
     <button class="btn-prim" onclick="doLogin()" aria-label="Sign In">Sign In</button>
