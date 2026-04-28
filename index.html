@@ -5991,7 +5991,7 @@ function dismissGsiPopup(){
 
 <!-- Bottom navigation (post-login mobile) -->
 <nav class="bottom-nav" id="bottomNav" style="display:none;">
-  <button class="bnav-item active" id="bn-home" onclick="showPage('pgHome');setBottomNav('bn-home')">
+  <button class="bnav-item active" id="bn-home" onclick="showPage(ST.user?'pgDash':'pgHome');setBottomNav('bn-home')">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
     <span>Home</span>
   </button>
