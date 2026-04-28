@@ -605,6 +605,23 @@ html:has(#pgHome.active){scroll-behavior:smooth;}
 .ui .et{position:absolute;right:0.2rem;bottom:0.5rem;background:none;border:none;cursor:pointer;font-size:0.88rem;color:var(--muted);opacity:0.6;}
 .ui .et:hover{opacity:1;}
 
+/* ═══════════════════════════════════
+   DATE WHEEL PICKER
+═══════════════════════════════════ */
+.dwp-root{width:100%;-webkit-user-select:none;user-select:none;touch-action:pan-x;}
+.dwp-row{display:flex;gap:0;background:#fff;border:1px solid rgba(212,175,55,0.25);border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(123,31,46,0.08);}
+.dwp-col{position:relative;flex:1;height:220px;overflow:hidden;cursor:grab;border-right:1px solid rgba(212,175,55,0.12);}
+.dwp-col:last-child{border-right:none;}
+.dwp-col:active{cursor:grabbing;}
+.dwp-col[data-wc=month]{flex:2.4;}
+.dwp-col[data-wc=year]{flex:1.7;}
+.dwp-mask-t{position:absolute;inset:0 0 auto 0;height:88px;z-index:2;pointer-events:none;background:linear-gradient(to bottom,rgba(255,255,255,1) 40%,rgba(255,255,255,0) 100%);}
+.dwp-mask-b{position:absolute;inset:auto 0 0 0;height:88px;z-index:2;pointer-events:none;background:linear-gradient(to top,rgba(255,255,255,1) 40%,rgba(255,255,255,0) 100%);}
+.dwp-sel-bar{position:absolute;top:88px;left:0;right:0;height:44px;background:rgba(123,31,46,0.04);border-top:1.5px solid rgba(212,175,55,0.5);border-bottom:1.5px solid rgba(212,175,55,0.5);pointer-events:none;z-index:1;}
+.dwp-track{position:absolute;top:0;left:0;right:0;will-change:transform;}
+.dwp-item{height:44px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.02rem;will-change:transform,opacity;backface-visibility:hidden;}
+.dwp-col-lbl{text-align:center;font-family:'Cinzel',serif;font-size:0.52rem;letter-spacing:0.09em;text-transform:uppercase;color:rgba(184,137,42,0.5);padding:5px 0 0;position:relative;z-index:3;background:#fff;}
+
 /* pill buttons */
 .btn-prim{width:100%;padding:0.75rem;background:linear-gradient(135deg,#9B2F40 0%,#7B1F2E 60%,#5A1520 100%);border:none;border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.65rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:#fff;box-shadow:0 6px 28px rgba(123,31,46,0.35),inset 0 1px 0 rgba(255,255,255,0.15);transition:all 0.28s;position:relative;overflow:hidden;margin-top:0.2rem;}
 .btn-prim::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.1),transparent);transition:left 0.5s;}
@@ -2365,7 +2382,7 @@ checkCookieConsent();
         <div class="form-sec">
           <div class="form-sec-title"><span>📋</span> Basic Details</div>
           <div class="g2">
-            <div class="ff"><label>Date of Birth *</label><input id="s_dob" type="date"><small id="dobAgeHint" style="color:var(--muted);font-style:italic;font-size:0.8rem;">Min age: 21 for Male, 18 for Female</small></div>
+            <div class="ff"><label>Date of Birth *</label><div id="s_dob_picker"></div><input id="s_dob" type="hidden"><small id="dobAgeHint" style="color:var(--muted);font-style:italic;font-size:0.8rem;">Min age: 21 for Male, 18 for Female</small></div>
             <div class="ff"><label>Height *</label><select id="s_ht"><option value="">Select</option><option>4'0" (121cm)</option><option>4'1" (124cm)</option><option>4'2" (127cm)</option><option>4'3" (130cm)</option><option>4'4" (132cm)</option><option>4'5" (135cm)</option><option>4'6" (137cm)</option><option>4'7" (140cm)</option><option>4'8" (142cm)</option><option>4'9" (145cm)</option><option>4'10" (147cm)</option><option>4'11" (150cm)</option><option>5'0" (152cm)</option><option>5'1" (155cm)</option><option>5'2" (157cm)</option><option>5'3" (160cm)</option><option>5'4" (163cm)</option><option>5'5" (165cm)</option><option>5'6" (168cm)</option><option>5'7" (170cm)</option><option>5'8" (173cm)</option><option>5'9" (175cm)</option><option>5'10" (178cm)</option><option>5'11" (180cm)</option><option>6'0" (183cm)</option><option>6'1" (185cm)</option><option>6'2" (188cm)</option><option>6'3" (191cm)</option><option>6'4" (193cm)</option><option>6'5" (196cm)</option><option>6'6" (198cm)</option><option>6'7" (201cm)</option><option>6'8" (203cm)</option><option>6'9" (206cm)</option><option>6'10" (208cm)</option><option>6'11" (211cm)</option><option>7'0" (213cm)</option><option>7'1" (216cm)</option><option>7'2" (218cm)</option><option>7'3" (221cm)</option><option>7'4" (224cm)</option><option>7'5" (226cm)</option><option>7'6" (229cm)</option></select></div>
 
             <div class="ff"><label>Mother Tongue *</label><select id="s_mt"><option value="">Select</option><option>Telugu</option><option>Kannada</option><option>Tamil</option><option>Hindi</option><option>Marathi</option><option>Gujarati</option><option>Bengali</option><option>Malayalam</option><option>Odia</option><option>Punjabi</option><option>Other</option></select></div>
@@ -5497,43 +5514,122 @@ function _saveReferral(uid){
   }
 }
 
+/* ─── Date Wheel Picker ─── */
+(function(){
+function WheelCol(el,items,initIdx,cb){
+  this.el=el;this.items=items;this.idx=Math.max(0,Math.min(items.length-1,initIdx||0));
+  this.cb=cb;this.IH=44;this.VIS=5;this._y=-this.idx*this.IH;
+  this._dragging=false;this._raf=null;this._didDrag=false;
+  this._build();this._bind();this._render();
+}
+WheelCol.prototype._build=function(){
+  var cOff=Math.floor(this.VIS/2)*this.IH;
+  this.el.innerHTML='<div class="dwp-mask-t"></div><div class="dwp-mask-b"></div><div class="dwp-sel-bar"></div><div class="dwp-track"></div>';
+  this.track=this.el.querySelector('.dwp-track');
+  this.track.style.paddingTop=cOff+'px';this.track.style.paddingBottom=cOff+'px';
+  this.track.innerHTML=this.items.map(function(v,i){return'<div class="dwp-item" data-i="'+i+'">'+v+'</div>';}).join('');
+  this.itemEls=[].slice.call(this.el.querySelectorAll('.dwp-item'));
+};
+WheelCol.prototype._bind=function(){
+  var self=this;
+  this.el.addEventListener('touchstart',function(e){self._ds(e.touches[0].clientY);},{passive:true});
+  this.el.addEventListener('touchmove',function(e){e.preventDefault();self._dm(e.touches[0].clientY);},{passive:false});
+  this.el.addEventListener('touchend',function(){self._de();},{passive:true});
+  this.el.addEventListener('mousedown',function(e){e.preventDefault();self._ds(e.clientY);});
+  this._mm=function(e){if(self._dragging)self._dm(e.clientY);};
+  this._mu=function(){if(self._dragging)self._de();};
+  document.addEventListener('mousemove',this._mm);document.addEventListener('mouseup',this._mu);
+  this.el.addEventListener('wheel',function(e){e.preventDefault();self._snap(self.idx+(e.deltaY>0?1:-1));},{passive:false});
+  this.el.addEventListener('click',function(e){var t=e.target.closest&&e.target.closest('.dwp-item');if(t&&!self._didDrag)self._snap(+t.dataset.i);});
+};
+WheelCol.prototype.destroy=function(){document.removeEventListener('mousemove',this._mm);document.removeEventListener('mouseup',this._mu);};
+WheelCol.prototype._ds=function(y){this._dragging=true;this._didDrag=false;this._sy=y;this._spy=this._y;this._ly=y;this._lt=Date.now();this._vy=0;if(this._raf){cancelAnimationFrame(this._raf);this._raf=null;}};
+WheelCol.prototype._dm=function(y){if(!this._dragging)return;var now=Date.now(),dt=Math.max(1,now-this._lt);if(Math.abs(y-this._sy)>3)this._didDrag=true;this._vy=(y-this._ly)/dt*16;this._ly=y;this._lt=now;this._y=this._spy+(y-this._sy);this._clamp(true);this._render();};
+WheelCol.prototype._de=function(){if(!this._dragging)return;this._dragging=false;var proj=this._y+this._vy*5;this._snap(Math.round(-proj/this.IH));};
+WheelCol.prototype._clamp=function(rb){var mn=-(this.items.length-1)*this.IH,mx=0;if(rb){if(this._y>mx)this._y=mx+(this._y-mx)*0.3;if(this._y<mn)this._y=mn+(this._y-mn)*0.3;}else{this._y=Math.max(mn,Math.min(mx,this._y));}};
+WheelCol.prototype._snap=function(i){i=Math.max(0,Math.min(this.items.length-1,i));if(i!==this.idx){this.idx=i;this.cb(i);}this._animTo(-i*this.IH);};
+WheelCol.prototype._animTo=function(tgt){var self=this;if(this._raf)cancelAnimationFrame(this._raf);var st=this._y,s=performance.now(),dur=280;var step=function(now){var t=Math.min(1,(now-s)/dur),e=1-Math.pow(1-t,3);self._y=st+(tgt-st)*e;self._render();if(t<1)self._raf=requestAnimationFrame(step);else{self._y=tgt;self._render();}};this._raf=requestAnimationFrame(step);};
+WheelCol.prototype._render=function(){
+  this.track.style.transform='translateY('+this._y+'px)';
+  var self=this;
+  this.itemEls.forEach(function(el,i){
+    var dist=i*self.IH+self._y;
+    var t=Math.max(-1,Math.min(1,dist/(self.IH*2.5)));
+    var rotX=-t*38,op=Math.max(0.18,1-Math.abs(t)*0.72),sel=Math.abs(dist)<self.IH*0.6;
+    el.style.transform='perspective(500px) rotateX('+rotX+'deg)';
+    el.style.opacity=op;
+    el.style.color=sel?'#7B1F2E':'rgba(0,0,0,0.35)';
+    el.style.fontWeight=sel?'600':'400';
+    el.style.fontSize=sel?'1.1rem':'0.9rem';
+  });
+};
+WheelCol.prototype.setIdx=function(i,anim){i=Math.max(0,Math.min(this.items.length-1,i));this.idx=i;if(anim!==false)this._animTo(-i*this.IH);else{this._y=-i*this.IH;this._render();}};
+WheelCol.prototype.getVal=function(){return this.items[this.idx];};
+
+function DateWheelPicker(container,opts){
+  opts=opts||{};this.c=container;
+  this.minY=opts.minYear||1940;this.maxY=opts.maxYear||(new Date().getFullYear()-18);
+  this.onCh=opts.onChange||function(){};
+  this._months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  this._years=[];for(var y=this.maxY;y>=this.minY;y--)this._years.push(y);
+  var init=opts.value||new Date(1990,0,1);
+  this._st={day:init.getDate(),month:init.getMonth(),year:init.getFullYear()};
+  this._build();
+}
+DateWheelPicker.prototype._days=function(yr,mo){var n=new Date(yr,mo+1,0).getDate();return Array.from({length:n},function(_,i){return String(i+1).padStart(2,'0');});};
+DateWheelPicker.prototype._build=function(){
+  var self=this;
+  this.c.className='dwp-root';
+  this.c.innerHTML='<div class="dwp-row"><div class="dwp-col" data-wc="day"></div><div class="dwp-col" data-wc="month"></div><div class="dwp-col" data-wc="year"></div></div>';
+  var dayEl=this.c.querySelector('[data-wc=day]'),moEl=this.c.querySelector('[data-wc=month]'),yrEl=this.c.querySelector('[data-wc=year]');
+  var days=this._days(this._st.year,this._st.month);
+  var yIdx=this._years.indexOf(this._st.year);if(yIdx<0)yIdx=0;
+  this._dc=new WheelCol(dayEl,days,Math.min(this._st.day-1,days.length-1),function(i){self._st.day=parseInt(days[i]);self._notify();});
+  this._mc=new WheelCol(moEl,this._months,this._st.month,function(i){self._st.month=i;self._rebuildDays();self._notify();});
+  this._yc=new WheelCol(yrEl,this._years,yIdx,function(i){self._st.year=self._years[i];self._rebuildDays();self._notify();});
+};
+DateWheelPicker.prototype._rebuildDays=function(){
+  var self=this,days=this._days(this._st.year,this._st.month);
+  this._st.day=Math.min(this._st.day,days.length);
+  var dayEl=this.c.querySelector('[data-wc=day]');
+  this._dc.destroy();
+  this._dc=new WheelCol(dayEl,days,this._st.day-1,function(i){self._st.day=parseInt(days[i]);self._notify();});
+};
+DateWheelPicker.prototype._notify=function(){this.onCh(new Date(this._st.year,this._st.month,this._st.day));};
+DateWheelPicker.prototype.getValue=function(){return new Date(this._st.year,this._st.month,this._st.day);};
+DateWheelPicker.prototype.setValue=function(date,anim){
+  if(!date||isNaN(date.getTime()))return;
+  this._st={day:date.getDate(),month:date.getMonth(),year:date.getFullYear()};
+  var days=this._days(this._st.year,this._st.month),yIdx=this._years.indexOf(this._st.year);
+  this._dc.setIdx(this._st.day-1,anim!==false);
+  this._mc.setIdx(this._st.month,anim!==false);
+  if(yIdx>=0)this._yc.setIdx(yIdx,anim!==false);
+};
+window.DateWheelPicker=DateWheelPicker;
+})();
+
 document.addEventListener('DOMContentLoaded',function(){
-  // Set DOB max based on gender (21 for Male, 18 for Female)
-  function _updateDobLimit(){
-    const dobEl=document.getElementById('s_dob');if(!dobEl)return;
-    const isMale=document.getElementById('gMale')?.checked!==false;
-    const minAge=isMale?21:18;
-    const d=new Date();d.setFullYear(d.getFullYear()-minAge);
-    dobEl.max=d.toISOString().split('T')[0];
-    dobEl.min='1940-01-01';
-    const hint=document.getElementById('dobAgeHint');
-    if(hint)hint.textContent=`Minimum age: ${minAge} years (legal requirement for ${isMale?'Male':'Female'})`;
-    // Clear DOB if it now violates the new limit
-    if(dobEl.value&&dobEl.value>dobEl.max){dobEl.value='';}
-  }
-  _updateDobLimit();
-  document.getElementById('gMale')?.addEventListener('change',_updateDobLimit);
-  document.getElementById('gFemale')?.addEventListener('change',_updateDobLimit);
-  // Validate DOB immediately on change/blur (critical for iOS — native date wheel ignores max attribute)
-  function _validateDobNow(){
-    const dobEl=document.getElementById('s_dob');if(!dobEl||!dobEl.value)return;
-    const isMale=document.getElementById('gMale')?.checked!==false;
-    const minAge=isMale?21:18;
-    const age=Math.floor((Date.now()-new Date(dobEl.value))/(365.25*24*3600*1000));
-    const hint=document.getElementById('dobAgeHint');
-    if(age<minAge){
-      dobEl.style.borderBottomColor='#c0392b';
-      if(hint){hint.textContent=`Age ${age} is below the minimum ${minAge} years required for ${isMale?'Male':'Female'}.`;hint.style.color='#c0392b';}
-    } else if(age>80){
-      dobEl.style.borderBottomColor='#c0392b';
-      if(hint){hint.textContent='Please enter a valid date of birth.';hint.style.color='#c0392b';}
-    } else {
-      dobEl.style.borderBottomColor='';
-      if(hint){hint.textContent=`Age: ${age} years ✓`;hint.style.color='#2e7d32';}
-    }
-  }
-  document.getElementById('s_dob')?.addEventListener('change',_validateDobNow);
-  document.getElementById('s_dob')?.addEventListener('blur',_validateDobNow);
+  // DOB Wheel Picker init
+  (function(){
+    const con=document.getElementById('s_dob_picker');
+    const hidden=document.getElementById('s_dob');
+    if(!con||typeof DateWheelPicker==='undefined')return;
+    function _maxYr(){const isMale=document.getElementById('gMale')?.checked!==false;const d=new Date();d.setFullYear(d.getFullYear()-(isMale?21:18));return d.getFullYear();}
+    function _minAge(){return document.getElementById('gMale')?.checked!==false?21:18;}
+    window._dobWP=new DateWheelPicker(con,{minYear:1940,maxYear:_maxYr(),value:new Date(1990,0,1),onChange:function(date){
+      const y=date.getFullYear(),m=String(date.getMonth()+1).padStart(2,'0'),d=String(date.getDate()).padStart(2,'0');
+      hidden.value=y+'-'+m+'-'+d;
+      const age=Math.floor((Date.now()-date)/(365.25*24*3600*1000));
+      const hint=document.getElementById('dobAgeHint');
+      const minA=_minAge();
+      if(age<minA){if(hint){hint.textContent='Age '+age+' is below minimum '+minA+' years.';hint.style.color='#c0392b';}}
+      else if(age>80){if(hint){hint.textContent='Please enter a valid date of birth.';hint.style.color='#c0392b';}}
+      else{if(hint){hint.textContent='Age: '+age+' years ✓';hint.style.color='#2e7d32';}}
+    }});
+    function _syncMaxYear(){if(window._dobWP){var my=_maxYr();if(window._dobWP._yc&&window._dobWP._years[0]!==my){/* rebuild years */window._dobWP._years=[];for(var y=my;y>=1940;y--)window._dobWP._years.push(y);}}}
+    document.getElementById('gMale')?.addEventListener('change',_syncMaxYear);
+    document.getElementById('gFemale')?.addEventListener('change',_syncMaxYear);
+  })();
   // Set appointment date min to today, block Tuesdays (office closed)
   const apptDate=document.getElementById('apptDate');
   if(apptDate){
