@@ -943,10 +943,11 @@ html:has(#pgHome.active){scroll-behavior:smooth;}
 .browse-srch{position:relative;margin-bottom:0.55rem;}
 .browse-srch svg{position:absolute;left:0.85rem;top:50%;transform:translateY(-50%);pointer-events:none;}
 #browseSearch{width:100%;padding:0.55rem 1rem 0.55rem 2.4rem;background:#eee8e0;border:none;border-radius:50px;font-family:'EB Garamond',serif;font-size:1rem;outline:none;color:var(--text);}
-.browse-chips{display:flex;gap:0.5rem;overflow-x:auto;padding-bottom:0.65rem;scrollbar-width:none;}
-.browse-chips::-webkit-scrollbar{display:none;}
-.bchip{flex-shrink:0;padding:0.28rem 0.85rem;border-radius:50px;border:1.5px solid rgba(184,137,42,0.3);background:transparent;font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(107,83,64,0.65);cursor:pointer;transition:all 0.18s;}
-.bchip.active,.bchip:active{background:var(--crimson);border-color:var(--crimson);color:#fff;}
+.browse-filters{display:flex;gap:0.45rem;overflow-x:auto;padding-bottom:0.65rem;scrollbar-width:none;align-items:center;}
+.browse-filters::-webkit-scrollbar{display:none;}
+.bf-sel{flex-shrink:0;padding:0.28rem 1.3rem 0.28rem 0.6rem;border-radius:50px;border:1.5px solid rgba(184,137,42,0.3);background:#fff;font-family:'Cinzel',serif;font-size:0.52rem;letter-spacing:0.07em;text-transform:uppercase;color:rgba(107,83,64,0.8);cursor:pointer;outline:none;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='6'%3E%3Cpath d='M0 0l4.5 6 4.5-6z' fill='%23b8960c'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 0.5rem center;background-size:8px 5px;transition:border-color 0.18s,background-color 0.18s;}
+.bf-sel:focus,.bf-sel:hover{border-color:var(--gold);background-color:#fdf8ee;}
+.bf-sel option{background:#fff;font-family:sans-serif;}
 .browse-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;padding:2px;padding-bottom:80px;}
 @media(min-width:600px){.browse-grid{grid-template-columns:repeat(3,1fr);}}
 @media(min-width:900px){.browse-grid{grid-template-columns:repeat(4,1fr);gap:4px;padding:4px;padding-bottom:20px;}}
@@ -2699,12 +2700,38 @@ checkCookieConsent();
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(184,137,42,0.7)" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
       <input id="browseSearch" type="search" placeholder="Search by name, city, profession…" autocomplete="off" oninput="renderBrowseGrid()">
     </div>
-    <div class="browse-chips">
-      <button class="bchip active" onclick="setBrowseFilter('all',this)">All</button>
-      <button class="bchip" onclick="setBrowseFilter('female',this)">Brides</button>
-      <button class="bchip" onclick="setBrowseFilter('male',this)">Grooms</button>
-      <button class="bchip" onclick="setBrowseFilter('india',this)">India</button>
-      <button class="bchip" onclick="setBrowseFilter('abroad',this)">Abroad</button>
+    <div class="browse-filters">
+      <select id="bfA" class="bf-sel" onchange="renderBrowseGrid()">
+        <option value="">Any Age</option>
+        <option>18–20</option><option>21–25</option><option>26–30</option>
+        <option>31–35</option><option>36–40</option><option>40+</option>
+      </select>
+      <select id="bfH" class="bf-sel" onchange="renderBrowseGrid()">
+        <option value="">Any Height</option>
+        <option>4'10"</option><option>5'0"</option><option>5'2"</option>
+        <option>5'4"</option><option>5'5"</option><option>5'6"</option>
+        <option>5'7"</option><option>5'8"</option><option>5'10"</option>
+        <option>6'0"</option><option>6'2"</option>
+      </select>
+      <select id="bfI" class="bf-sel" onchange="renderBrowseGrid()">
+        <option value="">Any Income</option>
+        <option>3–6 Lakhs</option><option>6–10 Lakhs</option>
+        <option>10–20 Lakhs</option><option>20–50 Lakhs</option>
+        <option>50L–1 Crore</option><option>1 Crore+</option>
+      </select>
+      <select id="bfC" class="bf-sel" onchange="renderBrowseGrid()">
+        <option value="">Any Country</option>
+        <option>India</option><option>USA</option><option>UK</option>
+        <option>Canada</option><option>Australia</option><option>UAE</option>
+        <option>Singapore</option><option>Germany</option>
+      </select>
+      <select id="bfS" class="bf-sel" onchange="renderBrowseGrid()">
+        <option value="">Any State</option>
+        <option>Telangana</option><option>Andhra Pradesh</option>
+        <option>Karnataka</option><option>Tamil Nadu</option>
+        <option>Maharashtra</option><option>Delhi</option>
+        <option>Gujarat</option><option>Kerala</option>
+      </select>
     </div>
   </div>
   <div class="browse-grid" id="browseGrid"></div>
@@ -4332,16 +4359,33 @@ async function sendInt(toU){
 function nextCard(){ST.browseIdx++;renderCard();}
 
 /* ─── Browse Grid (Instagram-style) ─── */
-var _browseFilter='all';
 function renderBrowseGrid(){
   const grid=document.getElementById('browseGrid');if(!grid)return;
   const q=(document.getElementById('browseSearch')?.value||'').toLowerCase().trim();
+  const myGender=ST.user?.g||'';
+  const targetGender=myGender==='Male'?'Female':myGender==='Female'?'Male':'';
+  const fAge=document.getElementById('bfA')?.value||'';
+  const fHt=document.getElementById('bfH')?.value||'';
+  const fInc=document.getElementById('bfI')?.value||'';
+  const fCtry=document.getElementById('bfC')?.value||'';
+  const fSt=document.getElementById('bfS')?.value||'';
+  function _parseAgeR(r){if(!r)return null;const m=r.match(/(\d+)[–\-](\d+)/);if(m)return{min:+m[1],max:+m[2]};if(r==='40+')return{min:40,max:999};return null;}
+  function _htIn(s){if(!s)return 0;const m=s.match(/(\d+)'(\d+)?/);return m?(+m[1])*12+(+(m[2]||0)):0;}
+  const ageR=_parseAgeR(fAge);const htMin=_htIn(fHt);
+  function _incOk(pInc){if(!fInc)return true;const pl=(pInc||'').toLowerCase();
+    if(fInc==='1 Crore+')return pl.includes('crore')||pl.includes('1 cr');
+    if(fInc==='50L–1 Crore')return pl.includes('50l')||pl.includes('crore');
+    if(fInc==='20–50 Lakhs')return pl.includes('20')||pl.includes('30')||pl.includes('40')||pl.includes('50');
+    if(fInc==='10–20 Lakhs')return pl.includes('10')||pl.includes('15')||pl.includes('20');
+    return true;}
   const pool=ST.profiles.filter(p=>{
     if(ST.user&&p.u===ST.user?.u)return false;
-    if(_browseFilter==='female'&&p.g!=='Female')return false;
-    if(_browseFilter==='male'&&p.g!=='Male')return false;
-    if(_browseFilter==='india'&&(p.country||'').toLowerCase()!=='india')return false;
-    if(_browseFilter==='abroad'&&(p.country||'India').toLowerCase()==='india')return false;
+    if(targetGender&&p.g!==targetGender)return false;
+    if(ageR&&(+p.age<ageR.min||+p.age>ageR.max))return false;
+    if(htMin&&_htIn(p.ht)<htMin)return false;
+    if(!_incOk(p.inc))return false;
+    if(fCtry&&(p.country||'').toLowerCase()!==fCtry.toLowerCase())return false;
+    if(fSt&&(p.state||'').toLowerCase()!==fSt.toLowerCase())return false;
     if(q&&!(p.name||'').toLowerCase().includes(q)&&!(p.city||'').toLowerCase().includes(q)&&!(p.prof||p.occ||'').toLowerCase().includes(q))return false;
     return true;
   });
@@ -4360,12 +4404,6 @@ function renderBrowseGrid(){
       <button class="bgc-heart${saved?' saved':''}" onclick="event.stopPropagation();_browseToggleHeart('${p.u}',this)" aria-label="${saved?'Unsave':'Save'}">${saved?'♥':'♡'}</button>
     </div>`;
   }).join('');
-}
-function setBrowseFilter(f,btn){
-  _browseFilter=f;
-  document.querySelectorAll('.bchip').forEach(c=>c.classList.remove('active'));
-  if(btn)btn.classList.add('active');
-  renderBrowseGrid();
 }
 function openBrowseCard(uid){
   const p=ST.profiles.find(x=>x.u===uid);if(!p)return;
