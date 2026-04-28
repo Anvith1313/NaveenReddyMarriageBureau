@@ -3872,6 +3872,7 @@ async function doRegister(){
     pp_nri:document.getElementById('pp_nri').value||'No Preference',
     pp_note:document.getElementById('pp_note').value.trim()||'—',
     about:document.getElementById('s_about').value.trim()||'—',
+    rel:(()=>{const m={'Myself':'Self','My Son':'Father','My Daughter':'Father','My Brother':'Brother','My Sister':'Sister','My Relative':'Relative','A Friend':'Friend'};return m[_preState?.who]||'Father';})(),
     photoURL:'',createdAt:new Date().toISOString()
   };
   try{
