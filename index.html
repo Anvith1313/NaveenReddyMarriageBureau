@@ -3425,6 +3425,7 @@ function showPage(id,skipHistory){
   updateBackBars();
   var _pageNavMap={pgDash:'bn-home',pgBrowse:'bn-browse',pgLiked:'bn-liked',pgIntInMe:'bn-interests',pgMyProfile:'bn-profile'};
   if(_pageNavMap[id]&&typeof setBottomNav==='function') setBottomNav(_pageNavMap[id]);
+  if(id==='pgLogin'){const saved=localStorage.getItem('_nrmb_last_email');const lu=document.getElementById('lu');if(saved&&lu&&!lu.value)lu.value=saved;}
   if(id==='pgLiked') renderLikedPage();
   if(id==='pgIntInMe') renderIntInMe();
   if(id==='pgStories') loadApprovedStories();
@@ -3559,6 +3560,7 @@ async function doGoogleSignIn(){
     const uid=cred.user.uid;
     // Check if profile exists
     const snap=await getDoc(doc(db,'users',uid));
+    if(cred.user.email) localStorage.setItem('_nrmb_last_email',cred.user.email);
     if(snap.exists()){
       const prof=snap.data();
       ST.user=prof;
@@ -5492,13 +5494,13 @@ function openBranch(key){
     </div>
     <div class="bdet-grid">
       <div class="bdet-item" style="grid-column:1/-1"><div class="bdet-lbl">📍 Address</div><div class="bdet-val">${b.address}</div><div style="font-family:'EB Garamond',serif;font-size:0.8rem;color:var(--muted);font-style:italic;margin-top:0.2rem;">${b.landmark}</div></div>
-      <div class="bdet-item"><div class="bdet-lbl">📞 Landline</div><div class="bdet-val"><a href="tel:${b.phone.replace(/\s/g,'')}" style="color:inherit;text-decoration:none;">${b.phone}</a></div></div>
-      <div class="bdet-item"><div class="bdet-lbl">📱 Mobile</div><div class="bdet-val"><a href="tel:${b.mobile.replace(/\s/g,'')}" style="color:inherit;text-decoration:none;">${b.mobile}</a></div></div>
+      <div class="bdet-item"><div class="bdet-lbl">📞 Landline</div><div class="bdet-val"><span style="color:var(--crimson);cursor:pointer;text-decoration:underline;text-underline-offset:3px;" onclick="_confirmOpen('Call ${b.city} Branch','${b.phone}','tel:${b.phone.replace(/\s/g,'')}')">${b.phone}</span></div></div>
+      <div class="bdet-item"><div class="bdet-lbl">📱 Mobile</div><div class="bdet-val"><span style="color:var(--crimson);cursor:pointer;text-decoration:underline;text-underline-offset:3px;" onclick="_confirmOpen('Call ${b.city} Branch','${b.mobile}','tel:${b.mobile.replace(/\s/g,'')}')">${b.mobile}</span></div></div>
       <div class="bdet-item" style="grid-column:1/-1"><div class="bdet-lbl">✉ Email</div><div class="bdet-val"><a href="mailto:${b.email}" style="color:inherit;text-decoration:none;">${b.email}</a></div></div>
       <div class="bdet-item" style="grid-column:1/-1"><div class="bdet-lbl">🕐 Working Hours</div><div class="bdet-val" style="font-size:0.95rem;">${b.hours}</div></div>
       <div class="bdet-item"><div class="bdet-lbl">👤 Head of Bureau</div><div class="bdet-val">${b.manager}</div></div>
       <div class="bdet-item" style="grid-column:1/-1;border:none;"><div class="bdet-lbl">ℹ Note</div><div style="font-family:'EB Garamond',serif;font-size:0.88rem;color:var(--muted);font-style:italic;margin-top:0.1rem;">${b.note}</div></div>
-      ${b.maps?`<div class="bdet-item" style="grid-column:1/-1;border:none;padding-top:0;"><a href="${b.maps}" target="_blank" rel="noopener" class="bdet-map-btn">📍 Open in Google Maps</a></div>`:''}
+      ${b.maps?`<div class="bdet-item" style="grid-column:1/-1;border:none;padding-top:0;"><button class="bdet-map-btn" onclick="_confirmOpen('Open in Google Maps','View ${b.city} branch location on Google Maps','${b.maps}')">📍 Open in Google Maps</button></div>`:''}
     </div>`;
   document.getElementById('branchDetail').scrollIntoView({behavior:'smooth',block:'start'});
 }
@@ -5919,6 +5921,24 @@ function _showLogoutConfirm(){
       '<button onclick="document.getElementById(\'_logoutSheet\').remove();" style="width:100%;padding:0.82rem;background:transparent;border:1.5px solid rgba(184,137,42,0.3);border-radius:50px;font-family:\'Cinzel\',serif;font-size:0.62rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--primary);cursor:pointer;">Stay Logged In</button>'+
     '</div>';
   m.querySelector('#_lsBackdrop').addEventListener('click',()=>m.remove());
+  document.body.appendChild(m);
+}
+
+function _confirmOpen(title, subtitle, url){
+  const ex=document.getElementById('_confirmSheet');if(ex)ex.remove();
+  const m=document.createElement('div');
+  m.id='_confirmSheet';
+  m.style.cssText='position:fixed;inset:0;z-index:9990;display:flex;flex-direction:column;justify-content:flex-end;';
+  m.innerHTML=
+    '<div style="position:absolute;inset:0;background:rgba(0,0,0,0.42);" id="_csBackdrop"></div>'+
+    '<div style="position:relative;background:#fff;border-radius:20px 20px 0 0;padding:1.5rem 1.4rem calc(1.8rem + env(safe-area-inset-bottom));z-index:1;">'+
+      '<div style="width:40px;height:4px;background:rgba(0,0,0,0.12);border-radius:2px;margin:0 auto 1.4rem;"></div>'+
+      '<div style="font-family:\'Cinzel\',serif;font-size:1rem;font-weight:700;letter-spacing:0.08em;color:var(--primary);text-align:center;margin-bottom:0.4rem;">'+title+'</div>'+
+      '<div style="font-family:\'EB Garamond\',serif;font-size:1rem;color:var(--muted);text-align:center;line-height:1.6;margin-bottom:1.5rem;">'+subtitle+'</div>'+
+      '<button onclick="document.getElementById(\'_confirmSheet\').remove();window.open(\''+url+'\',\'_blank\');" style="width:100%;padding:0.88rem;background:linear-gradient(135deg,var(--crimson2),var(--crimson));border:none;border-radius:50px;font-family:\'Cinzel\',serif;font-size:0.62rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#fff;box-shadow:0 4px 16px rgba(123,31,46,0.28);cursor:pointer;margin-bottom:0.7rem;">Yes, Open</button>'+
+      '<button onclick="document.getElementById(\'_confirmSheet\').remove();" style="width:100%;padding:0.82rem;background:transparent;border:1.5px solid rgba(184,137,42,0.3);border-radius:50px;font-family:\'Cinzel\',serif;font-size:0.62rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--primary);cursor:pointer;">Cancel</button>'+
+    '</div>';
+  m.querySelector('#_csBackdrop').addEventListener('click',()=>m.remove());
   document.body.appendChild(m);
 }
 
