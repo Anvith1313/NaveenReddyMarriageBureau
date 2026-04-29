@@ -5655,6 +5655,10 @@ function removeSaved(u){
   updateLikedBadge();
   renderLikedPage();
   toast('Removed from saved profiles.');
+  if(window.FIREBASE_READY&&ST.user&&ST.user.uid){
+    const{doc,updateDoc,db}=window.FB;
+    updateDoc(doc(db,'users',ST.user.uid),{savedProfiles:ST.savedProfiles,updatedAt:new Date().toISOString()}).catch(e=>console.warn('removeSaved sync failed:',e));
+  }
 }
 
 function openPhotoLightbox(photos, startIdx){
