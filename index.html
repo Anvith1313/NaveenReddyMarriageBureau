@@ -2802,6 +2802,7 @@ checkCookieConsent();
       <input id="browseSearch" type="search" placeholder="Search by name, city, profession…" autocomplete="off" oninput="renderBrowseGrid()">
     </div>
     <div class="browse-filter-bar">
+      <button class="bfpill" id="bfpill-tier" onclick="openBrowseFilter('tier',this)">Tier<svg width="10" height="7" viewBox="0 0 10 7"><path d="M0 0l5 7 5-7z" fill="rgba(107,83,64,0.5)"/></svg></button>
       <button class="bfpill" id="bfpill-age" onclick="openBrowseFilter('age',this)">Age<svg width="10" height="7" viewBox="0 0 10 7"><path d="M0 0l5 7 5-7z" fill="rgba(107,83,64,0.5)"/></svg></button>
       <button class="bfpill" id="bfpill-height" onclick="openBrowseFilter('height',this)">Height<svg width="10" height="7" viewBox="0 0 10 7"><path d="M0 0l5 7 5-7z" fill="rgba(107,83,64,0.5)"/></svg></button>
       <button class="bfpill" id="bfpill-income" onclick="openBrowseFilter('income',this)">Income<svg width="10" height="7" viewBox="0 0 10 7"><path d="M0 0l5 7 5-7z" fill="rgba(107,83,64,0.5)"/></svg></button>
@@ -3587,7 +3588,7 @@ async function doLogout(){
   _stopRealTimeListeners();
   if(window.FIREBASE_READY){try{await window.FB.signOut(window.FB.auth);}catch(e){}}
   ST.user=null;ST.profiles=[];
-  _browseFilters={age:[],height:[],income:[],country:[],state:[]};
+  _browseFilters={tier:[],age:[],height:[],income:[],country:[],state:[]};
   closeBrowseFilter();_updateBrowsePills();renderBrowseTags();
   const nlLikedEl=document.getElementById('nlLiked');
   if(nlLikedEl)nlLikedEl.style.display='none';
@@ -4456,7 +4457,7 @@ async function sendInt(toU){
 function nextCard(){ST.browseIdx++;renderCard();}
 
 /* ─── Browse Grid — multi-select filter system ─── */
-var _browseFilters={age:[],height:[],income:[],country:[],state:[]};
+var _browseFilters={tier:[],age:[],height:[],income:[],country:[],state:[]};
 var _openBrowseKey=null;
 var _COUNTRY_ALIASES={
   'United States':'usa us america united states of america',
@@ -4480,6 +4481,7 @@ var _COUNTRY_ALIASES={
   'Saint Vincent and the Grenadines':'st vincent grenadines',
 };
 var _BF_OPTS={
+  tier:['VIP','VVIP','Elite'],
   age:['18–20','21–25','26–30','31–35','36–40','40+'],
   height:["4'0\"","4'1\"","4'2\"","4'3\"","4'4\"","4'5\"","4'6\"","4'7\"","4'8\"","4'9\"","4'10\"","4'11\"","5'0\"","5'1\"","5'2\"","5'3\"","5'4\"","5'5\"","5'6\"","5'7\"","5'8\"","5'9\"","5'10\"","5'11\"","6'0\"","6'1\"","6'2\"","6'3\"","6'4\"","6'5\"","6'6\"","6'7\"","6'8\"","6'9\"","6'10\"","6'11\"","7'0\"","7'1\"","7'2\"","7'3\"","7'4\"","7'5\"","7'6\""],
   income:['Below 3 Lakhs','3–6 Lakhs','6–10 Lakhs','10–20 Lakhs','20–50 Lakhs','50L–1 Crore','1 Crore+'],
@@ -4615,7 +4617,7 @@ function _clearBrowseFilter(key){
   _updateBrowsePills();renderBrowseTags();renderBrowseGrid();
 }
 function _updateBrowsePills(){
-  var labels={age:'Age',height:'Height',income:'Income',country:'Country',state:'State / Region'};
+  var labels={tier:'Tier',age:'Age',height:'Height',income:'Income',country:'Country',state:'State / Region'};
   Object.keys(_browseFilters).forEach(function(k){
     var pill=document.getElementById('bfpill-'+k);if(!pill)return;
     var vals=_browseFilters[k];
@@ -4646,6 +4648,7 @@ function renderBrowseGrid(){
   var q=(document.getElementById('browseSearch')?.value||'').toLowerCase().trim();
   var myGender=ST.user?.g||'';
   var targetGender=myGender==='Male'?'Female':myGender==='Female'?'Male':'';
+  var fTier=_browseFilters.tier;
   var fAges=_browseFilters.age;
   var fHts=_browseFilters.height;
   var fIncs=_browseFilters.income;
@@ -4675,6 +4678,7 @@ function renderBrowseGrid(){
     if(ST.user&&p.u===ST.user?.u)return false;
     if(targetGender&&p.g!==targetGender)return false;
     if(!_tierOkB(p.tier))return false;
+    if(fTier.length&&fTier.indexOf(p.tier||'VIP')===-1)return false;
     if(!_ageOk(p.age))return false;
     if(!_htOk(p.ht))return false;
     if(!_incOk(p.inc))return false;
