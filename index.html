@@ -4669,9 +4669,12 @@ function renderBrowseGrid(){
       return true;
     });
   }
+  var myTierB=(ST.user?.tier||'VIP').toLowerCase();
+  function _tierOkB(pTier){var t=(pTier||'VIP').toLowerCase();if(myTierB==='elite')return true;if(myTierB==='vvip')return t==='vvip'||t==='vip';return t==='vip';}
   var pool=ST.profiles.filter(function(p){
     if(ST.user&&p.u===ST.user?.u)return false;
     if(targetGender&&p.g!==targetGender)return false;
+    if(!_tierOkB(p.tier))return false;
     if(!_ageOk(p.age))return false;
     if(!_htOk(p.ht))return false;
     if(!_incOk(p.inc))return false;
