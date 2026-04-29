@@ -2709,15 +2709,9 @@ checkCookieConsent();
     </div>
   </div>
 
-  <!-- Branches section on dashboard -->
-  <div style="max-width:1020px;margin:2rem auto 0;padding:0 1.5rem 4rem;">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;flex-wrap:wrap;gap:0.8rem;">
-      <div>
-        <div style="font-family:'Cinzel',serif;font-size:0.62rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold2);margin-bottom:0.3rem;">Serving You Throughout Telangana</div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:1.65rem;font-weight:700;color:var(--text);line-height:1.2;">Our Branch Offices</div>
-      </div>
-      <button onclick="showPage('pgBranches')" style="padding:0.55rem 1.5rem;background:none;border:1.5px solid rgba(184,137,42,0.4);border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.6rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);transition:all 0.2s;white-space:nowrap;" onmouseover="this.style.background='rgba(184,137,42,0.07)'" onmouseout="this.style.background='none'" aria-label="View All Branches">View All →</button>
-    </div>
+  <!-- Branches section removed from dashboard -->
+  <div style="display:none;">
+    <div>
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;">
       <div class="branch-card" onclick="showPage('pgBranches');setTimeout(()=>openBranch('hyd'),120)" style="padding:0;">
         <div class="branch-landmark-header" style="height:90px;overflow:hidden;">
@@ -5977,6 +5971,20 @@ function openProfileDetails(uid){
   ov.addEventListener('click',e=>{if(e.target===ov)ov.remove();});
   const existing=document.getElementById('profileDetailsOv');if(existing)existing.remove();
   document.body.appendChild(ov);
+  // Swipe-down to close
+  const panel=ov.firstElementChild;
+  let _ty0=0,_scrolled=false;
+  panel.addEventListener('touchstart',e=>{_ty0=e.touches[0].clientY;_scrolled=panel.scrollTop>4;},{passive:true});
+  panel.addEventListener('touchmove',e=>{
+    const dy=e.touches[0].clientY-_ty0;
+    if(!_scrolled&&dy>0) panel.style.transform=`translateY(${Math.min(dy*0.55,120)}px)`;
+  },{passive:true});
+  panel.addEventListener('touchend',e=>{
+    const dy=e.changedTouches[0].clientY-_ty0;
+    panel.style.transform='';
+    if(!_scrolled&&dy>60) ov.remove();
+    _scrolled=false;
+  },{passive:true});
 }
 
 function _confirmOpen(title, subtitle, url){
