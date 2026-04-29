@@ -3617,9 +3617,9 @@ function _applyLogin(prof){
   document.getElementById('dashHero').style.backgroundImage=`url('data:image/jpeg;base64,${IMGS.bg1}')`;
   renderMyProfile();
   showPage('pgDash');
-  // Seed history floor so back button can never exhaust history and exit the browser
+  // Seed 5 floor entries — enough to survive rapid back-button presses on Android
   history.replaceState({page:'pgDash'},'','#pgDash');
-  history.pushState({page:'pgDash'},'','#pgDash');
+  for(var _f=0;_f<5;_f++) history.pushState({page:'pgDash'},'','#pgDash');
   // Load notifications and incoming interests badge
   loadNotifications();
   // Load interests from Firestore if available
@@ -5978,18 +5978,19 @@ function pickTierFromPopup(t){
         return;
       }
     }
-    // Step 3: logged-in dash pages — intercept before scroll check to prevent site exit
+    // Step 3: logged-in dash pages — always intercept, never let browser exit
     if(window.ST&&window.ST.user&&_dashSet.has(curId)){
-      // On a sub-page scrolled down: scroll to top first, next back press goes to pgDash
+      // Push 5 floor entries immediately — Android fires rapid popstates faster than JS
+      // can respond, so a single pushState can be exhausted by 2-3 quick presses.
+      // 5 entries means the user would need to press back 5x before JS runs, which never happens.
+      for(var _f=0;_f<5;_f++) history.pushState({page:curId},'','#'+curId);
       const pageEl=document.getElementById(curId);
       const scrolled=window.scrollY>80||(pageEl&&pageEl.scrollTop>80);
       if(scrolled&&curId!=='pgDash'){
         window.scrollTo({top:0,behavior:'smooth'});
         if(pageEl)pageEl.scrollTo({top:0,behavior:'smooth'});
-        history.pushState({page:curId},'','#'+curId);
         return;
       }
-      history.pushState({page:curId},'','#'+curId); // anchor position
       if(curId==='pgDash'){
         _showLogoutConfirm();
       } else {
