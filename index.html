@@ -4481,7 +4481,6 @@ var _COUNTRY_ALIASES={
   'Saint Vincent and the Grenadines':'st vincent grenadines',
 };
 var _BF_OPTS={
-  tier:['VIP','VVIP','Elite'],
   age:['18–20','21–25','26–30','31–35','36–40','40+'],
   height:["4'0\"","4'1\"","4'2\"","4'3\"","4'4\"","4'5\"","4'6\"","4'7\"","4'8\"","4'9\"","4'10\"","4'11\"","5'0\"","5'1\"","5'2\"","5'3\"","5'4\"","5'5\"","5'6\"","5'7\"","5'8\"","5'9\"","5'10\"","5'11\"","6'0\"","6'1\"","6'2\"","6'3\"","6'4\"","6'5\"","6'6\"","6'7\"","6'8\"","6'9\"","6'10\"","6'11\"","7'0\"","7'1\"","7'2\"","7'3\"","7'4\"","7'5\"","7'6\""],
   income:['Below 3 Lakhs','3–6 Lakhs','6–10 Lakhs','10–20 Lakhs','20–50 Lakhs','50L–1 Crore','1 Crore+'],
@@ -4530,9 +4529,10 @@ function openBrowseFilter(key,pill){
   closeBrowseFilter();
   _openBrowseKey=key;
   pill.classList.add('open');
-  var opts=key==='state'?_getStateOpts():_BF_OPTS[key];
+  var _tierOpts=(function(){var t=(ST.user?.tier||'VIP').toLowerCase();if(t==='elite')return['VIP','VVIP','Elite'];if(t==='vvip')return['VIP','VVIP'];return['VIP'];})();
+  var opts=key==='tier'?_tierOpts:key==='state'?_getStateOpts():_BF_OPTS[key];
   var current=_browseFilters[key];
-  var labels={age:'Age Range',height:'Height',income:'Income Range',country:'Country',state:'State / Region'};
+  var labels={tier:'Membership Tier',age:'Age Range',height:'Height',income:'Income Range',country:'Country',state:'State / Region'};
   var hasSearch=key==='country'||key==='state'||key==='height';
   var sheet=document.createElement('div');
   sheet.id='browseFilterSheet';
