@@ -3506,6 +3506,36 @@ async function doLogin(){
 function setBottomNav(activeId){
   document.querySelectorAll('.bnav-item').forEach(b=>b.classList.toggle('active',b.id===activeId));
 }
+// ── Tab swipe navigation (mobile) ──────────────────────────────────────
+(function(){
+  if(!document.getElementById('_swipeNavStyle')){
+    const s=document.createElement('style');s.id='_swipeNavStyle';
+    s.textContent='@keyframes _swiRL{from{transform:translateX(100%)}to{transform:translateX(0)}}@keyframes _swiLR{from{transform:translateX(-100%)}to{transform:translateX(0)}}._swi-rl{animation:_swiRL 0.26s cubic-bezier(0.25,0.46,0.45,0.94) both;}._swi-lr{animation:_swiLR 0.26s cubic-bezier(0.25,0.46,0.45,0.94) both;}';
+    document.head.appendChild(s);
+  }
+  const _TABS=['pgDash','pgBrowse','pgLiked','pgIntInMe','pgMyProfile'];
+  let _tx0=0,_ty0=0;
+  document.addEventListener('touchstart',function(e){
+    _tx0=e.touches[0].clientX;_ty0=e.touches[0].clientY;
+  },{passive:true});
+  document.addEventListener('touchend',function(e){
+    const dx=e.changedTouches[0].clientX-_tx0;
+    const dy=e.changedTouches[0].clientY-_ty0;
+    if(Math.abs(dx)<72||Math.abs(dx)<Math.abs(dy)*1.5)return;
+    // Don't hijack swipe on browse card or any open overlay/sheet
+    const t=document.elementFromPoint(_tx0,_ty0);
+    if(t&&(t.closest('#pArea')||t.closest('[id$="Sheet"]')||t.closest('.modal')||t.closest('.bottom-sheet')))return;
+    const cur=_TABS.find(function(id){var el=document.getElementById(id);return el&&el.style.display!=='none';});
+    if(!cur)return;
+    const idx=_TABS.indexOf(cur);
+    if(idx===-1)return;
+    var next=dx<0?idx+1:idx-1;
+    if(next<0||next>=_TABS.length)return;
+    showPage(_TABS[next]);
+    var el=document.getElementById(_TABS[next]);
+    if(el){el.classList.remove('_swi-rl','_swi-lr');void el.offsetWidth;el.classList.add(dx<0?'_swi-rl':'_swi-lr');}
+  },{passive:true});
+})();
 function _applyLogin(prof){
   document.body.classList.add('logged-in');
   // Write lastLogin timestamp so admin activity log can track it
