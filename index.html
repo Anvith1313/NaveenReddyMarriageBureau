@@ -3617,9 +3617,6 @@ function _applyLogin(prof){
   document.getElementById('dashHero').style.backgroundImage=`url('data:image/jpeg;base64,${IMGS.bg1}')`;
   renderMyProfile();
   showPage('pgDash');
-  // Replace pre-app history entry so back button can never exit the browser
-  history.replaceState({page:'pgDash'},'','#pgDash');
-  history.pushState({page:'pgDash'},'','#pgDash');
   // Load notifications and incoming interests badge
   loadNotifications();
   // Load interests from Firestore if available
@@ -5989,12 +5986,13 @@ function pickTierFromPopup(t){
         history.pushState({page:curId},'','#'+curId);
         return;
       }
-      // Always navigate to pgDash and push a floor state — never exit the browser
-      if(curId!=='pgDash'){
+      history.pushState({page:curId},'','#'+curId); // anchor position
+      if(curId==='pgDash'){
+        _showLogoutConfirm();
+      } else {
         _sp('pgDash',true);
         if(typeof setBottomNav==='function') setBottomNav('bn-home');
       }
-      history.pushState({page:'pgDash'},'','#pgDash');
       return;
     }
     // Step 4: if scrolled down on a public page, scroll to top first
