@@ -4295,6 +4295,8 @@ function loadProfiles(){
   if(!ST.user)return;
   const held=new Set();
   ST.engaged.forEach(e=>{held.add(e.p1.u);held.add(e.p2.u);});
+  // Hide profiles with mutual interest (accepted/contact_released); pending = one-sided, still visible
+  ST.interests.forEach(i=>{if(i.status==='accepted'||i.status==='contact_released'){held.add(i.from);held.add(i.to);}});
   const myTier=(ST.user.tier||'VIP').toLowerCase();
   function tierVisible(pTier){
     const t=(pTier||'VIP').toLowerCase();
