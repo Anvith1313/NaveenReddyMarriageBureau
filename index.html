@@ -3515,17 +3515,29 @@ function setBottomNav(activeId){
   function _curIdx(){return TABS.findIndex(function(id){var e=document.getElementById(id);return e&&e.style.display!=='none';});}
   function _overlay(){return !!(document.getElementById('_confirmSheet')||document.getElementById('profileDetailsOv'));}
 
+  function _fix(el,tx){
+    el.style.position='fixed';el.style.top='0';el.style.left='0';
+    el.style.width='100%';el.style.height='100%';
+    el.style.overflowY='auto';el.style.zIndex='50';
+    el.style.transition='none';el.style.willChange='transform';
+    el.style.transform='translateX('+tx+')';
+  }
+  function _unfix(el){
+    el.style.position='';el.style.top='';el.style.left='';
+    el.style.width='';el.style.height='';
+    el.style.overflowY='';el.style.zIndex='';
+    el.style.transition='';el.style.willChange='';el.style.transform='';
+  }
+
   function _cleanup(commit){
     if(!_curEl||!_adjEl)return;
     if(commit){
-      _curEl.style.display='none';
-      _curEl.style.transform='';_curEl.style.transition='';_curEl.style.willChange='';
-      _adjEl.style.transform='';_adjEl.style.transition='';_adjEl.style.willChange='';
+      _unfix(_curEl); _curEl.style.display='none';
+      _unfix(_adjEl);
       showPage(_adjEl.id);
     } else {
-      _curEl.style.transform='';_curEl.style.transition='';_curEl.style.willChange='';
-      _adjEl.style.display='none';
-      _adjEl.style.transform='';_adjEl.style.transition='';_adjEl.style.willChange='';
+      _unfix(_curEl);
+      _unfix(_adjEl); _adjEl.style.display='none';
     }
     document.documentElement.style.overflowX='';
     _curEl=null;_adjEl=null;_busy=false;
@@ -3551,12 +3563,10 @@ function setBottomNav(activeId){
         if(adjIdx<0||adjIdx>=TABS.length){_skip=true;return;}
         _curEl=document.getElementById(TABS[idx]);
         _adjEl=document.getElementById(TABS[adjIdx]);
+        // Fix both pages to viewport so they sit side-by-side visually
+        _fix(_curEl,'0');
         _adjEl.style.display='block';
-        _adjEl.style.transition='none';
-        _adjEl.style.transform='translateX('+(_adjRight?'100%':'-100%')+')';
-        _curEl.style.transition='none';
-        _curEl.style.willChange='transform';
-        _adjEl.style.willChange='transform';
+        _fix(_adjEl,_adjRight?'100%':'-100%');
         document.documentElement.style.overflowX='hidden';
       }
     }
