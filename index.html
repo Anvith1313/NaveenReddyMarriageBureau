@@ -5980,22 +5980,22 @@ function pickTierFromPopup(t){
     }
     // Step 3: logged-in dash pages — always intercept, never let browser exit
     if(window.ST&&window.ST.user&&_dashSet.has(curId)){
-      // Push 5 floor entries immediately — Android fires rapid popstates faster than JS
-      // can respond, so a single pushState can be exhausted by 2-3 quick presses.
-      // 5 entries means the user would need to press back 5x before JS runs, which never happens.
-      for(var _f=0;_f<5;_f++) history.pushState({page:curId},'','#'+curId);
       const pageEl=document.getElementById(curId);
       const scrolled=window.scrollY>80||(pageEl&&pageEl.scrollTop>80);
       if(scrolled&&curId!=='pgDash'){
         window.scrollTo({top:0,behavior:'smooth'});
         if(pageEl)pageEl.scrollTo({top:0,behavior:'smooth'});
+        // 3 floor entries after action — rapid presses consume these before JS can re-add
+        for(var _f=0;_f<3;_f++) history.pushState({page:curId},'','#'+curId);
         return;
       }
       if(curId==='pgDash'){
+        for(var _f=0;_f<3;_f++) history.pushState({page:'pgDash'},'','#pgDash');
         _showLogoutConfirm();
       } else {
         _sp('pgDash',true);
         if(typeof setBottomNav==='function') setBottomNav('bn-home');
+        for(var _f=0;_f<3;_f++) history.pushState({page:'pgDash'},'','#pgDash');
       }
       return;
     }
