@@ -3519,13 +3519,14 @@ function setBottomNav(activeId){
     el.style.position='fixed';el.style.top='0';el.style.left='0';
     el.style.width='100%';el.style.height='100%';
     el.style.overflowY='auto';el.style.zIndex='50';
+    el.style.background='var(--bg,#FFFBF5)';
     el.style.transition='none';el.style.willChange='transform';
     el.style.transform='translateX('+tx+')';
   }
   function _unfix(el){
     el.style.position='';el.style.top='';el.style.left='';
     el.style.width='';el.style.height='';
-    el.style.overflowY='';el.style.zIndex='';
+    el.style.overflowY='';el.style.zIndex='';el.style.background='';
     el.style.transition='';el.style.willChange='';el.style.transform='';
   }
 
