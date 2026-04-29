@@ -4294,7 +4294,7 @@ function _htIn(s){if(!s)return 0;const m=s.match(/(\d+)'(\d+)?/);return m?(+m[1]
 function loadProfiles(){
   if(!ST.user)return;
   const held=new Set();
-  ST.interests.forEach(i=>{if(i.status!=='released'){held.add(i.from);held.add(i.to);}});
+  ST.interests.forEach(i=>{if(i.status==='pending'||i.status==='accepted'||i.status==='contact_released'){held.add(i.from);held.add(i.to);}});
   ST.engaged.forEach(e=>{held.add(e.p1.u);held.add(e.p2.u);});
   const myTier=(ST.user.tier||'VIP').toLowerCase();
   function tierVisible(pTier){
@@ -4349,7 +4349,7 @@ function loadProfiles(){
     if(p.u===ST.user.u||p.g===ST.user.g)return false;
     if(!tierVisible(p.tier))return false;
     if(held.has(p.u))return false;
-    if(ST.interests.some(i=>(i.from===ST.user.u&&i.to===p.u)||(i.from===p.u&&i.to===ST.user.u)))return false;
+    if(ST.interests.some(i=>((i.from===ST.user.u&&i.to===p.u)||(i.from===p.u&&i.to===ST.user.u))&&(i.status==='pending'||i.status==='accepted'||i.status==='contact_released')))return false;
     return true;
   });
   // Sort: preferred (score≥55) → close match (score≥30) → rest — cards never run out
