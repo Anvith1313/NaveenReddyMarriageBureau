@@ -3538,8 +3538,7 @@ function setBottomNav(activeId){
     var dx=Math.abs(e.touches[0].clientX-_t0x),dy=Math.abs(e.touches[0].clientY-_t0y);
     if(dx<8&&dy<8)return;
     if(dx>dy*1.3){
-      var t=document.elementFromPoint(_t0x,_t0y);
-      if((t&&t.closest('#pArea'))||_overlay()){_skip=true;return;}
+      if(_overlay()){_skip=true;return;}
       _axis='h'; e.preventDefault();
     } else {_axis='v';}
   },{passive:false});
