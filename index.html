@@ -3617,6 +3617,9 @@ function _applyLogin(prof){
   document.getElementById('dashHero').style.backgroundImage=`url('data:image/jpeg;base64,${IMGS.bg1}')`;
   renderMyProfile();
   showPage('pgDash');
+  // Seed history floor so back button can never exhaust history and exit the browser
+  history.replaceState({page:'pgDash'},'','#pgDash');
+  history.pushState({page:'pgDash'},'','#pgDash');
   // Load notifications and incoming interests badge
   loadNotifications();
   // Load interests from Firestore if available
