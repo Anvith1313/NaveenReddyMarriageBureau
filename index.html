@@ -4342,13 +4342,12 @@ function loadProfiles(){
     else s+=3;
     return s;
   }
-  // Build full pool (all eligible profiles, no hard filters)
+  // Build full pool — always include all opposite-gender profiles so deck never runs empty
   const pool=ST.profiles.filter(p=>{
     if(p.status==='deleted')return false;
-    if(p.u===ST.user.u||p.g===ST.user.g)return false;
-    if(!tierVisible(p.tier))return false;
+    if(p.u===ST.user.u)return false;
+    if(ST.user.g&&p.g===ST.user.g)return false;
     if(held.has(p.u))return false;
-    if(ST.interests.some(i=>(i.from===ST.user.u&&i.to===p.u)||(i.from===p.u&&i.to===ST.user.u)))return false;
     return true;
   });
   // Sort: preferred (score≥55) → close match (score≥30) → rest — cards never run out
