@@ -4635,6 +4635,42 @@ async function uploadProfilePhoto(file){
   }catch(e){toast('Upload failed: '+e.message);}
 }
 
+// ═══════════ MUTUAL MATCH LOCKDOWN ═══════════
+function _getMyMutual(){
+  if(!ST.user)return null;
+  return ST.interests.find(i=>
+    (i.from===ST.user.u||i.to===ST.user.u)&&
+    (i.status==='mutual'||i.status==='contact_released')
+  )||null;
+}
+function _mutualLockHtml(containerStyle){
+  const int=_getMyMutual();
+  if(!int)return null;
+  const partnerU=int.from===ST.user.u?int.to:int.from;
+  const p=ST.profiles.find(x=>x.u===partnerU)||{u:partnerU,name:'Your Match',em:'👤'};
+  const hasContact=int.status==='contact_released';
+  return `<div style="${containerStyle||''}text-align:center;padding:3rem 1.5rem;display:flex;flex-direction:column;align-items:center;gap:0;">
+    <div style="font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;opacity:0.9;">✦ Active Match — Browsing Paused ✦</div>
+    <div style="background:#fff;border:1.5px solid rgba(184,137,42,0.22);border-radius:20px;max-width:340px;width:100%;overflow:hidden;box-shadow:0 4px 24px rgba(123,31,46,0.08);">
+      <div style="background:linear-gradient(160deg,rgba(212,175,55,0.12),rgba(123,31,46,0.08));padding:2rem 1.5rem 1.5rem;display:flex;flex-direction:column;align-items:center;gap:0.6rem;">
+        <div style="font-size:3.8rem;line-height:1;">${p.em||'👤'}</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:600;color:var(--crimson);">${p.name||'Your Match'}</div>
+        <div style="font-family:'EB Garamond',serif;font-size:0.88rem;font-style:italic;color:var(--muted);">${[p.age?p.age+' yrs':'',p.prof||'',p.city||''].filter(Boolean).join(' · ')}</div>
+      </div>
+      ${hasContact?`
+      <div style="padding:1rem 1.4rem;border-top:1px solid rgba(184,137,42,0.12);">
+        <div style="font-family:'Cinzel',serif;font-size:0.5rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:0.6rem;">Contact Details</div>
+        ${p.mob?`<div style="font-family:'EB Garamond',serif;font-size:0.9rem;color:var(--text);margin-bottom:0.3rem;">📞 ${p.mob}</div>`:''}
+        ${p.email?`<div style="font-family:'EB Garamond',serif;font-size:0.9rem;color:var(--text);">✉ ${p.email}</div>`:''}
+      </div>`:''}
+      <div style="padding:1rem 1.4rem;border-top:1px solid rgba(184,137,42,0.12);display:flex;justify-content:center;">
+        <button onclick="viewFullProfile('${p.u}')" style="padding:0.6rem 1.6rem;background:transparent;border:1.5px solid rgba(123,31,46,0.3);border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--crimson);">View Full Profile</button>
+      </div>
+    </div>
+    <div style="font-family:'EB Garamond',serif;font-size:0.82rem;color:var(--muted);max-width:300px;line-height:1.8;margin-top:1.2rem;">Other profiles are hidden while this match is in progress. Contact the bureau to proceed.</div>
+  </div>`;
+}
+
 // ═══════════ BROWSE ═══════════
 function _htIn(s){if(!s)return 0;const m=s.match(/(\d+)'(\d+)?/);return m?(+m[1])*12+(+(m[2]||0)):0;}
 function loadProfiles(){
@@ -4652,22 +4688,9 @@ function loadProfiles(){
     </div>`;
     return;
   }
-  // ── Mutual match: focus mode — show only the mutual partner ─────────────────
-  const myMutual=ST.interests.find(i=>
-    (i.from===ST.user.u||i.to===ST.user.u)&&
-    (i.status==='mutual'||i.status==='contact_released')
-  );
-  if(myMutual){
-    const partnerU=myMutual.from===ST.user.u?myMutual.to:myMutual.from;
-    const partner=ST.profiles.find(x=>x.u===partnerU)||{u:partnerU,name:partnerU,em:'👤'};
-    if(area)area.innerHTML=`<div style="position:relative;z-index:2;text-align:center;padding:3rem 2rem;display:flex;flex-direction:column;align-items:center;gap:1rem;">
-      <div style="font-size:3.5rem;line-height:1;">${partner.em||'💌'}</div>
-      <div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:300;font-style:italic;color:var(--crimson);">You Have an Ongoing Match</div>
-      <div style="font-family:'EB Garamond',serif;font-size:0.9rem;color:var(--muted);max-width:320px;line-height:1.9;"><strong>${partner.name||'Your Match'}</strong> is your current connection.<br>Focus on this match before exploring further — browsing is paused to reduce distractions.</div>
-      <button onclick="renderIntInMe('connections');showPage('pgIntInMe');setBottomNav('bn-interests')" style="margin-top:0.5rem;padding:0.7rem 1.8rem;background:var(--crimson);border:none;border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.58rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:#fff8dc;">View My Connection</button>
-    </div>`;
-    return;
-  }
+  // ── Mutual match: show partner card on dashboard, hide everything else ───────
+  const _lockHtml=_mutualLockHtml('position:relative;z-index:2;');
+  if(_lockHtml){if(area)area.innerHTML=_lockHtml;return;}
   const held=new Set();
   ST.engaged.forEach(e=>{held.add(e.p1.u);held.add(e.p2.u);});
   // Hide profiles who are already in a mutual/contact_released with anyone
@@ -5029,15 +5052,8 @@ function renderBrowseGrid(){
       return;
     }
     // Block browsing if in an active mutual/contact-released match
-    var myMutB=ST.interests.find(function(i){
-      return (i.from===ST.user.u||i.to===ST.user.u)&&(i.status==='mutual'||i.status==='contact_released');
-    });
-    if(myMutB){
-      var mutPartnerU=myMutB.from===ST.user.u?myMutB.to:myMutB.from;
-      var mutPartner=ST.profiles.find(function(x){return x.u===mutPartnerU;})||{name:mutPartnerU,em:'💌'};
-      grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:5rem 2rem;display:flex;flex-direction:column;align-items:center;gap:1rem;"><div style="font-size:3.5rem;">'+mutPartner.em+'</div><div style="font-family:\'Cormorant Garamond\',serif;font-size:1.5rem;font-weight:300;font-style:italic;color:var(--crimson);">Browsing Paused — Active Match</div><div style="font-family:\'EB Garamond\',serif;font-size:0.92rem;color:var(--muted);max-width:340px;line-height:1.9;">You have an ongoing match with <strong>'+mutPartner.name+'</strong>. Browsing other profiles is paused to keep your focus on this connection.</div><button onclick="renderIntInMe(\'connections\');showPage(\'pgIntInMe\');setBottomNav(\'bn-interests\')" style="margin-top:0.5rem;padding:0.65rem 1.6rem;background:var(--crimson);border:none;border-radius:50px;cursor:pointer;font-family:\'Cinzel\',serif;font-size:0.58rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:#fff8dc;">View My Connection</button></div>';
-      return;
-    }
+    var _bLock=_mutualLockHtml('grid-column:1/-1;');
+    if(_bLock){grid.innerHTML=_bLock;return;}
   }
   var q=(document.getElementById('browseSearch')?.value||'').toLowerCase().trim();
   var myGender=ST.user?.g||'';
@@ -5191,6 +5207,8 @@ function updateLikedBadge(){
 function renderIntInMe(tab){
   const grid=document.getElementById('intInMeGrid');
   if(!grid||!ST.user)return;
+  const _iLock=_mutualLockHtml('');
+  if(_iLock){grid.innerHTML=_iLock;return;}
   const incoming=ST.interests.filter(i=>i.to===ST.user.u&&i.status==='pending');
   const connections=ST.interests.filter(i=>(i.from===ST.user.u||i.to===ST.user.u)&&(i.status==='mutual'||i.status==='contact_released'));
   updateIntInMeBadge(incoming.length);
@@ -6052,6 +6070,8 @@ function removeFromLiked(u){
 function renderLikedPage(){
   const grid = document.getElementById('likedGrid');
   if(!grid) return;
+  const _lLock=_mutualLockHtml('grid-column:1/-1;');
+  if(_lLock){grid.innerHTML=_lLock;return;}
   const saved = ST.savedProfiles || [];
   if(saved.length === 0){
     grid.innerHTML = `
