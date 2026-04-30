@@ -2546,7 +2546,29 @@ checkCookieConsent();
         <div class="form-sec">
           <div class="form-sec-title"><span>🔭</span> Astrology <small style="font-family:'EB Garamond',serif;font-size:0.82rem;font-weight:normal;color:var(--muted);font-style:italic;">(for Kundali matching)</small></div>
           <div class="g2">
-            <div class="ff"><label>Time of Birth</label><input id="s_tob" type="time"></div>
+            <div class="ff"><label>Time of Birth <span style="font-size:0.72rem;font-family:'EB Garamond',serif;font-style:italic;font-weight:normal;color:var(--muted);">(optional)</span></label>
+              <div style="display:flex;gap:0.45rem;align-items:center;">
+                <select id="s_tob_h" onchange="_syncTOB()" style="flex:1;padding:0.62rem 0.4rem;border:1.5px solid rgba(184,137,42,0.25);border-radius:10px;font-family:'EB Garamond',serif;font-size:1rem;background:#fffdf7;color:var(--text);cursor:pointer;appearance:none;-webkit-appearance:none;text-align:center;">
+                  <option value="">HH</option>
+                  <option>01</option><option>02</option><option>03</option><option>04</option>
+                  <option>05</option><option>06</option><option>07</option><option>08</option>
+                  <option>09</option><option>10</option><option>11</option><option>12</option>
+                </select>
+                <span style="font-size:1.3rem;color:var(--muted);font-weight:700;line-height:1;">:</span>
+                <select id="s_tob_m" onchange="_syncTOB()" style="flex:1;padding:0.62rem 0.4rem;border:1.5px solid rgba(184,137,42,0.25);border-radius:10px;font-family:'EB Garamond',serif;font-size:1rem;background:#fffdf7;color:var(--text);cursor:pointer;appearance:none;-webkit-appearance:none;text-align:center;">
+                  <option value="">MM</option>
+                  <option>00</option><option>05</option><option>10</option><option>15</option>
+                  <option>20</option><option>25</option><option>30</option><option>35</option>
+                  <option>40</option><option>45</option><option>50</option><option>55</option>
+                </select>
+                <select id="s_tob_ap" onchange="_syncTOB()" style="flex:1;padding:0.62rem 0.4rem;border:1.5px solid rgba(184,137,42,0.25);border-radius:10px;font-family:'EB Garamond',serif;font-size:1rem;background:#fffdf7;color:var(--text);cursor:pointer;appearance:none;-webkit-appearance:none;text-align:center;">
+                  <option value="">AM/PM</option>
+                  <option>AM</option>
+                  <option>PM</option>
+                </select>
+              </div>
+              <input id="s_tob" type="hidden">
+            </div>
             <div class="ff"><label>Place of Birth</label><input id="s_pob" type="text" placeholder="e.g. Hyderabad"></div>
           </div>
         </div>
@@ -2578,7 +2600,7 @@ checkCookieConsent();
             <div class="ff"><label>Sub-Caste / Gotra *</label><input id="s_gotra" list="gotraList" placeholder="Type or search gotra…"><datalist id="gotraList"><option>Motati</option><option>Gudati</option><option>Pakanati</option><option>Gone</option><option>Chittepu</option><option>Bhumanchi</option><option>Pedakanti</option><option>Velama</option><option>Gajula</option><option>Konukanula</option><option>Cherukunutla</option><option>Chegolla</option><option>Other</option></datalist></div>
             <div class="ff"><label>Father's Gotra</label><input id="s_fg" list="fGotraList" placeholder="Type gotra…"><datalist id="fGotraList"><option>Motati</option><option>Gudati</option><option>Pakanati</option><option>Gone</option><option>Chittepu</option><option>Bhumanchi</option><option>Pedakanti</option><option>Konukanula</option><option>Cherukunutla</option><option>Chegolla</option><option>Other</option></datalist></div>
             <div class="ff"><label>Nakshatra *</label><select id="s_nak"><option value="">Select</option><option>Ashwini</option><option>Bharani</option><option>Krittika</option><option>Rohini</option><option>Mrigashira</option><option>Ardra</option><option>Punarvasu</option><option>Pushya</option><option>Ashlesha</option><option>Magha</option><option>Purva Phalguni</option><option>Uttara Phalguni</option><option>Hasta</option><option>Chitra</option><option>Swati</option><option>Vishakha</option><option>Anuradha</option><option>Jyeshtha</option><option>Mula</option><option>Purva Ashadha</option><option>Uttara Ashadha</option><option>Shravana</option><option>Dhanishtha</option><option>Shatabhisha</option><option>Purva Bhadrapada</option><option>Uttara Bhadrapada</option><option>Revati</option></select></div>
-            <div class="ff"><label>Rashi (Moon Sign) *</label><select id="s_rashi"><option value="">Select</option><option>Mesha (Aries)</option><option>Vrishabha (Taurus)</option><option>Mithuna (Gemini)</option><option>Karka (Cancer)</option><option>Simha (Leo)</option><option>Kanya (Virgo)</option><option>Tula (Libra)</option><option>Vrishchika (Scorpio)</option><option>Dhanu (Sagittarius)</option><option>Makara (Capricorn)</option><option>Kumbha (Aquarius)</option><option>Meena (Pisces)</option></select></div>
+            <div class="ff"><label>Rashi (Moon Sign) *</label><select id="s_rashi" onchange="this.dataset.userEdited='1'"><option value="">Select</option><option>Mesha (Aries)</option><option>Vrishabha (Taurus)</option><option>Mithuna (Gemini)</option><option>Karka (Cancer)</option><option>Simha (Leo)</option><option>Kanya (Virgo)</option><option>Tula (Libra)</option><option>Vrishchika (Scorpio)</option><option>Dhanu (Sagittarius)</option><option>Makara (Capricorn)</option><option>Kumbha (Aquarius)</option><option>Meena (Pisces)</option></select></div>
           </div>
         </div>
         <div class="step-nav"><button class="btn-step back" onclick="goStep(2)" aria-label="← Back">← Back</button><button class="btn-step next" onclick="goStep(4)" aria-label="Next: Career →">Next: Career →</button></div>
@@ -3337,11 +3359,17 @@ checkCookieConsent();
 <div id="pgCongrats" class="page" style="display:none;">
   <div class="cng-confetti" id="cngConf"></div>
   <div class="cng-card">
-    <span class="cng-icon">🎊</span>
-    <div class="cng-title">Congratulations</div>
+    <div style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:0.6rem;opacity:0.85;">✦ Naveen Reddy Elite Matrimony ✦</div>
+    <span class="cng-icon">💍</span>
+    <div class="cng-title">A Beautiful Union</div>
     <div class="cng-names" id="cngNames">A Blessed Union</div>
-    <div class="cng-orn"><span>💍</span></div>
-    <div class="cng-msg">Naveen Reddy Marriage Bureau is honoured to have been part of your beautiful journey.<br><em>"Two Reddy souls, united by tradition, destined by providence."</em></div>
+    <div class="cng-orn"><span>✦</span></div>
+    <div class="cng-msg" id="cngWarmMsg">We are deeply honoured to have played a small part in your beautiful story. May your journey together be filled with love, laughter, and abundant blessings. The Reddy family is growing stronger — and today, it grows a little more.</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-style:italic;color:var(--crimson);margin:0.6rem 0 1.4rem;line-height:1.7;">"Two Reddy souls, united by tradition, destined by providence."</div>
+    <div style="background:rgba(212,175,55,0.07);border:1px solid rgba(212,175,55,0.2);border-radius:14px;padding:1.2rem 1.5rem;margin-bottom:1.4rem;">
+      <div style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:0.5rem;">Your account is now on hold</div>
+      <div style="font-family:'EB Garamond',serif;font-size:0.88rem;color:var(--muted);line-height:1.7;">Your profile has been paused — no other members can view or contact you. Our team will be in touch shortly to guide you through the next steps.</div>
+    </div>
     <div class="timer-wrap">
       <div class="tw-head">Post-Engagement Service Fee — Due In</div>
       <div class="tw-nums">
@@ -3597,6 +3625,15 @@ async function doLogin(){
         return;
       }
       const snap=await getDoc(doc(db,'users',uid));
+      // Check if account was permanently removed by admin
+      const delSnap=await getDoc(doc(db,'deleted_accounts',uid));
+      if(delSnap.exists()){
+        const {signOut,auth}=window.FB;
+        await signOut(auth);
+        toast('This account has been removed. Please contact the bureau for assistance.');
+        if(btn){btn.textContent='Sign In';btn.disabled=false;}
+        return;
+      }
       const prof=snap.exists()?{...snap.data(),uid}:{email,uid,name:email,tier:'VIP',em:'👤'};
       ST.user=prof;
       ST.savedProfiles=Array.isArray(prof.savedProfiles)?prof.savedProfiles:[];
@@ -3824,6 +3861,14 @@ async function doGoogleSignIn(){
     const snap=await getDoc(doc(db,'users',uid));
     if(cred.user.email) localStorage.setItem('_nrmb_last_email',cred.user.email);
     if(snap.exists()){
+      // Check if account was permanently removed by admin
+      const delSnap=await getDoc(doc(db,'deleted_accounts',uid));
+      if(delSnap.exists()){
+        const {signOut,auth:_auth}=window.FB;
+        await signOut(_auth);
+        toast('This account has been removed. Please contact the bureau for assistance.');
+        return;
+      }
       const prof=snap.data();
       ST.user=prof;
       ST.savedProfiles=Array.isArray(prof.savedProfiles)?prof.savedProfiles:[];
@@ -4134,6 +4179,33 @@ function _clearFieldErr(id){
   else{el.style.borderBottom='';el.style.boxShadow='';}
 }
 // ─── Location step ───
+// ── Time of Birth picker sync ─────────────────────────────────────────────
+function _syncTOB(){
+  var h=document.getElementById('s_tob_h')?.value;
+  var m=document.getElementById('s_tob_m')?.value;
+  var ap=document.getElementById('s_tob_ap')?.value;
+  var hidden=document.getElementById('s_tob');
+  if(hidden) hidden.value=(h&&m&&ap)?h+':'+m+' '+ap:'';
+}
+function _restoreTOB(val){
+  if(!val)return;
+  var parts=val.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+  if(!parts)return;
+  var hEl=document.getElementById('s_tob_h');
+  var mEl=document.getElementById('s_tob_m');
+  var apEl=document.getElementById('s_tob_ap');
+  if(hEl)hEl.value=parts[1].padStart(2,'0');
+  if(mEl)mEl.value=parts[2];
+  if(apEl)apEl.value=parts[3].toUpperCase();
+}
+// ── City placeholder by country ───────────────────────────────────────────
+var _CITY_EX={'India':'Hyderabad','United States':'Dallas','United Kingdom':'London',
+  'Canada':'Toronto','Australia':'Sydney','United Arab Emirates':'Dubai',
+  'Singapore':'Singapore','Germany':'Munich','France':'Paris',
+  'New Zealand':'Auckland','Malaysia':'Kuala Lumpur','Saudi Arabia':'Riyadh',
+  'Qatar':'Doha','Kuwait':'Kuwait City','Bahrain':'Manama','Oman':'Muscat',
+  'Japan':'Tokyo','China':'Shanghai','South Korea':'Seoul',
+  'South Africa':'Johannesburg','Nigeria':'Lagos','Kenya':'Nairobi'};
 function onCountryChange(isUser){
   const country=document.getElementById('s_country')?.value||'';
   const stateSel=document.getElementById('s_state');
@@ -4143,8 +4215,10 @@ function onCountryChange(isUser){
   _resetDynSel(stateSel,stateList,'Select State');
   if(country==='India')stateSel.value='Telangana';
   if(stateWrap)stateWrap.style.display=stateList.length?'':'none';
+  // Update city placeholder to match selected country
+  const cityEl=document.getElementById('s_city');
+  if(cityEl)cityEl.placeholder='e.g. '+(_CITY_EX[country]||'Your city');
   if(isUser){
-    const cityEl=document.getElementById('s_city');
     if(cityEl)cityEl.value='';
     if(!stateSel.value)_markFieldErr('s_state');else _clearFieldErr('s_state');
     _markFieldErr('s_city');
@@ -4168,7 +4242,7 @@ function onWorkCountryChange(){
   if(country==='India')wstateSel.value='Telangana';
   if(wstateWrap)wstateWrap.style.display=stateList.length?'':'none';
   const wcityEl=document.getElementById('s_wcity');
-  if(wcityEl)wcityEl.value='';
+  if(wcityEl){wcityEl.value='';wcityEl.placeholder='e.g. '+(_CITY_EX[country]||'Your work city');}
   if(!wstateSel.value)_markFieldErr('s_wstate');else _clearFieldErr('s_wstate');
   _markFieldErr('s_wcity');
 }
@@ -4479,12 +4553,18 @@ function _startRealTimeListeners(){
   if(ST.user.uid){
     const unsub1=onSnapshot(doc(db,'users',ST.user.uid),(snap)=>{
       if(snap.exists()){
+        const prevTier=ST.user.tier;
         const data={...snap.data(),uid:snap.id};
         Object.assign(ST.user,data);
         renderMyProfile();
         // Update displayed name
         const el=document.getElementById('acctName');
         if(el)el.textContent=(data.name||'Member').split(' ')[0];
+        // Rebuild browse pool if tier changed (admin may have upgraded/downgraded)
+        if(data.tier&&data.tier!==prevTier){
+          ST.browsePool=[];ST.browseIdx=0;
+          loadProfiles();
+        }
       }
     });
     _rtUnsubscribers.push(unsub1);
@@ -4559,6 +4639,19 @@ async function uploadProfilePhoto(file){
 function _htIn(s){if(!s)return 0;const m=s.match(/(\d+)'(\d+)?/);return m?(+m[1])*12+(+(m[2]||0)):0;}
 function loadProfiles(){
   if(!ST.user)return;
+  const area=document.getElementById('pArea');
+  // ── Engagement: account on hold ───────────────────────────────────────────
+  const myEngagement=ST.engaged.find(e=>e.p1.u===ST.user.u||e.p2.u===ST.user.u);
+  if(myEngagement){
+    const partner=myEngagement.p1.u===ST.user.u?myEngagement.p2:myEngagement.p1;
+    if(area)area.innerHTML=`<div style="position:relative;z-index:2;text-align:center;padding:3rem 2rem;display:flex;flex-direction:column;align-items:center;gap:1rem;">
+      <div style="font-size:4rem;line-height:1;">💍</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:300;font-style:italic;color:var(--crimson);">Your Account is On Hold</div>
+      <div style="font-family:'EB Garamond',serif;font-size:0.94rem;color:var(--muted);max-width:340px;line-height:1.9;">Congratulations on your upcoming engagement with <strong>${partner.name||'your partner'}</strong>!<br>Profile browsing is paused while your engagement is being finalised by the bureau.</div>
+      <button onclick="renderIntInMe('connections');showPage('pgIntInMe');setBottomNav('bn-interests')" style="margin-top:0.5rem;padding:0.7rem 1.8rem;background:var(--crimson);border:none;border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.58rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:#fff8dc;">View Your Connection</button>
+    </div>`;
+    return;
+  }
   const held=new Set();
   ST.engaged.forEach(e=>{held.add(e.p1.u);held.add(e.p2.u);});
   // Hide profiles with mutual interest (accepted/contact_released); pending = one-sided, still visible
@@ -4911,6 +5004,15 @@ function removeBrowseTag(key,val){
 }
 function renderBrowseGrid(){
   var grid=document.getElementById('browseGrid');if(!grid)return;
+  // Block browsing if engaged
+  if(ST.user){
+    var myEng=ST.engaged.find(function(e){return e.p1.u===ST.user.u||e.p2.u===ST.user.u;});
+    if(myEng){
+      var partner=myEng.p1.u===ST.user.u?myEng.p2:myEng.p1;
+      grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:5rem 2rem;display:flex;flex-direction:column;align-items:center;gap:1rem;"><div style="font-size:3.5rem;">💍</div><div style="font-family:\'Cormorant Garamond\',serif;font-size:1.5rem;font-weight:300;font-style:italic;color:var(--crimson);">Browsing Paused</div><div style="font-family:\'EB Garamond\',serif;font-size:0.92rem;color:var(--muted);max-width:320px;line-height:1.9;">Your account is on hold during the engagement process with <strong>'+(partner.name||'your partner')+'</strong>. The bureau will reach out shortly.</div></div>';
+      return;
+    }
+  }
   var q=(document.getElementById('browseSearch')?.value||'').toLowerCase().trim();
   var myGender=ST.user?.g||'';
   var targetGender=myGender==='Male'?'Female':myGender==='Female'?'Male':'';
@@ -5060,16 +5162,58 @@ function updateLikedBadge(){
 
 
 // ═══════════ INTERESTS IN ME ═══════════
-function renderIntInMe(){
+function renderIntInMe(tab){
   const grid=document.getElementById('intInMeGrid');
   if(!grid||!ST.user)return;
   const incoming=ST.interests.filter(i=>i.to===ST.user.u&&i.status==='pending');
+  const connections=ST.interests.filter(i=>(i.from===ST.user.u||i.to===ST.user.u)&&(i.status==='mutual'||i.status==='contact_released'));
   updateIntInMeBadge(incoming.length);
-  if(!incoming.length){
-    grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:4rem 2rem;font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-style:italic;color:var(--muted);">No pending interests yet.<br><span style="font-size:0.85rem;">When someone expresses interest in your profile, they'll appear here.</span></div>`;
+  // Build tabs
+  const activeTab=tab||window._intTab||'pending';
+  window._intTab=activeTab;
+  var tabHtml=`<div style="display:flex;gap:0;margin-bottom:1.2rem;border-bottom:2px solid rgba(184,137,42,0.15);">
+    <button onclick="renderIntInMe('pending')" style="flex:1;padding:0.65rem;background:none;border:none;cursor:pointer;font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:${activeTab==='pending'?'var(--crimson)':'var(--muted)'};border-bottom:2px solid ${activeTab==='pending'?'var(--crimson)':'transparent'};margin-bottom:-2px;transition:all 0.2s;">
+      Interests ${incoming.length?`<span style="background:var(--crimson);color:#fff;border-radius:50px;padding:0.1em 0.45em;font-size:0.7em;margin-left:0.3em;">${incoming.length}</span>`:''}
+    </button>
+    <button onclick="renderIntInMe('connections')" style="flex:1;padding:0.65rem;background:none;border:none;cursor:pointer;font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:${activeTab==='connections'?'var(--crimson)':'var(--muted)'};border-bottom:2px solid ${activeTab==='connections'?'var(--crimson)':'transparent'};margin-bottom:-2px;transition:all 0.2s;">
+      Connections ${connections.length?`<span style="background:var(--gold2);color:#fff;border-radius:50px;padding:0.1em 0.45em;font-size:0.7em;margin-left:0.3em;">${connections.length}</span>`:''}
+    </button>
+  </div>`;
+  if(activeTab==='connections'){
+    if(!connections.length){
+      grid.innerHTML=tabHtml+`<div style="grid-column:1/-1;text-align:center;padding:4rem 2rem;font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-style:italic;color:var(--muted);">No connections yet.<br><span style="font-size:0.85rem;">Mutual matches will appear here once both parties agree.</span></div>`;
+      return;
+    }
+    grid.innerHTML=tabHtml+connections.map(int=>{
+      const partnerU=int.from===ST.user.u?int.to:int.from;
+      const p=ST.profiles.find(x=>x.u===partnerU)||{u:partnerU,name:int.fromName||partnerU,em:'👤',bg:'#f0f0f0',age:'—',prof:'—',city:'—'};
+      const contactOk=int.status==='contact_released';
+      return `<div class="pcard" style="margin:0;">
+        <div class="pcard-head" style="background:${p.bg};"><span class="pc-emoji">${p.em}</span>
+          <div class="pc-tier-pill">${p.tier||'VIP'}</div>
+          <div style="position:absolute;top:0.6rem;left:0.6rem;background:${contactOk?'rgba(46,125,50,0.9)':'rgba(184,137,42,0.85)'};color:#fff;padding:0.18rem 0.6rem;border-radius:50px;font-family:'Cinzel',serif;font-size:0.5rem;letter-spacing:0.08em;">${contactOk?'✅ Contact Released':'💑 Matched'}</div>
+        </div>
+        <div class="pcard-body">
+          <div class="pc-name">${p.name}, ${p.age}</div>
+          <div class="pc-sub">${p.prof||p.occ||'—'} · ${p.city||'—'}</div>
+          <div class="pc-div"><span>✦</span></div>
+          ${contactOk?`<div style="background:rgba(46,125,50,0.06);border:1px solid rgba(46,125,50,0.2);border-radius:10px;padding:0.7rem;margin-bottom:0.7rem;">
+            <div style="font-family:'Cinzel',serif;font-size:0.52rem;letter-spacing:0.1em;text-transform:uppercase;color:#2e7d32;margin-bottom:0.4rem;">Contact Details</div>
+            <div style="font-family:'EB Garamond',serif;font-size:0.92rem;">📞 ${p.mob||'—'}</div>
+            <div style="font-family:'EB Garamond',serif;font-size:0.92rem;">✉ ${p.email||'—'}</div>
+          </div>`:'<div style="font-family:\'EB Garamond\',serif;font-size:0.82rem;color:var(--muted);font-style:italic;margin-bottom:0.7rem;padding:0.5rem 0.7rem;background:rgba(184,137,42,0.04);border-radius:8px;">Contact details will be shared after bureau approval.</div>'}
+          <button onclick="openProfileDetails('${p.u}')" style="width:100%;padding:0.55rem;background:rgba(123,31,46,0.06);border:1.5px solid rgba(123,31,46,0.18);border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.58rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--crimson);" aria-label="View Full Profile">📋 View Full Profile</button>
+        </div>
+      </div>`;
+    }).join('');
     return;
   }
-  grid.innerHTML=incoming.map(int=>{
+  // Pending tab
+  if(!incoming.length){
+    grid.innerHTML=tabHtml+`<div style="grid-column:1/-1;text-align:center;padding:4rem 2rem;font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-style:italic;color:var(--muted);">No pending interests yet.<br><span style="font-size:0.85rem;">When someone expresses interest in your profile, they'll appear here.</span></div>`;
+    return;
+  }
+  grid.innerHTML=tabHtml+incoming.map(int=>{
     const p=ST.profiles.find(x=>x.u===int.from)||{u:int.from,name:int.fromName||int.from,em:'👤',bg:'#f0f0f0',age:'—',prof:'—',city:'—',nat:'—',ht:'—',edu:'—',rashi:'—',nak:'—',inc:''};
     return `<div class="pcard" style="margin:0;">
       <div class="pcard-head" style="background:${p.bg};"><span class="pc-emoji">${p.em}</span><div class="pc-tier-pill">${p.tier||'VIP'}</div><div class="pc-verify">✓ Verified</div></div>
@@ -5220,8 +5364,16 @@ function sendChat(){
   const inp=document.getElementById('chatInp');if(!inp.value.trim())return;
   if(!ST.chats[ST.chatKey])ST.chats[ST.chatKey]=[];
   const now=new Date();
-  ST.chats[ST.chatKey].push({sender:ST.user.name+' Family',msg:inp.value.trim(),time:now.getHours()+':'+String(now.getMinutes()).padStart(2,'0')});
+  const msg={sender:ST.user.name+' Family',msg:inp.value.trim(),
+    time:now.getHours()+':'+String(now.getMinutes()).padStart(2,'0'),
+    ts:now.toISOString()};
+  ST.chats[ST.chatKey].push(msg);
   inp.value='';renderChatMsgs(ST.chatKey,true);
+  // Persist to RTDB so admin can see real conversations
+  if(window.FIREBASE_READY){
+    const {rtdb,dbRef,set}=window.FB;
+    set(dbRef(rtdb,'chats/'+ST.chatKey),ST.chats[ST.chatKey]).catch(()=>{});
+  }
 }
 
 // ═══════════ MY PROFILE ═══════════
@@ -5693,6 +5845,13 @@ function showCongrats(p1,p2,eng){
   document.getElementById('cngNames').textContent=p1.name+' & '+p2.name;
   const amts={VIP:'₹1,50,000',VVIP:'₹3,00,000',Elite:'₹10,00,000'};
   document.getElementById('tAmtTxt').innerHTML=`Each individual must remit <strong>${amts[p1.tier]||'the applicable amount'}</strong> within 7 days.`;
+  const warmMsgs=[
+    `Congratulations, ${p1.name} &amp; ${p2.name}! We are deeply honoured to have been a part of your beautiful story. May your journey together be filled with love, laughter, and every blessing. Our team will reach out to guide you through the next steps.`,
+    `What a wonderful day for two wonderful families! ${p1.name} and ${p2.name} — your match was written in the stars, and we are so proud to have helped you find each other. Wishing you a lifetime of happiness.`,
+    `The moment families dream of has arrived. ${p1.name} &amp; ${p2.name}, may your union be as timeless as tradition and as bright as new beginnings. We are honoured to have walked this path with you.`
+  ];
+  const el=document.getElementById('cngWarmMsg');
+  if(el) el.innerHTML=warmMsgs[Math.floor(Math.random()*warmMsgs.length)];
   startTimer(eng);launchConfetti();showPage('pgCongrats');
 }
 function launchConfetti(){
@@ -6488,7 +6647,35 @@ document.addEventListener('DOMContentLoaded',function(){
       if(age<minA){if(hint){hint.textContent='Age '+age+' is below minimum '+minA+' years.';hint.style.color='#c0392b';}}
       else if(age>80){if(hint){hint.textContent='Please enter a valid date of birth.';hint.style.color='#c0392b';}}
       else{if(hint){hint.textContent='Age: '+age+' years ✓';hint.style.color='#2e7d32';}}
+      // Auto-suggest Rashi from sun sign (approximate — user can change)
+      _autoSuggestRashi(date);
     }});
+    function _autoSuggestRashi(date){
+      var mn=date.getMonth()+1,dy=date.getDate();
+      var rashiMap=[
+        {r:'Mesha (Aries)',    c:(mn===3&&dy>=21)||(mn===4&&dy<=19)},
+        {r:'Vrishabha (Taurus)',c:(mn===4&&dy>=20)||(mn===5&&dy<=20)},
+        {r:'Mithuna (Gemini)', c:(mn===5&&dy>=21)||(mn===6&&dy<=20)},
+        {r:'Karka (Cancer)',   c:(mn===6&&dy>=21)||(mn===7&&dy<=22)},
+        {r:'Simha (Leo)',      c:(mn===7&&dy>=23)||(mn===8&&dy<=22)},
+        {r:'Kanya (Virgo)',    c:(mn===8&&dy>=23)||(mn===9&&dy<=22)},
+        {r:'Tula (Libra)',     c:(mn===9&&dy>=23)||(mn===10&&dy<=22)},
+        {r:'Vrishchika (Scorpio)',c:(mn===10&&dy>=23)||(mn===11&&dy<=21)},
+        {r:'Dhanu (Sagittarius)',c:(mn===11&&dy>=22)||(mn===12&&dy<=21)},
+        {r:'Makara (Capricorn)',c:(mn===12&&dy>=22)||(mn===1&&dy<=19)},
+        {r:'Kumbha (Aquarius)',c:(mn===1&&dy>=20)||(mn===2&&dy<=18)},
+        {r:'Meena (Pisces)',   c:true}
+      ];
+      var rashi=(rashiMap.find(function(x){return x.c;})||rashiMap[11]).r;
+      var rashiEl=document.getElementById('s_rashi');
+      if(rashiEl&&!rashiEl.dataset.userEdited){
+        rashiEl.value=rashi;
+        var lbl=rashiEl.closest('.ff')?.querySelector('label');
+        var hint=rashiEl.parentElement.querySelector('.rashi-hint');
+        if(!hint){hint=document.createElement('small');hint.className='rashi-hint';hint.style.cssText='color:var(--muted);font-style:italic;font-size:0.78rem;display:block;margin-top:0.2rem;';rashiEl.parentElement.appendChild(hint);}
+        hint.textContent='⚡ Auto-suggested from DOB (approximate — please verify)';
+      }
+    }
     function _syncMaxYear(){if(window._dobWP){var my=_maxYr();if(window._dobWP._yc&&window._dobWP._years[0]!==my){/* rebuild years */window._dobWP._years=[];for(var y=my;y>=1940;y--)window._dobWP._years.push(y);}}}
     document.getElementById('gMale')?.addEventListener('change',_syncMaxYear);
     document.getElementById('gFemale')?.addEventListener('change',_syncMaxYear);
