@@ -4736,15 +4736,15 @@ function loadProfiles(){
     else s+=3;
     return s;
   }
-  // Build full pool (all eligible profiles)
+  // Dashboard pool: ALL opposite-gender active profiles, no tier filter.
+  // Tier filter belongs in Browse page only. Order entirely by preference score
+  // so best matches surface first, but pool never runs dry.
   const pool=ST.profiles.filter(p=>{
     if(p.status==='deleted')return false;
     if(p.u===ST.user.u||p.g===ST.user.g)return false;
-    if(!tierVisible(p.tier))return false;
     if(held.has(p.u))return false;
     return true;
   });
-  // Sort: preferred (score≥55) → close match (score≥30) → rest — cards never run out
   pool.sort((a,b)=>_prefScore(b)-_prefScore(a));
   ST.browsePool=pool;
   ST.browseIdx=0;renderCard();
@@ -4753,15 +4753,13 @@ function renderCard(){
   const area=document.getElementById('pArea');
   area.style.backgroundImage=`url('data:image/jpeg;base64,${IMGS.bg2}')`;
   if(ST.browseIdx>=ST.browsePool.length){
-    area.innerHTML=`
-    <div style="position:relative;z-index:2;text-align:center;padding:4rem 2rem;display:flex;flex-direction:column;align-items:center;gap:1.2rem;">
-      <div style="font-size:5.5rem;line-height:1;animation:hbPulse 3.5s ease infinite;">💔</div>
-      <div style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;font-style:italic;color:var(--crimson);">No Profiles Found</div>
-      <div style="font-family:'EB Garamond',serif;font-size:0.95rem;color:var(--muted);max-width:360px;line-height:1.85;">We couldn't find a match for your current filters.<br>Please try adjusting your preferences — new verified members join us daily.</div>
-      <button onclick="['fA','fH','fI','fC','fS'].forEach(function(id){var e=document.getElementById(id);if(e)e.value='';});var fd=document.getElementById('fD');if(fd)fd.value='';loadProfiles();" style="margin-top:0.5rem;padding:0.75rem 2.2rem;background:var(--crimson);border:none;border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.6rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,248,220,0.96);box-shadow:0 4px 16px rgba(123,31,46,0.22);">Try Different Filters</button>
-    </div>`;
-  if(!document.getElementById('hbAnim')){const s=document.createElement('style');s.id='hbAnim';s.textContent='@keyframes hbPulse{0%,40%,100%{transform:scale(1) rotate(-3deg);}70%{transform:scale(1.1) rotate(3deg);}}';document.head.appendChild(s);}
-    return;
+    if(!ST.browsePool.length){
+      // Genuinely no profiles in the system
+      area.innerHTML='<div style="position:relative;z-index:2;text-align:center;padding:4rem 2rem;display:flex;flex-direction:column;align-items:center;gap:1.2rem;"><div style="font-size:5rem;line-height:1;">🌸</div><div style="font-family:\'Cormorant Garamond\',serif;font-size:1.7rem;font-weight:300;font-style:italic;color:var(--crimson);">No Members Yet</div><div style="font-family:\'EB Garamond\',serif;font-size:0.92rem;color:var(--muted);max-width:320px;line-height:1.9;">New verified members join us daily. Check back soon.</div></div>';
+      return;
+    }
+    // Wrap around — start from beginning so pool never feels empty
+    ST.browseIdx=0;
   }
   const p=ST.browsePool[ST.browseIdx];
   const myInt=ST.interests.find(i=>(i.from===ST.user.u&&i.to===p.u)||(i.from===p.u&&i.to===ST.user.u));
@@ -4811,8 +4809,8 @@ function renderCard(){
         </div>`:''}
         <div class="pact-row">
           ${_intBtnHtml}
-          ${_passBtnHtml}
         </div>
+        <div style="text-align:center;margin-top:0.5rem;font-family:'Cinzel',serif;font-size:0.5rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(107,83,64,0.4);">↑ Swipe up for next profile</div>
         <div style="display:flex;gap:0.5rem;margin-top:0.6rem;">
           <button onclick="openProfileDetails('${p.u}')" style="flex:1;padding:0.55rem 0.6rem;background:rgba(123,31,46,0.06);border:1.5px solid rgba(123,31,46,0.18);border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.58rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--crimson);transition:all 0.2s;" onmouseover="this.style.background='rgba(123,31,46,0.11)'" onmouseout="this.style.background='rgba(123,31,46,0.06)'" aria-label="View Full Details">📋 Full Details</button>
           <button onclick="openOtherBiodata('${p.u}')" style="flex:1;padding:0.55rem 0.6rem;background:transparent;border:1.5px solid var(--gold2);border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.58rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold2);transition:all 0.2s;" onmouseover="this.style.background='var(--gold4)'" onmouseout="this.style.background='transparent'" aria-label="View Biodata">📄 Biodata</button>
@@ -4854,6 +4852,30 @@ async function sendInt(toU){
   }
 }
 function nextCard(){ST.browseIdx++;renderCard();}
+
+// Swipe-up gesture on the dashboard card area (reel-style navigation)
+(function _initCardSwipe(){
+  var area=document.getElementById('pArea');
+  if(!area)return;
+  var _sy=0,_sx=0,_dragging=false;
+  area.addEventListener('touchstart',function(e){
+    _sy=e.touches[0].clientY;_sx=e.touches[0].clientX;_dragging=true;
+  },{passive:true});
+  area.addEventListener('touchend',function(e){
+    if(!_dragging)return;_dragging=false;
+    var dy=_sy-e.changedTouches[0].clientY;
+    var dx=Math.abs(_sx-e.changedTouches[0].clientX);
+    // Only trigger if vertical swipe > 55px and more vertical than horizontal
+    if(dy>55&&dx<80) nextCard();
+  },{passive:true});
+  // Mouse wheel scroll support for desktop
+  var _lastWheel=0;
+  area.addEventListener('wheel',function(e){
+    var now=Date.now();
+    if(now-_lastWheel<600)return;
+    if(e.deltaY>40){_lastWheel=now;nextCard();}
+  },{passive:true});
+})();
 
 /* ─── Browse Grid — multi-select filter system ─── */
 var _browseFilters={tier:[],age:[],height:[],income:[],country:[],state:[]};
