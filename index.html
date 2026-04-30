@@ -4766,6 +4766,11 @@ function renderCard(){
   const p=ST.browsePool[ST.browseIdx];
   const myInt=ST.interests.find(i=>(i.from===ST.user.u&&i.to===p.u)||(i.from===p.u&&i.to===ST.user.u));
   const contactOk=myInt&&myInt.status==='contact_released';
+  const _intBtnHtml=(myInt&&(myInt.status==='mutual'||myInt.status==='contact_released'))
+    ?''
+    :(myInt&&myInt.status==='pending')
+    ?'<button class="btn-interest" style="flex:1;opacity:0.6;cursor:default;background:linear-gradient(135deg,#888,#666);" disabled aria-label="Interest Expressed">✓ Interest Expressed</button>'
+    :'<button class="btn-interest" onclick="sendInt(\''+p.u+'\')" aria-label="Express Interest">Express Interest</button>';
   // Increment profile view counter (don't count own profile)
   if(p.uid&&ST.user.uid&&p.uid!==ST.user.uid&&window.FIREBASE_READY){
     const now=Date.now();
@@ -4803,12 +4808,7 @@ function renderCard(){
           </a>
         </div>`:''}
         <div class="pact-row">
-          ${myInt&&(myInt.status==='mutual'||myInt.status==='contact_released')?
-            '':
-            myInt&&myInt.status==='pending'?
-            `<button class="btn-interest" style="flex:1;opacity:0.6;cursor:default;background:linear-gradient(135deg,#888,#666);" disabled aria-label="Interest Expressed">✓ Interest Expressed</button>`:
-            `<button class="btn-interest" onclick="sendInt('${p.u}')" aria-label="Express Interest">Express Interest</button>`
-          }
+          ${_intBtnHtml}
           <button class="btn-pass" onclick="nextCard()" aria-label="Pass">Pass</button>
         </div>
         <div style="display:flex;gap:0.5rem;margin-top:0.6rem;">
@@ -6117,6 +6117,11 @@ function renderLikedPage(){
     const isContact = _likedInt&&_likedInt.status==='contact_released';
     const _likedIsMutual = _likedInt&&(_likedInt.status==='mutual'||_likedInt.status==='contact_released');
     const _likedIsPending = _likedInt&&_likedInt.status==='pending';
+    const _likedIntBtn = _likedIsMutual
+      ?''
+      :_likedIsPending
+      ?'<button disabled class="btn-interest" style="opacity:0.6;cursor:default;background:linear-gradient(135deg,#888,#666);" aria-label="Interest Expressed">✓ Interest Expressed</button>'
+      :'<button class="btn-interest" onclick="sendInt(\''+p.u+'\')" aria-label="Express Interest">Express Interest</button>';
     return `
     <div style="position:relative;">
       <div class="pcard" style="max-width:100%;">
@@ -6151,9 +6156,7 @@ function renderLikedPage(){
           ${!isContact ? `<div class="priv-note">Contact details will be disclosed after mutual interest and bureau approval.</div>` : ''}
           ${isContact ? `<button class="btn-interest" style="width:100%;margin-bottom:0.9rem;" onclick="openChat('${p.u}','${p.name}')" aria-label="Open Family Conversation">Open Family Conversation</button>` : ''}
           <div class="pact-row">
-            ${_likedIsMutual?'':_likedIsPending?
-              `<button disabled class="btn-interest" style="opacity:0.6;cursor:default;background:linear-gradient(135deg,#888,#666);" aria-label="Interest Expressed">✓ Interest Expressed</button>`:
-              `<button class="btn-interest" onclick="sendInt('${p.u}')" aria-label="Express Interest">Express Interest</button>`}
+            ${_likedIntBtn}
             <button class="btn-pass" onclick="removeSaved('${p.u}');renderLikedPage();" title="Remove" aria-label="Remove">Remove</button>
           </div>
           <button onclick="openProfileDetails('${p.u}')" style="width:100%;margin-top:0.5rem;padding:0.55rem 1rem;background:rgba(123,31,46,0.06);border:1.5px solid rgba(123,31,46,0.18);border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.58rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--crimson);transition:all 0.2s;" onmouseover="this.style.background='rgba(123,31,46,0.11)'" onmouseout="this.style.background='rgba(123,31,46,0.06)'" aria-label="View Full Details">📋 View Full Details</button>
