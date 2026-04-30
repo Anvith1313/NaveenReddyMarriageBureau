@@ -3634,8 +3634,7 @@ function _dsbNav(toId){
   var fromEl=document.querySelector('.page.active');
   var toEl=document.getElementById(toId);
   if(!toEl||!fromEl||fromEl.id===toId){if(toEl)showPage(toId);return;}
-  var fromIdx=_dsbOrder.indexOf(fromEl.id),toIdx=_dsbOrder.indexOf(toId);
-  var fromRight=toIdx>fromIdx||toIdx===-1;
+  var fromRight=true; // always slide in from right — consistent feel
   _dsbBusy=true;
   function _fixEl(el,tx,op){
     el.style.position='fixed';el.style.top='0';el.style.left='0'; // left:0 — page's own padding-left handles offset
@@ -3683,6 +3682,8 @@ function _dsbNav(toId){
   function _overlay(){return !!(document.getElementById('_confirmSheet')||document.getElementById('profileDetailsOv'));}
 
   function _fix(el,tx){
+    // Set display+position together — browser batches these atomically, no reflow flash
+    el.style.display='block';
     el.style.position='fixed';el.style.top='0';el.style.left='0';
     el.style.right='0';el.style.bottom='0';
     el.style.overflowY='auto';el.style.zIndex='50';
@@ -3691,7 +3692,7 @@ function _dsbNav(toId){
     el.style.transform='translateX('+tx+')';
   }
   function _unfix(el){
-    el.style.position='';el.style.top='';el.style.left='';
+    el.style.display='';el.style.position='';el.style.top='';el.style.left='';
     el.style.right='';el.style.bottom='';
     el.style.overflowY='';el.style.zIndex='';el.style.background='';
     el.style.transition='';el.style.willChange='';el.style.transform='';
@@ -3734,7 +3735,6 @@ function _dsbNav(toId){
         _adjEl=document.getElementById(TABS[adjIdx]);
         // Fix both pages to viewport so they sit side-by-side visually
         _fix(_curEl,'0');
-        _adjEl.style.display='block';
         _fix(_adjEl,_adjRight?'100%':'-100%');
         document.documentElement.style.overflowX='hidden';
       }
