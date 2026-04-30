@@ -2233,24 +2233,24 @@ checkCookieConsent();
   </div>
   <div class="dsb-nav-items" id="dsiNavItems">
     <div id="dsiIndicator" style="top:0;height:44px;opacity:0;"></div>
-    <button class="dsb-item active" id="dsi-home" onclick="showPage('pgDash')">
+    <button class="dsb-item active" id="dsi-home" onclick="_dsbNav('pgDash')">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Home</span>
     </button>
-    <button class="dsb-item" id="dsi-browse" onclick="showPage('pgBrowse')">
+    <button class="dsb-item" id="dsi-browse" onclick="_dsbNav('pgBrowse')">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span>Browse</span>
     </button>
-    <button class="dsb-item" id="dsi-liked" onclick="showPage('pgLiked')" style="position:relative;">
+    <button class="dsb-item" id="dsi-liked" onclick="_dsbNav('pgLiked')" style="position:relative;">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg><span>Liked</span>
       <span class="dsb-badge" id="dsiBadgeLiked">0</span>
     </button>
-    <button class="dsb-item" id="dsi-interests" onclick="showPage('pgIntInMe')" style="position:relative;">
+    <button class="dsb-item" id="dsi-interests" onclick="_dsbNav('pgIntInMe')" style="position:relative;">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span>Interests</span>
       <span class="dsb-badge" id="dsiBadgeInterests">0</span>
     </button>
-    <button class="dsb-item" id="dsi-profile" onclick="showPage('pgMyProfile')">
+    <button class="dsb-item" id="dsi-profile" onclick="_dsbNav('pgMyProfile')">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>My Profile</span>
     </button>
-    <button class="dsb-item" id="dsi-branches" onclick="showPage('pgBranches')">
+    <button class="dsb-item" id="dsi-branches" onclick="_dsbNav('pgBranches')">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><span>Branches</span>
     </button>
     <button class="dsb-item" id="dsi-notif" onclick="openNotifPanel()" style="position:relative;">
@@ -3621,16 +3621,54 @@ function setBottomNav(activeId){
     var el=document.getElementById(dsiId);
     if(el){
       el.classList.add('active');
-      // Slide the indicator to match the active item
       var ind=document.getElementById('dsiIndicator');
-      var nav=document.getElementById('dsiNavItems');
-      if(ind&&nav){
-        ind.style.opacity='1';
-        ind.style.top=el.offsetTop+'px';
-        ind.style.height=el.offsetHeight+'px';
-      }
+      if(ind){ind.style.opacity='1';ind.style.top=el.offsetTop+'px';ind.style.height=el.offsetHeight+'px';}
     }
   }
+}
+// Desktop sidebar navigation with slide animation
+var _dsbBusy=false;
+var _dsbOrder=['pgDash','pgBrowse','pgLiked','pgIntInMe','pgMyProfile','pgBranches'];
+function _dsbNav(toId){
+  if(_dsbBusy)return;
+  var fromEl=document.querySelector('.page.active');
+  var toEl=document.getElementById(toId);
+  if(!toEl||!fromEl||fromEl.id===toId){if(toEl)showPage(toId);return;}
+  var fromIdx=_dsbOrder.indexOf(fromEl.id), toIdx=_dsbOrder.indexOf(toId);
+  var fromRight=toIdx>fromIdx||toIdx===-1;
+  _dsbBusy=true;
+  function _fixEl(el,tx){
+    el.style.position='fixed';el.style.top='0';el.style.left='68px';
+    el.style.right='0';el.style.bottom='0';
+    el.style.overflowY='auto';el.style.zIndex='50';
+    el.style.background='var(--bg,#FFFBF5)';
+    el.style.transition='none';el.style.willChange='transform';
+    el.style.transform='translateX('+tx+')';
+  }
+  function _unfixEl(el){
+    el.style.position='';el.style.top='';el.style.left='';
+    el.style.right='';el.style.bottom='';el.style.overflowY='';
+    el.style.zIndex='';el.style.background='';
+    el.style.transition='';el.style.willChange='';el.style.transform='';
+  }
+  _fixEl(fromEl,'0');
+  toEl.style.display='block';
+  _fixEl(toEl,fromRight?'100%':'-100%');
+  document.documentElement.style.overflowX='hidden';
+  requestAnimationFrame(function(){requestAnimationFrame(function(){
+    var dur='0.3s';
+    fromEl.style.transition='transform '+dur+' cubic-bezier(0.25,0.46,0.45,0.94)';
+    toEl.style.transition='transform '+dur+' cubic-bezier(0.25,0.46,0.45,0.94)';
+    fromEl.style.transform='translateX('+(fromRight?'-100%':'100%')+')';
+    toEl.style.transform='translateX(0)';
+    toEl.addEventListener('transitionend',function(){
+      _unfixEl(fromEl); fromEl.style.display='none';
+      _unfixEl(toEl);
+      showPage(toId);
+      document.documentElement.style.overflowX='';
+      _dsbBusy=false;
+    },{once:true});
+  });});
 }
 // ── Tab swipe navigation (mobile, follow-finger) ───────────────────────
 (function(){
