@@ -4766,11 +4766,13 @@ function renderCard(){
   const p=ST.browsePool[ST.browseIdx];
   const myInt=ST.interests.find(i=>(i.from===ST.user.u&&i.to===p.u)||(i.from===p.u&&i.to===ST.user.u));
   const contactOk=myInt&&myInt.status==='contact_released';
+  const _isMutualCard=!!_mutInt;
   const _intBtnHtml=(myInt&&(myInt.status==='mutual'||myInt.status==='contact_released'))
     ?''
     :(myInt&&myInt.status==='pending')
     ?'<button class="btn-interest" style="flex:1;opacity:0.6;cursor:default;background:linear-gradient(135deg,#888,#666);" disabled aria-label="Interest Expressed">✓ Interest Expressed</button>'
     :'<button class="btn-interest" onclick="sendInt(\''+p.u+'\')" aria-label="Express Interest">Express Interest</button>';
+  const _passBtnHtml=_isMutualCard?'':'<button class="btn-pass" onclick="nextCard()" aria-label="Pass">Pass</button>';
   // Increment profile view counter (don't count own profile)
   if(p.uid&&ST.user.uid&&p.uid!==ST.user.uid&&window.FIREBASE_READY){
     const now=Date.now();
@@ -4809,7 +4811,7 @@ function renderCard(){
         </div>`:''}
         <div class="pact-row">
           ${_intBtnHtml}
-          <button class="btn-pass" onclick="nextCard()" aria-label="Pass">Pass</button>
+          ${_passBtnHtml}
         </div>
         <div style="display:flex;gap:0.5rem;margin-top:0.6rem;">
           <button onclick="openProfileDetails('${p.u}')" style="flex:1;padding:0.55rem 0.6rem;background:rgba(123,31,46,0.06);border:1.5px solid rgba(123,31,46,0.18);border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.58rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--crimson);transition:all 0.2s;" onmouseover="this.style.background='rgba(123,31,46,0.11)'" onmouseout="this.style.background='rgba(123,31,46,0.06)'" aria-label="View Full Details">📋 Full Details</button>
