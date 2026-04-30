@@ -881,11 +881,24 @@ html:has(#pgHome.active){scroll-behavior:smooth;}
   background:var(--bg);border-right:1px solid rgba(212,175,55,0.18);
   flex-direction:column;padding:1.4rem 0.7rem 1rem;z-index:490;
   box-shadow:2px 0 14px rgba(123,31,46,0.05);
+  transition:width 0.22s ease;overflow:hidden;
 }
+#deskSidebar._collapsed{width:68px;padding:1.4rem 0.3rem 1rem;}
+#deskSidebar._collapsed .dsb-logo-text,
+#deskSidebar._collapsed .dsb-item>span,
+#deskSidebar._collapsed .dsb-user-name,
+#deskSidebar._collapsed .dsb-user-tier,
+#deskSidebar._collapsed .dsb-signout>span{display:none!important;}
+#deskSidebar._collapsed .dsb-logo-wrap{justify-content:center;padding:0.2rem 0 1.3rem;}
+#deskSidebar._collapsed .dsb-item{justify-content:center;padding:0.72rem;}
+#deskSidebar._collapsed .dsb-user-row{justify-content:center;padding:0.5rem 0.3rem;}
+#deskSidebar._collapsed .dsb-signout{justify-content:center;padding:0.65rem;}
+#deskSidebar._collapsed .dsb-toggle-btn svg{transform:rotate(180deg);}
 @media(min-width:1024px){
   body.logged-in .dash-topbar{display:none!important;}
-  body.logged-in #deskSidebar{display:flex;}
-  body.logged-in .page{padding-top:0!important;padding-left:245px;}
+  body.logged-in #deskSidebar{display:flex!important;}
+  body.logged-in .page{padding-top:0!important;padding-left:245px;transition:padding-left 0.22s ease;}
+  body.logged-in .page._dsb-col{padding-left:68px;}
   body.logged-in .browse-hdr{top:0;}
 }
 .dsb-logo-wrap{display:flex;align-items:center;gap:0.65rem;padding:0.2rem 0.7rem 1.3rem;border-bottom:1px solid rgba(212,175,55,0.15);margin-bottom:0.6rem;flex-shrink:0;}
@@ -2200,7 +2213,7 @@ checkCookieConsent();
 </div>
 
 <!-- ══════ DESKTOP LEFT SIDEBAR ══════ -->
-<nav id="deskSidebar" style="display:none;">
+<nav id="deskSidebar">
   <div class="dsb-logo-wrap">
     <img class="dsb-logo-img" src="Assets/Logo-transparent.webp" alt="NRMB">
     <div class="dsb-logo-text">Naveen Reddy<br>Marriage Bureau<small>Reddy Community · Est. 2000</small></div>
@@ -2238,6 +2251,9 @@ checkCookieConsent();
     </div>
     <button class="dsb-signout" onclick="doLogout()">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg><span>Sign Out</span>
+    </button>
+    <button class="dsb-signout dsb-toggle-btn" onclick="_dsbToggle()" title="Collapse sidebar">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="transition:transform 0.22s ease;flex-shrink:0;"><polyline points="15 18 9 12 15 6"/></svg><span>Collapse</span>
     </button>
   </div>
 </nav>
@@ -3592,6 +3608,23 @@ function setBottomNav(activeId){
   document.querySelectorAll('.dsb-item').forEach(function(b){b.classList.remove('active');});
   if(dsiId){var el=document.getElementById(dsiId);if(el)el.classList.add('active');}
 }
+function _dsbToggle(){
+  var sb=document.getElementById('deskSidebar');
+  if(!sb)return;
+  var collapsed=sb.classList.toggle('_collapsed');
+  document.querySelectorAll('.page').forEach(function(p){p.classList.toggle('_dsb-col',collapsed);});
+  localStorage.setItem('_dsbCol',collapsed?'1':'0');
+}
+// Restore sidebar collapse state on load
+(function(){
+  if(localStorage.getItem('_dsbCol')==='1'){
+    var sb=document.getElementById('deskSidebar');
+    if(sb){
+      sb.classList.add('_collapsed');
+      document.querySelectorAll('.page').forEach(function(p){p.classList.add('_dsb-col');});
+    }
+  }
+})();
 // ── Tab swipe navigation (mobile, follow-finger) ───────────────────────
 (function(){
   var TABS=['pgDash','pgBrowse','pgLiked','pgIntInMe','pgMyProfile'];
