@@ -3638,7 +3638,7 @@ function _dsbNav(toId){
   var fromRight=toIdx>fromIdx||toIdx===-1;
   _dsbBusy=true;
   function _fixEl(el,tx,op){
-    el.style.position='fixed';el.style.top='0';el.style.left='68px';
+    el.style.position='fixed';el.style.top='0';el.style.left='0'; // left:0 — page's own padding-left handles offset
     el.style.right='0';el.style.bottom='0';
     el.style.overflowY='auto';el.style.zIndex='50';
     el.style.background='var(--bg,#FFFBF5)';
@@ -3658,18 +3658,16 @@ function _dsbNav(toId){
   document.documentElement.style.overflowX='hidden';
   requestAnimationFrame(function(){requestAnimationFrame(function(){
     var ease='cubic-bezier(0.22,1,0.36,1)';
-    // Outgoing: subtle pull-away + fade — same feel as popup dismiss
     fromEl.style.transition='transform 0.38s '+ease+',opacity 0.28s ease';
     fromEl.style.transform='translateX('+(fromRight?'-5%':'5%')+')';
     fromEl.style.opacity='0';
-    // Incoming: spring slide in + fade — matches popup open animation
     toEl.style.transition='transform 0.42s '+ease+',opacity 0.32s ease';
     toEl.style.transform='translateX(0)';
     toEl.style.opacity='1';
     toEl.addEventListener('transitionend',function(){
-      _unfixEl(fromEl);fromEl.style.display='none';
+      _unfixEl(fromEl); fromEl.style.display='none';
+      showPage(toId); // mark active while toEl still fixed — no flash
       _unfixEl(toEl);
-      showPage(toId);
       document.documentElement.style.overflowX='';
       _dsbBusy=false;
     },{once:true});
@@ -3686,7 +3684,7 @@ function _dsbNav(toId){
 
   function _fix(el,tx){
     el.style.position='fixed';el.style.top='0';el.style.left='0';
-    el.style.width='100%';el.style.height='100%';
+    el.style.right='0';el.style.bottom='0';
     el.style.overflowY='auto';el.style.zIndex='50';
     el.style.background='var(--bg,#FFFBF5)';
     el.style.transition='none';el.style.willChange='transform';
@@ -3694,7 +3692,7 @@ function _dsbNav(toId){
   }
   function _unfix(el){
     el.style.position='';el.style.top='';el.style.left='';
-    el.style.width='';el.style.height='';
+    el.style.right='';el.style.bottom='';
     el.style.overflowY='';el.style.zIndex='';el.style.background='';
     el.style.transition='';el.style.willChange='';el.style.transform='';
   }
@@ -3703,11 +3701,12 @@ function _dsbNav(toId){
     if(!_curEl||!_adjEl)return;
     if(commit){
       _unfix(_curEl); _curEl.style.display='none';
+      showPage(_adjEl.id); // mark active while still fixed — no flash
       _unfix(_adjEl);
-      showPage(_adjEl.id);
     } else {
       _unfix(_curEl);
-      _unfix(_adjEl); _adjEl.style.display='none';
+      _adjEl.style.display='none';
+      _unfix(_adjEl);
     }
     document.documentElement.style.overflowX='';
     _curEl=null;_adjEl=null;_busy=false;
@@ -3755,9 +3754,10 @@ function _dsbNav(toId){
     var dx=e.changedTouches[0].clientX-_sx;
     var velocity=Math.abs(dx)/Math.max(Date.now()-_st,1);
     var commit=Math.abs(dx)>window.innerWidth*0.35||velocity>0.4;
-    var dur=Math.max(0.15,0.28-velocity*0.1)+'s';
-    _curEl.style.transition='transform '+dur+' cubic-bezier(0.25,0.46,0.45,0.94)';
-    _adjEl.style.transition='transform '+dur+' cubic-bezier(0.25,0.46,0.45,0.94)';
+    var dur=Math.max(0.18,0.32-velocity*0.1)+'s';
+    var ease=commit?'cubic-bezier(0.22,1,0.36,1)':'cubic-bezier(0.25,0.46,0.45,0.94)';
+    _curEl.style.transition='transform '+dur+' '+ease;
+    _adjEl.style.transition='transform '+dur+' '+ease;
     if(commit){
       _curEl.style.transform='translateX('+(_adjRight?'-100%':'100%')+')';
       _adjEl.style.transform='translateX(0)';
