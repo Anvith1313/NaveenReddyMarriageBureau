@@ -4643,31 +4643,22 @@ function _getMyMutual(){
     (i.status==='mutual'||i.status==='contact_released')
   )||null;
 }
+// Returns warm pause message for Browse / Interests / Liked pages
 function _mutualLockHtml(containerStyle){
   const int=_getMyMutual();
   if(!int)return null;
   const partnerU=int.from===ST.user.u?int.to:int.from;
-  const p=ST.profiles.find(x=>x.u===partnerU)||{u:partnerU,name:'Your Match',em:'👤'};
-  const hasContact=int.status==='contact_released';
-  return `<div style="${containerStyle||''}text-align:center;padding:3rem 1.5rem;display:flex;flex-direction:column;align-items:center;gap:0;">
-    <div style="font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;opacity:0.9;">✦ Active Match — Browsing Paused ✦</div>
-    <div style="background:#fff;border:1.5px solid rgba(184,137,42,0.22);border-radius:20px;max-width:340px;width:100%;overflow:hidden;box-shadow:0 4px 24px rgba(123,31,46,0.08);">
-      <div style="background:linear-gradient(160deg,rgba(212,175,55,0.12),rgba(123,31,46,0.08));padding:2rem 1.5rem 1.5rem;display:flex;flex-direction:column;align-items:center;gap:0.6rem;">
-        <div style="font-size:3.8rem;line-height:1;">${p.em||'👤'}</div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:600;color:var(--crimson);">${p.name||'Your Match'}</div>
-        <div style="font-family:'EB Garamond',serif;font-size:0.88rem;font-style:italic;color:var(--muted);">${[p.age?p.age+' yrs':'',p.prof||'',p.city||''].filter(Boolean).join(' · ')}</div>
-      </div>
-      ${hasContact?`
-      <div style="padding:1rem 1.4rem;border-top:1px solid rgba(184,137,42,0.12);">
-        <div style="font-family:'Cinzel',serif;font-size:0.5rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:0.6rem;">Contact Details</div>
-        ${p.mob?`<div style="font-family:'EB Garamond',serif;font-size:0.9rem;color:var(--text);margin-bottom:0.3rem;">📞 ${p.mob}</div>`:''}
-        ${p.email?`<div style="font-family:'EB Garamond',serif;font-size:0.9rem;color:var(--text);">✉ ${p.email}</div>`:''}
-      </div>`:''}
-      <div style="padding:1rem 1.4rem;border-top:1px solid rgba(184,137,42,0.12);display:flex;justify-content:center;">
-        <button onclick="viewFullProfile('${p.u}')" style="padding:0.6rem 1.6rem;background:transparent;border:1.5px solid rgba(123,31,46,0.3);border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--crimson);">View Full Profile</button>
-      </div>
+  const p=ST.profiles.find(x=>x.u===partnerU)||{u:partnerU,name:'your match',em:'💌'};
+  return `<div style="${containerStyle||''}text-align:center;padding:4rem 2rem;display:flex;flex-direction:column;align-items:center;gap:1rem;">
+    <div style="font-size:3.2rem;line-height:1;">💌</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:300;font-style:italic;color:var(--crimson);">You Have an Ongoing Match</div>
+    <div style="font-family:'EB Garamond',serif;font-size:0.92rem;color:var(--muted);max-width:340px;line-height:1.9;">
+      You are currently in a mutual match with <strong>${p.name}</strong>. This section is paused so you can give your connection the attention it deserves.
     </div>
-    <div style="font-family:'EB Garamond',serif;font-size:0.82rem;color:var(--muted);max-width:300px;line-height:1.8;margin-top:1.2rem;">Other profiles are hidden while this match is in progress. Contact the bureau to proceed.</div>
+    <div style="background:rgba(212,175,55,0.07);border:1px solid rgba(212,175,55,0.2);border-radius:12px;padding:1rem 1.4rem;max-width:340px;font-family:'EB Garamond',serif;font-size:0.85rem;color:var(--muted);line-height:1.8;">
+      🌸 Don't worry — if things don't work out, all your browsing and saved profiles will be fully restored. Just contact the bureau and we'll reopen your access right away.
+    </div>
+    <div style="font-family:'EB Garamond',serif;font-size:0.82rem;color:rgba(107,83,64,0.5);max-width:300px;line-height:1.7;">Visit the Home page to view your match's full profile and all options.</div>
   </div>`;
 }
 
@@ -4688,9 +4679,13 @@ function loadProfiles(){
     </div>`;
     return;
   }
-  // ── Mutual match: show partner card on dashboard, hide everything else ───────
-  const _lockHtml=_mutualLockHtml('position:relative;z-index:2;');
-  if(_lockHtml){if(area)area.innerHTML=_lockHtml;return;}
+  // ── Mutual match: show partner's full card on dashboard (all buttons intact) ─
+  const _mutInt=_getMyMutual();
+  if(_mutInt){
+    const _partU=_mutInt.from===ST.user.u?_mutInt.to:_mutInt.from;
+    const _part=ST.profiles.find(x=>x.u===_partU);
+    if(_part){ST.browsePool=[_part];ST.browseIdx=0;renderCard();return;}
+  }
   const held=new Set();
   ST.engaged.forEach(e=>{held.add(e.p1.u);held.add(e.p2.u);});
   // Hide profiles who are already in a mutual/contact_released with anyone
