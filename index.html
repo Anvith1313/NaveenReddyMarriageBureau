@@ -4652,10 +4652,26 @@ function loadProfiles(){
     </div>`;
     return;
   }
+  // ── Mutual match: focus mode — show only the mutual partner ─────────────────
+  const myMutual=ST.interests.find(i=>
+    (i.from===ST.user.u||i.to===ST.user.u)&&
+    (i.status==='mutual'||i.status==='contact_released')
+  );
+  if(myMutual){
+    const partnerU=myMutual.from===ST.user.u?myMutual.to:myMutual.from;
+    const partner=ST.profiles.find(x=>x.u===partnerU)||{u:partnerU,name:partnerU,em:'👤'};
+    if(area)area.innerHTML=`<div style="position:relative;z-index:2;text-align:center;padding:3rem 2rem;display:flex;flex-direction:column;align-items:center;gap:1rem;">
+      <div style="font-size:3.5rem;line-height:1;">${partner.em||'💌'}</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:300;font-style:italic;color:var(--crimson);">You Have an Ongoing Match</div>
+      <div style="font-family:'EB Garamond',serif;font-size:0.9rem;color:var(--muted);max-width:320px;line-height:1.9;"><strong>${partner.name||'Your Match'}</strong> is your current connection.<br>Focus on this match before exploring further — browsing is paused to reduce distractions.</div>
+      <button onclick="renderIntInMe('connections');showPage('pgIntInMe');setBottomNav('bn-interests')" style="margin-top:0.5rem;padding:0.7rem 1.8rem;background:var(--crimson);border:none;border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.58rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:#fff8dc;">View My Connection</button>
+    </div>`;
+    return;
+  }
   const held=new Set();
   ST.engaged.forEach(e=>{held.add(e.p1.u);held.add(e.p2.u);});
-  // Hide profiles with mutual interest (accepted/contact_released); pending = one-sided, still visible
-  ST.interests.forEach(i=>{if(i.status==='accepted'||i.status==='contact_released'){held.add(i.from);held.add(i.to);}});
+  // Hide profiles who are already in a mutual/contact_released with anyone
+  ST.interests.forEach(i=>{if(i.status==='mutual'||i.status==='contact_released'){held.add(i.from);held.add(i.to);}});
   const myTier=(ST.user.tier||'VIP').toLowerCase();
   function tierVisible(pTier){
     const t=(pTier||'VIP').toLowerCase();
@@ -5010,6 +5026,16 @@ function renderBrowseGrid(){
     if(myEng){
       var partner=myEng.p1.u===ST.user.u?myEng.p2:myEng.p1;
       grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:5rem 2rem;display:flex;flex-direction:column;align-items:center;gap:1rem;"><div style="font-size:3.5rem;">💍</div><div style="font-family:\'Cormorant Garamond\',serif;font-size:1.5rem;font-weight:300;font-style:italic;color:var(--crimson);">Browsing Paused</div><div style="font-family:\'EB Garamond\',serif;font-size:0.92rem;color:var(--muted);max-width:320px;line-height:1.9;">Your account is on hold during the engagement process with <strong>'+(partner.name||'your partner')+'</strong>. The bureau will reach out shortly.</div></div>';
+      return;
+    }
+    // Block browsing if in an active mutual/contact-released match
+    var myMutB=ST.interests.find(function(i){
+      return (i.from===ST.user.u||i.to===ST.user.u)&&(i.status==='mutual'||i.status==='contact_released');
+    });
+    if(myMutB){
+      var mutPartnerU=myMutB.from===ST.user.u?myMutB.to:myMutB.from;
+      var mutPartner=ST.profiles.find(function(x){return x.u===mutPartnerU;})||{name:mutPartnerU,em:'💌'};
+      grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:5rem 2rem;display:flex;flex-direction:column;align-items:center;gap:1rem;"><div style="font-size:3.5rem;">'+mutPartner.em+'</div><div style="font-family:\'Cormorant Garamond\',serif;font-size:1.5rem;font-weight:300;font-style:italic;color:var(--crimson);">Browsing Paused — Active Match</div><div style="font-family:\'EB Garamond\',serif;font-size:0.92rem;color:var(--muted);max-width:340px;line-height:1.9;">You have an ongoing match with <strong>'+mutPartner.name+'</strong>. Browsing other profiles is paused to keep your focus on this connection.</div><button onclick="renderIntInMe(\'connections\');showPage(\'pgIntInMe\');setBottomNav(\'bn-interests\')" style="margin-top:0.5rem;padding:0.65rem 1.6rem;background:var(--crimson);border:none;border-radius:50px;cursor:pointer;font-family:\'Cinzel\',serif;font-size:0.58rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:#fff8dc;">View My Connection</button></div>';
       return;
     }
   }
