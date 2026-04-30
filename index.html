@@ -3634,35 +3634,40 @@ function _dsbNav(toId){
   var fromEl=document.querySelector('.page.active');
   var toEl=document.getElementById(toId);
   if(!toEl||!fromEl||fromEl.id===toId){if(toEl)showPage(toId);return;}
-  var fromIdx=_dsbOrder.indexOf(fromEl.id), toIdx=_dsbOrder.indexOf(toId);
+  var fromIdx=_dsbOrder.indexOf(fromEl.id),toIdx=_dsbOrder.indexOf(toId);
   var fromRight=toIdx>fromIdx||toIdx===-1;
   _dsbBusy=true;
-  function _fixEl(el,tx){
+  function _fixEl(el,tx,op){
     el.style.position='fixed';el.style.top='0';el.style.left='68px';
     el.style.right='0';el.style.bottom='0';
     el.style.overflowY='auto';el.style.zIndex='50';
     el.style.background='var(--bg,#FFFBF5)';
-    el.style.transition='none';el.style.willChange='transform';
-    el.style.transform='translateX('+tx+')';
+    el.style.transition='none';el.style.willChange='transform,opacity';
+    el.style.transform='translateX('+tx+')';el.style.opacity=String(op);
   }
   function _unfixEl(el){
     el.style.position='';el.style.top='';el.style.left='';
     el.style.right='';el.style.bottom='';el.style.overflowY='';
     el.style.zIndex='';el.style.background='';
-    el.style.transition='';el.style.willChange='';el.style.transform='';
+    el.style.transition='';el.style.willChange='';
+    el.style.transform='';el.style.opacity='';
   }
-  _fixEl(fromEl,'0');
+  _fixEl(fromEl,'0',1);
   toEl.style.display='block';
-  _fixEl(toEl,fromRight?'100%':'-100%');
+  _fixEl(toEl,fromRight?'100%':'-100%',0);
   document.documentElement.style.overflowX='hidden';
   requestAnimationFrame(function(){requestAnimationFrame(function(){
-    var dur='0.3s';
-    fromEl.style.transition='transform '+dur+' cubic-bezier(0.25,0.46,0.45,0.94)';
-    toEl.style.transition='transform '+dur+' cubic-bezier(0.25,0.46,0.45,0.94)';
-    fromEl.style.transform='translateX('+(fromRight?'-100%':'100%')+')';
+    var ease='cubic-bezier(0.22,1,0.36,1)';
+    // Outgoing: subtle pull-away + fade — same feel as popup dismiss
+    fromEl.style.transition='transform 0.38s '+ease+',opacity 0.28s ease';
+    fromEl.style.transform='translateX('+(fromRight?'-5%':'5%')+')';
+    fromEl.style.opacity='0';
+    // Incoming: spring slide in + fade — matches popup open animation
+    toEl.style.transition='transform 0.42s '+ease+',opacity 0.32s ease';
     toEl.style.transform='translateX(0)';
+    toEl.style.opacity='1';
     toEl.addEventListener('transitionend',function(){
-      _unfixEl(fromEl); fromEl.style.display='none';
+      _unfixEl(fromEl);fromEl.style.display='none';
       _unfixEl(toEl);
       showPage(toId);
       document.documentElement.style.overflowX='';
