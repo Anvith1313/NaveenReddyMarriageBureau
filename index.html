@@ -3554,6 +3554,7 @@ function showPage(id,skipHistory){
   var _pageNavMap={pgDash:'bn-home',pgBrowse:'bn-browse',pgLiked:'bn-liked',pgIntInMe:'bn-interests',pgMyProfile:'bn-profile'};
   if(_pageNavMap[id]&&typeof setBottomNav==='function') setBottomNav(_pageNavMap[id]);
   if(id==='pgLogin'){const saved=localStorage.getItem('_nrmb_last_email');const lu=document.getElementById('lu');if(saved&&lu&&!lu.value)lu.value=saved;}
+  if(id==='pgDash'&&ST.user) loadProfiles();
   if(id==='pgLiked') renderLikedPage();
   if(id==='pgIntInMe') renderIntInMe();
   if(id==='pgStories') loadApprovedStories();
@@ -4832,6 +4833,7 @@ function renderCard(){
       </div>
       ${(p.photos&&p.photos.length)?`<div class="pc-photo-label">Photos · ${p.photos.length}</div><div class="pc-photo-strip">${p.photos.map((url,i)=>`<img class="pc-photo-strip-thumb" src="${url}" alt="Photo ${i+1}" onclick="openPhotoLightbox(${JSON.stringify(p.photos)},${i})">`).join('')}</div>`:''}
     </div>`;
+  _initCardSwipe();
   // If already saved, seek like animation to last frame
   if(ST.savedProfiles&&ST.savedProfiles.includes(p.u)){
     setTimeout(()=>{
@@ -4868,9 +4870,12 @@ async function sendInt(toU){
 function nextCard(){ST.browseIdx++;renderCard();}
 
 // Swipe-up gesture on the dashboard card area (reel-style navigation)
-(function _initCardSwipe(){
+var _swipeReady=false,_lastWheel=0;
+function _initCardSwipe(){
+  if(_swipeReady)return;
   var area=document.getElementById('pArea');
   if(!area)return;
+  _swipeReady=true;
   var _sy=0,_sx=0,_dragging=false;
   area.addEventListener('touchstart',function(e){
     _sy=e.touches[0].clientY;_sx=e.touches[0].clientX;_dragging=true;
@@ -4879,17 +4884,14 @@ function nextCard(){ST.browseIdx++;renderCard();}
     if(!_dragging)return;_dragging=false;
     var dy=_sy-e.changedTouches[0].clientY;
     var dx=Math.abs(_sx-e.changedTouches[0].clientX);
-    // Only trigger if vertical swipe > 55px and more vertical than horizontal
     if(dy>55&&dx<80) nextCard();
   },{passive:true});
-  // Mouse wheel scroll support for desktop
-  var _lastWheel=0;
   area.addEventListener('wheel',function(e){
     var now=Date.now();
     if(now-_lastWheel<600)return;
     if(e.deltaY>40){_lastWheel=now;nextCard();}
   },{passive:true});
-})();
+}
 
 /* ─── Browse Grid — multi-select filter system ─── */
 var _browseFilters={tier:[],age:[],height:[],income:[],country:[],state:[]};
