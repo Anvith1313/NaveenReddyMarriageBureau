@@ -5136,10 +5136,105 @@ function renderBrowseGrid(){
 }
 function openBrowseCard(uid){
   const p=ST.profiles.find(x=>x.u===uid);if(!p)return;
-  // Show the full dashboard card — same layout as home page
-  ST.browsePool=[p];ST.browseIdx=0;
-  showPage('pgHome');setBottomNav('bn-home');
-  renderCard();
+  const myInt=ST.user?ST.interests.find(function(i){return(i.from===ST.user.u&&i.to===p.u)||(i.from===p.u&&i.to===ST.user.u);}):null;
+  const contactOk=myInt&&myInt.status==='contact_released';
+  const isMutual=myInt&&(myInt.status==='mutual'||myInt.status==='contact_released');
+  const isPending=myInt&&myInt.status==='pending';
+
+  // Interest button
+  var intBtn='';
+  if(!isMutual){
+    if(isPending){
+      intBtn='<button class="btn-interest" disabled style="opacity:0.6;cursor:default;background:linear-gradient(135deg,#888,#666);">✓ Interest Expressed</button>';
+    }else{
+      intBtn='<button class="btn-interest" onclick="sendInt(\''+p.u+'\');document.getElementById(\'bcOv\').remove();">Express Interest</button>';
+    }
+  }
+
+  // Contact details row (only when contact_released)
+  var contactRows='';
+  if(contactOk){
+    contactRows='<div style="grid-column:1/-1"><div class="di-l">📞 Mobile</div><div class="di-v">'+p.mob+'</div></div>'
+      +'<div style="grid-column:1/-1"><div class="di-l">✉ Email</div><div class="di-v">'+p.email+'</div></div>';
+  }
+
+  // Chat / WhatsApp buttons
+  var chatBtns='';
+  if(contactOk){
+    var waNum=(p.mob||'').replace(/[^0-9]/g,'');
+    var waMsg=encodeURIComponent('Namaste, I found your profile on Naveen Reddy Marriage Bureau and would like to connect.');
+    chatBtns='<div style="display:flex;gap:0.6rem;margin-bottom:0.9rem;flex-wrap:wrap;">'
+      +'<button class="btn-interest" style="flex:1;" onclick="openChat(\''+p.u+'\',\''+p.name+'\')">💬 Family Chat</button>'
+      +'<a href="https://wa.me/'+waNum+'?text='+waMsg+'" target="_blank" rel="noopener" style="flex:1;display:flex;align-items:center;justify-content:center;gap:0.4rem;padding:0.86rem;background:linear-gradient(135deg,#25d366,#128c7e);border:none;border-radius:50px;cursor:pointer;font-family:\'Cinzel\',serif;font-size:0.6rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#fff;text-decoration:none;box-shadow:0 4px 16px rgba(37,211,102,0.3);">WhatsApp</a>'
+      +'</div>';
+  }
+
+  // Photo strip
+  var photoStrip='';
+  if(p.photos&&p.photos.length){
+    var thumbs=p.photos.map(function(url,i){return '<img class="pc-photo-strip-thumb" src="'+url+'" alt="Photo '+(i+1)+'" onclick="openPhotoLightbox('+JSON.stringify(p.photos)+','+i+')">';}).join('');
+    photoStrip='<div class="pc-photo-label">Photos · '+p.photos.length+'</div><div class="pc-photo-strip">'+thumbs+'</div>';
+  }
+
+  var privNote=contactOk?'':'<div class="priv-note">Contact details are strictly private and will only be disclosed after mutual interest and bureau administrator approval.</div>';
+
+  var pcardHtml='<div class="pcard">'
+    +'<div class="pcard-head" style="background:'+p.bg+';">'
+    +'<span class="pc-emoji">'+p.em+'</span>'
+    +'<div class="pc-tier-pill">'+(p.tier||'VIP')+'</div>'
+    +'<div class="pc-verify">✓ Verified</div>'
+    +'<button class="pc-bookmark '+(ST.savedProfiles&&ST.savedProfiles.includes(p.u)?'saved':'')+'" data-bm="'+p.u+'" onclick="toggleSave(\''+p.u+'\',event)" title="Save for later">'
+    +'<dotlottie-player id="bcov-lp-'+p.u+'" src="/LikeButton.lottie" speed="1.3"></dotlottie-player>'
+    +'</button></div>'
+    +'<div class="pcard-body">'
+    +'<div class="pc-name">'+p.name+', '+p.age+'</div>'
+    +'<div class="pc-sub">'+(p.prof||p.occ||'—')+' · '+(p.city||'—')+', '+(p.country||'—')+' · '+(p.nat||p.native||'—')+'</div>'
+    +'<div class="pc-div"><span>✦</span></div>'
+    +'<div class="det-grid">'
+    +'<div><div class="di-l">Age</div><div class="di-v">'+p.age+' Years</div></div>'
+    +'<div><div class="di-l">Height</div><div class="di-v">'+(p.ht||'—')+'</div></div>'
+    +'<div><div class="di-l">Education</div><div class="di-v">'+(p.edu||'—')+'</div></div>'
+    +'<div><div class="di-l">Annual Income</div><div class="di-v">'+(p.inc||p.sal?formatIncomeDisplay(p.inc||p.sal):'—')+'</div></div>'
+    +'<div><div class="di-l">Native</div><div class="di-v">'+(p.nat||p.native||'—')+'</div></div>'
+    +'<div><div class="di-l">Diet</div><div class="di-v">'+(p.diet||'—')+'</div></div>'
+    +'<div><div class="di-l">Rashi</div><div class="di-v">'+(p.rashi||'—')+'</div></div>'
+    +'<div><div class="di-l">Nakshatra</div><div class="di-v">'+(p.nak||'—')+'</div></div>'
+    +contactRows
+    +'</div>'
+    +privNote+chatBtns
+    +'<div class="pact-row">'+intBtn+'</div>'
+    +'<div style="display:flex;gap:0.5rem;margin-top:0.6rem;">'
+    +'<button onclick="openProfileDetails(\''+p.u+'\')" style="flex:1;padding:0.55rem 0.6rem;background:rgba(123,31,46,0.06);border:1.5px solid rgba(123,31,46,0.18);border-radius:50px;cursor:pointer;font-family:\'Cinzel\',serif;font-size:0.58rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--crimson);">📋 Full Details</button>'
+    +'<button onclick="openOtherBiodata(\''+p.u+'\')" style="flex:1;padding:0.55rem 0.6rem;background:transparent;border:1.5px solid var(--gold2);border-radius:50px;cursor:pointer;font-family:\'Cinzel\',serif;font-size:0.58rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold2);">📄 Biodata</button>'
+    +'</div>'
+    +'</div>'
+    +photoStrip
+    +'</div>';
+
+  if(!document.getElementById('bcOvKf')){
+    var s=document.createElement('style');s.id='bcOvKf';
+    s.textContent='@keyframes bcIn{from{transform:scale(0.88) translateY(24px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}';
+    document.head.appendChild(s);
+  }
+
+  const overlay=document.createElement('div');
+  overlay.id='bcOv';
+  overlay.style.cssText='position:fixed;inset:0;z-index:900;background:rgba(0,0,0,0.65);display:flex;align-items:center;justify-content:center;padding:1rem;overflow-y:auto;-webkit-overflow-scrolling:touch;';
+  overlay.innerHTML='<div style="position:relative;width:100%;max-width:420px;animation:bcIn 0.3s cubic-bezier(0.34,1.2,0.64,1);margin:auto;">'
+    +'<button onclick="document.getElementById(\'bcOv\').remove()" style="position:absolute;top:-0.6rem;right:-0.6rem;width:2rem;height:2rem;border-radius:50%;border:none;background:var(--crimson);color:#fff8dc;font-size:1.1rem;line-height:1;cursor:pointer;z-index:10;box-shadow:0 2px 8px rgba(0,0,0,0.3);">×</button>'
+    +pcardHtml
+    +'</div>';
+
+  overlay.addEventListener('click',function(e){if(e.target===overlay)overlay.remove();});
+  document.body.appendChild(overlay);
+
+  if(ST.savedProfiles&&ST.savedProfiles.includes(p.u)){
+    setTimeout(function(){
+      var pl=document.getElementById('bcov-lp-'+p.u);if(!pl)return;
+      var doSeek=function(){try{pl.seek('100%');}catch(ex){}};
+      if(pl.getLottie&&pl.getLottie())doSeek();else pl.addEventListener('ready',doSeek,{once:true});
+    },80);
+  }
 }
 function _browseToggleHeart(uid,btn){
   toggleSave(uid,{stopPropagation:()=>{}});
