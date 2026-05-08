@@ -1046,6 +1046,7 @@ html:has(#pgHome.active){scroll-behavior:smooth;}
   animation:gentleFloat 4s ease-in-out infinite alternate;
 }
 @keyframes gentleFloat{from{transform:translateY(0);}to{transform:translateY(-8px);}}
+@keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
 .idle-t{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:300;font-style:italic;color:var(--crimson);}
 .idle-s{font-family:'EB Garamond',serif;font-size:0.9rem;color:var(--muted);}
 
@@ -3554,7 +3555,7 @@ function showPage(id,skipHistory){
   var _pageNavMap={pgDash:'bn-home',pgBrowse:'bn-browse',pgLiked:'bn-liked',pgIntInMe:'bn-interests',pgMyProfile:'bn-profile'};
   if(_pageNavMap[id]&&typeof setBottomNav==='function') setBottomNav(_pageNavMap[id]);
   if(id==='pgLogin'){const saved=localStorage.getItem('_nrmb_last_email');const lu=document.getElementById('lu');if(saved&&lu&&!lu.value)lu.value=saved;}
-  if(id==='pgDash'&&ST.user) loadProfiles();
+  if(id==='pgDash'&&ST.user&&ST.profiles.length) loadProfiles();
   if(id==='pgLiked') renderLikedPage();
   if(id==='pgIntInMe') renderIntInMe();
   if(id==='pgStories') loadApprovedStories();
@@ -3822,7 +3823,13 @@ function _applyLogin(prof){
   updateLikedBadge();
   document.getElementById('dashHero').style.backgroundImage=`url('data:image/jpeg;base64,${IMGS.bg1}')`;
   renderMyProfile();
+  // Clear seed data so the dashboard shows only real Firebase profiles
+  ST.profiles=[];ST.browsePool=[];ST.browseIdx=0;
+  ST.interests=[];
   showPage('pgDash');
+  // Show loading state in pArea while Firebase loads
+  var _pAreaEl=document.getElementById('pArea');
+  if(_pAreaEl)_pAreaEl.innerHTML='<div style="position:relative;z-index:2;text-align:center;padding:4rem 2rem;display:flex;flex-direction:column;align-items:center;gap:1rem;"><div style="width:40px;height:40px;border:3px solid rgba(123,31,46,0.15);border-top-color:var(--crimson);border-radius:50%;animation:spin 0.8s linear infinite;"></div><div style="font-family:\'EB Garamond\',serif;font-size:0.92rem;color:var(--muted);">Loading profiles…</div></div>';
   // Seed 5 floor entries — enough to survive rapid back-button presses on Android
   history.replaceState({page:'pgDash'},'','#pgDash');
   for(var _f=0;_f<5;_f++) history.pushState({page:'pgDash'},'','#pgDash');
@@ -4572,7 +4579,6 @@ function _startRealTimeListeners(){
   // 2. Watch all profiles — so browsing reflects changes in real-time
   const unsub2=onSnapshot(collection(db,'users'),(snap)=>{
     ST.profiles=snap.docs.map(d=>({...d.data(),uid:d.id})).filter(p=>p.status!=='deleted'&&p.status!=='merged');
-    // Always reload home pool when profile data changes
     if(ST.user) loadProfiles();
   });
   _rtUnsubscribers.push(unsub2);
@@ -4766,6 +4772,7 @@ function loadProfiles(){
 }
 function renderCard(){
   const area=document.getElementById('pArea');
+  if(!area)return;
   area.style.backgroundImage=`url('data:image/jpeg;base64,${IMGS.bg2}')`;
   if(ST.browseIdx>=ST.browsePool.length){
     if(!ST.browsePool.length){
