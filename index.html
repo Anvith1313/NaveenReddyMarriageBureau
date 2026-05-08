@@ -1082,9 +1082,14 @@ html:has(#pgHome.active){scroll-behavior:smooth;}
 .fan-slot.fan-center{transform:translateX(-50%) translateZ(60px);z-index:10;opacity:1;cursor:default;box-shadow:0 22px 64px rgba(0,0,0,0.28),0 6px 20px rgba(0,0,0,0.15);}
 .fan-slot.fan-left{transform:translateX(calc(-50% - 78px)) translateZ(-50px) rotateY(18deg) scale(0.87);z-index:5;opacity:0.8;cursor:pointer;box-shadow:0 10px 32px rgba(0,0,0,0.18);}
 .fan-slot.fan-right{transform:translateX(calc(-50% + 78px)) translateZ(-50px) rotateY(-18deg) scale(0.87);z-index:5;opacity:0.8;cursor:pointer;box-shadow:0 10px 32px rgba(0,0,0,0.18);}
-.fan-peek-overlay{position:absolute;inset:0;border-radius:20px;cursor:pointer;z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:14px;background:rgba(255,252,248,0.04);}
-.fan-slot.fan-center .fan-peek-overlay{display:none;}
-.fan-peek-label{font-family:'Cinzel',serif;font-size:0.52rem;letter-spacing:0.13em;text-transform:uppercase;color:var(--crimson);background:rgba(255,252,248,0.95);padding:0.26rem 0.7rem;border-radius:20px;border:1px solid rgba(184,137,42,0.3);white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,0.1);}
+.fan-slot:not(.fan-center){cursor:pointer;}
+.fan-side-tab{position:absolute;top:0;bottom:0;width:52px;z-index:22;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:0;}
+.fan-slot.fan-left .fan-side-tab{left:0;background:linear-gradient(180deg,#1a3a2a,#2d5a3d);border-radius:20px 0 0 20px;box-shadow:inset -3px 0 12px rgba(0,0,0,0.12);}
+.fan-slot.fan-right .fan-side-tab{right:0;background:linear-gradient(180deg,#3a0a1e,#7b1f2e);border-radius:0 20px 20px 0;box-shadow:inset 3px 0 12px rgba(0,0,0,0.12);}
+.fan-slot.fan-center .fan-side-tab{display:none;}
+.fan-tab-icon{font-size:1.1rem;line-height:1;}
+.fan-tab-text{writing-mode:vertical-rl;font-family:'Cinzel',serif;font-size:0.38rem;letter-spacing:0.18em;color:rgba(255,252,248,0.88);text-transform:uppercase;white-space:nowrap;}
+.fan-slot.fan-left .fan-tab-text{transform:rotate(180deg);}
 .fan-section-title{font-family:'Cinzel',serif;font-size:0.52rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin:1rem 0 0.45rem;padding-bottom:0.28rem;border-bottom:1px solid rgba(184,137,42,0.15);}
 .fan-hint{text-align:center;margin-top:0.9rem;font-family:'Cinzel',serif;font-size:0.46rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(107,83,64,0.35);}
 
@@ -4836,7 +4841,17 @@ function _fanRotate(dir){
     el.style.zIndex=map[id]==='fan-center'?'10':'5';
     if(map[id]==='fan-center')el.scrollTop=0;
   });
-  setTimeout(function(){ids.forEach(function(id){var el=document.getElementById(id);if(el)el.style.pointerEvents='';});},560);
+  setTimeout(function(){
+    ids.forEach(function(id){
+      var el=document.getElementById(id);if(!el)return;
+      el.style.pointerEvents='';
+      // Sync onclick: only left/right slots trigger rotation
+      var pos=map[id];
+      if(pos==='fan-left')el.onclick=function(){_fanRotate('left');};
+      else if(pos==='fan-right')el.onclick=function(){_fanRotate('right');};
+      else el.onclick=null;
+    });
+  },560);
 }
 function renderCard(){
   const area=document.getElementById('pArea');
@@ -4868,9 +4883,10 @@ function renderCard(){
   }
   area.innerHTML=`
     <div class="fan-wrap" id="fanWrap">
-      <div class="fan-slot fan-left" id="fanDetails">
-        <div class="fan-peek-overlay" onclick="_fanRotate('left')">
-          <div class="fan-peek-label">📋 Full Details</div>
+      <div class="fan-slot fan-left" id="fanDetails" onclick="_fanRotate('left')">
+        <div class="fan-side-tab">
+          <span class="fan-tab-icon">📋</span>
+          <span class="fan-tab-text">Full Details</span>
         </div>
         <div class="pcard" style="height:100%;min-height:100%;border-radius:20px;">
           <div class="pcard-head" style="background:linear-gradient(135deg,#1a3a2a,#2d5a3d);">
@@ -4907,9 +4923,10 @@ function renderCard(){
           </div>
         </div>
       </div>
-      <div class="fan-slot fan-right" id="fanBiodata">
-        <div class="fan-peek-overlay" onclick="_fanRotate('right')">
-          <div class="fan-peek-label">📄 Biodata</div>
+      <div class="fan-slot fan-right" id="fanBiodata" onclick="_fanRotate('right')">
+        <div class="fan-side-tab">
+          <span class="fan-tab-icon">📄</span>
+          <span class="fan-tab-text">Biodata</span>
         </div>
         <div class="pcard" style="height:100%;min-height:100%;border-radius:20px;">
           <div class="pcard-head" style="background:linear-gradient(135deg,#3a0a1e,#7b1f2e);">
