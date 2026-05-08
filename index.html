@@ -4810,7 +4810,7 @@ function renderCard(){
   area.style.backgroundImage=`url('data:image/jpeg;base64,${IMGS.bg2}')`;
   if(ST.browseIdx>=ST.browsePool.length){
     if(!ST.browsePool.length){
-      area.innerHTML='<div style="position:relative;z-index:2;text-align:center;padding:4rem 2rem;display:flex;flex-direction:column;align-items:center;gap:1.2rem;"><div style="font-size:5rem;line-height:1;">🌸</div><div style="font-family:\'Cormorant Garamond\',serif;font-size:1.7rem;font-weight:300;font-style:italic;color:var(--crimson);">No Members Yet</div><div style="font-family:\'EB Garamond\',serif;font-size:0.92rem;color:var(--muted);max-width:320px;line-height:1.9;">Profiles: '+ST.profiles.length+' · User: '+(ST.user&&ST.user.u||'?')+' · Gender: '+(ST.user&&(ST.user.g||ST.user.gender)||'none')+'</div></div>';
+      area.innerHTML='<div style="position:relative;z-index:2;text-align:center;padding:4rem 2rem;display:flex;flex-direction:column;align-items:center;gap:1.2rem;"><div style="font-size:5rem;line-height:1;">🌸</div><div style="font-family:\'Cormorant Garamond\',serif;font-size:1.7rem;font-weight:300;font-style:italic;color:var(--crimson);">No Members Yet</div><div style="font-family:\'EB Garamond\',serif;font-size:0.92rem;color:var(--muted);max-width:320px;line-height:1.9;">New verified members join us daily. Check back soon.</div></div>';
       return;
     }
     // Wrap around — start from beginning so pool never feels empty
@@ -4819,13 +4819,11 @@ function renderCard(){
   const p=ST.browsePool[ST.browseIdx];
   const myInt=ST.interests.find(i=>(i.from===ST.user.u&&i.to===p.u)||(i.from===p.u&&i.to===ST.user.u));
   const contactOk=myInt&&myInt.status==='contact_released';
-  const _isMutualCard=!!_mutInt;
   const _intBtnHtml=(myInt&&(myInt.status==='mutual'||myInt.status==='contact_released'))
     ?''
     :(myInt&&myInt.status==='pending')
     ?'<button class="btn-interest" style="flex:1;opacity:0.6;cursor:default;background:linear-gradient(135deg,#888,#666);" disabled aria-label="Interest Expressed">✓ Interest Expressed</button>'
     :'<button class="btn-interest" onclick="sendInt(\''+p.u+'\')" aria-label="Express Interest">Express Interest</button>';
-  const _passBtnHtml=_isMutualCard?'':'<button class="btn-pass" onclick="nextCard()" aria-label="Pass">Pass</button>';
   // Increment profile view counter (don't count own profile)
   if(p.uid&&ST.user.uid&&p.uid!==ST.user.uid&&window.FIREBASE_READY){
     const now=Date.now();
