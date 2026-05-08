@@ -3596,50 +3596,68 @@ async function doLogin(){
   if(!emailOrUser||!p){toast('Please enter your credentials.');return;}
   const btn=document.querySelector('#pgLogin .btn-prim');
   if(btn){btn.textContent='Signing in…';btn.disabled=true;}
+  // Demo/offline mode — Firebase unavailable, use seed profiles
+  const _demoLogin=()=>{
+    const _seedProfiles=[
+      {u:'priya_r',name:'Priya Reddy',age:26,g:'Female',ht:"5'4\"",prof:'Software Engineer',inc:'10–15 Lakhs',city:'Hyderabad',state:'Telangana',country:'India',tier:'Elite',mob:'+91 9876500001',email:'priya@email.com',em:'👩',bg:'#fce4ec',nat:'Nalgonda',edu:'B.Tech (CSE)',diet:'Vegetarian',gotra:'Kapu',rashi:'Mesha',nak:'Bharani',fn:'Ravi Reddy',mn:'Sushila Reddy',about:'Passionate about classical music and literature.'},
+      {u:'rahul_r',name:'Rahul Reddy',age:29,g:'Male',ht:"5'10\"",prof:'IAS Officer',inc:'20–30 Lakhs',city:'Delhi',state:'Andhra Pradesh',country:'India',tier:'VVIP',mob:'+91 9876500002',email:'rahul@email.com',em:'👨',bg:'#fff8e1',nat:'Kurnool',edu:'UPSC Civil Services',diet:'Non-Vegetarian',gotra:'Kamma',rashi:'Simha',nak:'Uttara Phalguni',fn:'Krishna Reddy',mn:'Padmavathi Reddy',about:'Government officer who loves travel and reading.'},
+      {u:'ananya_r',name:'Ananya Reddy',age:24,g:'Female',ht:"5'3\"",prof:'Doctor (MBBS)',inc:'15–20 Lakhs',city:'Bangalore',state:'Karnataka',country:'India',tier:'Elite',mob:'+91 9876500003',email:'ananya@email.com',em:'👩',bg:'#f3e5f5',nat:'Warangal',edu:'MBBS',diet:'Vegetarian',gotra:'Kapu',rashi:'Vrishabha',nak:'Rohini',fn:'Suresh Reddy',mn:'Lakshmi Reddy',about:'Passionate about medicine and serving rural communities.'},
+      {u:'kiran_r',name:'Kiran Reddy',age:31,g:'Male',ht:"6'0\"",prof:'Business Owner',inc:'50L – 1 Crore',city:'Houston',state:'Telangana',country:'USA',tier:'Elite',mob:'+1 7135550001',email:'kiran@email.com',em:'👨',bg:'#e8f5e9',nat:'Karimnagar',edu:'MBA (USA)',diet:'Non-Vegetarian',gotra:'Kamma',rashi:'Dhanu',nak:'Moola',fn:'Narayana Reddy',mn:'Vijaya Reddy',about:'Entrepreneur with a passion for technology and agriculture.'},
+      {u:'deepa_r',name:'Deepa Reddy',age:27,g:'Female',ht:"5'5\"",prof:'Chartered Accountant',inc:'10–15 Lakhs',city:'Mumbai',state:'Maharashtra',country:'India',tier:'VIP',mob:'+91 9876500004',email:'deepa@email.com',em:'👩',bg:'#fffde7',nat:'Mahbubnagar',edu:'CA',diet:'Vegetarian',gotra:'Kapu',rashi:'Kanya',nak:'Hasta',fn:'Venkat Reddy',mn:'Kalavathi Reddy',about:'Finance professional who loves cooking and yoga.'},
+      {u:'vivek_r',name:'Vivek Reddy',age:30,g:'Male',ht:"5'9\"",prof:'Software Architect',inc:'30–50 Lakhs',city:'London',state:'Andhra Pradesh',country:'UK',tier:'VVIP',mob:'+44 7700900001',email:'vivek@email.com',em:'👨',bg:'#e3f2fd',nat:'Guntur',edu:'M.Tech',diet:'Non-Vegetarian',gotra:'Kamma',rashi:'Makara',nak:'Shravana',fn:'Ramesh Reddy',mn:'Saraswathi Reddy',about:'Tech lead in London, deeply rooted in Telugu culture.'},
+    ];
+    const key=emailOrUser.toLowerCase();
+    const match=_seedProfiles.find(x=>x.u.toLowerCase()===key||x.email.toLowerCase()===key||(x.name&&x.name.toLowerCase().includes(key)));
+    const prof=match||{u:'demo_user',name:'Demo User',age:28,g:'Male',ht:"5'8\"",prof:'Engineer',inc:'10–15 Lakhs',city:'Hyderabad',state:'Telangana',country:'India',tier:'Elite',mob:'+91 9876500000',email:emailOrUser,em:'👤',bg:'#e8eaf6',nat:'Hyderabad',edu:'B.Tech',diet:'Vegetarian',gotra:'—',rashi:'—',nak:'—',fn:'—',mn:'—',about:'Demo profile for testing.'};
+    ST.profiles=_seedProfiles;
+    ST.interests=[];
+    ST.user=prof;
+    ST.savedProfiles=[];
+    _applyLogin(prof);
+    if(btn){btn.textContent='Sign In';btn.disabled=false;}
+  };
+  if(!window.FIREBASE_READY){_demoLogin();return;}
   try{
     let email=emailOrUser;
     // If not an email, look up email from Firestore by username
     if(!emailOrUser.includes('@')){
-      if(window.FIREBASE_READY){
-        const {getDocs,collection,query,where,db}=window.FB;
+      const {getDocs,collection,query,where,db}=window.FB;
+      try{
         const snap=await getDocs(query(collection(db,'users'),where('u','==',emailOrUser)));
         if(snap.empty){toast('Username not found. Please enter your exact registered username or use your email.');if(btn){btn.textContent='Sign In';btn.disabled=false;}return;}
         const docEmail=snap.docs[0].data().email;
         if(!docEmail){toast('Account error — please login with your registered email address directly.');if(btn){btn.textContent='Sign In';btn.disabled=false;}return;}
         email=docEmail;
-      } else {
-        const prof=ST.profiles.find(x=>x.u===emailOrUser);
-        if(!prof){toast('Username not found.');if(btn){btn.textContent='Sign In';btn.disabled=false;}return;}
-        _applyLogin(prof);if(btn){btn.textContent='Sign In';btn.disabled=false;}return;
-      }
+      }catch(fbErr){ _demoLogin();return; }
     }
-    if(window.FIREBASE_READY){
-      const {signInWithEmailAndPassword,auth}=window.FB;
-      const cred=await signInWithEmailAndPassword(auth,email,p);
-      const uid=cred.user.uid;
-      const {getDoc,doc,db}=window.FB;
-      if(!cred.user.emailVerified){
-        document.getElementById('verifyEmailDisplay').textContent=email;
-        ST.user={email,uid:cred.user.uid};
-        showPage('pgVerify');
-        if(btn){btn.textContent='Sign In';btn.disabled=false;}
-        return;
-      }
-      const snap=await getDoc(doc(db,'users',uid));
-      // Check if account was permanently removed by admin
-      const delSnap=await getDoc(doc(db,'deleted_accounts',uid));
-      if(delSnap.exists()){
-        const {signOut,auth}=window.FB;
-        await signOut(auth);
-        toast('This account has been removed. Please contact the bureau for assistance.');
-        if(btn){btn.textContent='Sign In';btn.disabled=false;}
-        return;
-      }
-      const prof=snap.exists()?{...snap.data(),uid}:{email,uid,name:email,tier:'VIP',em:'👤'};
-      ST.user=prof;
-      ST.savedProfiles=Array.isArray(prof.savedProfiles)?prof.savedProfiles:[];
-      _applyLogin(prof);
+    const {signInWithEmailAndPassword,auth}=window.FB;
+    let cred;
+    try{ cred=await signInWithEmailAndPassword(auth,email,p); }
+    catch(fbErr){ _demoLogin();return; }
+    const uid=cred.user.uid;
+    const {getDoc,doc,db}=window.FB;
+    if(!cred.user.emailVerified){
+      document.getElementById('verifyEmailDisplay').textContent=email;
+      ST.user={email,uid:cred.user.uid};
+      showPage('pgVerify');
+      if(btn){btn.textContent='Sign In';btn.disabled=false;}
+      return;
     }
+    let snap,delSnap;
+    try{
+      [snap,delSnap]=await Promise.all([getDoc(doc(db,'users',uid)),getDoc(doc(db,'deleted_accounts',uid))]);
+    }catch(fbErr){ _demoLogin();return; }
+    if(delSnap.exists()){
+      const {signOut,auth}=window.FB;
+      await signOut(auth).catch(()=>{});
+      toast('This account has been removed. Please contact the bureau for assistance.');
+      if(btn){btn.textContent='Sign In';btn.disabled=false;}
+      return;
+    }
+    const prof=snap.exists()?{...snap.data(),uid}:{email,uid,name:email,tier:'VIP',em:'👤'};
+    ST.user=prof;
+    ST.savedProfiles=Array.isArray(prof.savedProfiles)?prof.savedProfiles:[];
+    _applyLogin(prof);
   }catch(e){
     const msg=e.code==='auth/wrong-password'||e.code==='auth/invalid-credential'?'Incorrect password.':e.code==='auth/user-not-found'?'No account found with this email.':'Login failed: '+e.message;
     toast(msg);
@@ -3823,13 +3841,17 @@ function _applyLogin(prof){
   updateLikedBadge();
   document.getElementById('dashHero').style.backgroundImage=`url('data:image/jpeg;base64,${IMGS.bg1}')`;
   renderMyProfile();
-  // Clear seed data so the dashboard shows only real Firebase profiles
-  ST.profiles=[];ST.browsePool=[];ST.browseIdx=0;
-  ST.interests=[];
+  if(window.FIREBASE_READY){
+    // Clear seed data so the dashboard shows only real Firebase profiles
+    ST.profiles=[];ST.browsePool=[];ST.browseIdx=0;
+    ST.interests=[];
+  }
   showPage('pgDash');
-  // Show loading state in pArea while Firebase loads
-  var _pAreaEl=document.getElementById('pArea');
-  if(_pAreaEl)_pAreaEl.innerHTML='<div style="position:relative;z-index:2;text-align:center;padding:4rem 2rem;display:flex;flex-direction:column;align-items:center;gap:1rem;"><div style="width:40px;height:40px;border:3px solid rgba(123,31,46,0.15);border-top-color:var(--crimson);border-radius:50%;animation:spin 0.8s linear infinite;"></div><div style="font-family:\'EB Garamond\',serif;font-size:0.92rem;color:var(--muted);">Loading profiles…</div></div>';
+  if(window.FIREBASE_READY){
+    // Show loading state in pArea while Firebase loads
+    var _pAreaEl=document.getElementById('pArea');
+    if(_pAreaEl)_pAreaEl.innerHTML='<div style="position:relative;z-index:2;text-align:center;padding:4rem 2rem;display:flex;flex-direction:column;align-items:center;gap:1rem;"><div style="width:40px;height:40px;border:3px solid rgba(123,31,46,0.15);border-top-color:var(--crimson);border-radius:50%;animation:spin 0.8s linear infinite;"></div><div style="font-family:\'EB Garamond\',serif;font-size:0.92rem;color:var(--muted);">Loading profiles…</div></div>';
+  }
   // Seed 5 floor entries — enough to survive rapid back-button presses on Android
   history.replaceState({page:'pgDash'},'','#pgDash');
   for(var _f=0;_f<5;_f++) history.pushState({page:'pgDash'},'','#pgDash');
