@@ -3536,6 +3536,8 @@ function showPage(id,skipHistory){
   if(typeof window._cselClose==='function'){window._cselClose();window._cselClose=null;}
   document.querySelectorAll('.csel-panel,.csel-backdrop').forEach(e=>e.remove());
   document.querySelectorAll('.csel-trigger.open').forEach(t=>t.classList.remove('open'));
+  // Close browse card overlay so it never blocks navigation
+  const _bcOv=document.getElementById('bcOv');if(_bcOv)_bcOv.remove();
   const curActive=document.querySelector('.page.active');
   const curId=curActive?curActive.id:null;
   if(curId&&curId!==id&&!skipHistory) _navHistory.push(curId);
@@ -3611,10 +3613,13 @@ function _demoLogin(loginAs){
   const prof=match||_SEED_PROFILES[0];
   window._DEMO_MODE=true;
   ST.profiles=_SEED_PROFILES.slice();
+  ST.browsePool=[];ST.browseIdx=0;
   ST.interests=[];
   ST.user=prof;
   ST.savedProfiles=[];
   _applyLogin(prof);
+  // Guarantee cards render — showPage may fire before _DEMO_MODE is checked
+  setTimeout(()=>{if(ST.user&&ST.profiles.length&&!ST.browsePool.length)loadProfiles();},200);
 }
 async function doLogin(){
   const emailOrUser=document.getElementById('lu').value.trim();
@@ -3860,12 +3865,12 @@ function _applyLogin(prof){
   // Seed 5 floor entries — enough to survive rapid back-button presses on Android
   history.replaceState({page:'pgDash'},'','#pgDash');
   for(var _f=0;_f<5;_f++) history.pushState({page:'pgDash'},'','#pgDash');
-  // Load notifications and incoming interests badge
-  loadNotifications();
-  // Load interests from Firestore if available
-  if(_firebaseActive) loadInterestsFromFirestore();
-  if(_firebaseActive)_loadProfilesFromFirestore();
-  if(_firebaseActive)_startRealTimeListeners();
+  if(_firebaseActive){
+    loadNotifications();
+    loadInterestsFromFirestore();
+    _loadProfilesFromFirestore();
+    _startRealTimeListeners();
+  }
   renderReferralCard();
 }
 async function doForgotPassword(){
@@ -6745,7 +6750,7 @@ async function renderReferralCard(){
   const refLink=`${location.origin}${location.pathname}?ref=${encodeURIComponent(refCode)}`;
   // Count referrals from Firestore
   let refCount=0;
-  if(window.FIREBASE_READY){
+  if(window.FIREBASE_READY&&!window._DEMO_MODE){
     try{
       const q=window.FB.query(window.FB.collection(window.FB.db,'users'),window.FB.where('referredBy','==',refCode));
       const snap=await window.FB.getDocs(q);refCount=snap.size;
