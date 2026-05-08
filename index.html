@@ -4806,11 +4806,11 @@ function loadProfiles(){
 function renderCard(){
   const area=document.getElementById('pArea');
   if(!area)return;
+  try{
   area.style.backgroundImage=`url('data:image/jpeg;base64,${IMGS.bg2}')`;
   if(ST.browseIdx>=ST.browsePool.length){
     if(!ST.browsePool.length){
-      // Genuinely no profiles in the system
-      area.innerHTML='<div style="position:relative;z-index:2;text-align:center;padding:4rem 2rem;display:flex;flex-direction:column;align-items:center;gap:1.2rem;"><div style="font-size:5rem;line-height:1;">🌸</div><div style="font-family:\'Cormorant Garamond\',serif;font-size:1.7rem;font-weight:300;font-style:italic;color:var(--crimson);">No Members Yet</div><div style="font-family:\'EB Garamond\',serif;font-size:0.92rem;color:var(--muted);max-width:320px;line-height:1.9;">New verified members join us daily. Check back soon.</div></div>';
+      area.innerHTML='<div style="position:relative;z-index:2;text-align:center;padding:4rem 2rem;display:flex;flex-direction:column;align-items:center;gap:1.2rem;"><div style="font-size:5rem;line-height:1;">🌸</div><div style="font-family:\'Cormorant Garamond\',serif;font-size:1.7rem;font-weight:300;font-style:italic;color:var(--crimson);">No Members Yet</div><div style="font-family:\'EB Garamond\',serif;font-size:0.92rem;color:var(--muted);max-width:320px;line-height:1.9;">Profiles: '+ST.profiles.length+' · User: '+(ST.user&&ST.user.u||'?')+' · Gender: '+(ST.user&&(ST.user.g||ST.user.gender)||'none')+'</div></div>';
       return;
     }
     // Wrap around — start from beginning so pool never feels empty
@@ -4883,6 +4883,9 @@ function renderCard(){
       if(pl.getLottie&&pl.getLottie()) doSeek();
       else pl.addEventListener('ready',doSeek,{once:true});
     },80);
+  }
+  }catch(err){
+    area.innerHTML='<div style="position:relative;z-index:2;padding:2rem;background:rgba(255,255,255,0.9);border-radius:12px;max-width:400px;margin:auto;font-family:monospace;font-size:0.75rem;color:#c0392b;word-break:break-all;">renderCard error: '+String(err)+'<br><br>pool:'+ST.browsePool.length+' idx:'+ST.browseIdx+' user:'+(ST.user&&ST.user.u)+'</div>';
   }
 }
 async function sendInt(toU){
