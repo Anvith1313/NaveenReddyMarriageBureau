@@ -1104,11 +1104,11 @@ html:has(#pgHome.active){scroll-behavior:smooth;}
   .fan-slot.fan-center{transform:translateX(-50%)!important;z-index:10;touch-action:manipulation;}
   /* Side cards hidden completely off-screen by default */
   .fan-slot.fan-left,.fan-slot.fan-right{transform:translateX(-150vw)!important;opacity:0!important;pointer-events:none!important;}
-  /* Double-tap reveal: 3D fan effect — cards shrink and fan out in perspective just like desktop */
-  .fan-wrap.fan-revealed .fan-slot{width:min(188px,50vw)!important;border-radius:16px!important;}
-  .fan-wrap.fan-revealed .fan-slot.fan-center{transform:translateX(-50%) translateZ(45px)!important;z-index:10!important;touch-action:manipulation;}
-  .fan-wrap.fan-revealed .fan-slot.fan-left{transform:translateX(calc(-50% - 120px)) translateZ(-25px) scale(0.88)!important;opacity:0.92!important;pointer-events:auto!important;z-index:5!important;}
-  .fan-wrap.fan-revealed .fan-slot.fan-right{transform:translateX(calc(-50% + 120px)) translateZ(-25px) scale(0.88)!important;opacity:0.92!important;pointer-events:auto!important;z-index:5!important;}
+  /* Double-tap reveal: show direct action buttons — no card preview on mobile */
+  .fan-mobile-actions{display:flex;position:absolute;bottom:1.6rem;left:50%;transform:translateX(-50%) translateY(8px);z-index:20;gap:0.75rem;pointer-events:none;opacity:0;transition:opacity 0.22s ease,transform 0.22s ease;width:max-content;}
+  .fan-wrap.fan-revealed .fan-mobile-actions{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0);}
+  .fan-mob-btn{font-family:'Cinzel',serif;font-size:0.62rem;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;border:none;border-radius:50px;padding:0.65rem 1.2rem;cursor:pointer;transition:transform 0.15s ease,box-shadow 0.15s ease;-webkit-tap-highlight-color:transparent;}
+  .fan-mob-btn:active{transform:scale(0.95)!important;}
   /* Hide hint text on mobile — double-tap is discoverable */
   .fan-hint{display:none;}
 }
@@ -1932,7 +1932,8 @@ body{font-size:18px;}
 .income-display{font-family:'Cormorant Garamond',serif;font-size:0.9rem;font-style:italic;color:var(--gold);margin-top:0.25rem;min-height:1.2em;}
 
 /* ── BIODATA STYLES ── */
-.biodata-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.60);z-index:9999;display:flex;align-items:flex-start;justify-content:center;padding:1.5rem 1rem;overflow-y:auto;}
+.biodata-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.60);z-index:9999;display:flex;align-items:flex-start;justify-content:center;padding:1.5rem 1rem;overflow:auto;}
+.fan-mobile-actions{display:none;}
 .biodata-sheet{
   background:#fff;
   width:210mm;
@@ -5056,6 +5057,11 @@ function renderCard(){
         </div>
       </div>
     </div>
+      <div class="fan-mobile-actions" id="fanMobileActions">
+        <button class="fan-mob-btn" onclick="openProfileDetails('${p.u}')" style="background:linear-gradient(135deg,var(--crimson),#9B2F40);color:#FFF8DC;box-shadow:0 6px 20px rgba(123,31,46,0.45),inset 0 1px 0 rgba(255,255,255,0.12);">✦ Full Details</button>
+        <button class="fan-mob-btn" onclick="openOtherBiodata('${p.u}')" style="background:linear-gradient(135deg,#B8892A,#D4AF37);color:#2a1800;box-shadow:0 6px 20px rgba(184,137,42,0.4),inset 0 1px 0 rgba(255,255,255,0.2);">✦ Biodata</button>
+      </div>
+    </div>
     <div class="fan-hint">✦ double-tap · swipe ← → cards · swipe ↑ next ✦</div>`;
   _initCardSwipe();
   // Double-tap to reveal/hide side cards
@@ -6120,6 +6126,7 @@ function openOtherBiodata(uid){
     ${generateBiodata(p)}
   </div>`;
   document.body.appendChild(el);
+  _enableBiodataPinchZoom(el);
 }
 function openBiodataView(){
   if(!ST.user){toast('Please log in.');return;}
@@ -6134,6 +6141,31 @@ function openBiodataView(){
     ${generateBiodata(ST.user)}
   </div>`;
   document.body.appendChild(el);
+  _enableBiodataPinchZoom(el);
+}
+function _enableBiodataPinchZoom(overlay){
+  var inner=overlay.querySelector('div');
+  if(!inner)return;
+  var scale=1,lastScale=1,startDist=0;
+  inner.style.transition='transform 0.1s ease';
+  overlay.addEventListener('touchstart',function(e){
+    if(e.touches.length===2){
+      startDist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
+      lastScale=scale;
+    }
+  },{passive:true});
+  overlay.addEventListener('touchmove',function(e){
+    if(e.touches.length===2){
+      e.preventDefault();
+      var d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
+      scale=Math.min(Math.max(lastScale*(d/startDist),0.6),4);
+      inner.style.transform='scale('+scale+')';
+      inner.style.transformOrigin='top center';
+    }
+  },{passive:false});
+  overlay.addEventListener('touchend',function(e){
+    if(e.touches.length<2&&scale<0.85){scale=1;inner.style.transform='scale(1)';}
+  },{passive:true});
 }
 
 const _BIODATA_LOGO='/Biodata-logo.jpg';
