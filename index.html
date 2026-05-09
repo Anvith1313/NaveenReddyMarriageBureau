@@ -1091,6 +1091,14 @@ html:has(#pgHome.active){scroll-behavior:smooth;}
   .fan-slot.fan-right{transform:translateX(calc(-50% + 240px)) translateZ(-40px) scale(0.9);}
   .fan-slot.fan-hidden{transform:translateX(-50%) translateZ(-100px) scale(0.8)!important;}
 }
+@keyframes fanSelectPulse{0%{box-shadow:0 0 0 0 rgba(212,175,55,0.75),4px 8px 32px rgba(0,0,0,0.2);}70%{box-shadow:0 0 0 18px rgba(212,175,55,0),4px 8px 32px rgba(0,0,0,0.2);}100%{box-shadow:0 0 0 0 rgba(212,175,55,0),4px 8px 32px rgba(0,0,0,0.2);}}
+@keyframes fanArrivedGlow{0%{box-shadow:0 0 0 3px rgba(212,175,55,0.8),0 22px 64px rgba(0,0,0,0.28);}60%{box-shadow:0 0 0 8px rgba(212,175,55,0.15),0 22px 64px rgba(0,0,0,0.28);}100%{box-shadow:0 0 0 0 rgba(212,175,55,0),0 22px 64px rgba(0,0,0,0.28);}}
+@keyframes tapHintIn{from{opacity:0;transform:translateX(-50%) translateY(6px);}to{opacity:1;transform:translateX(-50%) translateY(0);}}
+@keyframes tapHintOut{from{opacity:1;}to{opacity:0;transform:translateX(-50%) translateY(-4px);}}
+.fan-selecting{animation:fanSelectPulse 0.5s ease-out!important;}
+.fan-arrived{animation:fanArrivedGlow 0.9s ease-out!important;}
+.fan-tap-hint{position:fixed;bottom:4.5rem;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#5a1020,#7B1F2E);color:rgba(255,248,220,0.97);font-family:'Cinzel',serif;font-size:0.48rem;letter-spacing:0.16em;text-transform:uppercase;padding:0.38rem 1.1rem;border-radius:50px;white-space:nowrap;pointer-events:none;z-index:200;box-shadow:0 4px 20px rgba(123,31,46,0.35);border:1px solid rgba(212,175,55,0.3);animation:tapHintIn 0.3s ease forwards;}
+.fan-tap-hint.fan-tap-out{animation:tapHintOut 0.35s ease forwards;}
 .fan-card-hd{position:relative;padding:1.8rem 1.2rem 1.4rem;text-align:center;overflow:hidden;flex-shrink:0;}
 .fan-card-hd::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23D4AF37' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"),radial-gradient(ellipse at 80% 20%,rgba(212,175,55,0.22) 0%,transparent 60%);pointer-events:none;}
 .fan-card-lbl{font-family:'Cinzel',serif;font-size:0.44rem;letter-spacing:0.3em;text-transform:uppercase;color:rgba(212,175,55,0.9);margin-bottom:0.45rem;position:relative;z-index:1;}
@@ -4829,7 +4837,7 @@ function loadProfiles(){
   ST.browsePool=pool;
   ST.browseIdx=0;renderCard();
 }
-function _fanRotate(dir){
+function _fanRotate(dir,arriveId){
   var ids=['fanDetails','fanProfile','fanBiodata'];
   var posClasses=['fan-left','fan-center','fan-right'];
   var cur={};
@@ -4854,13 +4862,48 @@ function _fanRotate(dir){
     ids.forEach(function(id){
       var el=document.getElementById(id);if(!el)return;
       el.style.pointerEvents='';
-      // Sync onclick: only left/right slots trigger rotation
       var pos=map[id];
-      if(pos==='fan-left')el.onclick=function(){_fanRotate('left');};
-      else if(pos==='fan-right')el.onclick=function(){_fanRotate('right');};
-      else el.onclick=null;
+      if(pos==='fan-center'&&id==='fanProfile'){
+        el.onclick=null;
+      } else {
+        el.onclick=(function(i){return function(){_selectFanCard(i);};})(id);
+      }
     });
+    if(arriveId&&arriveId!=='fanProfile'){
+      var ae=document.getElementById(arriveId);
+      if(ae&&ae.classList.contains('fan-center')){
+        ae.classList.add('fan-arrived');
+        setTimeout(function(){ae.classList.remove('fan-arrived');},1000);
+        _showTapHint(arriveId);
+      }
+    }
   },560);
+}
+function _showTapHint(id){
+  var old=document.querySelector('.fan-tap-hint');if(old)old.remove();
+  var label=id==='fanDetails'?'Tap to view full details':'Tap to view biodata';
+  var hint=document.createElement('div');
+  hint.className='fan-tap-hint';
+  hint.textContent='✦ '+label;
+  document.body.appendChild(hint);
+  setTimeout(function(){
+    hint.classList.add('fan-tap-out');
+    setTimeout(function(){hint.remove();},400);
+  },1800);
+}
+function _selectFanCard(id){
+  var el=document.getElementById(id);
+  if(!el)return;
+  var uid=el.getAttribute('data-uid')||'';
+  if(el.classList.contains('fan-center')){
+    if(id==='fanDetails')openProfileDetails(uid);
+    else if(id==='fanBiodata')openOtherBiodata(uid);
+  } else {
+    el.classList.add('fan-selecting');
+    setTimeout(function(){el.classList.remove('fan-selecting');},550);
+    var dir=el.classList.contains('fan-left')?'left':'right';
+    _fanRotate(dir,id);
+  }
 }
 function renderCard(){
   const area=document.getElementById('pArea');
@@ -4892,7 +4935,7 @@ function renderCard(){
   }
   area.innerHTML=`
     <div class="fan-wrap" id="fanWrap">
-      <div class="fan-slot fan-left fan-hidden" id="fanDetails" onclick="openProfileDetails('${p.u}')">
+      <div class="fan-slot fan-left fan-hidden" id="fanDetails" data-uid="${p.u}" onclick="_selectFanCard('fanDetails')">
         <div style="height:100%;border-radius:20px;overflow:hidden;background:#fffcf8;display:flex;flex-direction:column;border:1px solid rgba(212,175,55,0.25);">
           <div style="background:linear-gradient(150deg,#5a1020 0%,#7B1F2E 55%,#9b2b3f 100%);padding:0.9rem 1.1rem 0.85rem;flex-shrink:0;position:relative;overflow:hidden;">
             <div style="position:absolute;inset:0;background:url('data:image/svg+xml,%3Csvg width=%2760%27 height=%2760%27 viewBox=%270 0 60 60%27 xmlns=%27http://www.w3.org/2000/svg%27%3E%3Cg fill=%27%23D4AF37%27 fill-opacity=%270.06%27%3E%3Cpath d=%27M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z%27/%3E%3C%2Fg%3E%3C%2Fsvg%3E');pointer-events:none;"></div>
@@ -4926,7 +4969,7 @@ function renderCard(){
           </div>
         </div>
       </div>
-      <div class="fan-slot fan-right fan-hidden" id="fanBiodata" onclick="openOtherBiodata('${p.u}')">
+      <div class="fan-slot fan-right fan-hidden" id="fanBiodata" data-uid="${p.u}" onclick="_selectFanCard('fanBiodata')">
         <div style="height:100%;border-radius:20px;overflow:hidden;background:#fff;display:flex;flex-direction:column;border:1px solid rgba(180,180,180,0.3);">
           <div style="background:#fff;padding:0.7rem 0.9rem 0.5rem;flex-shrink:0;text-align:center;border-bottom:2px solid #E60000;">
             <div style="font-family:'Cinzel',serif;font-size:0.4rem;letter-spacing:0.22em;color:#E60000;text-transform:uppercase;margin-bottom:0.18rem;">Naveen Reddy Marriage Bureau</div>
