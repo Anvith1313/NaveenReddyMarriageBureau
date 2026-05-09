@@ -1104,21 +1104,11 @@ html:has(#pgHome.active){scroll-behavior:smooth;}
   .fan-slot.fan-center{transform:translateX(-50%)!important;z-index:10;touch-action:manipulation;}
   /* Side cards hidden completely off-screen by default */
   .fan-slot.fan-left,.fan-slot.fan-right{transform:translateX(-150vw)!important;opacity:0!important;pointer-events:none!important;}
-  /* Double-tap reveals fan: cards keep SAME full width, peek from edges */
-  /* Left card: right edge at ~16vw from left side */
-  /* Double-tap reveal: side cards become crimson pill buttons above bottom nav.
-     NOTE: fan-wrap has perspective:900px which hijacks position:fixed, so we use
-     position:absolute with a viewport-relative top calculation instead. */
-  .fan-wrap.fan-revealed .fan-slot.fan-left,.fan-wrap.fan-revealed .fan-slot.fan-right{position:absolute!important;left:50%!important;top:calc(100vh - var(--nav-h) - 130px - 140px)!important;top:calc(100svh - var(--nav-h) - 130px - 140px)!important;bottom:auto!important;width:44vw!important;height:52px!important;border-radius:50px!important;background:linear-gradient(135deg,var(--crimson),#9B2F40)!important;box-shadow:0 6px 24px rgba(123,31,46,0.4),0 1px 0 rgba(212,175,55,0.25),inset 0 1px 0 rgba(255,255,255,0.1)!important;overflow:hidden!important;opacity:1!important;pointer-events:auto!important;z-index:15!important;transition:opacity 0.28s ease!important;}
-  .fan-wrap.fan-revealed .fan-slot.fan-left{transform:translateX(calc(-50% - 24vw))!important;}
-  .fan-wrap.fan-revealed .fan-slot.fan-right{transform:translateX(calc(-50% + 24vw))!important;}
-  /* Center card unchanged — full-width, full-height */
-  .fan-wrap.fan-revealed .fan-slot.fan-center{transform:translateX(-50%)!important;z-index:10!important;}
-  /* Hide card detail content; show only the pill label */
-  .fan-wrap.fan-revealed .fan-slot.fan-left>*,.fan-wrap.fan-revealed .fan-slot.fan-right>*{visibility:hidden!important;}
-  .fan-wrap.fan-revealed #fanDetails::before,.fan-wrap.fan-revealed #fanBiodata::before{visibility:visible!important;display:block;position:absolute;inset:0;line-height:52px;text-align:center;color:#FFF8DC;font-family:'Cinzel',serif;font-size:10px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;pointer-events:none;}
-  .fan-wrap.fan-revealed #fanDetails::before{content:'✦ FULL DETAILS';}
-  .fan-wrap.fan-revealed #fanBiodata::before{content:'✦ BIODATA';}
+  /* Double-tap reveal: 3D fan effect — cards shrink and fan out in perspective just like desktop */
+  .fan-wrap.fan-revealed .fan-slot{width:min(188px,50vw)!important;border-radius:16px!important;}
+  .fan-wrap.fan-revealed .fan-slot.fan-center{transform:translateX(-50%) translateZ(45px)!important;z-index:10!important;touch-action:manipulation;}
+  .fan-wrap.fan-revealed .fan-slot.fan-left{transform:translateX(calc(-50% - 120px)) translateZ(-25px) scale(0.88)!important;opacity:0.92!important;pointer-events:auto!important;z-index:5!important;}
+  .fan-wrap.fan-revealed .fan-slot.fan-right{transform:translateX(calc(-50% + 120px)) translateZ(-25px) scale(0.88)!important;opacity:0.92!important;pointer-events:auto!important;z-index:5!important;}
   /* Hide hint text on mobile — double-tap is discoverable */
   .fan-hint{display:none;}
 }
