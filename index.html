@@ -969,7 +969,7 @@ html:has(#pgHome.active){scroll-behavior:smooth;}
   position:relative;overflow:hidden;
   display:flex;align-items:flex-end;padding-bottom:1.4rem;justify-content:center;
 }
-.dash-hero::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,252,248,0.05) 0%,rgba(255,252,248,0.88) 100%);}
+.dash-hero::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,252,248,0.72) 0%,rgba(255,252,248,0.92) 100%);}
 .dash-welcome{position:relative;z-index:2;text-align:center;}
 .dw-name{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:300;font-style:italic;color:var(--crimson);}
 .dw-sub{font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);}
@@ -1095,7 +1095,7 @@ html:has(#pgHome.active){scroll-behavior:smooth;}
 }
 /* Mobile: full-screen single card, fan revealed on double-tap */
 @media(max-width:767px){
-  .profile-area{padding:0;min-height:auto;background:#FFFBF5 !important;background-image:none !important;}
+  .profile-area{padding:0 !important;min-height:auto;background:#FFFBF5 !important;background-image:none !important;}
   .profile-area::before{background:transparent;}
   .fan-wrap{height:calc(100vh - var(--nav-h));height:calc(100svh - var(--nav-h));width:100%;margin-left:0;margin-right:0;border-radius:0;}
   .fan-slot{width:calc(100vw - 1.2rem);border-radius:16px;}
@@ -5068,7 +5068,7 @@ function renderCard(){
     if(!center)return;
     center.addEventListener('click',function(e){
       // Ignore clicks on interactive children (buttons, links)
-      if(e.target.closest('button,a,[onclick]')&&e.target!==center)return;
+      if(e.target!==center&&e.target.closest('button,a'))return;
       var now=Date.now();
       if(now-lastClick<420&&now-lastClick>80){
         // Double-tap/double-click confirmed
