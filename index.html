@@ -1095,7 +1095,8 @@ html:has(#pgHome.active){scroll-behavior:smooth;}
 }
 /* Mobile: full-screen single card, fan revealed on double-tap */
 @media(max-width:767px){
-  .profile-area{padding:0;min-height:auto;}
+  .profile-area{padding:0;min-height:auto;background:#FFFBF5 !important;background-image:none !important;}
+  .profile-area::before{background:transparent;}
   .fan-wrap{height:calc(100vh - var(--nav-h));height:calc(100svh - var(--nav-h));width:100%;margin-left:0;margin-right:0;border-radius:0;}
   .fan-slot{width:calc(100vw - 1.2rem);border-radius:16px;}
   /* Side cards hidden off-center by default — not visible until revealed */
@@ -5124,29 +5125,29 @@ function nextCard(){
   var wrap=document.getElementById('fanWrap');
   if(wrap){
     _navBusy=true;
-    // Exit: slide up + fade
-    wrap.style.transition='opacity 0.14s ease,transform 0.14s ease';
+    // Exit: punch up hard so departure is unmissable
+    wrap.style.transition='opacity 0.12s ease,transform 0.12s cubic-bezier(0.4,0,1,1)';
     wrap.style.opacity='0';
-    wrap.style.transform='translateY(-36px) scale(0.97)';
+    wrap.style.transform='translateY(-64px) scale(0.92)';
     setTimeout(function(){
       ST.browseIdx++;
       renderCard();
-      // Entrance: slide in from below (reel-style)
+      // Entrance: swing up from below — large arc so you clearly see it arrive
       var nw=document.getElementById('fanWrap');
       if(nw){
         nw.style.opacity='0';
-        nw.style.transform='translateY(52px)';
+        nw.style.transform='translateY(90px) scale(0.94)';
         nw.style.transition='none';
         requestAnimationFrame(function(){
           requestAnimationFrame(function(){
-            nw.style.transition='opacity 0.3s ease,transform 0.3s cubic-bezier(0.22,1,0.36,1)';
+            nw.style.transition='opacity 0.38s ease,transform 0.38s cubic-bezier(0.22,1,0.36,1)';
             nw.style.opacity='1';
-            nw.style.transform='translateY(0)';
-            setTimeout(function(){_navBusy=false;},320);
+            nw.style.transform='translateY(0) scale(1)';
+            setTimeout(function(){_navBusy=false;},400);
           });
         });
       } else {_navBusy=false;}
-    },140);
+    },120);
   } else {
     ST.browseIdx++;renderCard();
   }
@@ -5203,14 +5204,13 @@ function _initCardSwipe(){
     if(!dy||dy<0)return; // only upward swipes navigate forward
 
     if(_touchInCard){
-      // Inside the scrollable center card: only navigate when at very top or fully scrolled to bottom
+      // Inside scrollable center card: only navigate when at very top (pull down to dismiss)
+      // Require a fast, deliberate upward flick — casual reading scroll should never trigger
       var fp2=document.getElementById('fanProfile');
-      var atTop=_cardTop<12;
-      var atBottom=fp2?(fp2.scrollTop+fp2.clientHeight>=fp2.scrollHeight-28):false;
-      if(!atTop&&!atBottom)return;
-      var isFlick=vel>0.5&&ady>45;
-      var isDrag=ady>100;
-      if((isFlick||isDrag)&&ady>adx*0.7)nextCard();
+      var atTop=_cardTop<8;
+      if(!atTop)return; // mid-scroll or at-bottom: let native scroll handle it
+      var isFlick=vel>0.65&&ady>55;
+      if(isFlick&&ady>adx*0.75)nextCard();
     } else {
       // Touch on fan-wrap area but outside center card (background of fan, side cards)
       var isFlick=vel>0.3&&ady>40;
@@ -5220,10 +5220,16 @@ function _initCardSwipe(){
   },{passive:true});
 
   area.addEventListener('wheel',function(e){
-    // Only respond when pointer is over an actual fan card, not the background
+    // Touch devices use touch events — no wheel navigation there
+    if(window.matchMedia('(pointer:coarse)').matches)return;
+    // Only respond when pointer is over an actual fan card
     if(!_isOnFanSlot(e.target))return;
-    var now=Date.now();if(now-_lastWheel<700)return;
-    if(e.deltaY>40){_lastWheel=now;nextCard();}
+    // Desktop: only navigate when center card is fully scrolled to bottom
+    var fp=document.getElementById('fanProfile');
+    var atBottom=!fp||(fp.scrollTop+fp.clientHeight>=fp.scrollHeight-30);
+    if(!atBottom)return;
+    var now=Date.now();if(now-_lastWheel<800)return;
+    if(e.deltaY>60){_lastWheel=now;nextCard();}
   },{passive:true});
 }
 
