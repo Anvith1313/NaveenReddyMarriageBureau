@@ -1077,20 +1077,19 @@ html:has(#pgHome.active){scroll-behavior:smooth;}
 .btn-pass{padding:0.86rem 1.3rem;background:rgba(255,252,248,0.9);border:1.5px solid rgba(184,137,42,0.26);border-radius:50px;cursor:pointer;font-family:'Cinzel',serif;font-size:0.72rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);transition:all 0.3s;}
 .btn-pass:hover{border-color:var(--gold);color:var(--gold);}
 
-/* ─── 3D Card Fan ─── */
-.fan-wrap{position:relative;width:calc(100% + 1.6rem);margin-left:-0.8rem;margin-right:-0.8rem;height:min(580px,80vh);perspective:1100px;perspective-origin:50% 30%;overflow:hidden;}
-.fan-slot{position:absolute;top:0;left:50%;width:min(260px,66vw);height:100%;border-radius:20px;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;transition:transform 0.52s cubic-bezier(0.34,1.35,0.64,1),opacity 0.45s ease,box-shadow 0.45s ease;will-change:transform,opacity;scrollbar-width:thin;scrollbar-color:rgba(184,137,42,0.2) transparent;}
-.fan-slot.fan-center{transform:translateX(-50%) translateZ(60px);z-index:10;opacity:1;cursor:default;box-shadow:0 22px 64px rgba(0,0,0,0.28),0 6px 20px rgba(0,0,0,0.15);}
-.fan-slot.fan-left{transform:translateX(calc(-50% - 100px)) translateZ(-40px) scale(0.88);z-index:5;opacity:0.95;cursor:pointer;box-shadow:-4px 8px 32px rgba(0,0,0,0.2);}
-.fan-slot.fan-right{transform:translateX(calc(-50% + 100px)) translateZ(-40px) scale(0.88);z-index:5;opacity:0.95;cursor:pointer;box-shadow:4px 8px 32px rgba(0,0,0,0.2);}
+/* ─── Card Fan ─── */
+.fan-wrap{position:relative;width:calc(100% + 1.6rem);margin-left:-0.8rem;margin-right:-0.8rem;height:min(560px,78vh);overflow:hidden;}
+.fan-slot{position:absolute;top:0;left:50%;width:min(255px,64vw);height:100%;border-radius:20px;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;transition:transform 0.36s cubic-bezier(0.34,1.2,0.64,1),opacity 0.28s ease,box-shadow 0.3s ease;scrollbar-width:thin;scrollbar-color:rgba(184,137,42,0.2) transparent;}
+.fan-slot.fan-center{transform:translateX(-50%);z-index:10;opacity:1;cursor:default;box-shadow:0 18px 52px rgba(0,0,0,0.22),0 4px 16px rgba(0,0,0,0.12);}
+.fan-slot.fan-left{transform:translateX(calc(-50% - 92px)) scale(0.87);z-index:5;opacity:0.88;cursor:pointer;box-shadow:-3px 6px 24px rgba(0,0,0,0.16);}
+.fan-slot.fan-right{transform:translateX(calc(-50% + 92px)) scale(0.87);z-index:5;opacity:0.88;cursor:pointer;box-shadow:3px 6px 24px rgba(0,0,0,0.16);}
 .fan-slot:not(.fan-center){cursor:pointer;}
-.fan-slot.fan-hidden{transform:translateX(-50%) translateZ(-80px) scale(0.82)!important;opacity:0!important;pointer-events:none!important;transition:transform 0.45s cubic-bezier(0.34,1.2,0.64,1),opacity 0.35s ease!important;}
+.fan-slot.fan-hidden{transform:translateX(-50%) scale(0.82)!important;opacity:0!important;pointer-events:none!important;transition:transform 0.3s ease,opacity 0.25s ease!important;}
 @media(min-width:768px){
   .fan-wrap{width:calc(100% + 4rem);margin-left:-2rem;margin-right:-2rem;height:min(640px,82vh);}
   .fan-slot{width:min(340px,26vw);}
-  .fan-slot.fan-left{transform:translateX(calc(-50% - 240px)) translateZ(-40px) scale(0.9);}
-  .fan-slot.fan-right{transform:translateX(calc(-50% + 240px)) translateZ(-40px) scale(0.9);}
-  .fan-slot.fan-hidden{transform:translateX(-50%) translateZ(-100px) scale(0.8)!important;}
+  .fan-slot.fan-left{transform:translateX(calc(-50% - 240px)) scale(0.9);}
+  .fan-slot.fan-right{transform:translateX(calc(-50% + 240px)) scale(0.9);}
 }
 @keyframes fanSelectPulse{0%{box-shadow:0 0 0 0 rgba(212,175,55,0.75),4px 8px 32px rgba(0,0,0,0.2);}70%{box-shadow:0 0 0 18px rgba(212,175,55,0),4px 8px 32px rgba(0,0,0,0.2);}100%{box-shadow:0 0 0 0 rgba(212,175,55,0),4px 8px 32px rgba(0,0,0,0.2);}}
 @keyframes fanArrivedGlow{0%{box-shadow:0 0 0 3px rgba(212,175,55,0.8),0 22px 64px rgba(0,0,0,0.28);}60%{box-shadow:0 0 0 8px rgba(212,175,55,0.15),0 22px 64px rgba(0,0,0,0.28);}100%{box-shadow:0 0 0 0 rgba(212,175,55,0),0 22px 64px rgba(0,0,0,0.28);}}
@@ -5023,26 +5022,13 @@ function renderCard(){
               </a>
             </div>`:''}
             <div class="pact-row">${_intBtnHtml}</div>
-            <div style="text-align:center;margin-top:0.5rem;font-family:'Cinzel',serif;font-size:0.5rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(107,83,64,0.4);">↑ Swipe up for next profile</div>
+            <button onclick="nextCard()" style="display:flex;align-items:center;justify-content:center;gap:0.4rem;width:100%;margin-top:0.6rem;padding:0.55rem;background:transparent;border:1px solid rgba(184,137,42,0.2);border-radius:50px;font-family:'Cinzel',serif;font-size:0.5rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(107,83,64,0.5);cursor:pointer;transition:all 0.2s;" onmouseenter="this.style.borderColor='rgba(184,137,42,0.5)';this.style.color='rgba(107,83,64,0.8)';" onmouseleave="this.style.borderColor='rgba(184,137,42,0.2)';this.style.color='rgba(107,83,64,0.5)';">Next Profile ↑</button>
           </div>
           ${(p.photos&&p.photos.length)?`<div class="pc-photo-label">Photos · ${p.photos.length}</div><div class="pc-photo-strip">${p.photos.map((url,i)=>`<img class="pc-photo-strip-thumb" src="${url}" alt="Photo ${i+1}" onclick="openPhotoLightbox(${JSON.stringify(p.photos)},${i})">`).join('')}</div>`:''}
         </div>
       </div>
     </div>
-    <div class="fan-hint">✦ double-tap to reveal · swipe ← → to switch cards · swipe ↑ for next ✦</div>
-    <div id="_swipeProgress" style="position:absolute;bottom:0;left:0;height:3px;width:0;background:linear-gradient(90deg,#7B1F2E,#D4AF37);border-radius:1px;opacity:0;pointer-events:none;z-index:30;"></div>
-    ${(function(){
-      var nIdx=ST.browseIdx+1,nP=nIdx<ST.browsePool.length?ST.profiles.find(function(x){return x.u===ST.browsePool[nIdx];}):null;
-      if(!nP)return '';
-      return '<div id="_nextPeek" style="position:absolute;bottom:0;left:50%;transform:translateX(-50%) translateY(100%);width:min(260px,66vw);background:#fefaf4;border-radius:16px 16px 0 0;padding:0.6rem 0.9rem 0.5rem;box-shadow:0 -4px 24px rgba(0,0,0,0.12);border:1px solid rgba(212,175,55,0.2);border-bottom:none;pointer-events:none;opacity:0;z-index:8;">'
-        +'<div style="width:28px;height:3px;background:rgba(184,137,42,0.25);border-radius:2px;margin:0 auto 0.45rem;"></div>'
-        +'<div style="display:flex;align-items:center;gap:0.65rem;">'
-        +'<span style="font-size:1.35rem;line-height:1;">'+nP.em+'</span>'
-        +'<div><div style="font-family:\'Cormorant Garamond\',serif;font-size:0.95rem;font-weight:600;color:#7B1F2E;line-height:1.2;">'+nP.name+', '+nP.age+'</div>'
-        +'<div style="font-family:\'EB Garamond\',serif;font-size:0.75rem;color:#888;margin-top:0.05rem;">'+(nP.prof||nP.occ||'')+(nP.city?' · '+nP.city:'')+'</div></div>'
-        +'<div style="margin-left:auto;font-family:\'Cinzel\',serif;font-size:0.38rem;letter-spacing:0.12em;color:#D4AF37;opacity:0.8;">NEXT ↑</div>'
-        +'</div></div>';
-    })()}`;
+    <div class="fan-hint">✦ double-tap · swipe ← → cards · swipe ↑ next ✦</div>`;
   _initCardSwipe();
   // Double-tap to reveal/hide side cards
   (function(){
@@ -5100,97 +5086,52 @@ async function sendInt(toU){
 }
 function nextCard(){ST.browseIdx++;renderCard();}
 
-// Swipe navigation — vertical for next profile, horizontal to switch fan cards
+// Swipe navigation — all passive, velocity-based detection
 var _swipeReady=false,_lastWheel=0;
 function _initCardSwipe(){
   if(_swipeReady)return;
   var area=document.getElementById('pArea');
   if(!area)return;
   _swipeReady=true;
+  var _sy=0,_sx=0,_t0=0,_active=false,_cardTop=0;
 
-  var _sy=0,_sx=0,_active=false,_cardTop=0,_axis=null,_VH=window.innerHeight;
-
-  function _g(id){return document.getElementById(id);}
-
-  function _resetVertical(animate){
-    var wrap=_g('fanWrap'),peek=_g('_nextPeek'),prog=_g('_swipeProgress'),hint=document.querySelector('.fan-hint');
-    if(prog){prog.style.opacity='0';prog.style.width='0';}
-    if(hint)hint.style.opacity='';
-    if(!animate)return;
-    if(wrap){wrap.style.transition='transform 0.45s cubic-bezier(0.34,1.4,0.64,1),opacity 0.32s ease';wrap.style.transform='';wrap.style.opacity='';setTimeout(function(){wrap.style.transition='';},480);}
-    if(peek){peek.style.transition='transform 0.4s cubic-bezier(0.34,1.2,0.64,1),opacity 0.28s ease';peek.style.transform='translateX(-50%) translateY(100%)';peek.style.opacity='0';setTimeout(function(){peek.style.transition='';},430);}
-  }
-
-  // ── touchstart ──────────────────────────────────────
   area.addEventListener('touchstart',function(e){
-    var fp=_g('fanProfile');
+    var fp=document.getElementById('fanProfile');
     _cardTop=fp?fp.scrollTop:0;
-    _sy=e.touches[0].clientY;_sx=e.touches[0].clientX;
-    _active=true;_axis=null;
-    _VH=window.innerHeight;
+    _sy=e.touches[0].clientY;
+    _sx=e.touches[0].clientX;
+    _t0=Date.now();
+    _active=true;
   },{passive:true});
 
-  // ── touchmove — PASSIVE (never blocks native scroll) ──
-  area.addEventListener('touchmove',function(e){
-    if(!_active)return;
-    var dx=e.touches[0].clientX-_sx,dy=_sy-e.touches[0].clientY;
-    if(_axis===null){
-      if(Math.abs(dx)<8&&Math.abs(dy)<8)return;
-      _axis=Math.abs(dx)>Math.abs(dy)*1.2?'h':'v';
-    }
-    // Only show vertical drag feedback; horizontal handled on touchend
-    if(_axis!=='v'||_cardTop>8||dy<=0)return;
-    var THRESH=_VH*0.3;
-    var progress=Math.min(dy/THRESH,1);
-    var dampened=Math.pow(dy,0.75);
-    var wrap=_g('fanWrap'),peek=_g('_nextPeek'),prog=_g('_swipeProgress'),hint=document.querySelector('.fan-hint');
-    if(wrap){wrap.style.transition='none';wrap.style.transform='translateY(-'+dampened+'px) scale('+(1-progress*0.03)+')';wrap.style.opacity=''+(1-progress*0.2);}
-    if(peek){peek.style.transition='none';peek.style.opacity=''+Math.min(progress*2.2,1);peek.style.transform='translateX(-50%) translateY('+(100-Math.min(progress*120,100))+'%)';}
-    if(prog){prog.style.transition='none';prog.style.opacity='1';prog.style.width=Math.min(progress*100,100)+'%';prog.style.background=progress>=1?'#D4AF37':'linear-gradient(90deg,#7B1F2E,#D4AF37)';}
-    if(hint)hint.style.opacity=''+Math.max(1-progress*3,0);
-  },{passive:true});
-
-  // ── touchend — handle both vertical and horizontal ──
   area.addEventListener('touchend',function(e){
     if(!_active)return;_active=false;
     var endX=e.changedTouches[0].clientX,endY=e.changedTouches[0].clientY;
-    var dy=_sy-endY;  // positive = swipe up
-    var dx=_sx-endX;  // positive = swipe left
-    var adx=Math.abs(dx),ady=Math.abs(dy);
-    var VTHRESH=_VH*0.3,HTHRESH=50;
+    var dy=_sy-endY,dx=_sx-endX; // positive = up/left
+    var ady=Math.abs(dy),adx=Math.abs(dx);
+    var dt=Math.max(Date.now()-_t0,1);
 
-    // ── Horizontal swipe → rotate fan cards ──────────
-    if(adx>HTHRESH&&adx>ady*0.8){
-      var det=_g('fanDetails'),bio=_g('fanBiodata');
-      var revealed=det&&!det.classList.contains('fan-hidden');
-      if(revealed){
-        if(dx>0)_fanRotate('right','fanBiodata');  // swipe left → bring biodata to front
-        else _fanRotate('left','fanDetails');       // swipe right → bring full details to front
+    // Horizontal swipe → switch visible fan cards
+    if(adx>50&&adx>ady*0.8){
+      var det=document.getElementById('fanDetails');
+      if(det&&!det.classList.contains('fan-hidden')){
+        if(dx>0)_fanRotate('right','fanBiodata');
+        else _fanRotate('left','fanDetails');
       }
       return;
     }
 
-    // ── Vertical swipe up → next profile ─────────────
-    if(dy>VTHRESH&&adx<90&&_cardTop<8){
-      var wrap=_g('fanWrap'),peek=_g('_nextPeek'),prog=_g('_swipeProgress'),hint=document.querySelector('.fan-hint');
-      if(prog)prog.style.opacity='0';
-      if(hint)hint.style.opacity='';
-      if(wrap){wrap.style.transition='transform 0.25s cubic-bezier(0.4,0,0.8,0.6),opacity 0.22s ease';wrap.style.transform='translateY(-'+(_VH*0.5)+'px) scale(0.93)';wrap.style.opacity='0';}
-      if(peek){peek.style.transition='opacity 0.18s';peek.style.opacity='0';}
-      setTimeout(function(){
-        var w=_g('fanWrap'),pk=_g('_nextPeek');
-        if(w){w.style.transition='';w.style.transform='';w.style.opacity='';}
-        if(pk){pk.style.transition='';pk.style.transform='translateX(-50%) translateY(100%)';pk.style.opacity='0';}
-        nextCard();
-      },230);
-    } else {
-      _resetVertical(true);
+    // Vertical swipe up → next profile
+    // flick (fast + short) OR slow drag (longer distance)
+    var isFlick=(ady/dt)>0.3&&ady>40;
+    var isDrag=ady>80;
+    if((isFlick||isDrag)&&ady>adx*0.6&&dy>0&&_cardTop<12){
+      nextCard();
     }
   },{passive:true});
 
   area.addEventListener('wheel',function(e){
-    var now=Date.now();
-    if(now-_lastWheel<700)return;
+    var now=Date.now();if(now-_lastWheel<700)return;
     if(e.deltaY>40){_lastWheel=now;nextCard();}
   },{passive:true});
 }
