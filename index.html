@@ -6761,16 +6761,19 @@ function openProfileDetails(uid){
   const p=ST.profiles.find(x=>x.u===uid);if(!p)return;
   function row(label,val){
     if(!val||val==='—'||val==='')return'';
-    return`<div style="background:rgba(255,252,248,0.92);border:1px solid rgba(212,175,55,0.16);border-radius:10px;padding:0.5rem 0.65rem;">
-      <div style="font-family:'Cinzel',serif;font-size:0.42rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--crimson);opacity:0.75;margin-bottom:0.18rem;">${label}</div>
-      <div style="font-family:'Cormorant Garamond',serif;font-size:0.92rem;color:var(--text);font-weight:500;line-height:1.35;">${val}</div>
+    return`<div style="display:flex;align-items:baseline;gap:0.5rem;padding:0.32rem 0;border-bottom:1px solid rgba(212,175,55,0.1);">
+      <span style="font-family:'Cinzel',serif;font-size:0.44rem;letter-spacing:0.12em;text-transform:uppercase;color:#D4AF37;min-width:90px;flex-shrink:0;">${label}</span>
+      <span style="font-family:'EB Garamond',serif;font-size:0.9rem;color:var(--text);line-height:1.4;flex:1;">${val}</span>
     </div>`;
   }
   function sec(title,rows){
     const body=rows.join('');if(!body)return'';
-    return`<div style="margin-bottom:1rem;">
-      <div style="font-family:'Cinzel',serif;font-size:0.48rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--crimson);margin-bottom:0.5rem;padding-bottom:0.3rem;border-bottom:1px solid rgba(123,31,46,0.12);">${title}</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.45rem;">${body}</div>
+    return`<div style="background:#fff;border:1px solid rgba(212,175,55,0.18);border-radius:14px;overflow:hidden;margin-bottom:0.7rem;">
+      <div style="display:flex;align-items:center;gap:0.55rem;padding:0.5rem 0.85rem;background:linear-gradient(90deg,rgba(123,31,46,0.06),transparent);border-bottom:1px solid rgba(212,175,55,0.14);">
+        <div style="width:3px;height:13px;background:linear-gradient(180deg,#D4AF37,#b8922a);border-radius:2px;flex-shrink:0;"></div>
+        <div style="font-family:'Cinzel',serif;font-size:0.52rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#7B1F2E;">${title}</div>
+      </div>
+      <div style="padding:0.1rem 0.85rem 0.35rem;">${body}</div>
     </div>`;
   }
   const inc=p.inc?formatIncomeDisplay(p.inc):'';
@@ -6778,7 +6781,7 @@ function openProfileDetails(uid){
   const workLoc=[p.wcountry,p.wstate,p.wcity].filter(v=>v&&v!=='—').join(', ');
   const avatarBg=p.photos&&p.photos[0]?`background-image:url('${p.photos[0]}');background-size:cover;background-position:center;`:`background:${p.bg||'#fce4ec'};`;
   const html=`
-    <div style="background:linear-gradient(150deg,#5a1020 0%,#7B1F2E 50%,#9b2b3f 100%);padding:1.4rem 1.2rem 1.5rem;margin:-1.4rem -1.3rem 1rem;border-radius:22px 22px 0 0;position:relative;overflow:hidden;">
+    <div style="background:linear-gradient(150deg,#5a1020 0%,#7B1F2E 50%,#9b2b3f 100%);padding:1.2rem 1.1rem 1.3rem;margin:-1.2rem -1.1rem 0.85rem;border-radius:22px 22px 0 0;position:relative;overflow:hidden;">
       <div style="position:absolute;inset:0;background:url('data:image/svg+xml,%3Csvg width=%2760%27 height=%2760%27 viewBox=%270 0 60 60%27 xmlns=%27http://www.w3.org/2000/svg%27%3E%3Cg fill=%27%23D4AF37%27 fill-opacity=%270.05%27%3E%3Cpath d=%27M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z%27/%3E%3C/g%3E%3C/svg%3E');pointer-events:none;"></div>
       <div style="display:flex;gap:1rem;align-items:center;position:relative;z-index:1;">
         <div style="width:60px;height:60px;border-radius:50%;border:2px solid rgba(212,175,55,0.5);flex-shrink:0;font-size:1.8rem;display:flex;align-items:center;justify-content:center;${avatarBg}">${!(p.photos&&p.photos[0])?(p.em||''):''}
@@ -6796,12 +6799,12 @@ function openProfileDetails(uid){
     ${sec('Astrological',[ row('Gotra / Sub-Caste',p.gotra), row("Father's Gotra",p.fg), row('Rashi',p.rashi), row('Nakshatra',p.nak), row('Place of Birth',p.pob), row('Time of Birth',p.tob) ])}
     ${sec('Location',[ row('City',p.city), row('State',p.state), row('Country',p.country), row('Native Place',p.nat||p.native) ])}
     ${sec('Family',[ row('Family Type',p.ft), row('Family Values',p.fv), row('Family Status',p.fst), row('Siblings',siblings), row("Father's Status",p.fas), row("Father's Occupation",p.fo), row("Mother's Status",p.mas), row("Mother's Occupation",p.mo), row('Property Value',p.pval) ])}
-    ${p.about&&p.about!=='—'?sec('About',[`<div style="grid-column:1/-1;font-family:'EB Garamond',serif;font-size:0.95rem;color:var(--text);line-height:1.8;padding:0.35rem 0.5rem;background:rgba(255,252,248,0.92);border:1px solid rgba(212,175,55,0.16);border-radius:10px;">${p.about}</div>`]):''}
+    ${p.about&&p.about!=='—'?sec('About',[`<div style="font-family:'EB Garamond',serif;font-size:0.92rem;color:var(--text);line-height:1.75;padding:0.3rem 0;">${p.about}</div>`]):''}
     <p style="font-family:'EB Garamond',serif;font-size:0.8rem;font-style:italic;color:var(--muted);text-align:center;margin-top:0.6rem;">Contact details are private and shared only after mutual interest and bureau approval.</p>`;
   const ov=document.createElement('div');
   ov.id='profileDetailsOv';
-  ov.style.cssText='position:fixed;inset:0;z-index:950;background:rgba(15,5,2,0.42);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);display:flex;align-items:flex-end;';
-  ov.innerHTML=`<div style="width:100%;max-height:88vh;overflow-y:auto;background:linear-gradient(180deg,#fefaf4 0%,#fffdf7 100%);border-radius:24px 24px 0 0;padding:1.4rem 1.3rem calc(2.4rem + env(safe-area-inset-bottom));box-shadow:0 -8px 48px rgba(0,0,0,0.14);animation:slideUp 0.32s cubic-bezier(0.34,1.2,0.64,1);">
+  ov.style.cssText='position:fixed;inset:0;z-index:950;background:rgba(15,5,2,0.42);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);display:flex;align-items:flex-end;justify-content:center;';
+  ov.innerHTML=`<div style="width:100%;max-width:540px;max-height:88vh;overflow-y:auto;background:linear-gradient(180deg,#fefaf4 0%,#fffdf7 100%);border-radius:24px 24px 0 0;padding:1.2rem 1.1rem calc(2.2rem + env(safe-area-inset-bottom));box-shadow:0 -8px 48px rgba(0,0,0,0.18);animation:slideUp 0.32s cubic-bezier(0.34,1.2,0.64,1);">
     <div style="width:44px;height:4px;background:rgba(123,31,46,0.18);border-radius:2px;margin:0 auto 1rem;"></div>
     ${html}
     <button onclick="document.getElementById('profileDetailsOv').remove()" style="width:100%;padding:0.85rem;background:transparent;border:1.5px solid rgba(184,137,42,0.3);border-radius:50px;font-family:'Cinzel',serif;font-size:0.6rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--primary);cursor:pointer;margin-top:0.8rem;transition:all 0.25s;">Close</button>
