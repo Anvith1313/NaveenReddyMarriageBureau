@@ -1095,7 +1095,7 @@ html:has(#pgHome.active){scroll-behavior:smooth;}
 }
 /* Mobile: full-screen single card, fan revealed on double-tap */
 @media(max-width:767px){
-  .profile-area{padding:0 !important;min-height:auto;background:transparent !important;background-image:none !important;}
+  .profile-area{padding:0 !important;min-height:auto;background:#FFFBF5 !important;background-image:none !important;}
   .profile-area::before{background:transparent;}
   .fan-wrap{height:calc(100vh - var(--nav-h));height:calc(100svh - var(--nav-h));width:100%;margin-left:0;margin-right:0;border-radius:0;}
   .fan-slot{width:calc(100vw - 1.2rem);border-radius:16px;}
@@ -1111,6 +1111,9 @@ html:has(#pgHome.active){scroll-behavior:smooth;}
   .fan-wrap.fan-revealed .fan-slot.fan-right{transform:translateX(calc(-50% + 68vw))!important;opacity:1!important;pointer-events:auto!important;z-index:15!important;}
   /* Center card stays on top when fan is revealed */
   .fan-wrap.fan-revealed .fan-slot.fan-center{transform:translateX(-50%)!important;z-index:10!important;}
+  /* Edge tap-indicators: gradient + label visible on the peeking strip of each side card */
+  .fan-wrap.fan-revealed .fan-slot.fan-left::after{content:'';position:absolute;top:0;right:0;bottom:0;width:116px;background:linear-gradient(to right,transparent 0%,rgba(255,251,245,0.18) 100%);pointer-events:none;}
+  .fan-wrap.fan-revealed .fan-slot.fan-right::after{content:'';position:absolute;top:0;left:0;bottom:0;width:116px;background:linear-gradient(to left,transparent 0%,rgba(255,251,245,0.18) 100%);pointer-events:none;}
   /* Hide hint text on mobile — double-tap is discoverable */
   .fan-hint{display:none;}
 }
@@ -1518,7 +1521,7 @@ html:has(#pgHome.active){scroll-behavior:smooth;}
   .signup-hero{height:153px;margin-top:-1px;background-position:center 38%;}
   .signup-hero::before{background:linear-gradient(to bottom,rgba(255,251,245,0.52) 0%,transparent 25%,transparent 65%,rgba(255,251,245,0.9) 100%),linear-gradient(to right,rgba(123,31,46,0.15) 0%,transparent 15%,transparent 85%,rgba(123,31,46,0.15) 100%);}
   .dash-hero{margin-top:-1px;}
-  .dash-hero::before{background:linear-gradient(to bottom,rgba(255,251,245,0.38) 0%,transparent 22%,transparent 58%,rgba(255,252,248,0.9) 100%);}
+  .dash-hero::before{background:linear-gradient(to bottom,rgba(255,251,245,0.5) 0%,transparent 22%,transparent 60%,rgba(255,252,248,0.96) 100%),linear-gradient(to right,rgba(123,31,46,0.1) 0%,transparent 18%,transparent 82%,rgba(123,31,46,0.1) 100%);}
   .sh-title{font-size:1.5rem;}
   .sh-bc{font-size:0.78rem;}
 
@@ -1580,7 +1583,7 @@ html:has(#pgHome.active){scroll-behavior:smooth;}
   .r-opt span{font-size:1rem;padding:0.5rem 1rem;}
 
   /* ── DASHBOARD ── */
-  .dash-hero{height:110px;background-position:top center;}
+  .dash-hero{height:130px;background-position:center 25%;}
   .dw-name{font-size:1.2rem;}
 
   /* ── PROFILE AREA ── */
