@@ -5029,7 +5029,7 @@ function renderCard(){
         </div>
       </div>
     </div>
-    <div class="fan-hint">✦ double-tap to reveal cards · swipe up for next ✦</div>
+    <div class="fan-hint">✦ double-tap to reveal · swipe ← → to switch cards · swipe ↑ for next ✦</div>
     <div id="_swipeProgress" style="position:absolute;bottom:0;left:0;height:3px;width:0;background:linear-gradient(90deg,#7B1F2E,#D4AF37);border-radius:1px;opacity:0;pointer-events:none;z-index:30;"></div>
     ${(function(){
       var nIdx=ST.browseIdx+1,nP=nIdx<ST.browsePool.length?ST.profiles.find(function(x){return x.u===ST.browsePool[nIdx];}):null;
@@ -5100,74 +5100,91 @@ async function sendInt(toU){
 }
 function nextCard(){ST.browseIdx++;renderCard();}
 
-// Reel-style swipe navigation — visual drag feedback like Instagram
+// Swipe navigation — vertical for next profile, horizontal to switch fan cards
 var _swipeReady=false,_lastWheel=0;
 function _initCardSwipe(){
   if(_swipeReady)return;
   var area=document.getElementById('pArea');
   if(!area)return;
   _swipeReady=true;
-  var _sy=0,_sx=0,_dragging=false,_cardTop=0,_axis=null,_VH=window.innerHeight;
 
-  function _getEl(id){return document.getElementById(id);}
-  function _resetDrag(snap){
-    var wrap=_getEl('fanWrap'),peek=_getEl('_nextPeek'),prog=_getEl('_swipeProgress'),hint=document.querySelector('.fan-hint');
+  var _sy=0,_sx=0,_active=false,_cardTop=0,_axis=null,_VH=window.innerHeight;
+
+  function _g(id){return document.getElementById(id);}
+
+  function _resetVertical(animate){
+    var wrap=_g('fanWrap'),peek=_g('_nextPeek'),prog=_g('_swipeProgress'),hint=document.querySelector('.fan-hint');
     if(prog){prog.style.opacity='0';prog.style.width='0';}
     if(hint)hint.style.opacity='';
-    if(snap){
-      if(wrap){wrap.style.transition='transform 0.48s cubic-bezier(0.34,1.4,0.64,1),opacity 0.35s ease';wrap.style.transform='';wrap.style.opacity='';setTimeout(function(){wrap.style.transition='';},520);}
-      if(peek){peek.style.transition='transform 0.42s cubic-bezier(0.34,1.2,0.64,1),opacity 0.3s ease';peek.style.transform='translateX(-50%) translateY(100%)';peek.style.opacity='0';setTimeout(function(){peek.style.transition='';},460);}
-    }
+    if(!animate)return;
+    if(wrap){wrap.style.transition='transform 0.45s cubic-bezier(0.34,1.4,0.64,1),opacity 0.32s ease';wrap.style.transform='';wrap.style.opacity='';setTimeout(function(){wrap.style.transition='';},480);}
+    if(peek){peek.style.transition='transform 0.4s cubic-bezier(0.34,1.2,0.64,1),opacity 0.28s ease';peek.style.transform='translateX(-50%) translateY(100%)';peek.style.opacity='0';setTimeout(function(){peek.style.transition='';},430);}
   }
 
+  // ── touchstart ──────────────────────────────────────
   area.addEventListener('touchstart',function(e){
-    var fp=_getEl('fanProfile');
+    var fp=_g('fanProfile');
     _cardTop=fp?fp.scrollTop:0;
     _sy=e.touches[0].clientY;_sx=e.touches[0].clientX;
-    _dragging=true;_axis=null;
+    _active=true;_axis=null;
     _VH=window.innerHeight;
   },{passive:true});
 
+  // ── touchmove — PASSIVE (never blocks native scroll) ──
   area.addEventListener('touchmove',function(e){
-    if(!_dragging)return;
+    if(!_active)return;
     var dx=e.touches[0].clientX-_sx,dy=_sy-e.touches[0].clientY;
     if(_axis===null){
-      if(Math.abs(dx)<7&&Math.abs(dy)<7)return;
-      _axis=Math.abs(dx)>Math.abs(dy)*1.4?'h':'v';
+      if(Math.abs(dx)<8&&Math.abs(dy)<8)return;
+      _axis=Math.abs(dx)>Math.abs(dy)*1.2?'h':'v';
     }
-    if(_axis==='h'||_cardTop>8){_dragging=false;_resetDrag(true);return;}
-    if(dy<=0){_resetDrag(true);return;}
-    e.preventDefault();
-    var THRESH=_VH*0.32;
+    // Only show vertical drag feedback; horizontal handled on touchend
+    if(_axis!=='v'||_cardTop>8||dy<=0)return;
+    var THRESH=_VH*0.3;
     var progress=Math.min(dy/THRESH,1);
-    var dampened=Math.pow(dy,0.78); // ease off drag resistance
-    var wrap=_getEl('fanWrap'),peek=_getEl('_nextPeek'),prog=_getEl('_swipeProgress'),hint=document.querySelector('.fan-hint');
-    if(wrap){wrap.style.transition='none';wrap.style.transform='translateY(-'+dampened+'px) scale('+(1-progress*0.035)+')';wrap.style.opacity=''+(1-progress*0.22);}
-    if(peek){peek.style.transition='none';peek.style.opacity=''+Math.min(progress*2,1);peek.style.transform='translateX(-50%) translateY('+(100-Math.min(progress*115,100))+'%)';}
+    var dampened=Math.pow(dy,0.75);
+    var wrap=_g('fanWrap'),peek=_g('_nextPeek'),prog=_g('_swipeProgress'),hint=document.querySelector('.fan-hint');
+    if(wrap){wrap.style.transition='none';wrap.style.transform='translateY(-'+dampened+'px) scale('+(1-progress*0.03)+')';wrap.style.opacity=''+(1-progress*0.2);}
+    if(peek){peek.style.transition='none';peek.style.opacity=''+Math.min(progress*2.2,1);peek.style.transform='translateX(-50%) translateY('+(100-Math.min(progress*120,100))+'%)';}
     if(prog){prog.style.transition='none';prog.style.opacity='1';prog.style.width=Math.min(progress*100,100)+'%';prog.style.background=progress>=1?'#D4AF37':'linear-gradient(90deg,#7B1F2E,#D4AF37)';}
-    if(hint)hint.style.opacity=''+Math.max(1-progress*2.5,0);
-  },{passive:false});
+    if(hint)hint.style.opacity=''+Math.max(1-progress*3,0);
+  },{passive:true});
 
+  // ── touchend — handle both vertical and horizontal ──
   area.addEventListener('touchend',function(e){
-    if(!_dragging)return;_dragging=false;
-    var dy=_sy-e.changedTouches[0].clientY;
-    var dx=Math.abs(_sx-e.changedTouches[0].clientX);
-    var THRESH=_VH*0.32;
-    var committed=dy>THRESH&&dx<80&&_cardTop<8;
-    if(committed){
-      var wrap=_getEl('fanWrap'),peek=_getEl('_nextPeek'),prog=_getEl('_swipeProgress'),hint=document.querySelector('.fan-hint');
-      if(prog){prog.style.opacity='0';}
+    if(!_active)return;_active=false;
+    var endX=e.changedTouches[0].clientX,endY=e.changedTouches[0].clientY;
+    var dy=_sy-endY;  // positive = swipe up
+    var dx=_sx-endX;  // positive = swipe left
+    var adx=Math.abs(dx),ady=Math.abs(dy);
+    var VTHRESH=_VH*0.3,HTHRESH=50;
+
+    // ── Horizontal swipe → rotate fan cards ──────────
+    if(adx>HTHRESH&&adx>ady*0.8){
+      var det=_g('fanDetails'),bio=_g('fanBiodata');
+      var revealed=det&&!det.classList.contains('fan-hidden');
+      if(revealed){
+        if(dx>0)_fanRotate('right','fanBiodata');  // swipe left → bring biodata to front
+        else _fanRotate('left','fanDetails');       // swipe right → bring full details to front
+      }
+      return;
+    }
+
+    // ── Vertical swipe up → next profile ─────────────
+    if(dy>VTHRESH&&adx<90&&_cardTop<8){
+      var wrap=_g('fanWrap'),peek=_g('_nextPeek'),prog=_g('_swipeProgress'),hint=document.querySelector('.fan-hint');
+      if(prog)prog.style.opacity='0';
       if(hint)hint.style.opacity='';
-      if(wrap){wrap.style.transition='transform 0.26s cubic-bezier(0.4,0,0.8,0.6),opacity 0.24s ease';wrap.style.transform='translateY(-'+(_VH*0.55)+'px) scale(0.94)';wrap.style.opacity='0';}
-      if(peek){peek.style.transition='opacity 0.2s';peek.style.opacity='0';}
+      if(wrap){wrap.style.transition='transform 0.25s cubic-bezier(0.4,0,0.8,0.6),opacity 0.22s ease';wrap.style.transform='translateY(-'+(_VH*0.5)+'px) scale(0.93)';wrap.style.opacity='0';}
+      if(peek){peek.style.transition='opacity 0.18s';peek.style.opacity='0';}
       setTimeout(function(){
-        var w=_getEl('fanWrap'),pk=_getEl('_nextPeek');
+        var w=_g('fanWrap'),pk=_g('_nextPeek');
         if(w){w.style.transition='';w.style.transform='';w.style.opacity='';}
         if(pk){pk.style.transition='';pk.style.transform='translateX(-50%) translateY(100%)';pk.style.opacity='0';}
         nextCard();
-      },240);
+      },230);
     } else {
-      _resetDrag(true);
+      _resetVertical(true);
     }
   },{passive:true});
 
