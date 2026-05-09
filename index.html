@@ -1051,7 +1051,7 @@ html:has(#pgHome.active){scroll-behavior:smooth;}
 .idle-s{font-family:'EB Garamond',serif;font-size:0.9rem;color:var(--muted);}
 
 /* Profile card */
-.pcard{background:rgba(255,255,255,0.95);border:1px solid rgba(184,137,42,0.18);border-radius:20px;width:100%;max-width:540px;position:relative;z-index:2;box-shadow:0 24px 80px rgba(0,0,0,0.1),0 2px 0 rgba(184,137,42,0.18);animation:cIn 0.5s cubic-bezier(0.34,1.2,0.64,1);}
+.pcard{background:rgba(255,255,255,0.95);border:1px solid rgba(184,137,42,0.18);border-radius:20px;width:100%;max-width:540px;position:relative;z-index:2;box-shadow:0 24px 80px rgba(0,0,0,0.1),0 2px 0 rgba(184,137,42,0.18);animation:cIn 0.25s ease;}
 @keyframes cIn{from{opacity:0;}to{opacity:1;}}
 @keyframes modalIn{from{opacity:0;transform:scale(0.94) translateY(12px);}to{opacity:1;transform:scale(1) translateY(0);}}
 .pcard::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--crimson),var(--gold2),var(--crimson));border-radius:20px 20px 0 0;}
@@ -5092,14 +5092,14 @@ function nextCard(){
   var wrap=document.getElementById('fanWrap');
   if(wrap){
     _navBusy=true;
-    wrap.style.transition='opacity 0.18s ease,transform 0.18s ease';
+    wrap.style.transition='opacity 0.1s ease,transform 0.1s ease';
     wrap.style.opacity='0';
-    wrap.style.transform='translateY(-18px)';
+    wrap.style.transform='translateY(-14px)';
     setTimeout(function(){
       ST.browseIdx++;
       renderCard();
       _navBusy=false;
-    },180);
+    },100);
   } else {
     ST.browseIdx++;renderCard();
   }
@@ -5112,13 +5112,15 @@ function _initCardSwipe(){
   var area=document.getElementById('pArea');
   if(!area)return;
   _swipeReady=true;
-  var _sy=0,_sx=0,_t0=0,_active=false,_cardTop=0,_touchInCard=false;
+  var _sy=0,_sx=0,_t0=0,_active=false,_cardTop=0,_touchInCard=false,_touchOnFan=false;
 
   area.addEventListener('touchstart',function(e){
     var fp=document.getElementById('fanProfile');
+    var fw=document.getElementById('fanWrap');
     _cardTop=fp?fp.scrollTop:0;
-    // Track if touch started inside the scrollable card content
     _touchInCard=fp?fp.contains(e.target):false;
+    // Only fire navigation when touch started on the fan card group, not the background
+    _touchOnFan=fw?fw.contains(e.target):false;
     _sy=e.touches[0].clientY;
     _sx=e.touches[0].clientX;
     _t0=Date.now();
@@ -5127,10 +5129,12 @@ function _initCardSwipe(){
 
   area.addEventListener('touchend',function(e){
     if(!_active)return;_active=false;
+    if(!_touchOnFan)return; // ignore swipes on background
     var endX=e.changedTouches[0].clientX,endY=e.changedTouches[0].clientY;
-    var dy=_sy-endY,dx=_sx-endX; // positive = up/left
+    var dy=_sy-endY,dx=_sx-endX;
     var ady=Math.abs(dy),adx=Math.abs(dx);
     var dt=Math.max(Date.now()-_t0,1);
+    var vel=ady/dt;
 
     // Horizontal swipe → switch visible fan cards
     if(adx>50&&adx>ady*0.8){
@@ -5142,18 +5146,29 @@ function _initCardSwipe(){
       return;
     }
 
-    // Vertical swipe up → next profile
-    // When touch started inside the card, require higher velocity to avoid
-    // triggering navigation while user is just scrolling card content
-    var vel=ady/dt;
-    var isFlick=_touchInCard?(vel>0.6&&ady>50):(vel>0.3&&ady>40);
-    var isDrag=_touchInCard?(ady>120&&_cardTop<4):(ady>80&&_cardTop<12);
-    if((isFlick||isDrag)&&ady>adx*0.6&&dy>0){
-      nextCard();
+    if(!dy||dy<0)return; // only upward swipes navigate forward
+
+    if(_touchInCard){
+      // Inside the scrollable center card: only navigate when at very top or fully scrolled to bottom
+      var fp2=document.getElementById('fanProfile');
+      var atTop=_cardTop<12;
+      var atBottom=fp2?(fp2.scrollTop+fp2.clientHeight>=fp2.scrollHeight-28):false;
+      if(!atTop&&!atBottom)return;
+      var isFlick=vel>0.5&&ady>45;
+      var isDrag=ady>100;
+      if((isFlick||isDrag)&&ady>adx*0.7)nextCard();
+    } else {
+      // Touch on fan-wrap area but outside center card (background of fan, side cards)
+      var isFlick=vel>0.3&&ady>40;
+      var isDrag=ady>80;
+      if((isFlick||isDrag)&&ady>adx*0.6)nextCard();
     }
   },{passive:true});
 
   area.addEventListener('wheel',function(e){
+    // Only respond when pointer is over the fan card group, not page background
+    var fw=document.getElementById('fanWrap');
+    if(!fw||!fw.contains(e.target))return;
     var now=Date.now();if(now-_lastWheel<700)return;
     if(e.deltaY>40){_lastWheel=now;nextCard();}
   },{passive:true});
