@@ -1100,7 +1100,8 @@ html:has(#pgHome.active){scroll-behavior:smooth;}
   .fan-wrap{height:calc(100vh - var(--nav-h));height:calc(100svh - var(--nav-h));width:100%;margin-left:0;margin-right:0;border-radius:0;}
   .fan-slot{width:calc(100vw - 1.2rem);border-radius:16px;}
   /* No 3D on mobile center card — full-width card + perspective causes clipping */
-  .fan-slot.fan-center{transform:translateX(-50%)!important;z-index:10;}
+  /* touch-action:manipulation disables browser double-tap zoom so our custom double-tap works */
+  .fan-slot.fan-center{transform:translateX(-50%)!important;z-index:10;touch-action:manipulation;}
   /* Side cards hidden completely off-screen by default */
   .fan-slot.fan-left,.fan-slot.fan-right{transform:translateX(-150vw)!important;opacity:0!important;pointer-events:none!important;}
   /* Double-tap reveals fan: cards keep SAME full width, peek from edges */
@@ -5059,21 +5060,18 @@ function renderCard(){
     <div class="fan-hint">✦ double-tap · swipe ← → cards · swipe ↑ next ✦</div>`;
   _initCardSwipe();
   // Double-tap to reveal/hide side cards
+  // Uses click events — reliable on both mobile (touch-action:manipulation removes 300ms delay)
+  // and desktop. Avoids iOS Safari double-tap zoom interception.
   (function(){
-    var lastTap=0,tapStartY=0,revealed=false;
+    var lastClick=0,revealed=false;
     var center=document.getElementById('fanProfile');
     if(!center)return;
-    // Track tap start on touchstart for reliable double-tap (touchend can be delayed by scroll bounce)
-    center.addEventListener('touchstart',function(e){
-      tapStartY=e.touches[0].clientY;
-    },{passive:true});
-    center.addEventListener('touchend',function(e){
+    center.addEventListener('click',function(e){
+      // Ignore clicks on interactive children (buttons, links)
+      if(e.target.closest('button,a,[onclick]')&&e.target!==center)return;
       var now=Date.now();
-      var movedY=Math.abs(e.changedTouches[0].clientY-tapStartY);
-      // Ignore if finger moved too far (it was a scroll, not a tap)
-      if(movedY>12){lastTap=0;return;}
-      if(now-lastTap<380&&now-lastTap>60){
-        // Double-tap confirmed — toggle fan reveal
+      if(now-lastClick<420&&now-lastClick>80){
+        // Double-tap/double-click confirmed
         revealed=!revealed;
         var fw=document.getElementById('fanWrap');
         var det=document.getElementById('fanDetails'),bio=document.getElementById('fanBiodata');
@@ -5087,12 +5085,11 @@ function renderCard(){
           bio&&bio.classList.add('fan-hidden');
         }
         e.stopPropagation();
-        lastTap=0; // reset so triple-tap doesn't re-fire
+        lastClick=0;
       } else {
-        lastTap=now;
+        lastClick=now;
       }
-    },{passive:false});
-    center.addEventListener('dblclick',function(e){revealed=!revealed;var det=document.getElementById('fanDetails'),bio=document.getElementById('fanBiodata');if(revealed){det&&det.classList.remove('fan-hidden');bio&&bio.classList.remove('fan-hidden');}else{det&&det.classList.add('fan-hidden');bio&&bio.classList.add('fan-hidden');}e.stopPropagation();});
+    });
   })();
   if(ST.savedProfiles&&ST.savedProfiles.includes(p.u)){
     setTimeout(()=>{
