@@ -1641,8 +1641,9 @@ html:has(#pgHome.active){scroll-behavior:smooth;}
   .toast.show{transform:translateY(0);}
 
   /* ── BIODATA OVERLAY ── */
-  .biodata-overlay{padding:0.5rem;}
-  .biodata-sheet{padding:1rem;}
+  .biodata-overlay{display:block;overflow-y:auto;overflow-x:hidden;padding:0;}
+  .biodata-overlay>div{padding:0.5rem;min-width:0;overflow-x:auto;}
+  .biodata-sheet{padding:0.75rem;min-width:280px;}
 
   /* ── SIGNUP FLOW ── */
   .pre-step-screen{padding:1.8rem 1rem 1.5rem;}
@@ -4684,6 +4685,9 @@ function _startRealTimeListeners(){
   const unsub2=onSnapshot(collection(db,'users'),(snap)=>{
     ST.profiles=snap.docs.map(d=>({...d.data(),uid:d.id})).filter(p=>p.status!=='deleted'&&p.status!=='merged');
     if(ST.user) loadProfiles();
+    // Re-render liked page if currently active (fixes race where liked page opens before profiles load)
+    var lpg=document.getElementById('pgLiked');
+    if(lpg&&lpg.classList.contains('active'))renderLikedPage();
   });
   _rtUnsubscribers.push(unsub2);
   // 3. Watch interests for this user — reflects mutual matches, new interests in real-time
@@ -5090,8 +5094,9 @@ function renderCard(){
       if(e.target!==center&&e.target.closest('button,a'))return;
       var now=Date.now();
       if(now-lastClick<420&&now-lastClick>80){
-        // Double-tap/double-click confirmed
-        revealed=!revealed;
+        // Double-tap/double-click confirmed — read actual DOM state in case swipe already revealed
+        var fw=document.getElementById('fanWrap');
+        revealed=fw?!fw.classList.contains('fan-revealed'):false;
         var fw=document.getElementById('fanWrap');
         var det=document.getElementById('fanDetails'),bio=document.getElementById('fanBiodata');
         if(revealed){
@@ -5219,7 +5224,15 @@ function _initCardSwipe(){
 
     // Horizontal swipe → switch visible fan cards
     if(adx>50&&adx>ady*0.8){
+      var fw2=document.getElementById('fanWrap');
       var det=document.getElementById('fanDetails');
+      var bio2=document.getElementById('fanBiodata');
+      // On mobile: horizontal swipe auto-reveals fan if not yet revealed, then rotates
+      if(window.innerWidth<768&&det&&det.classList.contains('fan-hidden')){
+        if(fw2)fw2.classList.add('fan-revealed');
+        if(det)det.classList.remove('fan-hidden');
+        if(bio2)bio2.classList.remove('fan-hidden');
+      }
       if(det&&!det.classList.contains('fan-hidden')){
         if(dx>0)_fanRotate('right','fanBiodata');
         else _fanRotate('left','fanDetails');
@@ -6134,8 +6147,9 @@ function openOtherBiodata(uid){
   el.id='biodataOverlay';
   el.onclick=(e)=>{if(e.target===el)el.remove();};
   el.innerHTML=`<div style="max-width:210mm;width:100%;margin:0 auto;">
-    <div style="background:rgba(212,175,55,0.1);border:1px solid rgba(212,175,55,0.3);border-radius:10px;padding:0.6rem 1rem;margin-bottom:0.8rem;font-family:'EB Garamond',serif;font-size:0.82rem;color:var(--muted);text-align:center;">
-      👁 View Only — This biodata cannot be printed or saved
+    <div style="position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;background:rgba(255,251,245,0.97);border-bottom:1px solid rgba(212,175,55,0.2);padding:0.6rem 1rem;margin-bottom:0.6rem;backdrop-filter:blur(8px);">
+      <span style="font-family:'EB Garamond',serif;font-size:0.82rem;color:var(--muted);">👁 View Only</span>
+      <button onclick="document.getElementById('biodataOverlay').remove()" style="background:var(--crimson);border:none;border-radius:50%;width:32px;height:32px;color:#fff8dc;font-size:1rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 8px rgba(123,31,46,0.3);">✕</button>
     </div>
     ${generateBiodata(p)}
   </div>`;
@@ -6149,8 +6163,9 @@ function openBiodataView(){
   el.id='biodataOverlay';
   el.onclick=(e)=>{if(e.target===el)el.remove();};
   el.innerHTML=`<div style="max-width:210mm;width:100%;margin:0 auto;">
-    <div style="background:rgba(123,31,46,0.06);border:1px solid rgba(123,31,46,0.18);border-radius:10px;padding:0.7rem 1rem;margin-bottom:0.8rem;font-family:'EB Garamond',serif;font-size:0.85rem;color:var(--crimson);text-align:center;line-height:1.6;">
-      📋 This is how your profile appears at our offline branches and to our staff when assisting matches in person.
+    <div style="position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;background:rgba(255,251,245,0.97);border-bottom:1px solid rgba(123,31,46,0.15);padding:0.6rem 1rem;margin-bottom:0.6rem;backdrop-filter:blur(8px);">
+      <span style="font-family:'EB Garamond',serif;font-size:0.82rem;color:var(--crimson);">📋 Your Biodata Preview</span>
+      <button onclick="document.getElementById('biodataOverlay').remove()" style="background:var(--crimson);border:none;border-radius:50%;width:32px;height:32px;color:#fff8dc;font-size:1rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 8px rgba(123,31,46,0.3);">✕</button>
     </div>
     ${generateBiodata(ST.user)}
   </div>`;
