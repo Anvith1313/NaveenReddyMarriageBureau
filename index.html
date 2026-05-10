@@ -1641,9 +1641,9 @@ html:has(#pgHome.active){scroll-behavior:smooth;}
   .toast.show{transform:translateY(0);}
 
   /* ── BIODATA OVERLAY ── */
-  .biodata-overlay{display:block;overflow-y:auto;overflow-x:hidden;padding:0;}
-  .biodata-overlay>div{padding:0.5rem;min-width:0;overflow-x:auto;}
-  .biodata-sheet{padding:0.75rem;min-width:280px;}
+  .biodata-overlay{display:block;overflow-y:auto;overflow-x:hidden;padding:0;overscroll-behavior:contain;}
+  .biodata-overlay>div{padding:0.5rem;}
+  .biodata-sheet{padding:0.75rem;width:auto!important;}
 
   /* ── SIGNUP FLOW ── */
   .pre-step-screen{padding:1.8rem 1rem 1.5rem;}
@@ -6173,28 +6173,23 @@ function openBiodataView(){
   _enableBiodataPinchZoom(el);
 }
 function _enableBiodataPinchZoom(overlay){
-  var inner=overlay.querySelector('div');
-  if(!inner)return;
-  var scale=1,lastScale=1,startDist=0;
-  inner.style.transition='transform 0.1s ease';
-  overlay.addEventListener('touchstart',function(e){
-    if(e.touches.length===2){
-      startDist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
-      lastScale=scale;
+  // Block touch events from passing through to fan cards behind the overlay
+  overlay.addEventListener('touchstart',function(e){e.stopPropagation();},{passive:true});
+  overlay.addEventListener('touchmove',function(e){e.stopPropagation();},{passive:true});
+  overlay.addEventListener('touchend',function(e){e.stopPropagation();},{passive:true});
+  if(window.innerWidth>=768)return;
+  // Zoom A4 sheet to fit screen width so entire biodata is visible at once
+  // User can then use browser pinch-zoom to enlarge any section
+  var sheet=overlay.querySelector('.biodata-sheet');
+  if(!sheet)return;
+  requestAnimationFrame(function(){
+    var screenW=window.innerWidth-16;
+    var naturalW=sheet.offsetWidth;
+    if(naturalW>screenW){
+      var z=+(screenW/naturalW).toFixed(3);
+      sheet.style.zoom=z;
     }
-  },{passive:true});
-  overlay.addEventListener('touchmove',function(e){
-    if(e.touches.length===2){
-      e.preventDefault();
-      var d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
-      scale=Math.min(Math.max(lastScale*(d/startDist),0.6),4);
-      inner.style.transform='scale('+scale+')';
-      inner.style.transformOrigin='top center';
-    }
-  },{passive:false});
-  overlay.addEventListener('touchend',function(e){
-    if(e.touches.length<2&&scale<0.85){scale=1;inner.style.transform='scale(1)';}
-  },{passive:true});
+  });
 }
 
 const _BIODATA_LOGO='/Biodata-logo.jpg';
