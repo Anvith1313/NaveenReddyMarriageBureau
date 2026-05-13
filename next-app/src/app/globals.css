@@ -1,0 +1,79 @@
+@import "tailwindcss";
+
+:root {
+  --font-heading: var(--font-cormorant), 'Cormorant Garamond', serif;
+  --font-body: var(--font-eb-garamond), 'EB Garamond', serif;
+  --font-label: var(--font-cinzel), 'Cinzel', serif;
+  --font-ui: var(--font-josefin), 'Josefin Sans', sans-serif;
+
+  --primary: #7B1F2E;
+  --primary-hover: #9B2F40;
+  --primary-light: #FFF0F2;
+  --crimson: #7B1F2E;
+  --crimson2: #9B2F40;
+
+  --gold: #B8892A;
+  --gold-bright: #D4AF37;
+  --gold-bg: #FDF3E0;
+
+  --bg: #FFFBF5;
+  --bg-warm: #FDF8EF;
+  --bg-champagne: #FAF0E6;
+  --cream: #FDF8EF;
+
+  --text: #1A0A08;
+  --text-body: #3D1C0E;
+  --text-sub: #5C2E1A;
+  --muted: #7A4030;
+
+  --border: #E8C98A;
+  --border-light: #F5E4CC;
+
+  --sh-soft: 0 2px 16px rgba(123,31,46,0.07);
+  --sh-card: 0 4px 28px rgba(123,31,46,0.10);
+  --sh-hover: 0 12px 44px rgba(123,31,46,0.18);
+  --sh-gold: 0 8px 32px rgba(184,137,42,0.22);
+
+  --nav-h: 64px;
+  --bottom-nav-h: 60px;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 150ms;
+  --dur-mid: 280ms;
+  --dur-slow: 500ms;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--bg);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.8;
+  background: var(--bg);
+  color: var(--text-body);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(184,137,42,0.3); border-radius: 2px; }

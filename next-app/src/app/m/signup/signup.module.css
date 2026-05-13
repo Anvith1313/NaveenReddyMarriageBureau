@@ -1,0 +1,680 @@
+.page {
+  min-height: 100svh;
+  background:
+    linear-gradient(160deg, rgba(123,31,46,0.92) 0%, rgba(26,10,8,0.88) 100%),
+    url('/Assets/Temple.webp') center/cover no-repeat fixed;
+  padding-bottom: 2rem;
+}
+
+/* ── Progress ── */
+.progressWrap {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(255,251,245,0.97);
+  border-bottom: 1px solid rgba(212,175,55,0.2);
+  padding: 0.6rem 1rem 0.5rem;
+  backdrop-filter: blur(8px);
+}
+.progressHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.4rem;
+}
+.progressLabel {
+  font-family: var(--font-label);
+  font-size: 0.52rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.progressPct {
+  font-family: var(--font-label);
+  font-size: 0.52rem;
+  letter-spacing: 0.1em;
+  color: var(--crimson);
+}
+.progressTrack {
+  height: 3px;
+  background: rgba(212,175,55,0.15);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+.progressFill {
+  height: 100%;
+  width: var(--fill, 0%);
+  background: linear-gradient(90deg, var(--crimson), var(--gold));
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+.stepDots {
+  display: flex;
+  gap: 0.25rem;
+  justify-content: space-between;
+}
+.stepDot {
+  flex: 1;
+  height: 20px;
+  border-radius: 10px;
+  background: rgba(107,83,64,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-label);
+  font-size: 0.42rem;
+  letter-spacing: 0.05em;
+  color: rgba(107,83,64,0.4);
+  transition: background 0.3s, color 0.3s;
+}
+.stepDotActive {
+  background: var(--crimson);
+  color: #FFF8DC;
+}
+.stepDotDone {
+  background: rgba(212,175,55,0.25);
+  color: var(--gold);
+}
+
+/* ── Error banner ── */
+.errorBanner {
+  background: rgba(192,57,43,0.1);
+  border-left: 3px solid #c0392b;
+  color: #c0392b;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  padding: 0.65rem 1rem;
+  margin: 0.75rem 1rem 0;
+  border-radius: 6px;
+}
+
+/* ── Pre-step screens ── */
+.preScreen {
+  padding: 2rem 1.25rem 3rem;
+  max-width: 420px;
+  margin: 0 auto;
+}
+.preHero {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.preHeroIcon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 1rem;
+  color: #FFF8DC;
+  display: block;
+}
+.preTitle {
+  font-family: var(--font-heading);
+  font-size: 1.7rem;
+  font-weight: 300;
+  font-style: italic;
+  color: #FFF8DC;
+  margin-bottom: 0.4rem;
+}
+.preSub {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: rgba(255,248,220,0.7);
+}
+.preNote {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  color: rgba(255,248,220,0.45);
+  text-align: center;
+  margin-top: 1.5rem;
+  font-style: italic;
+}
+.loginLink {
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  color: rgba(255,248,220,0.6);
+  text-align: center;
+  margin-top: 0.75rem;
+}
+.loginLink a { color: var(--gold); text-decoration: underline; text-underline-offset: 3px; }
+.backLink {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  color: rgba(255,248,220,0.65);
+  margin-bottom: 1.5rem;
+  display: block;
+  padding: 0;
+}
+
+/* ── Who cards ── */
+.whoGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.65rem;
+}
+.whoCard {
+  background: rgba(255,251,245,0.95);
+  border: 1.5px solid rgba(212,175,55,0.2);
+  border-radius: 14px;
+  padding: 1.1rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+}
+.whoCard:active { transform: scale(0.97); background: rgba(255,248,220,0.98); border-color: var(--gold); }
+.whoLabel {
+  font-family: var(--font-label);
+  font-size: 0.56rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--crimson);
+}
+.whoSub {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* ── Relationship cards ── */
+.relGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.relCard {
+  background: rgba(255,251,245,0.95);
+  border: 1.5px solid rgba(212,175,55,0.2);
+  border-radius: 12px;
+  padding: 0.9rem 1.25rem;
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--font-label);
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--crimson);
+  transition: background 0.15s, border-color 0.15s;
+}
+.relCard:active { background: rgba(255,248,220,0.98); border-color: var(--gold); }
+
+/* ── Card (white container) ── */
+.card {
+  background: rgba(255,251,245,0.97);
+  border-radius: 16px;
+  padding: 1.25rem;
+  margin-bottom: 0.75rem;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2), 0 0 0 1px rgba(212,175,55,0.15);
+}
+
+/* ── Gender row ── */
+.genderRow {
+  display: flex;
+  gap: 0.6rem;
+  margin-bottom: 1.2rem;
+}
+.genderBtn {
+  flex: 1;
+  padding: 0.65rem;
+  background: transparent;
+  border: 1.5px solid var(--border);
+  border-radius: 50px;
+  font-family: var(--font-label);
+  font-size: 0.56rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.genderBtnActive {
+  background: var(--crimson);
+  border-color: var(--crimson);
+  color: #FFF8DC;
+}
+
+/* ── Fields ── */
+.field { margin-bottom: 0.95rem; }
+.fieldFlex { flex: 1; }
+.fieldLabel {
+  display: block;
+  font-family: var(--font-label);
+  font-size: 0.5rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.35rem;
+}
+.optLabel {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  color: var(--muted);
+  font-style: italic;
+  font-weight: normal;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.hint {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  color: var(--muted);
+  font-style: italic;
+  margin-top: 0.25rem;
+}
+.input {
+  width: 100%;
+  padding: 0.65rem 0;
+  background: transparent;
+  border: none;
+  border-bottom: 1.5px solid var(--border);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s;
+  -webkit-appearance: none;
+}
+.input:focus { border-color: var(--crimson); }
+.select {
+  width: 100%;
+  padding: 0.65rem 0;
+  background: transparent;
+  border: none;
+  border-bottom: 1.5px solid var(--border);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--text);
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+.select:focus { border-color: var(--crimson); }
+.selectSm {
+  flex: 1;
+  padding: 0.55rem 0.35rem;
+  border: 1.5px solid rgba(184,137,42,0.25);
+  border-radius: 10px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  background: #fffdf7;
+  color: var(--text);
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  text-align: center;
+  outline: none;
+}
+.selectSm:focus { border-color: var(--crimson); }
+.textarea {
+  width: 100%;
+  padding: 0.65rem 0;
+  background: transparent;
+  border: none;
+  border-bottom: 1.5px solid var(--border);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--text);
+  outline: none;
+  resize: vertical;
+  transition: border-color 0.2s;
+}
+.textarea:focus { border-color: var(--crimson); }
+
+/* ── Password field ── */
+.passwordField { position: relative; }
+.inputPassword {
+  composes: input;
+  padding-right: 2rem;
+}
+.eyeBtn {
+  position: absolute;
+  right: 0;
+  bottom: 0.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: var(--muted);
+  padding: 0.2rem;
+}
+
+/* ── Grid layouts ── */
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 0.85rem; }
+.grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0 0.65rem; }
+.spanFull { grid-column: 1 / -1; }
+
+/* ── Step screen ── */
+.stepScreen {
+  padding: 1.25rem 1rem 2rem;
+  max-width: 500px;
+  margin: 0 auto;
+}
+.stepHeader { margin-bottom: 0.75rem; }
+.stepTitle {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 300;
+  font-style: italic;
+  color: #FFF8DC;
+}
+
+/* ── Section titles inside cards ── */
+.sectionTitle {
+  font-family: var(--font-label);
+  font-size: 0.54rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--crimson);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(212,175,55,0.2);
+}
+.sectionNote {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-style: italic;
+  font-weight: normal;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* ── Marital status cards ── */
+.msCards { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-bottom: 0.5rem; }
+.msCard {
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 0.9rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+  background: transparent;
+  transition: background 0.15s, border-color 0.15s;
+}
+.msCardActive { background: rgba(123,31,46,0.07); border-color: var(--crimson); }
+.msIcon { font-size: 1.3rem; }
+.msLabel {
+  font-family: var(--font-label);
+  font-size: 0.5rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+/* ── Time of birth ── */
+.tobRow { margin-bottom: 0; }
+.tobInputs { display: flex; gap: 0.4rem; align-items: center; margin-top: 0.35rem; }
+.tobColon { font-size: 1.2rem; color: var(--muted); font-weight: 700; line-height: 1; }
+
+/* ── Community ── */
+.communityPills { display: flex; gap: 0.5rem; margin-bottom: 0.5rem; }
+.pill {
+  font-family: var(--font-label);
+  font-size: 0.5rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--crimson);
+  background: rgba(123,31,46,0.07);
+  border: 1px solid rgba(123,31,46,0.15);
+  border-radius: 20px;
+  padding: 0.2rem 0.75rem;
+}
+.communityNote {
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  color: var(--muted);
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+
+/* ── Tier cards ── */
+.tierRow { display: flex; gap: 0.6rem; }
+.tierCard {
+  flex: 1;
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 1rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  cursor: pointer;
+  background: transparent;
+  transition: all 0.15s;
+  position: relative;
+  overflow: hidden;
+}
+.tierCardActive { background: rgba(123,31,46,0.07); border-color: var(--crimson); }
+.tierFeatured { border-color: var(--gold); }
+.tierFeatured.tierCardActive { background: rgba(212,175,55,0.1); }
+.tierBadge {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--gold);
+  color: #fff;
+  font-family: var(--font-label);
+  font-size: 0.38rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.15rem 0.5rem;
+  border-radius: 0 0 6px 6px;
+}
+.tierIcon { font-size: 1.4rem; margin-top: 0.6rem; }
+.tierName {
+  font-family: var(--font-label);
+  font-size: 0.56rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--crimson);
+}
+.tierPrice {
+  font-family: var(--font-heading);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text);
+}
+.tierNote {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* ── T&C ── */
+.tcScroll {
+  height: 200px;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.75rem;
+  background: rgba(255,248,220,0.3);
+  margin-bottom: 1rem;
+}
+.tcText {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  color: var(--text);
+  line-height: 1.7;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.checkRow {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  color: var(--text);
+  line-height: 1.5;
+  cursor: pointer;
+}
+.checkbox {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+  accent-color: var(--crimson);
+  cursor: pointer;
+}
+
+/* ── Nav row ── */
+.navRow {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.25rem;
+}
+.btnNext {
+  flex: 1;
+  padding: 0.85rem;
+  background: var(--crimson);
+  color: #FFF8DC;
+  border: none;
+  border-radius: 50px;
+  font-family: var(--font-label);
+  font-size: 0.58rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(123,31,46,0.35);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.btnNext:hover { background: var(--crimson2); }
+.btnNext:disabled { background: var(--muted); box-shadow: none; cursor: not-allowed; }
+.btnBack {
+  padding: 0.85rem 1.2rem;
+  background: transparent;
+  color: rgba(255,248,220,0.75);
+  border: 1.5px solid rgba(255,248,220,0.25);
+  border-radius: 50px;
+  font-family: var(--font-label);
+  font-size: 0.58rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btnBack:hover { background: rgba(255,248,220,0.08); }
+
+/* ── Basics card buttons ── */
+.saveNote {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 0.75rem;
+  font-style: italic;
+}
+
+/* ── Review screen ── */
+.reviewHeader { text-align: center; padding: 1.75rem 1rem 1rem; }
+.reviewTitle {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-weight: 300;
+  font-style: italic;
+  color: #FFF8DC;
+  margin-bottom: 0.3rem;
+}
+.reviewSub {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: rgba(255,248,220,0.65);
+}
+.reviewCard {
+  background: rgba(255,251,245,0.97);
+  border-radius: 14px;
+  overflow: hidden;
+  margin: 0 1rem 0.6rem;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+.reviewCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 1rem;
+  background: rgba(123,31,46,0.05);
+  border-bottom: 1px solid rgba(212,175,55,0.15);
+}
+.reviewCardLabel {
+  font-family: var(--font-label);
+  font-size: 0.5rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--crimson);
+}
+.reviewEditBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: var(--gold);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.reviewRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid rgba(212,175,55,0.08);
+}
+.reviewRow:last-child { border-bottom: none; }
+.reviewKey {
+  font-family: var(--font-label);
+  font-size: 0.48rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.reviewVal {
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  color: var(--text);
+  text-align: right;
+}
+
+/* ── Submit ── */
+.submitWrap { padding: 1.25rem 1rem 1rem; }
+.btnSubmit {
+  width: 100%;
+  padding: 1rem;
+  background: var(--crimson);
+  color: #FFF8DC;
+  border: none;
+  border-radius: 50px;
+  font-family: var(--font-label);
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 8px 28px rgba(123,31,46,0.4);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.btnSubmit:hover { background: var(--crimson2); box-shadow: 0 10px 36px rgba(123,31,46,0.5); }
+.btnSubmit:disabled { background: var(--muted); box-shadow: none; cursor: not-allowed; }
+.submitNote {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: rgba(255,248,220,0.5);
+  text-align: center;
+  margin-top: 0.75rem;
+  line-height: 1.6;
+  font-style: italic;
+}
