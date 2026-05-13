@@ -678,3 +678,33 @@
   line-height: 1.6;
   font-style: italic;
 }
+
+
+/* ── Draft restore banner ── */
+.draftBanner {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+  background: linear-gradient(135deg, #5a1020, #7B1F2E);
+  border-bottom: 1px solid rgba(212,175,55,0.35);
+  padding: 0.85rem 1.2rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+}
+.draftBannerText {
+  font-family: 'EB Garamond', serif;
+  font-size: 0.88rem;
+  color: rgba(255,248,220,0.92);
+  margin-bottom: 0.65rem;
+  line-height: 1.5;
+}
+.draftBannerActions { display: flex; gap: 0.6rem; }
+.draftBtnYes {
+  flex: 1; padding: 0.5rem; background: rgba(212,175,55,0.18);
+  border: 1px solid rgba(212,175,55,0.5); border-radius: 6px;
+  color: #FFF8DC; font-family: 'Cinzel', serif; font-size: 0.55rem;
+  font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer;
+}
+.draftBtnNo {
+  flex: 1; padding: 0.5rem; background: transparent;
+  border: 1px solid rgba(255,248,220,0.2); border-radius: 6px;
+  color: rgba(255,248,220,0.6); font-family: 'Cinzel', serif; font-size: 0.55rem;
+  font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer;
+}

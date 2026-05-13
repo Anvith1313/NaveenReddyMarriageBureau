@@ -1,0 +1,37 @@
+.page { background: var(--bg); min-height: 100vh; padding-bottom: 3rem; }
+.pageDesktop { max-width: 800px; margin: 0 auto; padding: 1rem 2rem 3rem; }
+
+.loadWrap { display: flex; align-items: center; justify-content: center; min-height: 60vh; }
+.spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--crimson); border-radius: 50%; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.topBar { display: flex; align-items: center; gap: 1rem; padding: 0.85rem 1.2rem; border-bottom: 1px solid var(--border); background: white; position: sticky; top: 0; z-index: 10; }
+.backBtn { background: none; border: none; font-family: var(--font-body); color: var(--crimson); cursor: pointer; font-size: 0.95rem; padding: 0; }
+.title { font-family: var(--font-heading); font-size: 1.4rem; font-weight: 500; color: var(--text); margin: 0; }
+
+.errorBanner { background: #fdf0ed; border-left: 3px solid #c0392b; padding: 0.7rem 1.2rem; font-family: var(--font-body); font-size: 0.9rem; color: #c0392b; margin: 0.75rem 1.2rem 0; border-radius: 0 6px 6px 0; }
+.successBanner { background: #eafaf1; border-left: 3px solid #27ae60; padding: 0.7rem 1.2rem; font-family: var(--font-body); font-size: 0.9rem; color: #27ae60; margin: 0.75rem 1.2rem 0; border-radius: 0 6px 6px 0; }
+
+.body { padding: 1rem 1.2rem; }
+.pageDesktop .body { padding: 1.25rem 0; }
+
+.section { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem; }
+.sectionTitle { font-family: var(--font-label); font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; margin-bottom: 0.75rem; }
+@media (max-width: 480px) { .grid2 { grid-template-columns: 1fr; } }
+
+.field { display: flex; flex-direction: column; gap: 0.3rem; }
+.label { font-family: var(--font-label); font-size: 0.55rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.input { padding: 0.6rem 0.85rem; border: 1px solid var(--border); border-radius: 8px; font-family: var(--font-body); font-size: 0.94rem; color: var(--text); background: var(--bg); outline: none; width: 100%; box-sizing: border-box; transition: border-color 0.15s; }
+.input:focus { border-color: var(--gold); }
+.textarea { resize: vertical; min-height: 90px; }
+.select { padding: 0.6rem 0.85rem; border: 1px solid var(--border); border-radius: 8px; font-family: var(--font-body); font-size: 0.94rem; color: var(--text); background: var(--bg); outline: none; width: 100%; box-sizing: border-box; appearance: none; }
+
+.genderRow { display: flex; gap: 0.5rem; }
+.genderBtn { flex: 1; padding: 0.55rem; border: 1.5px solid var(--border); border-radius: 8px; background: white; font-family: var(--font-body); font-size: 0.9rem; color: var(--muted); cursor: pointer; }
+.genderActive { border-color: var(--crimson); background: #FFF0F2; color: var(--crimson); }
+
+.saveRow { padding: 1rem 0; }
+.btnSave { width: 100%; padding: 0.9rem; background: var(--crimson); color: white; border: none; border-radius: 10px; font-family: var(--font-label); font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; }
+.btnSave:disabled { opacity: 0.6; cursor: default; }

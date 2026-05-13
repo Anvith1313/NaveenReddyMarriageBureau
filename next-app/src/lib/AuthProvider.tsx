@@ -4,21 +4,9 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import { onAuthStateChanged, User } from 'firebase/auth'
 import { doc, getDoc } from 'firebase/firestore'
 import { auth, db } from './firebase'
+import { Profile } from './types'
 
-export interface UserProfile {
-  uid: string
-  email?: string
-  name?: string
-  u?: string
-  tier?: string
-  em?: string
-  gender?: string
-  dob?: string
-  phone?: string
-  photoURL?: string
-  savedProfiles?: string[]
-  [key: string]: unknown
-}
+export type UserProfile = Profile
 
 interface AuthCtx {
   user: User | null
@@ -42,9 +30,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   async function loadProfile(u: User) {
     try {
       const snap = await getDoc(doc(db, 'users', u.uid))
-      setProfile(snap.exists() ? { ...snap.data(), uid: u.uid } : { uid: u.uid, email: u.email ?? '' })
+      setProfile(snap.exists() ? { ...snap.data(), uid: u.uid } as Profile : { uid: u.uid, u: u.uid, name: '', email: u.email ?? '' } as Profile)
     } catch {
-      setProfile({ uid: u.uid, email: u.email ?? '' })
+      setProfile({ uid: u.uid, u: u.uid, name: '', email: u.email ?? '' } as Profile)
     }
   }
 

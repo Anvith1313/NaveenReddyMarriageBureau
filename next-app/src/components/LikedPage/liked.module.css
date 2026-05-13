@@ -1,0 +1,151 @@
+.page { min-height: 100dvh; background: var(--bg); }
+
+/* ── Tabs ─────────────────────────────────────────── */
+.tabs {
+  display: flex;
+  background: #fff;
+  border-bottom: 1px solid rgba(184,137,42,0.15);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+.tabsDesktop { top: 64px; }
+
+.tab {
+  flex: 1;
+  padding: 0.85rem 0.5rem 0.7rem;
+  font-family: var(--font-label);
+  font-size: 0.5rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: color 0.18s, border-color 0.18s;
+  position: relative;
+}
+.tabActive { color: var(--crimson); border-bottom-color: var(--crimson); }
+
+/* ── Grid ─────────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.65rem;
+  padding: 0.9rem 0.75rem 5rem;
+}
+.gridDesktop {
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  padding: 1.25rem 1.5rem 3rem;
+  gap: 1rem;
+}
+
+/* ── Grid card ────────────────────────────────────── */
+.card {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  aspect-ratio: 3/4;
+  cursor: pointer;
+  box-shadow: 0 3px 16px rgba(123,31,46,0.1);
+  transition: transform 0.18s, box-shadow 0.18s;
+}
+.card:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(123,31,46,0.18); }
+
+.cardPhoto {
+  width: 100%; height: 100%;
+  background-size: cover; background-position: center top;
+  display: flex; align-items: center; justify-content: center;
+}
+.cardEmoji { font-size: 2.8rem; }
+.cardGrad {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(26,10,8,0.82) 0%, rgba(26,10,8,0.3) 45%, transparent 75%);
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 0.65rem 0.7rem;
+}
+.cardName { font-family: var(--font-heading); font-size: 1.05rem; font-weight: 400; color: #fff; line-height: 1.2; }
+.cardCity { font-family: var(--font-body); font-size: 0.76rem; color: rgba(255,255,255,0.72); margin-top: 0.06rem; }
+.cardTier {
+  position: absolute; top: 0.5rem; left: 0.5rem;
+  font-family: var(--font-label); font-size: 0.38rem; letter-spacing: 0.14em; text-transform: uppercase;
+  background: rgba(26,10,8,0.7); color: var(--gold); border: 1px solid rgba(184,137,42,0.35);
+  padding: 0.18rem 0.5rem; border-radius: 50px;
+}
+.cardRemove {
+  position: absolute; top: 0.4rem; right: 0.45rem;
+  width: 30px; height: 30px;
+  background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.8rem; cursor: pointer; transition: background 0.18s; padding: 0; color: #fff;
+}
+.cardRemove:hover { background: rgba(255,60,60,0.3); }
+
+/* ── Interest card (Interested In Me tab) ─────────── */
+.intCard {
+  background: #fff;
+  border: 1px solid rgba(184,137,42,0.18);
+  border-radius: 14px;
+  padding: 0.9rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  box-shadow: 0 2px 12px rgba(123,31,46,0.06);
+}
+.intAvatar {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: rgba(123,31,46,0.08);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.6rem;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.intAvatarImg { width: 100%; height: 100%; object-fit: cover; }
+.intInfo { flex: 1; min-width: 0; }
+.intName { font-family: var(--font-heading); font-size: 1rem; color: var(--text); }
+.intMeta { font-family: var(--font-body); font-size: 0.8rem; color: var(--muted); margin-top: 0.1rem; }
+.intStatus {
+  font-family: var(--font-label); font-size: 0.42rem; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 0.18rem 0.6rem; border-radius: 50px; margin-top: 0.3rem; display: inline-block;
+}
+.intStatusMutual { background: rgba(76,175,80,0.1); color: #388e3c; border: 1px solid rgba(76,175,80,0.3); }
+.intStatusContact { background: rgba(33,150,243,0.1); color: #1565c0; border: 1px solid rgba(33,150,243,0.3); }
+.intStatusPending { background: rgba(184,137,42,0.1); color: var(--gold); border: 1px solid rgba(184,137,42,0.3); }
+
+.intActions { display: flex; flex-direction: column; gap: 0.4rem; flex-shrink: 0; }
+.btnAccept {
+  padding: 0.45rem 0.9rem;
+  background: linear-gradient(135deg, var(--crimson), #9b2b3f); color: #fff8dc;
+  border: none; border-radius: 50px;
+  font-family: var(--font-label); font-size: 0.44rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+  cursor: pointer; transition: opacity 0.2s; white-space: nowrap;
+}
+.btnAccept:hover { opacity: 0.88; }
+.btnDecline {
+  padding: 0.45rem 0.9rem;
+  background: transparent; color: var(--muted);
+  border: 1px solid rgba(184,137,42,0.25); border-radius: 50px;
+  font-family: var(--font-label); font-size: 0.44rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+  cursor: pointer; transition: border-color 0.18s, color 0.18s; white-space: nowrap;
+}
+.btnDecline:hover { border-color: #c62828; color: #c62828; }
+
+/* ── List layout for interests ───────────────────── */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding: 0.9rem 0.75rem 5rem;
+}
+.listDesktop { padding: 1.25rem 1.5rem 3rem; max-width: 700px; margin: 0 auto; width: 100%; }
+
+/* ── Empty ────────────────────────────────────────── */
+.empty {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 0.9rem; padding: 4rem 2rem; text-align: center;
+}
+.emptyEmoji { font-size: 3rem; }
+.emptyTitle { font-family: var(--font-heading); font-size: 1.5rem; font-weight: 300; font-style: italic; color: var(--crimson); }
+.emptyText { font-family: var(--font-body); font-size: 0.9rem; color: var(--muted); line-height: 1.85; max-width: 280px; }

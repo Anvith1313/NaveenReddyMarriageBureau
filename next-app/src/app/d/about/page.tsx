@@ -1,3 +1,2 @@
-export default function DesktopAbout() {
-  return <div style={{ padding: '2rem' }}><p style={{ fontFamily: 'var(--font-body)', color: 'var(--muted)' }}>About — coming soon</p></div>
-}
+import AboutPage from '@/components/StaticPages/AboutPage'
+export default function DesktopAbout() { return <AboutPage desktop={true} /> }

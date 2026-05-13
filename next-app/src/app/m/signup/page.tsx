@@ -1,15 +1,16 @@
 'use client'
 
-import { useState, useId } from 'react'
+import { useState, useId, useEffect, useRef, Suspense } from 'react'
 import React from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth'
-import { doc, setDoc, collection, query, where, getDocs } from 'firebase/firestore'
+import { doc, setDoc, getDoc, deleteDoc, collection, query, where, getDocs } from 'firebase/firestore'
 import { auth, db } from '@/lib/firebase'
 import {
   useSignupForm, MAIN_STEPS, STEP_LABELS,
   INDIA_STATES, HEIGHTS, GOTRAS, NAKSHATRAS, RASHIS,
+  SignupFormState,
 } from '@/lib/useSignupForm'
 import s from './signup.module.css'
 
@@ -53,15 +54,68 @@ function Field({ label, hint, className, children }: {
   )
 }
 
-export default function MobileSignup() {
+// Draft fields saved/restored (password excluded for security)
+const DRAFT_FIELDS: (keyof SignupFormState)[] = [
+  'profileFor','relationship','gender','name','email',
+  'maritalStatus','dob','height','motherTongue','complexion','bodyType','bloodGroup','differentlyAbled',
+  'tobH','tobM','tobAP','placeOfBirth',
+  'country','state','city','nativePlace','residentialStatus',
+  'gotra','fatherGotra','nakshatra','rashi',
+  'schoolBoard','schoolName','interCollege','highestQual','degreeCollege','pgCollege',
+  'employedIn','occupation','company','workCountry','workState','workCity','annualIncome','visaStatus',
+  'diet','smoking','drinking','aboutYourself',
+  'familyType','familyValues','familyStatus',
+  'fatherName','fatherStatus','fatherOcc','motherName','motherStatus','motherOcc',
+  'parentMobile1','parentMobile2','brothers','brothersMarried','sisters','sistersMarried','propertyValue',
+  'ppAgeFrom','ppAgeTo','ppHeight','ppEducation','ppProfession','ppIncome','ppLocation','ppNRI','ppNotes',
+  'mobile','username','tier',
+]
+
+function MobileSignupInner() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const { step, go, f, set, loading, setLoading, error, setError } = useSignupForm()
   const [showPass, setShowPass] = useState(false)
+  const [draftData, setDraftData] = useState<Record<string, unknown> | null>(null)
+  const [showDraftBanner, setShowDraftBanner] = useState(false)
+  const refCode = searchParams.get('ref') ?? ''
+  const draftSavedRef = useRef(false)
 
   const stepIdx = MAIN_STEPS.indexOf(step)
   const isMainStep = stepIdx >= 0
 
   function err(msg: string) { setError(msg); if (typeof window !== 'undefined') window.scrollTo(0, 0) }
+
+  // ── Draft: check on email blur ──
+  async function checkDraft() {
+    const email = f.email.trim().toLowerCase()
+    if (!email || !email.includes('@')) return
+    try {
+      const snap = await getDoc(doc(db, 'drafts', email))
+      if (!snap.exists()) return
+      setDraftData(snap.data())
+      setShowDraftBanner(true)
+    } catch { /* ignore */ }
+  }
+
+  function restoreDraft() {
+    if (!draftData) return
+    for (const key of DRAFT_FIELDS) {
+      if (draftData[key] !== undefined) set(key, draftData[key] as string)
+    }
+    setShowDraftBanner(false)
+    setDraftData(null)
+  }
+
+  // ── Draft: auto-save whenever user advances past basics step ──
+  useEffect(() => {
+    if (!f.email || draftSavedRef.current) return
+    if (step === 'basics' || step === 'who' || step === 'rel') return
+    draftSavedRef.current = true
+    const draft: Record<string, unknown> = { savedAt: new Date().toISOString() }
+    for (const key of DRAFT_FIELDS) draft[key] = (f as unknown as Record<string,unknown>)[key] ?? ''
+    setDoc(doc(db, 'drafts', f.email.trim().toLowerCase()), draft).catch(() => {})
+  }, [step]) // eslint-disable-line react-hooks/exhaustive-deps
 
   function pickProfileFor(pf: string, g: string) {
     set('profileFor', pf)
@@ -165,7 +219,10 @@ export default function MobileSignup() {
         approved: false,
         savedProfiles: [],
         createdAt: new Date().toISOString(),
+        ...(refCode ? { referredBy: refCode } : {}),
       })
+      // Clean up draft after successful registration
+      deleteDoc(doc(db, 'drafts', f.email.trim().toLowerCase())).catch(() => {})
       router.push('/verify')
     } catch (e: unknown) {
       const code = (e as { code?: string }).code
@@ -180,6 +237,19 @@ export default function MobileSignup() {
 
   return (
     <div className={s.page}>
+      {/* Draft restore banner */}
+      {showDraftBanner && (
+        <div className={s.draftBanner}>
+          <div className={s.draftBannerText}>
+            ✦ We found a saved draft for <strong>{f.email}</strong>. Restore your progress?
+          </div>
+          <div className={s.draftBannerActions}>
+            <button type="button" className={s.draftBtnYes} onClick={restoreDraft}>Restore Draft</button>
+            <button type="button" className={s.draftBtnNo} onClick={() => { setShowDraftBanner(false); setDraftData(null) }}>Start Fresh</button>
+          </div>
+        </div>
+      )}
+
       {/* Progress bar for main steps */}
       {isMainStep && (
         <div className={s.progressWrap}>
@@ -264,7 +334,7 @@ export default function MobileSignup() {
               <input className={s.input} type="text" value={f.name} onChange={e => set('name', e.target.value)} placeholder="As per Aadhaar card" autoComplete="name" />
             </Field>
             <Field label="Email Address *">
-              <input className={s.input} type="email" value={f.email} onChange={e => set('email', e.target.value)} placeholder="your@email.com" autoComplete="email" />
+              <input className={s.input} type="email" value={f.email} onChange={e => set('email', e.target.value)} onBlur={checkDraft} placeholder="your@email.com" autoComplete="email" />
             </Field>
             <button type="button" className={s.btnNext} onClick={() => { if (validateBasics()) go('about') }}>Continue →</button>
             <p className={s.saveNote}>We save your progress automatically so you can continue later.</p>
@@ -801,5 +871,13 @@ export default function MobileSignup() {
         </div>
       )}
     </div>
+  )
+}
+
+export default function MobileSignup() {
+  return (
+    <Suspense>
+      <MobileSignupInner />
+    </Suspense>
   )
 }

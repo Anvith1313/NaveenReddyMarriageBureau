@@ -2,7 +2,7 @@ export interface Profile {
   uid: string
   u: string
   name: string
-  age: number
+  age?: number
   g?: string
   gender?: string
   ht?: string
@@ -70,7 +70,7 @@ export function prefScore(p: Profile, user: Profile): number {
   const ppNri = (user.pp_nri as string) ?? 'No Preference'
 
   let s = 0
-  const age = +p.age || 0
+  const age = +(p.age ?? 0) || 0
   if (ppAf && ppAt < 90) {
     if (age >= ppAf && age <= ppAt) s += 40
     else if (age >= ppAf - 3 && age <= ppAt + 3) s += 20

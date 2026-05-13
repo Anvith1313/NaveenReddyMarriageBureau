@@ -7,7 +7,7 @@ const NAV = [
   { href: '/', icon: '⌂', label: 'Home' },
   { href: '/browse', icon: '◈', label: 'Browse' },
   { href: '/liked', icon: '♥', label: 'Liked' },
-  { href: '/dashboard', icon: '◉', label: 'Profile' },
+  { href: '/my-profile', icon: '◉', label: 'Profile' },
   { href: '/membership', icon: '✦', label: 'Plans' },
 ]
 

@@ -26,6 +26,7 @@ export function useProfiles(currentUser: Profile | null): UseProfilesResult {
 
   useEffect(() => {
     if (!currentUser) { setLoading(false); return }
+    const cu = currentUser
 
     async function load() {
       setLoading(true)
@@ -33,7 +34,7 @@ export function useProfiles(currentUser: Profile | null): UseProfilesResult {
         const [profilesSnap, intSnap, engSnap] = await Promise.all([
           getDocs(query(collection(db, 'users'), where('status', '!=', 'deleted'))),
           getDocs(query(collection(db, 'interests'),
-            where('from', '==', currentUser.u ?? currentUser.uid)
+            where('from', '==', cu.u ?? cu.uid)
           )).then(s => s).catch(() => ({ docs: [] })),
           getDocs(collection(db, 'engagements')).catch(() => ({ docs: [] })),
         ])
@@ -45,9 +46,9 @@ export function useProfiles(currentUser: Profile | null): UseProfilesResult {
         const held = new Set<string>()
         myEngagements.forEach(e => { held.add(e.p1.u); held.add(e.p2.u) })
 
-        const myG = currentUser.g ?? currentUser.gender ?? ''
-        const myU = currentUser.u ?? ''
-        const myUid = currentUser.uid ?? ''
+        const myG = cu.g ?? cu.gender ?? ''
+        const myU = cu.u ?? ''
+        const myUid = cu.uid ?? ''
 
         let filtered = allProfiles.filter(p => {
           if (p.u === myU || p.uid === myUid) return false
@@ -65,12 +66,12 @@ export function useProfiles(currentUser: Profile | null): UseProfilesResult {
           })
         }
 
-        filtered.sort((a, b) => prefScore(b, currentUser) - prefScore(a, currentUser))
+        filtered.sort((a, b) => prefScore(b, cu) - prefScore(a, cu))
 
         setPool(filtered)
         setInterests(myInterests)
         setEngagements(myEngagements)
-        setSavedProfiles((currentUser.savedProfiles as string[]) ?? [])
+        setSavedProfiles((cu.savedProfiles as string[]) ?? [])
       } catch (e) {
         console.error('useProfiles error', e)
       }

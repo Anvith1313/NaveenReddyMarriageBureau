@@ -1,3 +1,2 @@
-export default function MobileStories() {
-  return <div style={{ padding: '1rem' }}><p style={{ fontFamily: 'var(--font-body)', color: 'var(--muted)' }}>Stories — coming soon</p></div>
-}
+import StoriesPage from '@/components/StaticPages/StoriesPage'
+export default function MobileStories() { return <StoriesPage desktop={false} /> }
