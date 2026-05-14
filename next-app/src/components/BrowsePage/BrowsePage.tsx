@@ -219,7 +219,7 @@ export default function BrowsePage({ desktop = false }: { desktop?: boolean }) {
           <div
             id="browseDropFixed"
             className={s.dropdownFixed}
-            style={{ ['--dd-left' as string]: `${dropPos.left}px`, ['--dd-top' as string]: `${dropPos.top}px` }}
+            style={{ left: dropPos.left, top: dropPos.top }}
           >
             {FILTER_OPTIONS[openFilter].map(opt => (
               <div

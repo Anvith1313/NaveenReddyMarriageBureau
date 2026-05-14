@@ -91,8 +91,6 @@
 /* Desktop: fixed-position dropdown anchored to pill via CSS vars */
 .dropdownFixed {
   position: fixed;
-  left: var(--dd-left, 0px);
-  top: var(--dd-top, 0px);
   min-width: 200px;
   max-height: 280px;
   overflow-y: auto;
