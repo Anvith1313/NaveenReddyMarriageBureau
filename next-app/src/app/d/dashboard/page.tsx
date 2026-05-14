@@ -8,6 +8,7 @@ import { useAuth } from '@/lib/AuthProvider'
 import { useProfiles } from '@/lib/useProfiles'
 import { Profile, Interest, prefScore, formatIncome } from '@/lib/types'
 import s from './dashboard.module.css'
+import LottieHeart from '@/components/LottieHeart/LottieHeart'
 
 type FanPos = 'left' | 'center' | 'right'
 type FanSlot = 'profile' | 'details' | 'biodata'
@@ -281,9 +282,7 @@ function ProfileCard({ p, saved, myInterest, onSave, onInterest, onWhatsapp }: {
         <div className={s.pcTierPill}>{p.tier ?? 'VIP'}</div>
         <div className={s.pcVerify}>✓ Verified</div>
         <button type="button" className={`${s.pcBookmark} ${saved ? s.saved : ''}`} onClick={onSave} aria-label="Save profile">
-          <svg viewBox="0 0 24 24" fill={saved ? '#B8892A' : 'none'} stroke={saved ? '#B8892A' : 'rgba(255,255,255,0.8)'} strokeWidth="2">
-            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-          </svg>
+          <LottieHeart saved={saved} size={28} />
         </button>
       </div>
       <div className={s.pcardBody}>

@@ -9,6 +9,7 @@ import { useAuth } from '@/lib/AuthProvider'
 import { useProfiles } from '@/lib/useProfiles'
 import { Profile, Interest, htInches, formatIncome } from '@/lib/types'
 import s from './browse.module.css'
+import LottieHeart from '@/components/LottieHeart/LottieHeart'
 
 interface Filters {
   tier: string[]
@@ -331,7 +332,7 @@ export default function BrowsePage({ desktop = false }: { desktop?: boolean }) {
                 onClick={e => toggleSave(p.u, e)}
                 aria-label={saved.includes(p.u) ? 'Unsave' : 'Save'}
               >
-                {saved.includes(p.u) ? '♥' : '♡'}
+                <LottieHeart saved={saved.includes(p.u)} size={26} />
               </button>
             </div>
           ))}
@@ -503,7 +504,8 @@ function FanBrowse({ profiles, saved, interests, me, onSave, onInterest, onWhats
               className={`${s.fanActBtn} ${isSaved ? s.fanActBtnSaved : s.fanActBtnSecondary}`}
               onClick={() => onSave(p.u)}
             >
-              {isSaved ? '♥ Saved' : '♡ Save Profile'}
+              <LottieHeart saved={isSaved} size={22} />
+              {isSaved ? 'Saved' : 'Save Profile'}
             </button>
             <button
               type="button"

@@ -180,12 +180,11 @@ export default function BiodataPage({ uid, desktop = false }: { uid: string; des
         <div className={s.metaRow}>
           <span className={s.metaSince}><em>Since 2000</em></span>
           <div className={s.logoWrap}>
-            <Image
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
               src="/Assets/Biodata-logo.jpg"
               alt="Naveen Reddy Marriage Bureau"
-              fill
-              style={{ objectFit: 'contain' }}
-              priority
+              style={{ width: '100%', height: '100%', objectFit: 'contain' }}
             />
           </div>
           <span
