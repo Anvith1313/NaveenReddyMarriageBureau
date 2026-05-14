@@ -1,0 +1,78 @@
+.shell {
+  min-height: 100vh;
+  background: var(--bg);
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: var(--nav-h);
+  background: rgba(255, 251, 245, 0.96);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-light);
+  box-shadow: var(--sh-soft);
+  display: flex;
+  align-items: center;
+  padding: 0 2rem;
+  gap: 2rem;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  flex-shrink: 0;
+  font-family: var(--font-label);
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  color: var(--crimson);
+  font-weight: 600;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-left: auto;
+}
+
+.navLink {
+  font-family: var(--font-label);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: var(--muted);
+  text-decoration: none;
+  padding: 0.5rem 0.85rem;
+  border-radius: 4px;
+  transition: color var(--dur-fast) var(--ease-out), background var(--dur-fast);
+  background: transparent;
+}
+.navLink:hover { color: var(--crimson); }
+
+.navLinkActive {
+  composes: navLink;
+  font-weight: 600;
+  color: var(--crimson);
+  background: var(--primary-light);
+}
+
+.ctaBtn {
+  font-family: var(--font-label);
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #fff8dc;
+  background: var(--crimson);
+  padding: 0.55rem 1.25rem;
+  border-radius: 4px;
+  text-decoration: none;
+  flex-shrink: 0;
+  box-shadow: 0 2px 12px rgba(123, 31, 46, 0.28);
+  transition: background var(--dur-fast);
+}
+.ctaBtn:hover { background: var(--crimson2); }

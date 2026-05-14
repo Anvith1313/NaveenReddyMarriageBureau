@@ -193,7 +193,8 @@ export default function BrowsePage({ desktop = false }: { desktop?: boolean }) {
                 {filters[key].length > 0 && ` (${filters[key].length})`}
                 <svg width="8" height="6" viewBox="0 0 10 7"><path d="M0 0l5 7 5-7z" fill="currentColor" opacity="0.5"/></svg>
               </button>
-              {openFilter === key && (
+              {/* Desktop dropdown — rendered inside dropWrap for absolute positioning */}
+              {desktop && openFilter === key && (
                 <div className={s.dropdown}>
                   {FILTER_OPTIONS[key].map(opt => (
                     <div
@@ -223,6 +224,42 @@ export default function BrowsePage({ desktop = false }: { desktop?: boolean }) {
           </div>
         )}
       </div>
+
+      {/* Mobile filter bottom sheet */}
+      {!desktop && openFilter && (
+        <>
+          <div className={s.sheetBackdrop} onClick={() => setOpenFilter(null)} />
+          <div className={s.filterSheet}>
+            <div className={s.filterSheetHdr}>
+              <span className={s.filterSheetTitle}>{FILTER_LABELS[openFilter]}</span>
+              <button type="button" className={s.filterSheetClose} onClick={() => setOpenFilter(null)}>✕</button>
+            </div>
+            <div className={s.filterSheetBody}>
+              {FILTER_OPTIONS[openFilter].map(opt => (
+                <button
+                  type="button"
+                  key={opt}
+                  className={`${s.filterSheetItem} ${filters[openFilter].includes(opt) ? s.filterSheetItemActive : ''}`}
+                  onClick={() => toggleFilter(openFilter, opt)}
+                >
+                  <div className={`${s.ddCheck} ${filters[openFilter].includes(opt) ? s.ddCheckActive : ''}`}>
+                    {filters[openFilter].includes(opt) && <svg width="8" height="7" viewBox="0 0 10 8" fill="none"><polyline points="1,4 4,7 9,1" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+                  </div>
+                  {opt}
+                </button>
+              ))}
+            </div>
+            <div className={s.filterSheetFooter}>
+              <button type="button" className={s.filterSheetClear} onClick={() => { setFilters(prev => ({ ...prev, [openFilter!]: [] })); setOpenFilter(null) }}>
+                Clear
+              </button>
+              <button type="button" className={s.filterSheetDone} onClick={() => setOpenFilter(null)}>
+                Done
+              </button>
+            </div>
+          </div>
+        </>
+      )}
 
       {!desktop && !engagement ? (
         filtered.length === 0 ? (

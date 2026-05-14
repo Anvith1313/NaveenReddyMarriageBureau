@@ -1,6 +1,11 @@
 /* ── Page wrapper ── */
 .page { background: #f5f0ea; min-height: 100vh; padding: 1.5rem 1rem; }
 .pageDesktop { padding: 2rem; }
+/* Mobile: clip horizontal overflow so the scaled sheet doesn't bleed */
+.pageMobile { overflow-x: hidden; padding: 0.75rem 0.5rem; }
+
+/* ── Sheet wrapper — height set by JS zoom-to-fit on mobile ── */
+.sheetWrap { display: flex; justify-content: center; }
 
 /* ── Loading / not found ── */
 .loadWrap { display: flex; align-items: center; justify-content: center; min-height: 60vh; }

@@ -12,6 +12,7 @@ import {
   useSignupForm, MAIN_STEPS, STEP_LABELS,
   INDIA_STATES, HEIGHTS, GOTRAS, NAKSHATRAS, RASHIS,
 } from '@/lib/useSignupForm'
+import DatePicker from '@/components/DatePicker/DatePicker'
 import s from './signup.module.css'
 
 const TERMS = `1. Eligibility: Membership is exclusively for Reddy community members of Hindu religion. Misrepresentation results in immediate termination without refund.
@@ -350,7 +351,12 @@ export default function DesktopSignup() {
               <h3 className={s.sectionTitle}>Basic Details</h3>
               <div className={s.grid3}>
                 <Field label="Date of Birth *" hint="Min age: 21 (Male) · 18 (Female)">
-                  <input className={s.input} type="date" value={f.dob} onChange={e => set('dob', e.target.value)} />
+                  <DatePicker
+                    value={f.dob}
+                    onChange={v => set('dob', v)}
+                    placeholder="Select date of birth"
+                    maxYear={new Date().getFullYear() - 18}
+                  />
                 </Field>
                 <Field label="Height *">
                   <select className={s.select} value={f.height} onChange={e => set('height', e.target.value)}>

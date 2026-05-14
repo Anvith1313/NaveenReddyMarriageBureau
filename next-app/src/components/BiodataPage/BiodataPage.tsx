@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { doc, getDoc, query, collection, where, getDocs } from 'firebase/firestore'
@@ -62,6 +62,29 @@ export default function BiodataPage({ uid, desktop = false }: { uid: string; des
   const { user } = useAuth()
   const [profile, setProfile] = useState<Profile | null>(null)
   const [loading, setLoading] = useState(true)
+  const sheetRef = useRef<HTMLDivElement>(null)
+  const wrapRef = useRef<HTMLDivElement>(null)
+
+  // Zoom-to-fit: scale the A4 sheet to fill mobile screen width
+  useEffect(() => {
+    if (desktop || !sheetRef.current || !wrapRef.current) return
+    function applyZoom() {
+      const sheet = sheetRef.current!
+      const wrap = wrapRef.current!
+      const screenW = window.innerWidth - 16
+      const naturalW = sheet.scrollWidth
+      if (naturalW > screenW) {
+        const z = +(screenW / naturalW).toFixed(3)
+        sheet.style.transform = `scale(${z})`
+        sheet.style.transformOrigin = 'top center'
+        wrap.style.height = `${sheet.scrollHeight * z}px`
+      }
+    }
+    // Wait one frame for fonts/images to settle, then zoom
+    const raf = requestAnimationFrame(() => setTimeout(applyZoom, 80))
+    window.addEventListener('resize', applyZoom)
+    return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', applyZoom) }
+  }, [desktop, profile])
 
   useEffect(() => {
     if (!user) { router.replace('/login'); return }
@@ -146,12 +169,13 @@ export default function BiodataPage({ uid, desktop = false }: { uid: string; des
   const branchColor = isOnline ? '#111' : '#8b1a2a'
 
   return (
-    <div className={`${s.page} ${desktop ? s.pageDesktop : ''}`}>
+    <div className={`${s.page} ${desktop ? s.pageDesktop : s.pageMobile}`}>
       <div className={s.controls}>
         <button type="button" className={s.btnBack} onClick={() => router.back()}>← Back</button>
       </div>
 
-      <div className={s.sheet}>
+      <div ref={wrapRef} className={s.sheetWrap}>
+      <div ref={sheetRef} className={s.sheet}>
         {/* ── Header ── */}
         <div className={s.metaRow}>
           <span className={s.metaSince}><em>Since 2000</em></span>
@@ -249,6 +273,7 @@ export default function BiodataPage({ uid, desktop = false }: { uid: string; des
           <button type="button" className={s.closeBtn} onClick={() => router.back()}>Close</button>
         </div>
       </div>
+      </div>{/* /sheetWrap */}
     </div>
   )
 }
