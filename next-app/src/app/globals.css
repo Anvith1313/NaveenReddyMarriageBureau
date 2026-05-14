@@ -86,8 +86,6 @@ body {
 
 main {
   animation: pageEnter 0.22s cubic-bezier(0.22, 1, 0.36, 1) both;
-  /* Promote to GPU layer so Android composites smoothly */
-  will-change: opacity, transform;
 }
 
 /* Instant on back/forward swipe so it doesn't look doubled */
