@@ -4,10 +4,11 @@ import s from './static.module.css'
 export default function PrivacyPage({ desktop = false }: { desktop?: boolean }) {
   return (
     <div className={`${s.page} ${desktop ? s.pageDesktop : ''}`}>
-      <div className={s.pageHeader}>
-        <div className={s.pageEyebrow}>Legal</div>
-        <h1 className={s.pageTitle}>Privacy Policy</h1>
-        <p className={s.pageSub}>Naveen Reddy Marriage Bureau — How we protect your data</p>
+      <div className={`${s.hero} ${desktop ? s.heroDesktop : ''}`}>
+        <div className={s.heroInner}>
+          <div className={`${s.heroTitle} ${desktop ? s.heroTitleDesktop : ''}`}>Privacy Policy</div>
+          <div className={s.heroTag}>Home | Privacy Policy</div>
+        </div>
       </div>
 
       <div className={s.legalBody}>

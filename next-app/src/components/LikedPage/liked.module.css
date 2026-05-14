@@ -1,5 +1,37 @@
 .page { min-height: 100dvh; background: var(--bg); }
 
+.hero {
+  height: clamp(160px, 24vh, 240px);
+  background-image: url('/Assets/Temple.webp');
+  background-size: cover;
+  background-position: center 40%;
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 1;
+  background:
+    linear-gradient(to bottom, rgba(12,4,2,0.38) 0%, rgba(12,4,2,0.52) 50%, rgba(12,4,2,0.62) 100%),
+    linear-gradient(to right, rgba(12,4,2,0.25) 0%, transparent 30%, transparent 70%, rgba(12,4,2,0.25) 100%);
+}
+.heroInner { position: relative; z-index: 2; text-align: center; padding: 0 1rem; }
+.heroTitle {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 0.08em;
+  text-shadow: 0 2px 20px rgba(123,31,46,0.4);
+}
+.heroTag {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,248,220,0.75);
+  margin-top: 0.3rem;
+}
+
 /* ── Tabs ─────────────────────────────────────────── */
 .tabs {
   display: flex;

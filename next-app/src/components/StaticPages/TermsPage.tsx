@@ -4,10 +4,11 @@ import s from './static.module.css'
 export default function TermsPage({ desktop = false }: { desktop?: boolean }) {
   return (
     <div className={`${s.page} ${desktop ? s.pageDesktop : ''}`}>
-      <div className={s.pageHeader}>
-        <div className={s.pageEyebrow}>Legal</div>
-        <h1 className={s.pageTitle}>Terms & Conditions</h1>
-        <p className={s.pageSub}>Naveen Reddy Marriage Bureau — Membership Agreement</p>
+      <div className={`${s.hero} ${desktop ? s.heroDesktop : ''}`}>
+        <div className={s.heroInner}>
+          <div className={`${s.heroTitle} ${desktop ? s.heroTitleDesktop : ''}`}>Terms &amp; Conditions</div>
+          <div className={s.heroTag}>Home | Terms</div>
+        </div>
       </div>
 
       <div className={s.legalBody}>

@@ -37,9 +37,10 @@ export default function DesktopMembership() {
   return (
     <div className={s.page}>
       <div className={s.hero}>
-        <div className={s.heroTag}>Choose Your Plan</div>
-        <div className={s.heroTitle}>Invest in Your Future</div>
-        <div className={s.heroSub}>Select the membership that reflects your aspirations</div>
+        <div className={s.heroInner}>
+          <div className={s.heroTitle}>Membership Plans</div>
+          <div className={s.heroTag}>Home | Membership</div>
+        </div>
       </div>
 
       <div className={s.cards}>

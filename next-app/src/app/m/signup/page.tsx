@@ -238,6 +238,13 @@ function MobileSignupInner() {
 
   return (
     <div className={s.page}>
+      <div className={s.hero}>
+        <div className={s.heroInner}>
+          <div className={s.heroTitle}>Create Your Profile</div>
+          <div className={s.heroTag}>Home &nbsp;|&nbsp; Registration</div>
+        </div>
+      </div>
+
       {/* Draft restore banner */}
       {showDraftBanner && (
         <div className={s.draftBanner}>

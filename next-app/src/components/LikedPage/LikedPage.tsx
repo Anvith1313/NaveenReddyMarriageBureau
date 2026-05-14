@@ -68,8 +68,17 @@ export default function LikedPage({ desktop = false, defaultTab = 'saved' }: { d
 
   if (loading) return null
 
+  const heroTitle = defaultTab === 'interests' ? 'Interests' : 'Liked Profiles'
+  const heroTag = defaultTab === 'interests' ? 'Home | Interests' : 'Home | Liked'
+
   return (
     <div className={s.page}>
+      <div className={s.hero}>
+        <div className={s.heroInner}>
+          <div className={s.heroTitle}>{heroTitle}</div>
+          <div className={s.heroTag}>{heroTag}</div>
+        </div>
+      </div>
       <div className={`${s.tabs} ${desktop ? s.tabsDesktop : ''}`}>
         <button type="button" className={`${s.tab} ${tab === 'saved' ? s.tabActive : ''}`} onClick={() => setTab('saved')}>
           Saved Profiles {savedProfiles.length > 0 && `(${savedProfiles.length})`}
