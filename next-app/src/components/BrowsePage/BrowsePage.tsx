@@ -247,21 +247,23 @@ export default function BrowsePage({ desktop = false }: { desktop?: boolean }) {
         )}
       </div>
 
-      {/* Mobile filter bottom sheet */}
+      {/* Mobile filter popup — compact floating panel centered on screen */}
       {!desktop && openFilter && (
         <>
           <div className={s.sheetBackdrop} onClick={() => setOpenFilter(null)} />
-          <div className={s.filterSheet}>
-            <div className={s.filterSheetHdr}>
-              <span className={s.filterSheetTitle}>{FILTER_LABELS[openFilter]}</span>
-              <button type="button" className={s.filterSheetClose} onClick={() => setOpenFilter(null)}>✕</button>
+          <div className={s.filterPopup}>
+            <div className={s.filterPopupHdr}>
+              <span className={s.filterPopupTitle}>{FILTER_LABELS[openFilter]}</span>
+              <button type="button" title="Close" className={s.filterSheetClose} onClick={() => setOpenFilter(null)}>
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 1l10 10M11 1L1 11" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/></svg>
+              </button>
             </div>
-            <div className={s.filterSheetBody}>
+            <div className={s.filterPopupBody}>
               {FILTER_OPTIONS[openFilter].map(opt => (
                 <button
                   type="button"
                   key={opt}
-                  className={`${s.filterSheetItem} ${filters[openFilter].includes(opt) ? s.filterSheetItemActive : ''}`}
+                  className={`${s.filterPopupItem} ${filters[openFilter].includes(opt) ? s.filterPopupItemActive : ''}`}
                   onClick={() => toggleFilter(openFilter, opt)}
                 >
                   <div className={`${s.ddCheck} ${filters[openFilter].includes(opt) ? s.ddCheckActive : ''}`}>
@@ -271,8 +273,8 @@ export default function BrowsePage({ desktop = false }: { desktop?: boolean }) {
                 </button>
               ))}
             </div>
-            <div className={s.filterSheetFooter}>
-              <button type="button" className={s.filterSheetClear} onClick={() => { setFilters(prev => ({ ...prev, [openFilter!]: [] })); setOpenFilter(null) }}>
+            <div className={s.filterPopupFooter}>
+              <button type="button" className={s.filterSheetClear} onClick={() => { setFilters(prev => ({ ...prev, [openFilter!]: [] })) }}>
                 Clear
               </button>
               <button type="button" className={s.filterSheetDone} onClick={() => setOpenFilter(null)}>
