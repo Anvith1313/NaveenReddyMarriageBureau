@@ -45,11 +45,13 @@
   text-decoration: none;
   color: var(--muted);
   transition: color var(--dur-fast) var(--ease-out);
+  position: relative;
 }
 
 .navLinkActive {
   composes: navLink;
   color: var(--crimson);
+  position: relative;
 }
 
 .navIcon {
@@ -82,9 +84,10 @@
 
 .navActiveDot {
   position: absolute;
-  bottom: 0;
-  width: 24px;
+  top: 0;
+  left: 25%;
+  right: 25%;
   height: 2px;
-  background: var(--crimson);
-  border-radius: 2px 2px 0 0;
+  background: var(--gold);
+  border-radius: 0 0 2px 2px;
 }

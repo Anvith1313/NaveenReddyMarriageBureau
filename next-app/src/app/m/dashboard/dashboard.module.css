@@ -159,7 +159,7 @@
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, var(--crimson), var(--gold2, #D4AF37), var(--crimson));
+  background: linear-gradient(90deg, var(--crimson), var(--gold2, #8B5E3C), var(--crimson));
   border-radius: 20px 20px 0 0;
   z-index: 1;
 }
@@ -509,6 +509,37 @@
   flex: 1;
   font-size: 0.72rem;
   font-style: italic;
+}
+
+/* ── Mobile fan: full-screen single card, side cards hidden ── */
+@media (max-width: 767px) {
+  .fanWrap {
+    height: calc(100vh - var(--nav-h));
+    height: calc(100svh - var(--nav-h));
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    border-radius: 0;
+    overflow: hidden;
+  }
+  .fanSlot {
+    width: calc(100vw - 1.2rem);
+    border-radius: 16px;
+  }
+  /* No 3D on mobile center card — full-width + perspective causes clipping */
+  /* touch-action:manipulation disables browser double-tap zoom */
+  .fanCenter {
+    transform: translateX(-50%) !important;
+    z-index: 10;
+    touch-action: manipulation;
+  }
+  /* Side cards pushed completely off-screen by default */
+  .fanLeft,
+  .fanRight {
+    transform: translateX(-150vw) !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
 }
 
 /* ── Fan hint toast ─────────────────────────────────── */
