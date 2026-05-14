@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import s from './layout.module.css'
 
@@ -19,7 +20,11 @@ export default function DesktopLayout({ children }: { children: React.ReactNode 
     <div className={s.shell}>
       <header className={s.header}>
         <Link href="/d/dashboard" className={s.logo}>
-          REDDY ELITE MATRIMONY
+          <Image src="/Assets/Logo-transparent.webp" alt="NRMB" width={42} height={42} style={{ objectFit: 'contain' }} />
+          <div className={s.brandText}>
+            <span className={s.brandMain}>Naveen Reddy Marriage Bureau</span>
+            <span className={s.brandSub}>Reddy Community · Est. 2000</span>
+          </div>
         </Link>
 
         <nav className={s.nav}>

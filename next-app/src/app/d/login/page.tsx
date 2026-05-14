@@ -90,7 +90,7 @@ export default function DesktopLogin() {
         <div className={s.inner}>
           <div className={s.header}>
             <div className={s.logoRing}>
-              <Image src="/Assets/Logo-transparent.webp" alt="NRMB" width={56} height={56} style={{ objectFit: 'contain' }} />
+              <Image src="/Assets/Logo-transparent.webp" alt="NRMB" width={70} height={70} style={{ objectFit: 'contain', position: 'relative', zIndex: 1 }} />
             </div>
             <p className={s.eyebrow}>Welcome Back</p>
             <h1 className={s.title}>Naveen Reddy Marriage Bureau</h1>

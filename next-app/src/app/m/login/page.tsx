@@ -78,7 +78,7 @@ export default function MobileLogin() {
       <div className={s.card}>
         <div className={s.header}>
           <div className={s.logoRing}>
-            <Image src="/Assets/Logo-transparent.webp" alt="NRMB" width={60} height={60} style={{ objectFit: 'contain' }} />
+            <Image src="/Assets/Logo-transparent.webp" alt="NRMB" width={74} height={74} style={{ objectFit: 'contain', position: 'relative', zIndex: 1 }} />
           </div>
           <p className={s.eyebrow}>Welcome Back</p>
           <h1 className={s.title}>Naveen Reddy Marriage Bureau</h1>
