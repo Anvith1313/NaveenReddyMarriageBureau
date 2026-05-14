@@ -187,11 +187,11 @@ export default function BrowsePage({ desktop = false }: { desktop?: boolean }) {
     <div className={s.page}>
       <div className={`${s.hdr} ${desktop ? s.hdrDesktop : ''}`}>
         <div className={s.srch}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(184,137,42,0.7)" strokeWidth="2" strokeLinecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <svg className={s.srchIcon} width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="rgba(184,137,42,0.7)" strokeWidth="2" strokeLinecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
           <input
             className={s.srchInput}
             type="search"
-            placeholder="Search by name, city, profession…"
+            placeholder="Search by name, city, occupation, gotra…"
             value={search}
             onChange={e => setSearch(e.target.value)}
           />

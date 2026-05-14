@@ -73,8 +73,10 @@ export default function ContactPage({ desktop = false }: { desktop?: boolean }) 
   return (
     <div className={`${s.page} ${desktop ? s.pageDesktop : ''}`}>
       <div className={`${s.hero} ${desktop ? s.heroDesktop : ''}`}>
-        <div className={s.heroTag}>Get in Touch</div>
-        <div className={`${s.heroTitle} ${desktop ? s.heroTitleDesktop : ''}`}>Contact Us</div>
+        <div className={s.heroInner}>
+          <div className={`${s.heroTitle} ${desktop ? s.heroTitleDesktop : ''}`}>Contact Us</div>
+          <div className={s.heroTag}>Home | Contact</div>
+        </div>
       </div>
 
       <div className={`${s.inner} ${desktop ? s.innerDesktop : ''}`}>

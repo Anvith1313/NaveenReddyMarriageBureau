@@ -97,8 +97,10 @@ export default function BranchesPage({ desktop = false }: { desktop?: boolean })
   return (
     <div className={`${s.page} ${desktop ? s.pageDesktop : ''}`}>
       <div className={`${s.hero} ${desktop ? s.heroDesktop : ''}`}>
-        <div className={s.heroTag}>Serving Telangana</div>
-        <div className={`${s.heroTitle} ${desktop ? s.heroTitleDesktop : ''}`}>Our Branches</div>
+        <div className={s.heroInner}>
+          <div className={`${s.heroTitle} ${desktop ? s.heroTitleDesktop : ''}`}>Our Branches</div>
+          <div className={s.heroTag}>Home | Our Branches</div>
+        </div>
       </div>
 
       <div className={`${s.inner} ${desktop ? s.innerDesktop : ''}`}>

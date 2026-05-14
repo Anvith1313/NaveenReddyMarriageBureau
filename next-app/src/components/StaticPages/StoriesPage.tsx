@@ -45,8 +45,10 @@ export default function StoriesPage({ desktop = false }: { desktop?: boolean }) 
   return (
     <div className={`${s.page} ${desktop ? s.pageDesktop : ''}`}>
       <div className={`${s.hero} ${desktop ? s.heroDesktop : ''}`}>
-        <div className={s.heroTag}>Real Couples</div>
-        <div className={`${s.heroTitle} ${desktop ? s.heroTitleDesktop : ''}`}>Happy Stories</div>
+        <div className={s.heroInner}>
+          <div className={`${s.heroTitle} ${desktop ? s.heroTitleDesktop : ''}`}>Happy Stories</div>
+          <div className={s.heroTag}>Home | Happy Stories</div>
+        </div>
       </div>
 
       <div className={`${s.inner} ${desktop ? s.innerDesktop : ''}`}>

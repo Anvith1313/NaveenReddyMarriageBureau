@@ -5,8 +5,10 @@ export default function AboutPage({ desktop = false }: { desktop?: boolean }) {
   return (
     <div className={`${s.page} ${desktop ? s.pageDesktop : ''}`}>
       <div className={`${s.hero} ${desktop ? s.heroDesktop : ''}`}>
-        <div className={s.heroTag}>Who We Are</div>
-        <div className={`${s.heroTitle} ${desktop ? s.heroTitleDesktop : ''}`}>About Us</div>
+        <div className={s.heroInner}>
+          <div className={`${s.heroTitle} ${desktop ? s.heroTitleDesktop : ''}`}>About Us</div>
+          <div className={s.heroTag}>Home | About</div>
+        </div>
       </div>
 
       <div className={`${s.inner} ${desktop ? s.innerDesktop : ''}`}>
