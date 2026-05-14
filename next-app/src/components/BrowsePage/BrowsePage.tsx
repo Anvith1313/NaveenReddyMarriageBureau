@@ -65,16 +65,30 @@ export default function BrowsePage({ desktop = false }: { desktop?: boolean }) {
   const [search, setSearch] = useState('')
   const [filters, setFilters] = useState<Filters>(EMPTY_FILTERS)
   const [openFilter, setOpenFilter] = useState<keyof Filters | null>(null)
+  const [dropPos, setDropPos] = useState<{ left: number; top: number } | null>(null)
   const [saved, setSaved] = useState<string[]>(initSaved)
   const [selected, setSelected] = useState<Profile | null>(null)
   const filterBarRef = useRef<HTMLDivElement>(null)
+  const pillRefs = useRef<Partial<Record<keyof Filters, HTMLButtonElement>>>({})
+
+  function openDesktopFilter(key: keyof Filters, btn: HTMLButtonElement) {
+    if (openFilter === key) { setOpenFilter(null); setDropPos(null); return }
+    const rect = btn.getBoundingClientRect()
+    setDropPos({ left: rect.left, top: rect.bottom + 6 })
+    setOpenFilter(key)
+  }
 
   useEffect(() => { setSaved(initSaved) }, [initSaved])
 
   useEffect(() => {
     function onClickOutside(e: MouseEvent) {
-      if (filterBarRef.current && !filterBarRef.current.contains(e.target as Node)) {
+      const target = e.target as Node
+      // Close if clicking outside the filter bar AND outside the floating dropdown
+      const insideBar = filterBarRef.current?.contains(target)
+      const insideDrop = document.getElementById('browseDropFixed')?.contains(target)
+      if (!insideBar && !insideDrop) {
         setOpenFilter(null)
+        setDropPos(null)
       }
     }
     document.addEventListener('mousedown', onClickOutside)
@@ -183,36 +197,44 @@ export default function BrowsePage({ desktop = false }: { desktop?: boolean }) {
 
         <div className={s.filterBar} ref={filterBarRef}>
           {(Object.keys(FILTER_OPTIONS) as (keyof Filters)[]).map(key => (
-            <div key={key} className={s.dropWrap}>
-              <button
-                type="button"
-                className={`${s.pill} ${filters[key].length > 0 ? s.pillActive : ''}`}
-                onClick={() => setOpenFilter(openFilter === key ? null : key)}
-              >
-                {FILTER_LABELS[key]}
-                {filters[key].length > 0 && ` (${filters[key].length})`}
-                <svg width="8" height="6" viewBox="0 0 10 7"><path d="M0 0l5 7 5-7z" fill="currentColor" opacity="0.5"/></svg>
-              </button>
-              {/* Desktop dropdown — rendered inside dropWrap for absolute positioning */}
-              {desktop && openFilter === key && (
-                <div className={s.dropdown}>
-                  {FILTER_OPTIONS[key].map(opt => (
-                    <div
-                      key={opt}
-                      className={`${s.ddItem} ${filters[key].includes(opt) ? s.ddItemActive : ''}`}
-                      onClick={() => toggleFilter(key, opt)}
-                    >
-                      <div className={`${s.ddCheck} ${filters[key].includes(opt) ? s.ddCheckActive : ''}`}>
-                        {filters[key].includes(opt) && <svg width="8" height="7" viewBox="0 0 10 8" fill="none"><polyline points="1,4 4,7 9,1" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>}
-                      </div>
-                      {opt}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
+            <button
+              key={key}
+              ref={el => { pillRefs.current[key] = el ?? undefined }}
+              type="button"
+              className={`${s.pill} ${filters[key].length > 0 ? s.pillActive : ''}`}
+              onClick={e => desktop
+                ? openDesktopFilter(key, e.currentTarget)
+                : setOpenFilter(openFilter === key ? null : key)
+              }
+            >
+              {FILTER_LABELS[key]}
+              {filters[key].length > 0 && ` (${filters[key].length})`}
+              <svg width="8" height="6" viewBox="0 0 10 7"><path d="M0 0l5 7 5-7z" fill="currentColor" opacity="0.5"/></svg>
+            </button>
           ))}
         </div>
+
+        {/* Desktop floating dropdown — position: fixed so overflow-x:auto can't clip it */}
+        {desktop && openFilter && dropPos && (
+          <div
+            id="browseDropFixed"
+            className={s.dropdownFixed}
+            style={{ ['--dd-left' as string]: `${dropPos.left}px`, ['--dd-top' as string]: `${dropPos.top}px` }}
+          >
+            {FILTER_OPTIONS[openFilter].map(opt => (
+              <div
+                key={opt}
+                className={`${s.ddItem} ${filters[openFilter].includes(opt) ? s.ddItemActive : ''}`}
+                onClick={() => toggleFilter(openFilter, opt)}
+              >
+                <div className={`${s.ddCheck} ${filters[openFilter].includes(opt) ? s.ddCheckActive : ''}`}>
+                  {filters[openFilter].includes(opt) && <svg width="8" height="7" viewBox="0 0 10 8" fill="none"><polyline points="1,4 4,7 9,1" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+                </div>
+                {opt}
+              </div>
+            ))}
+          </div>
+        )}
 
         {activeTags.length > 0 && (
           <div className={s.tags}>
