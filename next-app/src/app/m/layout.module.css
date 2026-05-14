@@ -91,3 +91,34 @@
   background: var(--gold);
   border-radius: 0 0 2px 2px;
 }
+
+/* ── Center (Liked) gold ring button ── */
+.navCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: rgba(255, 251, 245, 0.97);
+  border: 1.5px solid rgba(184, 137, 42, 0.35);
+  box-shadow: 0 2px 12px rgba(184, 137, 42, 0.18);
+  margin-top: -14px;
+  position: relative;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.navCenterActive {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #9B2F40 0%, #7B1F2E 100%);
+  border: 2px solid var(--gold);
+  box-shadow: 0 4px 18px rgba(123, 31, 46, 0.32), 0 0 0 3px rgba(184, 137, 42, 0.18);
+  margin-top: -14px;
+  color: #fff;
+  position: relative;
+}

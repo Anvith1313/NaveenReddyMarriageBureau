@@ -1,0 +1,80 @@
+.stack {
+  position: fixed;
+  bottom: 28px;
+  right: 22px;
+  z-index: 800;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.item:hover .btn { filter: brightness(1.12); }
+.item:hover .label { opacity: 1 !important; }
+
+.label {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #fff;
+  padding: 0.32rem 0.9rem;
+  border-radius: 20px;
+  white-space: nowrap;
+  opacity: 1;
+  transition: opacity 0.7s ease;
+  pointer-events: none;
+  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.22);
+}
+
+.labelHidden { opacity: 0; }
+
+.labelIg { background: linear-gradient(135deg, #C13584 0%, #833AB4 100%); }
+.labelWa { background: #1DA851; }
+
+.btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: filter 0.2s;
+}
+
+.btnWa {
+  background: #25D366;
+  box-shadow: 0 4px 20px rgba(37, 211, 102, 0.5);
+  animation: pulseWa 2.6s ease-in-out infinite;
+}
+
+.btnIg {
+  background: linear-gradient(135deg, #833AB4 0%, #C13584 32%, #E1306C 60%, #FD1D1D 82%, #FCAF45 100%);
+  box-shadow: 0 4px 20px rgba(193, 53, 132, 0.5);
+  animation: pulseIg 2.9s ease-in-out 0.5s infinite;
+}
+
+@keyframes pulseWa {
+  0%, 100% { box-shadow: 0 4px 20px rgba(37, 211, 102, 0.5); }
+  50% { box-shadow: 0 6px 28px rgba(37, 211, 102, 0.75); }
+}
+
+@keyframes pulseIg {
+  0%, 100% { box-shadow: 0 4px 20px rgba(193, 53, 132, 0.5); }
+  50% { box-shadow: 0 6px 28px rgba(193, 53, 132, 0.75); }
+}
+
+@media (max-width: 600px) {
+  .btn { width: 42px; height: 42px; }
+  .stack { bottom: 82px; right: 14px; gap: 11px; }
+  .label { font-size: 0.63rem; padding: 0.22rem 0.6rem; }
+}

@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { Cormorant_Garamond, EB_Garamond, Cinzel, Josefin_Sans } from 'next/font/google'
 import { AuthProvider } from '@/lib/AuthProvider'
+import SocialStack from '@/components/SocialStack/SocialStack'
 import './globals.css'
 
 const cormorant = Cormorant_Garamond({
@@ -51,7 +52,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="en"
       className={`${cormorant.variable} ${ebGaramond.variable} ${cinzel.variable} ${josefin.variable}`}
     >
-      <body><AuthProvider>{children}</AuthProvider></body>
+      <body><AuthProvider>{children}<SocialStack /></AuthProvider></body>
     </html>
   )
 }

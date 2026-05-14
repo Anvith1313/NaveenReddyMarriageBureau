@@ -6,7 +6,7 @@ import s from './layout.module.css'
 
 const NAV = [
   {
-    href: '/m',
+    href: '/m/dashboard',
     label: 'Home',
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -28,6 +28,7 @@ const NAV = [
   {
     href: '/m/liked',
     label: 'Liked',
+    center: true,
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
@@ -35,21 +36,22 @@ const NAV = [
     ),
   },
   {
-    href: '/m/my-profile',
-    label: 'Profile',
+    href: '/m/interested',
+    label: 'Interests',
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
-        <circle cx="12" cy="7" r="4"/>
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+        <polyline points="22,6 12,13 2,6"/>
       </svg>
     ),
   },
   {
-    href: '/m/membership',
-    label: 'Plans',
+    href: '/m/my-profile',
+    label: 'My Profile',
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+        <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
       </svg>
     ),
   },
@@ -60,6 +62,7 @@ const AUTH_PATHS = ['/m/login', '/m/signup', '/m/forgot-password']
 export default function MobileLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const isAuth = AUTH_PATHS.some(p => pathname.startsWith(p))
+  const isLanding = pathname === '/m'
 
   return (
     <div className={isAuth ? s.shellAuth : s.shell}>
@@ -67,10 +70,19 @@ export default function MobileLayout({ children }: { children: React.ReactNode }
         {children}
       </main>
 
-      {!isAuth && (
+      {!isAuth && !isLanding && (
         <nav className={s.nav}>
-          {NAV.map(({ href, icon, label }) => {
-            const active = pathname === href || (href !== '/m' && pathname.startsWith(href))
+          {NAV.map(({ href, icon, label, center }) => {
+            const active = pathname === href || (href !== '/m/dashboard' && pathname.startsWith(href))
+            if (center) {
+              return (
+                <Link key={href} href={href} className={active ? s.navLinkActive : s.navLink}>
+                  <span className={active ? s.navCenterActive : s.navCenter}>{icon}</span>
+                  <span className={active ? s.navLabelActive : s.navLabel}>{label}</span>
+                  {active && <span className={s.navActiveDot} />}
+                </Link>
+              )
+            }
             return (
               <Link key={href} href={href} className={active ? s.navLinkActive : s.navLink}>
                 <span className={active ? s.navIconActive : s.navIcon}>{icon}</span>

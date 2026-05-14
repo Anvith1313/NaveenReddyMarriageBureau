@@ -108,3 +108,27 @@
   overflow: hidden;
 }
 .ctaBtn:hover { box-shadow: 0 7px 26px rgba(123,31,46,0.42); transform: translateY(-1px); }
+
+.navBtns {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  flex-shrink: 0;
+}
+
+.btnNavIn {
+  font-family: var(--font-label);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--primary);
+  background: transparent;
+  border: 1.5px solid rgba(123,31,46,0.3);
+  border-radius: 50px;
+  padding: 0.48rem 1.5rem;
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: all 0.25s;
+}
+.btnNavIn:hover { border-color: var(--primary); background: var(--primary-light); }

@@ -1,16 +1,52 @@
 'use client'
 
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import s from './landing.module.css'
 
 export default function LandingPage({ mobile = false }: { mobile?: boolean }) {
   const router = useRouter()
-  const signupPath = mobile ? '/m/signup' : '/m/signup'
+  const [menuOpen, setMenuOpen] = useState(false)
+  const signupPath = '/m/signup'
   const loginPath = mobile ? '/m/login' : '/d/login'
 
   return (
     <div>
+      {/* ── Mobile top navbar (only shown on /m, desktop layout provides its own) ── */}
+      {mobile && (
+        <nav className={s.mobileNav}>
+          <div className={s.mobileNavLeft} onClick={() => router.push('/m')}>
+            <Image src="/Assets/Logo-transparent.webp" alt="NRMB" width={42} height={42} style={{ objectFit: 'contain' }} />
+            <div className={s.mobileNavBrand}>
+              <span className={s.mobileNavMain}>Naveen Reddy Marriage Bureau</span>
+              <span className={s.mobileNavSub}>Exclusively · Reddy Community · Est. 2000</span>
+            </div>
+          </div>
+          <button type="button" className={`${s.hamburger} ${menuOpen ? s.hamburgerOpen : ''}`} aria-label="Menu" onClick={() => setMenuOpen(v => !v)}>
+            <span /><span /><span />
+          </button>
+        </nav>
+      )}
+
+      {/* ── Mobile slide-out menu ── */}
+      {mobile && menuOpen && (
+        <>
+          <div className={s.menuOverlay} onClick={() => setMenuOpen(false)} />
+          <div className={s.menuPanel}>
+            <div className={s.menuLinks}>
+              {[['Home', '/m'], ['About', '/m/about'], ['Membership', '/m/membership'], ['Our Branches', '/m/branches'], ['Happy Stories', '/m/stories'], ['Contact', '/m/contact']].map(([label, href]) => (
+                <button key={href} type="button" className={s.menuLink} onClick={() => { router.push(href); setMenuOpen(false); }}>{label}</button>
+              ))}
+            </div>
+            <div className={s.menuBtns}>
+              <button type="button" className={s.menuBtnIn} onClick={() => { router.push(loginPath); setMenuOpen(false); }}>Login</button>
+              <button type="button" className={s.menuBtnUp} onClick={() => { router.push(signupPath); setMenuOpen(false); }}>Sign Up</button>
+            </div>
+          </div>
+        </>
+      )}
+
       {/* ── Hero ── */}
       <div className={s.heroSection}>
         <div className={s.heroPhoto} />
