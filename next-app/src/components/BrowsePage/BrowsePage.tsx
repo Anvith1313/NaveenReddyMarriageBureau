@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
 import { useRouter } from 'next/navigation'
 import { doc, updateDoc, arrayUnion, arrayRemove, setDoc, serverTimestamp } from 'firebase/firestore'
 import { db } from '@/lib/firebase'
@@ -214,8 +215,8 @@ export default function BrowsePage({ desktop = false }: { desktop?: boolean }) {
           ))}
         </div>
 
-        {/* Desktop floating dropdown — position: fixed so overflow-x:auto can't clip it */}
-        {desktop && openFilter && dropPos && (
+        {/* Desktop floating dropdown — rendered via portal to escape will-change:transform containing block */}
+        {desktop && openFilter && dropPos && typeof document !== 'undefined' && createPortal(
           <div
             id="browseDropFixed"
             className={s.dropdownFixed}
@@ -233,7 +234,8 @@ export default function BrowsePage({ desktop = false }: { desktop?: boolean }) {
                 {opt}
               </div>
             ))}
-          </div>
+          </div>,
+          document.body
         )}
 
         {activeTags.length > 0 && (
@@ -247,8 +249,8 @@ export default function BrowsePage({ desktop = false }: { desktop?: boolean }) {
         )}
       </div>
 
-      {/* Mobile filter popup — compact floating panel centered on screen */}
-      {!desktop && openFilter && (
+      {/* Mobile filter popup — portal to escape will-change:transform containing block */}
+      {!desktop && openFilter && typeof document !== 'undefined' && createPortal(
         <>
           <div className={s.sheetBackdrop} onClick={() => setOpenFilter(null)} />
           <div className={s.filterPopup}>
@@ -282,7 +284,8 @@ export default function BrowsePage({ desktop = false }: { desktop?: boolean }) {
               </button>
             </div>
           </div>
-        </>
+        </>,
+        document.body
       )}
 
       {!desktop && !engagement ? (
