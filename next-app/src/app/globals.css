@@ -99,3 +99,62 @@ main {
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: rgba(184,137,42,0.3); border-radius: 2px; }
+
+/* ── Date Wheel Picker (global — DOM built via innerHTML) ── */
+.dwp-col {
+  flex: 1;
+  position: relative;
+  height: 220px; /* VIS(5) × IH(44) */
+  overflow: hidden;
+  cursor: grab;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.dwp-col:active { cursor: grabbing; }
+
+.dwp-track {
+  will-change: transform;
+}
+
+.dwp-item {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: rgba(0,0,0,0.35);
+  transition: none;
+  white-space: nowrap;
+}
+
+/* top & bottom fade masks */
+.dwp-mask-t,
+.dwp-mask-b {
+  position: absolute;
+  left: 0; right: 0;
+  height: 88px; /* 2 × IH */
+  pointer-events: none;
+  z-index: 2;
+}
+.dwp-mask-t {
+  top: 0;
+  background: linear-gradient(to bottom, #fffcf8 0%, transparent 100%);
+}
+.dwp-mask-b {
+  bottom: 0;
+  background: linear-gradient(to top, #fffcf8 0%, transparent 100%);
+}
+
+/* selection highlight bar */
+.dwp-sel-bar {
+  position: absolute;
+  left: 6px; right: 6px;
+  top: 50%;
+  height: 44px;
+  transform: translateY(-50%);
+  border-top: 1px solid rgba(184,137,42,0.35);
+  border-bottom: 1px solid rgba(184,137,42,0.35);
+  pointer-events: none;
+  z-index: 1;
+}
