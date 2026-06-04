@@ -31,6 +31,7 @@ export default function Profiles({ profiles, setProfiles, showToast }: SectionPr
   const [modal, setModal] = useState<ModalType>(null)
   const [selected, setSelected] = useState<AdminProfile | null>(null)
   const [editForm, setEditForm] = useState<Record<string, string>>({})
+  const [verifiedToggle, setVerifiedToggle] = useState(false)
   const [uploading, setUploading] = useState(false)
 
   const filtered = useMemo(() => {
@@ -56,6 +57,7 @@ export default function Profiles({ profiles, setProfiles, showToast }: SectionPr
       pgmob2: p.pgmob2 ?? p.mmob ?? '', ft: p.ft ?? '', fv: p.fv ?? '',
       diet: p.diet ?? '', notes: p.notes ?? '', pval: p.pval ?? '',
     })
+    setVerifiedToggle(!!(p as { verified?: boolean }).verified)
     setModal('edit')
   }
   function openBiodata(p: AdminProfile) { setSelected(p); setModal('biodata') }
@@ -64,8 +66,9 @@ export default function Profiles({ profiles, setProfiles, showToast }: SectionPr
   async function saveEdit() {
     if (!selected) return
     try {
-      const updates: Record<string, string | number> = { ...editForm }
+      const updates: Record<string, string | number | boolean> = { ...editForm }
       if (editForm.age) updates.age = Number(editForm.age)
+      updates.verified = verifiedToggle
       await updateDoc(doc(db, 'users', selected.uid), { ...updates, updatedAt: serverTimestamp() })
       setProfiles(profiles.map(p => p.uid === selected.uid ? { ...p, ...editForm, age: Number(editForm.age) || p.age } : p))
       showToast('✅ Profile updated')
@@ -280,6 +283,25 @@ export default function Profiles({ profiles, setProfiles, showToast }: SectionPr
                     <div className={s.tierMiniName}>{t}</div>
                   </div>
                 ))}
+              </div>
+
+              {/* Verification */}
+              <div className={s.formSectionTitle}>Verification Status</div>
+              <div className={s.verifyRow}>
+                <label className={s.verifyLabel}>
+                  <input
+                    type="checkbox"
+                    className={s.verifyCheck}
+                    checked={verifiedToggle}
+                    onChange={e => setVerifiedToggle(e.target.checked)}
+                  />
+                  <span className={s.verifyText}>
+                    Mark as <strong>Verified</strong> — shows the blue ✓ badge on their profile
+                  </span>
+                </label>
+                {verifiedToggle && (
+                  <span className={s.verifyBadgePreview}>✓ Verified</span>
+                )}
               </div>
 
               {/* Personal */}

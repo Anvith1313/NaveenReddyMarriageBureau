@@ -158,6 +158,13 @@
   justify-content: center;
   position: relative;
   overflow: hidden;
+  /* Rich crimson/gold gradient replacing the Temple photo */
+  background:
+    radial-gradient(ellipse 180% 100% at 50% -5%, rgba(212,175,55,0.2) 0%, transparent 50%),
+    radial-gradient(ellipse 80% 120% at 0% 60%, rgba(155,47,64,0.4) 0%, transparent 55%),
+    radial-gradient(ellipse 80% 120% at 100% 60%, rgba(155,47,64,0.4) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 80% at 50% 110%, rgba(45,7,16,0.8) 0%, transparent 65%),
+    linear-gradient(160deg, #1A0408 0%, #6B1525 30%, #9B2F40 58%, #7B1F2E 78%, #2D0710 100%);
 }
 
 /* When mobile nav is shown, push hero down by nav height */
@@ -166,28 +173,34 @@
   height: 100vh;
 }
 
+/* Gold dot grid texture overlay */
 .heroPhoto {
   position: absolute;
-  top: -28%; left: -3%; right: -3%; bottom: -28%;
-  background-image: url('/Assets/Temple.webp');
-  background-size: cover;
-  background-position: center 48%;
+  inset: 0;
   z-index: 0;
+  background-image: radial-gradient(circle, rgba(212,175,55,0.22) 1px, transparent 1px);
+  background-size: 32px 32px;
+  opacity: 0.6;
 }
 
+/* Soft vignette — darkens edges, keeps center luminous */
 .heroSection::before {
   content: '';
   position: absolute;
   inset: 0;
   z-index: 2;
   pointer-events: none;
-  background: linear-gradient(
-    to bottom,
-    rgba(0,0,0,0.30) 0%,
-    rgba(0,0,0,0.18) 35%,
-    rgba(0,0,0,0.22) 65%,
-    rgba(0,0,0,0.55) 100%
-  );
+  background: radial-gradient(ellipse 85% 75% at 50% 45%, transparent 0%, rgba(0,0,0,0.35) 100%);
+}
+
+/* Gold top & bottom accent lines */
+.heroSection::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 3px;
+  z-index: 4;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent 0%, rgba(212,175,55,0.55) 20%, rgba(212,175,55,0.95) 50%, rgba(212,175,55,0.55) 80%, transparent 100%);
 }
 
 .heroContent {

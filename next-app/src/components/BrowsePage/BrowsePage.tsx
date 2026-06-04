@@ -10,6 +10,7 @@ import { useProfiles } from '@/lib/useProfiles'
 import { Profile, Interest, htInches, formatIncome } from '@/lib/types'
 import s from './browse.module.css'
 import LottieHeart from '@/components/LottieHeart/LottieHeart'
+import VerifiedBadge from '@/components/VerifiedBadge/VerifiedBadge'
 
 interface Filters {
   tier: string[]
@@ -322,7 +323,10 @@ export default function BrowsePage({ desktop = false }: { desktop?: boolean }) {
                 {!p.photos?.length && <span className={s.cardEmoji}>{p.em ?? '👤'}</span>}
               </div>
               <div className={s.cardGrad}>
-                <div className={s.cardName}>{p.name}, {p.age}</div>
+                <div className={s.cardName}>
+                  {p.name}, {p.age}
+                  {p.verified && <VerifiedBadge size={15} className={s.verifiedBadge} />}
+                </div>
                 {p.city && <div className={s.cardCity}>{p.city}{p.country && p.country !== 'India' ? ` · ${p.country}` : ''}</div>}
               </div>
               <div className={s.cardTier}>{p.tier ?? 'VIP'}</div>
@@ -432,7 +436,10 @@ function FanBrowse({ profiles, saved, interests, me, onSave, onInterest, onWhats
         {/* ── Left: Details ── */}
         <div className={`${s.fanCard} ${s.fanCardLeft} ${fanOpen ? s.fanOpen : ''}`}>
           <div className={s.fanDetails}>
-            <div className={s.fanDetTitle}>{p.name}, {p.age}</div>
+            <div className={s.fanDetTitle}>
+              {p.name}, {p.age}
+              {p.verified && <VerifiedBadge size={16} className={s.verifiedBadge} />}
+            </div>
             {p.prof || p.occ ? (
               <div className={s.fanDetRow}>
                 <div className={s.fanDetLabel}>Profession</div>
@@ -481,7 +488,10 @@ function FanBrowse({ profiles, saved, interests, me, onSave, onInterest, onWhats
             {!p.photos?.length && <span className={s.fanEmoji}>{p.em ?? '👤'}</span>}
           </div>
           <div className={s.fanGrad}>
-            <div className={s.fanName}>{p.name}, {p.age}</div>
+            <div className={s.fanName}>
+              {p.name}, {p.age}
+              {p.verified && <VerifiedBadge size={14} className={s.verifiedBadge} />}
+            </div>
             {p.city && <div className={s.fanCity}>{p.city}{p.country && p.country !== 'India' ? ` · ${p.country}` : ''}</div>}
           </div>
           <div className={s.fanTier}>{p.tier ?? 'VIP'}</div>

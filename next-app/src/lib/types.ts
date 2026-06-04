@@ -43,6 +43,7 @@ export interface Profile {
   pp_inc?: string
   pp_nri?: string
   savedProfiles?: string[]
+  verified?: boolean
   [key: string]: unknown
 }
 

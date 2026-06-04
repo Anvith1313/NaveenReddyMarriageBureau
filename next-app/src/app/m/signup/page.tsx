@@ -1,896 +1,678 @@
 'use client'
 
-import { useState, useId, useEffect, useRef, Suspense } from 'react'
-import React from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useState, useRef, useEffect, Suspense } from 'react'
 import Link from 'next/link'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth'
 import { doc, setDoc, getDoc, deleteDoc, collection, query, where, getDocs } from 'firebase/firestore'
 import { auth, db } from '@/lib/firebase'
 import {
-  useSignupForm, MAIN_STEPS, STEP_LABELS,
+  useSignupForm,
   INDIA_STATES, HEIGHTS, GOTRAS, NAKSHATRAS, RASHIS,
   SignupFormState,
 } from '@/lib/useSignupForm'
 import DatePicker from '@/components/DatePicker/DatePicker'
 import s from './signup.module.css'
 
-const TERMS = `1. Eligibility: Membership is exclusively for Reddy community members of Hindu religion. Misrepresentation results in immediate termination without refund.
-
-2. Membership Fees (Non-Refundable): VIP – ₹15,000/yr · Elite – ₹1,00,000/yr · VVIP – ₹30,000/yr.
-
-3. Mandatory Post-Engagement Fee: Upon engagement facilitated by NRMB, each individual must pay within 7 days: VIP – ₹1,50,000 · Elite – ₹3,00,000 · VVIP – ₹10,00,000. Non-payment may result in legal action.
-
-4. Privacy & Contact Policy: Contact details will NOT be shared unless both parties express interest AND the bureau administrator approves.
-
-5. Profile Viewing Restriction (3-Account Rule): A member's profile may be viewed by a maximum of 3 unique accounts at any time.
-
-6. Profile Hold: Mutual interest places both profiles on exclusive hold, removed from all other searches.
-
-7. Match Finalisation: Finalised profiles are permanently removed from the active pool.
-
-8. Code of Conduct: Dignity, honesty and respect are mandatory. Misuse leads to termination and possible legal action.
-
-9. Governing Law: Telangana, India. Disputes subject to Hyderabad jurisdiction.`
-
-function Field({ label, hint, className, children }: {
-  label: React.ReactNode
-  hint?: string
-  className?: string
-  children: React.ReactNode
-}) {
-  const id = useId()
-  const childArr = React.Children.toArray(children)
-  const first = childArr[0]
-  const rest = childArr.slice(1)
-  return (
-    <div className={`${s.field} ${className ?? ''}`}>
-      <label className={s.fieldLabel} htmlFor={id}>{label}</label>
-      {React.isValidElement(first)
-        ? React.cloneElement(first as React.ReactElement<{ id?: string }>, { id })
-        : first}
-      {rest}
-      {hint && <small className={s.hint}>{hint}</small>}
-    </div>
-  )
+// ── Progress messages ─────────────────────────────────────────────────────────
+const MSGS = [
+  { to: 15,  text: "Let’s start! Tell us about yourself." },
+  { to: 30,  text: "Great start! You’re doing wonderfully 🌸" },
+  { to: 50,  text: "Halfway there! Your profile is taking shape." },
+  { to: 70,  text: "More than halfway! Almost done." },
+  { to: 85,  text: "Almost there! Just a few final touches ✨" },
+  { to: 100, text: "Final step! Your perfect match awaits 💍" },
+]
+function progressMsg(pct: number) {
+  return MSGS.find(m => pct < m.to)?.text ?? MSGS[MSGS.length - 1].text
 }
 
-// Draft fields saved/restored (password excluded for security)
+const TERMS = `1. Eligibility: Membership is exclusively for Reddy community members of Hindu religion.
+
+2. Membership Fees (Non-Refundable): VIP ₹15,000/yr · Elite ₹1,00,000/yr · VVIP ₹30,000/yr.
+
+3. Post-Engagement Fee: Upon engagement facilitated by NRMB, each individual must pay within 7 days.
+
+4. Privacy: Contact details are NOT shared unless both parties express interest and the bureau approves.
+
+5. Code of Conduct: Dignity, honesty and respect are mandatory. Misuse leads to termination.
+
+6. Governing Law: Telangana, India. Disputes subject to Hyderabad jurisdiction.`
+
 const DRAFT_FIELDS: (keyof SignupFormState)[] = [
   'profileFor','relationship','gender','name','email',
-  'maritalStatus','dob','height','motherTongue','complexion','bodyType','bloodGroup','differentlyAbled',
-  'tobH','tobM','tobAP','placeOfBirth',
+  'maritalStatus','dob','height','complexion','motherTongue',
   'country','state','city','nativePlace','residentialStatus',
   'gotra','fatherGotra','nakshatra','rashi',
-  'schoolBoard','schoolName','interCollege','highestQual','degreeCollege','pgCollege',
-  'employedIn','occupation','company','workCountry','workState','workCity','annualIncome','visaStatus',
+  'highestQual','degreeCollege','pgCollege',
+  'employedIn','occupation','company','workCountry','workState','workCity','annualIncome',
   'diet','smoking','drinking','aboutYourself',
-  'familyType','familyValues','familyStatus',
-  'fatherName','fatherStatus','fatherOcc','motherName','motherStatus','motherOcc',
-  'parentMobile1','parentMobile2','brothers','brothersMarried','sisters','sistersMarried','propertyValue',
-  'ppAgeFrom','ppAgeTo','ppHeight','ppEducation','ppProfession','ppIncome','ppLocation','ppNRI','ppNotes',
+  'familyType','familyValues','fatherName','fatherStatus','motherName','motherStatus',
+  'ppAgeFrom','ppAgeTo','ppHeight','ppIncome','ppNRI',
   'mobile','username','tier',
 ]
 
-function MobileSignupInner() {
+// ── Small helpers ─────────────────────────────────────────────────────────────
+function Tile({ icon, label, sub, selected, onClick }: {
+  icon: string; label: string; sub?: string; selected: boolean; onClick: () => void
+}) {
+  return (
+    <button type="button" className={selected ? s.tileSelected : s.tile} onClick={onClick}>
+      <span className={s.tileIcon}>{icon}</span>
+      <span className={s.tileLabel}>{label}</span>
+      {sub && <span className={s.tileSub}>{sub}</span>}
+    </button>
+  )
+}
+
+function Pill({ label, selected, onClick }: { label: string; selected: boolean; onClick: () => void }) {
+  return (
+    <button type="button" className={selected ? s.radioOptSelected : s.radioOpt} onClick={onClick}>
+      {selected && <span>✓ </span>}{label}
+    </button>
+  )
+}
+
+// ── Screen list ───────────────────────────────────────────────────────────────
+const SCREENS = [
+  'for', 'rel', 'name', 'dob', 'height',
+  'location', 'native', 'community', 'education', 'career',
+  'lifestyle', 'family', 'partner', 'account', 'tier', 'review',
+] as const
+type ScreenId = typeof SCREENS[number]
+const OPTIONAL: ScreenId[] = ['native', 'community', 'family', 'partner']
+
+// ── Main ──────────────────────────────────────────────────────────────────────
+function Inner() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const { step, go, f, set, loading, setLoading, error, setError } = useSignupForm()
+  const { f, set, loading, setLoading, error, setError } = useSignupForm()
+  const [idx, setIdx] = useState(0)
+  const [dir, setDir] = useState<'fwd' | 'bck'>('fwd')
   const [showPass, setShowPass] = useState(false)
   const [draftData, setDraftData] = useState<Record<string, unknown> | null>(null)
-  const [showDraftBanner, setShowDraftBanner] = useState(false)
+  const [showDraft, setShowDraft] = useState(false)
   const refCode = searchParams.get('ref') ?? ''
-  const draftSavedRef = useRef(false)
+  const draftSaved = useRef(false)
+  const progressFillRef = useRef<HTMLDivElement>(null)
 
-  const stepIdx = MAIN_STEPS.indexOf(step)
-  const isMainStep = stepIdx >= 0
+  const total = SCREENS.length
+  const pct = Math.round((idx / (total - 1)) * 100)
+  const screen: ScreenId = SCREENS[idx]
 
-  function err(msg: string) { setError(msg); if (typeof window !== 'undefined') window.scrollTo(0, 0) }
+  // Set progress width via ref to avoid JSX inline style lint warning
+  useEffect(() => {
+    if (progressFillRef.current) {
+      progressFillRef.current.style.width = `${pct}%`
+    }
+  }, [pct])
 
-  // ── Draft: check on email blur ──
+  function err(m: string) { setError(m); if (typeof window !== 'undefined') window.scrollTo(0, 0) }
+
   async function checkDraft() {
     const email = f.email.trim().toLowerCase()
-    if (!email || !email.includes('@')) return
+    if (!email.includes('@')) return
     try {
       const snap = await getDoc(doc(db, 'drafts', email))
-      if (!snap.exists()) return
-      setDraftData(snap.data())
-      setShowDraftBanner(true)
+      if (snap.exists()) { setDraftData(snap.data()); setShowDraft(true) }
     } catch { /* ignore */ }
   }
 
   function restoreDraft() {
     if (!draftData) return
-    for (const key of DRAFT_FIELDS) {
-      if (draftData[key] !== undefined) set(key, draftData[key] as string)
-    }
-    setShowDraftBanner(false)
-    setDraftData(null)
+    DRAFT_FIELDS.forEach(k => { if (draftData[k] !== undefined) set(k, draftData[k] as never) })
+    setShowDraft(false)
   }
 
-  // ── Draft: auto-save whenever user advances past basics step ──
-  useEffect(() => {
-    if (!f.email || draftSavedRef.current) return
-    if (step === 'basics' || step === 'who' || step === 'rel') return
-    draftSavedRef.current = true
-    const draft: Record<string, unknown> = { savedAt: new Date().toISOString() }
-    for (const key of DRAFT_FIELDS) draft[key] = (f as unknown as Record<string,unknown>)[key] ?? ''
-    setDoc(doc(db, 'drafts', f.email.trim().toLowerCase()), draft).catch(() => {})
-  }, [step]) // eslint-disable-line react-hooks/exhaustive-deps
-
-  function pickProfileFor(pf: string, g: string) {
-    set('profileFor', pf)
-    if (g) set('gender', g)
-    if (pf === 'Myself') go('basics')
-    else go('rel')
-  }
-
-  function validateBasics() {
-    if (!f.name.trim()) { err('Please enter your full name.'); return false }
-    if (!f.email.includes('@')) { err('Please enter a valid email address.'); return false }
-    return true
-  }
-  function validateAbout() {
-    if (!f.maritalStatus) { err('Please select marital status.'); return false }
-    if (!f.dob) { err('Please enter date of birth.'); return false }
-    if (!f.height) { err('Please select height.'); return false }
-    if (!f.motherTongue) { err('Please select mother tongue.'); return false }
-    return true
-  }
-  function validateLocation() {
-    if (!f.city.trim()) { err('Please enter your city.'); return false }
-    if (!f.nativePlace.trim()) { err('Please enter native place / district.'); return false }
-    return true
-  }
-  function validateCommunity() {
-    if (!f.gotra.trim()) { err('Please enter your gotra.'); return false }
-    if (!f.nakshatra) { err('Please select nakshatra.'); return false }
-    if (!f.rashi) { err('Please select rashi.'); return false }
-    return true
-  }
-  function validateCareer() {
-    if (!f.highestQual) { err('Please select highest qualification.'); return false }
-    if (!f.employedIn) { err('Please select employment type.'); return false }
-    if (!f.occupation.trim()) { err('Please enter occupation.'); return false }
-    if (!f.annualIncome) { err('Please enter annual income.'); return false }
-    if (!f.diet) { err('Please select diet.'); return false }
-    return true
-  }
-  function validateAccount() {
-    if (!f.mobile.trim()) { err('Please enter your mobile number.'); return false }
-    if (!f.username.trim() || f.username.length < 3) { err('Username must be at least 3 characters.'); return false }
-    if (f.password.length < 8) { err('Password must be at least 8 characters.'); return false }
-    return true
-  }
-
-  async function handleAccountNext() {
-    if (!validateAccount()) return
-    setLoading(true)
+  async function saveDraft() {
+    if (draftSaved.current || !f.email.includes('@')) return
     try {
-      const snap = await getDocs(query(collection(db, 'users'), where('u', '==', f.username.trim())))
-      if (!snap.empty) { err('This username is already taken. Please choose another.'); setLoading(false); return }
-      go('membership')
-    } catch { err('Could not verify username. Please try again.') }
-    setLoading(false)
+      const d: Record<string, unknown> = {}
+      DRAFT_FIELDS.forEach(k => { if (f[k]) d[k] = f[k] })
+      await setDoc(doc(db, 'drafts', f.email.trim().toLowerCase()), d)
+      draftSaved.current = true
+    } catch { /* ignore */ }
   }
 
-  function handleMembershipNext() {
-    if (!f.tier) { err('Please select a membership tier.'); return }
+  function next() {
+    setError('')
+    saveDraft()
+    setDir('fwd')
+    setIdx(i => Math.min(i + 1, total - 1))
+    window.scrollTo(0, 0)
+  }
+  function back() { setError(''); setDir('bck'); setIdx(i => Math.max(i - 1, 0)); window.scrollTo(0, 0) }
+  function skip() { setError(''); setDir('fwd'); setIdx(i => Math.min(i + 1, total - 1)); window.scrollTo(0, 0) }
+
+  function canProceed() {
+    switch (screen) {
+      case 'for':       return !!f.profileFor
+      case 'rel':       return !!f.maritalStatus
+      case 'name':      return f.name.trim().length >= 2 && !!f.gender && f.email.includes('@')
+      case 'dob':       return !!f.dob
+      case 'height':    return !!f.height
+      case 'location':  return !!f.city.trim() && !!f.state
+      case 'education': return !!f.highestQual
+      case 'career':    return !!f.occupation.trim()
+      case 'lifestyle': return !!f.diet && f.aboutYourself.trim().length >= 10
+      case 'account':   return (
+        f.username.trim().length >= 3 && f.email.includes('@') &&
+        f.password.length >= 6 && f.mobile.trim().length >= 10
+      )
+      case 'tier':      return !!f.tier
+      case 'review':    return f.tcAgreed
+      default:          return true
+    }
+  }
+
+  async function submit() {
     if (!f.tcAgreed) { err('Please agree to the Terms & Conditions.'); return }
-    go('review')
-  }
-
-  async function doRegister() {
     setLoading(true); setError('')
     try {
       const snap = await getDocs(query(collection(db, 'users'), where('u', '==', f.username.trim())))
-      if (!snap.empty) { err('Username was taken. Please go back and choose another.'); setLoading(false); return }
-
+      if (!snap.empty) { err('Username already taken. Go back and choose another.'); setLoading(false); return }
       const cred = await createUserWithEmailAndPassword(auth, f.email, f.password)
       await sendEmailVerification(cred.user)
       await setDoc(doc(db, 'users', cred.user.uid), {
-        uid: cred.user.uid,
-        email: f.email,
-        name: f.name.trim(),
-        u: f.username.trim(),
-        gender: f.gender,
-        profileFor: f.profileFor,
-        relationship: f.relationship,
-        maritalStatus: f.maritalStatus,
-        dob: f.dob,
-        height: f.height,
-        motherTongue: f.motherTongue,
-        complexion: f.complexion,
-        bodyType: f.bodyType,
-        bloodGroup: f.bloodGroup,
-        differentlyAbled: f.differentlyAbled,
+        uid: cred.user.uid, email: f.email, name: f.name.trim(), u: f.username.trim(),
+        gender: f.gender, profileFor: f.profileFor, relationship: f.relationship,
+        maritalStatus: f.maritalStatus, dob: f.dob, height: f.height,
+        complexion: f.complexion, motherTongue: f.motherTongue || 'Telugu',
+        bodyType: f.bodyType, bloodGroup: f.bloodGroup, differentlyAbled: f.differentlyAbled,
         tob: f.tobH && f.tobM && f.tobAP ? `${f.tobH}:${f.tobM} ${f.tobAP}` : '',
-        placeOfBirth: f.placeOfBirth,
-        country: f.country, state: f.state, city: f.city,
+        placeOfBirth: f.placeOfBirth, country: f.country, state: f.state, city: f.city,
         nativePlace: f.nativePlace, residentialStatus: f.residentialStatus,
         gotra: f.gotra, fatherGotra: f.fatherGotra, nakshatra: f.nakshatra, rashi: f.rashi,
-        education: { schoolBoard: f.schoolBoard, schoolName: f.schoolName, interCollege: f.interCollege, highestQual: f.highestQual, degreeCollege: f.degreeCollege, pgCollege: f.pgCollege },
-        career: { employedIn: f.employedIn, occupation: f.occupation, company: f.company, workCountry: f.workCountry, workState: f.workState, workCity: f.workCity, annualIncome: f.annualIncome, visaStatus: f.visaStatus },
+        education: { schoolBoard: f.schoolBoard, schoolName: f.schoolName,
+          interCollege: f.interCollege, highestQual: f.highestQual,
+          degreeCollege: f.degreeCollege, pgCollege: f.pgCollege },
+        career: { employedIn: f.employedIn, occupation: f.occupation, company: f.company,
+          workCountry: f.workCountry, workState: f.workState, workCity: f.workCity,
+          annualIncome: f.annualIncome, visaStatus: f.visaStatus },
         lifestyle: { diet: f.diet, smoking: f.smoking, drinking: f.drinking },
         aboutYourself: f.aboutYourself,
-        family: { familyType: f.familyType, familyValues: f.familyValues, familyStatus: f.familyStatus, fatherName: f.fatherName, fatherStatus: f.fatherStatus, fatherOcc: f.fatherOcc, motherName: f.motherName, motherStatus: f.motherStatus, motherOcc: f.motherOcc, parentMobile1: f.parentMobile1, parentMobile2: f.parentMobile2, brothers: f.brothers, brothersMarried: f.brothersMarried, sisters: f.sisters, sistersMarried: f.sistersMarried, propertyValue: f.propertyValue },
-        partner: { ppAgeFrom: f.ppAgeFrom, ppAgeTo: f.ppAgeTo, ppHeight: f.ppHeight, ppEducation: f.ppEducation, ppProfession: f.ppProfession, ppIncome: f.ppIncome, ppLocation: f.ppLocation, ppNRI: f.ppNRI, ppNotes: f.ppNotes },
-        mobile: f.mobile,
-        tier: f.tier,
-        approved: false,
-        savedProfiles: [],
+        family: { familyType: f.familyType, familyValues: f.familyValues, familyStatus: f.familyStatus,
+          fatherName: f.fatherName, fatherStatus: f.fatherStatus, fatherOcc: f.fatherOcc,
+          motherName: f.motherName, motherStatus: f.motherStatus, motherOcc: f.motherOcc,
+          parentMobile1: f.parentMobile1, parentMobile2: f.parentMobile2,
+          brothers: f.brothers, brothersMarried: f.brothersMarried,
+          sisters: f.sisters, sistersMarried: f.sistersMarried, propertyValue: f.propertyValue },
+        partner: { ppAgeFrom: f.ppAgeFrom, ppAgeTo: f.ppAgeTo, ppHeight: f.ppHeight,
+          ppEducation: f.ppEducation, ppProfession: f.ppProfession, ppIncome: f.ppIncome,
+          ppLocation: f.ppLocation, ppNRI: f.ppNRI, ppNotes: f.ppNotes },
+        mobile: f.mobile, tier: f.tier,
+        approved: false, verified: false, savedProfiles: [],
         createdAt: new Date().toISOString(),
         ...(refCode ? { referredBy: refCode } : {}),
       })
-      // Clean up draft after successful registration
       deleteDoc(doc(db, 'drafts', f.email.trim().toLowerCase())).catch(() => {})
       router.push('/verify')
     } catch (e: unknown) {
       const code = (e as { code?: string }).code
-      err(
-        code === 'auth/email-already-in-use' ? 'This email is already registered. Please sign in.' :
-        code === 'auth/weak-password' ? 'Password is too weak. Please use at least 8 characters.' :
-        'Registration failed. Please try again.'
-      )
+      err(code === 'auth/email-already-in-use' ? 'This email is already registered. Please sign in.' :
+          code === 'auth/weak-password' ? 'Password too weak. Use at least 6 characters.' :
+          'Registration failed. Please try again.')
     }
     setLoading(false)
   }
 
+  // ── Render question content ────────────────────────────────────────────────
+  function body() {
+    const n = idx + 1
+    switch (screen) {
+
+      case 'for': return (<>
+        <div className={s.qNum}>Step {n} of {total}</div>
+        <div className={s.qText}>Creating a profile for…</div>
+        <div className={s.qDetail}>Who is this matrimony profile for?</div>
+        <div className={s.tileGrid}>
+          {[['🙋','Myself',''],['👧','My Daughter','Female'],['👦','My Son','Male'],
+            ['👩','My Sister','Female'],['🧑','My Brother','Male'],['👨‍👩‍👧','A Relative','']
+          ].map(([icon, label, g]) => (
+            <Tile key={label} icon={icon} label={label} sub={g || undefined}
+              selected={f.profileFor === label}
+              onClick={() => {
+                set('profileFor', label)
+                if (g) set('gender', g)
+              }} />
+          ))}
+        </div>
+      </>)
+
+      case 'rel': return (<>
+        <div className={s.qNum}>Step {n} of {total}</div>
+        <div className={s.qText}>Current relationship status?</div>
+        <div className={s.radioRow}>
+          {['Never Married','Divorced','Widowed','Separated'].map(v => (
+            <Pill key={v} label={v} selected={f.maritalStatus === v}
+              onClick={() => { set('maritalStatus', v); set('relationship', v) }} />
+          ))}
+        </div>
+      </>)
+
+      case 'name': return (<>
+        <div className={s.qNum}>Step {n} of {total}</div>
+        <div className={s.qText}>What is your full name?</div>
+        {showDraft && (
+          <div className={s.draftBanner}>
+            <span className={s.draftText}>Found a saved draft — continue where you left off?</span>
+            <button type="button" className={s.draftYes} onClick={restoreDraft}>Restore</button>
+            <button type="button" className={s.draftNo} onClick={() => setShowDraft(false)}>Discard</button>
+          </div>
+        )}
+        <div className={s.field}>
+          <label className={s.fieldLabel}>Full Name *</label>
+          <input className={s.input} placeholder="e.g. Kavya Reddy" value={f.name}
+            onChange={e => set('name', e.target.value)} autoComplete="name" onBlur={checkDraft} />
+        </div>
+        {!['My Daughter','My Son','My Sister','My Brother'].includes(f.profileFor) && (
+          <div className={s.field}>
+            <label className={s.fieldLabel}>Gender *</label>
+            <div className={s.radioRow}>
+              {['Male','Female'].map(v => (
+                <Pill key={v} label={v} selected={f.gender === v} onClick={() => set('gender', v)} />
+              ))}
+            </div>
+          </div>
+        )}
+        <div className={s.field}>
+          <label className={s.fieldLabel}>Email Address *</label>
+          <input className={s.input} type="email" placeholder="your@email.com" value={f.email}
+            onChange={e => set('email', e.target.value)} onBlur={checkDraft} autoComplete="email" />
+        </div>
+      </>)
+
+      case 'dob': return (<>
+        <div className={s.qNum}>Step {n} of {total}</div>
+        <div className={s.qText}>When were you born?</div>
+        <div className={s.qDetail}>Your age is shown publicly, not the exact date. Min age: 21 (Male), 18 (Female).</div>
+        <div className={s.field}>
+          <label className={s.fieldLabel}>Date of Birth *</label>
+          <DatePicker value={f.dob} onChange={v => set('dob', v)}
+            placeholder="Select date of birth"
+            maxYear={new Date().getFullYear() - (f.gender === 'Female' ? 18 : 21)} />
+        </div>
+      </>)
+
+      case 'height': return (<>
+        <div className={s.qNum}>Step {n} of {total}</div>
+        <div className={s.qText}>A bit about your appearance</div>
+        <div className={s.field}>
+          <label className={s.fieldLabel}>Height *</label>
+          <select className={s.select} aria-label="Height" value={f.height} onChange={e => set('height', e.target.value)}>
+            <option value="">Select height</option>
+            {HEIGHTS.map(h => <option key={h}>{h}</option>)}
+          </select>
+        </div>
+        <div className={s.field}>
+          <label className={s.fieldLabel}>Complexion</label>
+          <div className={s.radioRow}>
+            {['Very Fair','Fair','Wheatish','Wheatish Brown','Dark'].map(v => (
+              <Pill key={v} label={v} selected={f.complexion === v} onClick={() => set('complexion', v)} />
+            ))}
+          </div>
+        </div>
+        <div className={s.field}>
+          <label className={s.fieldLabel}>Blood Group</label>
+          <div className={s.radioRow}>
+            {['A+','A−','B+','B−','O+','O−','AB+','AB−'].map(v => (
+              <Pill key={v} label={v} selected={f.bloodGroup === v} onClick={() => set('bloodGroup', v)} />
+            ))}
+          </div>
+        </div>
+      </>)
+
+      case 'location': return (<>
+        <div className={s.qNum}>Step {n} of {total}</div>
+        <div className={s.qText}>Where do you currently live?</div>
+        <div className={s.field}>
+          <label className={s.fieldLabel}>City *</label>
+          <input className={s.input} placeholder="e.g. Hyderabad" value={f.city}
+            onChange={e => set('city', e.target.value)} />
+        </div>
+        <div className={s.fieldGrid2}>
+          <div className={s.field}>
+            <label className={s.fieldLabel}>State *</label>
+            <select className={s.select} aria-label="State" value={f.state} onChange={e => set('state', e.target.value)}>
+              <option value="">Select</option>
+              {INDIA_STATES.map(st => <option key={st}>{st}</option>)}
+            </select>
+          </div>
+          <div className={s.field}>
+            <label className={s.fieldLabel}>Country</label>
+            <select className={s.select} aria-label="Country" value={f.country} onChange={e => set('country', e.target.value)}>
+              {['India','USA','UK','UAE','Canada','Australia','Singapore','Other'].map(c => (
+                <option key={c}>{c}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+      </>)
+
+      case 'native': return (<>
+        <div className={s.qNum}>Step {n} of {total}</div>
+        <div className={s.qText}>Where are you originally from?</div>
+        <div className={s.field}>
+          <label className={s.fieldLabel}>Native Place</label>
+          <input className={s.input} placeholder="e.g. Nellore" value={f.nativePlace}
+            onChange={e => set('nativePlace', e.target.value)} />
+        </div>
+        <div className={s.field}>
+          <label className={s.fieldLabel}>Residential Status</label>
+          <div className={s.radioRow}>
+            {['Permanent Resident','NRI','Student Visa','Work Visa'].map(v => (
+              <Pill key={v} label={v} selected={f.residentialStatus === v}
+                onClick={() => set('residentialStatus', v)} />
+            ))}
+          </div>
+        </div>
+      </>)
+
+      case 'community': return (<>
+        <div className={s.qNum}>Step {n} of {total}</div>
+        <div className={s.qText}>Your community details</div>
+        <div className={s.qDetail}>Helps us find the most compatible Reddy matches.</div>
+        <div className={s.fieldGrid2}>
+          <div className={s.field}>
+            <label className={s.fieldLabel}>Gotra</label>
+            <select className={s.select} aria-label="Gotra" value={f.gotra} onChange={e => set('gotra', e.target.value)}>
+              <option value="">Select</option>
+              {GOTRAS.map(g => <option key={g}>{g}</option>)}
+            </select>
+          </div>
+          <div className={s.field}>
+            <label className={s.fieldLabel}>Father&apos;s Gotra</label>
+            <select className={s.select} aria-label="Father's Gotra" value={f.fatherGotra} onChange={e => set('fatherGotra', e.target.value)}>
+              <option value="">Select</option>
+              {GOTRAS.map(g => <option key={g}>{g}</option>)}
+            </select>
+          </div>
+          <div className={s.field}>
+            <label className={s.fieldLabel}>Nakshatra</label>
+            <select className={s.select} aria-label="Nakshatra" value={f.nakshatra} onChange={e => set('nakshatra', e.target.value)}>
+              <option value="">Select</option>
+              {NAKSHATRAS.map(n => <option key={n}>{n}</option>)}
+            </select>
+          </div>
+          <div className={s.field}>
+            <label className={s.fieldLabel}>Rashi</label>
+            <select className={s.select} aria-label="Rashi" value={f.rashi} onChange={e => set('rashi', e.target.value)}>
+              <option value="">Select</option>
+              {RASHIS.map(r => <option key={r}>{r}</option>)}
+            </select>
+          </div>
+        </div>
+      </>)
+
+      case 'education': return (<>
+        <div className={s.qNum}>Step {n} of {total}</div>
+        <div className={s.qText}>What is your highest qualification?</div>
+        <div className={s.field}>
+          <label className={s.fieldLabel}>Qualification *</label>
+          <select className={s.select} aria-label="Highest Qualification" value={f.highestQual} onChange={e => set('highestQual', e.target.value)}>
+            <option value="">Select</option>
+            {['High School','Diploma','B.A.','B.Com','B.Sc','B.Tech / B.E.','MBBS','BDS',
+              'LLB','M.A.','M.Com','M.Sc','M.Tech / M.E.','MBA','MCA','MD / MS',
+              'CA / ICAI','Ph.D','Other'].map(q => <option key={q}>{q}</option>)}
+          </select>
+        </div>
+        <div className={s.field}>
+          <label className={s.fieldLabel}>College / University</label>
+          <input className={s.input} placeholder="e.g. JNTU Hyderabad" value={f.degreeCollege}
+            onChange={e => set('degreeCollege', e.target.value)} />
+        </div>
+      </>)
+
+      case 'career': return (<>
+        <div className={s.qNum}>Step {n} of {total}</div>
+        <div className={s.qText}>What do you do for work?</div>
+        <div className={s.field}>
+          <label className={s.fieldLabel}>Employed In *</label>
+          <div className={s.radioRow}>
+            {['Private Sector','Government','Business / Self-Employed','Not Working','Student'].map(v => (
+              <Pill key={v} label={v} selected={f.employedIn === v} onClick={() => set('employedIn', v)} />
+            ))}
+          </div>
+        </div>
+        <div className={s.field}>
+          <label className={s.fieldLabel}>Occupation *</label>
+          <input className={s.input} placeholder="e.g. Software Engineer, Doctor…"
+            value={f.occupation} onChange={e => set('occupation', e.target.value)} />
+        </div>
+        <div className={s.fieldGrid2}>
+          <div className={s.field}>
+            <label className={s.fieldLabel}>Annual Income</label>
+            <select className={s.select} aria-label="Annual Income" value={f.annualIncome} onChange={e => set('annualIncome', e.target.value)}>
+              <option value="">Select</option>
+              {['Below 3 Lakhs','3–5 Lakhs','5–10 Lakhs','10–20 Lakhs',
+                '20–50 Lakhs','50L–1 Crore','1 Crore+'].map(i => <option key={i}>{i}</option>)}
+            </select>
+          </div>
+          <div className={s.field}>
+            <label className={s.fieldLabel}>Work City</label>
+            <input className={s.input} placeholder="City" value={f.workCity}
+              onChange={e => set('workCity', e.target.value)} />
+          </div>
+        </div>
+      </>)
+
+      case 'lifestyle': return (<>
+        <div className={s.qNum}>Step {n} of {total}</div>
+        <div className={s.qText}>Tell us about your lifestyle</div>
+        <div className={s.field}>
+          <label className={s.fieldLabel}>Diet *</label>
+          <div className={s.radioRow}>
+            {['Vegetarian','Non-Vegetarian','Eggetarian','Jain'].map(v => (
+              <Pill key={v} label={v} selected={f.diet === v} onClick={() => set('diet', v)} />
+            ))}
+          </div>
+        </div>
+        <div className={s.field}>
+          <label className={s.fieldLabel}>About Yourself * (min 10 chars)</label>
+          <textarea className={s.textarea}
+            placeholder="Share what makes you unique — hobbies, values, what you seek in a partner…"
+            value={f.aboutYourself} onChange={e => set('aboutYourself', e.target.value)} rows={4} />
+          <div className={s.hint}>{f.aboutYourself.length} / 500 characters</div>
+        </div>
+      </>)
+
+      case 'family': return (<>
+        <div className={s.qNum}>Step {n} of {total}</div>
+        <div className={s.qText}>A little about your family</div>
+        <div className={s.qDetail}>Family background matters in our community. You can update these later too.</div>
+        <div className={s.field}>
+          <label className={s.fieldLabel}>Family Type</label>
+          <div className={s.radioRow}>
+            {['Nuclear Family','Joint Family'].map(v => (
+              <Pill key={v} label={v} selected={f.familyType === v} onClick={() => set('familyType', v)} />
+            ))}
+          </div>
+        </div>
+        <div className={s.fieldGrid2}>
+          <div className={s.field}>
+            <label className={s.fieldLabel}>Father&apos;s Name</label>
+            <input className={s.input} placeholder="Father's full name" value={f.fatherName} onChange={e => set('fatherName', e.target.value)} />
+          </div>
+          <div className={s.field}>
+            <label className={s.fieldLabel}>Father&apos;s Status</label>
+            <select className={s.select} aria-label="Father's Status" value={f.fatherStatus} onChange={e => set('fatherStatus', e.target.value)}>
+              <option value="">Select</option>
+              {['Employed','Business','Retired','Expired'].map(v => <option key={v}>{v}</option>)}
+            </select>
+          </div>
+          <div className={s.field}>
+            <label className={s.fieldLabel}>Mother&apos;s Name</label>
+            <input className={s.input} placeholder="Mother's full name" value={f.motherName} onChange={e => set('motherName', e.target.value)} />
+          </div>
+          <div className={s.field}>
+            <label className={s.fieldLabel}>Mother&apos;s Status</label>
+            <select className={s.select} aria-label="Mother's Status" value={f.motherStatus} onChange={e => set('motherStatus', e.target.value)}>
+              <option value="">Select</option>
+              {['Homemaker','Working','Retired','Expired'].map(v => <option key={v}>{v}</option>)}
+            </select>
+          </div>
+        </div>
+      </>)
+
+      case 'partner': return (<>
+        <div className={s.qNum}>Step {n} of {total}</div>
+        <div className={s.qText}>What are you looking for in a partner?</div>
+        <div className={s.qDetail}>These are preferences — just a starting point. You can refine later.</div>
+        <div className={s.fieldGrid2}>
+          <div className={s.field}>
+            <label className={s.fieldLabel}>Age From</label>
+            <input className={s.input} type="number" placeholder="22" min={18} max={60}
+              value={f.ppAgeFrom} onChange={e => set('ppAgeFrom', e.target.value)} />
+          </div>
+          <div className={s.field}>
+            <label className={s.fieldLabel}>Age To</label>
+            <input className={s.input} type="number" placeholder="30" min={18} max={65}
+              value={f.ppAgeTo} onChange={e => set('ppAgeTo', e.target.value)} />
+          </div>
+        </div>
+        <div className={s.field}>
+          <label className={s.fieldLabel}>Preferred Income</label>
+          <select className={s.select} aria-label="Preferred Income" value={f.ppIncome} onChange={e => set('ppIncome', e.target.value)}>
+            <option value="">Any</option>
+            {['3–5 Lakhs','5–10 Lakhs','10–20 Lakhs','20–50 Lakhs','50L–1 Crore','1 Crore+'].map(i => (
+              <option key={i}>{i}</option>
+            ))}
+          </select>
+        </div>
+        <div className={s.field}>
+          <label className={s.fieldLabel}>NRI Preference</label>
+          <div className={s.radioRow}>
+            {['Open to NRI','NRI Preferred','India Only','No Preference'].map(v => (
+              <Pill key={v} label={v} selected={f.ppNRI === v} onClick={() => set('ppNRI', v)} />
+            ))}
+          </div>
+        </div>
+      </>)
+
+      case 'account': return (<>
+        <div className={s.qNum}>Step {n} of {total}</div>
+        <div className={s.qText}>Set up your account</div>
+        <div className={s.qDetail}>Choose a unique username — this is your identity on the platform.</div>
+        <div className={s.field}>
+          <label className={s.fieldLabel}>Username *</label>
+          <input className={s.input} placeholder="e.g. kavya_r" value={f.username}
+            onChange={e => set('username', e.target.value.toLowerCase().replace(/\s/g, ''))}
+            autoComplete="username" />
+          <div className={s.hint}>Letters, numbers and underscores only.</div>
+        </div>
+        <div className={s.field}>
+          <label className={s.fieldLabel}>Mobile Number *</label>
+          <input className={s.input} type="tel" placeholder="+91 9876543210" value={f.mobile}
+            onChange={e => set('mobile', e.target.value)} autoComplete="tel" />
+        </div>
+        <div className={s.field}>
+          <label className={s.fieldLabel}>Password *</label>
+          <div className={s.passwordWrap}>
+            <input className={s.input} type={showPass ? 'text' : 'password'}
+              placeholder="Min 6 characters" value={f.password}
+              onChange={e => set('password', e.target.value)} autoComplete="new-password" />
+            <button type="button" className={s.eyeBtn}
+              onClick={() => setShowPass(v => !v)} aria-label="Toggle password">
+              {showPass ? '🙈' : '👁'}
+            </button>
+          </div>
+        </div>
+      </>)
+
+      case 'tier': return (<>
+        <div className={s.qNum}>Step {n} of {total}</div>
+        <div className={s.qText}>Choose your membership plan</div>
+        <div className={s.qDetail}>All plans include full access. You can upgrade anytime from your profile.</div>
+        <div className={s.tierGrid}>
+          {([
+            { v: 'VIP',  icon: '👑', price: '₹15,000/yr',   feats: 'Full visibility · Browse verified · Express interest' },
+            { v: 'Elite',icon: '💎', price: '₹1,00,000/yr', feats: 'All VIP · Priority results · Dedicated manager' },
+            { v: 'VVIP', icon: '🏆', price: '₹30,000/yr',   feats: 'All Elite · White-glove · Background verification' },
+          ] as const).map(t => (
+            <button key={t.v} type="button"
+              className={f.tier === t.v ? s.tierCardSelected : s.tierCard}
+              onClick={() => set('tier', t.v)}>
+              <span className={s.tierCardIcon}>{t.icon}</span>
+              <span className={s.tierCardInfo}>
+                <span className={s.tierCardName}>{t.v}</span>
+                <span className={s.tierCardPrice}>{t.price}</span>
+                <span className={s.tierCardFeats}>{t.feats}</span>
+              </span>
+            </button>
+          ))}
+        </div>
+      </>)
+
+      case 'review': return (<>
+        <div className={s.qNum}>Final Step</div>
+        <div className={s.qText}>Almost done! Review your profile</div>
+        <div className={s.qDetail}>A quick look at what you&apos;ve shared. You can always edit after registering.</div>
+        <div className={s.summaryGrid}>
+          {([
+            ['Name', f.name], ['Gender', f.gender], ['DOB', f.dob], ['Height', f.height],
+            ['City', f.city], ['State', f.state], ['Gotra', f.gotra], ['Nakshatra', f.nakshatra],
+            ['Education', f.highestQual], ['Occupation', f.occupation], ['Diet', f.diet], ['Plan', f.tier],
+          ] as [string, string][]).filter(([,v]) => v).map(([k,v]) => (
+            <div key={k} className={s.summaryItem}>
+              <div className={s.summaryKey}>{k}</div>
+              <div className={s.summaryVal}>{v}</div>
+            </div>
+          ))}
+        </div>
+        <div className={s.termsBox}>{TERMS}</div>
+        <label className={s.tcRow}>
+          <input type="checkbox" checked={f.tcAgreed} onChange={e => set('tcAgreed', e.target.checked)} />
+          <span className={s.tcLabel}>I have read and agree to the Terms &amp; Conditions</span>
+        </label>
+      </>)
+    }
+  }
+
+  const isLast = idx === total - 1
+  const isOptional = OPTIONAL.includes(screen)
+
   return (
     <div className={s.page}>
-      <div className={s.hero}>
-        <div className={s.heroInner}>
-          <div className={s.heroTitle}>Create Your Profile</div>
-          <div className={s.heroTag}>Home &nbsp;|&nbsp; Registration</div>
+      {/* Progress bar */}
+      <div className={s.progressWrap}>
+        <div className={s.progressTop}>
+          <span className={s.progressMsg}>{progressMsg(pct)}</span>
+          <span className={s.progressPct}>{pct}%</span>
+        </div>
+        <div className={s.progressBar}>
+          <div ref={progressFillRef} className={s.progressFill} />
         </div>
       </div>
 
-      {/* Draft restore banner */}
-      {showDraftBanner && (
-        <div className={s.draftBanner}>
-          <div className={s.draftBannerText}>
-            ✦ We found a saved draft for <strong>{f.email}</strong>. Restore your progress?
-          </div>
-          <div className={s.draftBannerActions}>
-            <button type="button" className={s.draftBtnYes} onClick={restoreDraft}>Restore Draft</button>
-            <button type="button" className={s.draftBtnNo} onClick={() => { setShowDraftBanner(false); setDraftData(null) }}>Start Fresh</button>
-          </div>
-        </div>
-      )}
+      {/* Screen */}
+      <div key={`${screen}-${dir}`} className={`${s.screen} ${dir === 'bck' ? s.screenBack : ''}`}>
+        {error && <div className={s.error}>{error}</div>}
+        {body()}
+        <div className={s.signInLink}>Already registered? <Link href="/m/login">Sign In →</Link></div>
+      </div>
 
-      {/* Progress bar for main steps */}
-      {isMainStep && (
-        <div className={s.progressWrap}>
-          <div className={s.progressHeader}>
-            <span className={s.progressLabel}>Step {stepIdx + 1} of 8 — {STEP_LABELS[stepIdx]}</span>
-            <span className={s.progressPct}>{Math.round(((stepIdx + 1) / 8) * 100)}%</span>
-          </div>
-          <div className={s.progressTrack}><div className={s.progressFill} style={{ ['--fill' as string]: `${Math.round(((stepIdx + 1) / 8) * 100)}%` }} /></div>
-          <div className={s.stepDots}>
-            {STEP_LABELS.map((lbl, i) => (
-              <div key={i} className={`${s.stepDot} ${i === stepIdx ? s.stepDotActive : i < stepIdx ? s.stepDotDone : ''}`} title={lbl}>
-                {i < stepIdx ? '✓' : i + 1}
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {error && <div className={s.errorBanner}>{error}</div>}
-
-      {/* ── PRE-STEP A: Who is this for ── */}
-      {step === 'who' && (
-        <div className={s.preScreen}>
-          <div className={s.preHero}>
-            <svg className={s.preHeroIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
-            <h1 className={s.preTitle}>Create a Profile For</h1>
-            <p className={s.preSub}>Tell us who you are registering today</p>
-          </div>
-          <div className={s.whoGrid}>
-            {[
-              { label: 'My Son', sub: 'Male' },
-              { label: 'My Daughter', sub: 'Female' },
-              { label: 'My Brother', sub: 'Male' },
-              { label: 'Myself', sub: '' },
-              { label: 'My Sister', sub: 'Female' },
-              { label: 'My Relative', sub: '' },
-              { label: 'A Friend', sub: '' },
-            ].map(({ label, sub }) => (
-              <button type="button" key={label} className={s.whoCard} onClick={() => pickProfileFor(label, sub)}>
-                <span className={s.whoLabel}>{label}</span>
-                {sub && <span className={s.whoSub}>{sub}</span>}
-              </button>
-            ))}
-          </div>
-          <p className={s.preNote}>Exclusively for Reddy Community · Hindu Religion</p>
-          <p className={s.loginLink}>Already registered? <Link href="/login">Sign In →</Link></p>
-        </div>
-      )}
-
-      {/* ── PRE-STEP A2: Relationship ── */}
-      {step === 'rel' && (
-        <div className={s.preScreen}>
-          <button type="button" className={s.backLink} onClick={() => go('who')}>← Back</button>
-          <div className={s.preHero}>
-            <h1 className={s.preTitle}>Your Relationship</h1>
-            <p className={s.preSub}>Registering {f.profileFor} — how are you related?</p>
-          </div>
-          <div className={s.relGrid}>
-            {['Parent','Sibling','Uncle / Aunt','Other Relative','Family Friend','Other'].map(rel => (
-              <button type="button" key={rel} className={s.relCard} onClick={() => { set('relationship', rel); go('basics') }}>
-                {rel}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* ── PRE-STEP B: Basics ── */}
-      {step === 'basics' && (
-        <div className={s.preScreen}>
-          <button type="button" className={s.backLink} onClick={() => go(f.profileFor === 'Myself' ? 'who' : 'rel')}>← Back</button>
-          <div className={s.preHero}>
-            <h1 className={s.preTitle}>Let&apos;s Begin</h1>
-            <p className={s.preSub}>Enter basic details to start the profile</p>
-          </div>
-          <div className={s.card}>
-            <div className={s.genderRow}>
-              <button type="button" className={`${s.genderBtn} ${f.gender === 'Male' ? s.genderBtnActive : ''}`} onClick={() => set('gender', 'Male')}>♂ Male</button>
-              <button type="button" className={`${s.genderBtn} ${f.gender === 'Female' ? s.genderBtnActive : ''}`} onClick={() => set('gender', 'Female')}>♀ Female</button>
-            </div>
-            <Field label="Full Name *">
-              <input className={s.input} type="text" value={f.name} onChange={e => set('name', e.target.value)} placeholder="As per Aadhaar card" autoComplete="name" />
-            </Field>
-            <Field label="Email Address *">
-              <input className={s.input} type="email" value={f.email} onChange={e => set('email', e.target.value)} onBlur={checkDraft} placeholder="your@email.com" autoComplete="email" />
-            </Field>
-            <button type="button" className={s.btnNext} onClick={() => { if (validateBasics()) go('about') }}>Continue →</button>
-            <p className={s.saveNote}>We save your progress automatically so you can continue later.</p>
-          </div>
-        </div>
-      )}
-
-      {/* ── STEP 1: About ── */}
-      {step === 'about' && (
-        <div className={s.stepScreen}>
-          <div className={s.stepHeader}><h2 className={s.stepTitle}>💍 About You</h2></div>
-          <div className={s.card}>
-            <div className={s.sectionTitle}>Marital Status *</div>
-            <div className={s.msCards}>
-              {[{v:'Never Married',ic:'💍'},{v:'Divorced',ic:'📄'},{v:'Widowed',ic:'🕊️'},{v:'Awaiting Divorce',ic:'⚖️'}].map(({v,ic}) => (
-                <button type="button" key={v} className={`${s.msCard} ${f.maritalStatus === v ? s.msCardActive : ''}`} onClick={() => set('maritalStatus', v)}>
-                  <span className={s.msIcon}>{ic}</span>
-                  <span className={s.msLabel}>{v}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-          <div className={s.card}>
-            <div className={s.sectionTitle}>📋 Basic Details</div>
-            <div className={s.grid2}>
-              <Field label="Date of Birth *" hint="Min age: 21 (Male) · 18 (Female)">
-                <DatePicker
-                  value={f.dob}
-                  onChange={v => set('dob', v)}
-                  placeholder="Select date of birth"
-                  maxYear={new Date().getFullYear() - 18}
-                />
-              </Field>
-              <Field label="Height *">
-                <select className={s.select} value={f.height} onChange={e => set('height', e.target.value)}>
-                  <option value="">Select</option>
-                  {HEIGHTS.map(h => <option key={h}>{h}</option>)}
-                </select>
-              </Field>
-              <Field label="Mother Tongue *">
-                <select className={s.select} value={f.motherTongue} onChange={e => set('motherTongue', e.target.value)}>
-                  <option value="">Select</option>
-                  {['Telugu','Kannada','Tamil','Hindi','Marathi','Gujarati','Bengali','Malayalam','Odia','Punjabi','Other'].map(v => <option key={v}>{v}</option>)}
-                </select>
-              </Field>
-              <Field label="Complexion">
-                <select className={s.select} value={f.complexion} onChange={e => set('complexion', e.target.value)}>
-                  <option value="">Select</option>
-                  {['Very Fair','Fair','Wheatish','Wheatish Brown','Dark'].map(v => <option key={v}>{v}</option>)}
-                </select>
-              </Field>
-              <Field label="Body Type">
-                <select className={s.select} value={f.bodyType} onChange={e => set('bodyType', e.target.value)}>
-                  <option value="">Select</option>
-                  {['Slim','Athletic','Average','Heavy'].map(v => <option key={v}>{v}</option>)}
-                </select>
-              </Field>
-              <Field label="Blood Group">
-                <select className={s.select} value={f.bloodGroup} onChange={e => set('bloodGroup', e.target.value)}>
-                  <option value="">Select</option>
-                  {['A+','A-','B+','B-','O+','O-','AB+','AB-'].map(v => <option key={v}>{v}</option>)}
-                </select>
-              </Field>
-              <Field label="Differently Abled">
-                <select className={s.select} value={f.differentlyAbled} onChange={e => set('differentlyAbled', e.target.value)}>
-                  <option>No</option><option>Yes</option>
-                </select>
-              </Field>
-            </div>
-          </div>
-          <div className={s.card}>
-            <div className={s.sectionTitle}>🔭 Astrology <span className={s.sectionNote}>(for Kundali matching)</span></div>
-            <div className={s.tobRow}>
-              <div className={`${s.field} ${s.fieldFlex}`}>
-                <label className={s.fieldLabel}>Time of Birth <span className={s.optLabel}>(optional)</span></label>
-                <div className={s.tobInputs}>
-                  <select className={s.selectSm} aria-label="Hour" value={f.tobH} onChange={e => set('tobH', e.target.value)}>
-                    <option value="">HH</option>
-                    {['01','02','03','04','05','06','07','08','09','10','11','12'].map(v => <option key={v}>{v}</option>)}
-                  </select>
-                  <span className={s.tobColon}>:</span>
-                  <select className={s.selectSm} aria-label="Minute" value={f.tobM} onChange={e => set('tobM', e.target.value)}>
-                    <option value="">MM</option>
-                    {['00','05','10','15','20','25','30','35','40','45','50','55'].map(v => <option key={v}>{v}</option>)}
-                  </select>
-                  <select className={s.selectSm} aria-label="AM or PM" value={f.tobAP} onChange={e => set('tobAP', e.target.value)}>
-                    <option value="">AM/PM</option>
-                    <option>AM</option><option>PM</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <Field label="Place of Birth">
-              <input className={s.input} type="text" value={f.placeOfBirth} onChange={e => set('placeOfBirth', e.target.value)} placeholder="e.g. Hyderabad" />
-            </Field>
-          </div>
-          <div className={s.navRow}>
-            <button type="button" className={s.btnBack} onClick={() => go('basics')}>← Back</button>
-            <button type="button" className={s.btnNext} onClick={() => { if (validateAbout()) go('location') }}>Next: Location →</button>
-          </div>
-        </div>
-      )}
-
-      {/* ── STEP 2: Location ── */}
-      {step === 'location' && (
-        <div className={s.stepScreen}>
-          <div className={s.stepHeader}><h2 className={s.stepTitle}>🌍 Location</h2></div>
-          <div className={s.card}>
-            <div className={s.grid2}>
-              <Field label="Country *" className={s.spanFull}>
-                <select className={s.select} value={f.country} onChange={e => { set('country', e.target.value); set('state', '') }}>
-                  {['India','United States','United Kingdom','Canada','Australia','United Arab Emirates','Singapore','Germany','New Zealand','Other'].map(v => <option key={v}>{v}</option>)}
-                </select>
-              </Field>
-              {f.country === 'India' && (
-                <Field label="State *">
-                  <select className={s.select} value={f.state} onChange={e => set('state', e.target.value)}>
-                    <option value="">Select State</option>
-                    {INDIA_STATES.map(v => <option key={v}>{v}</option>)}
-                  </select>
-                </Field>
-              )}
-              <Field label="City *">
-                <input className={s.input} type="text" value={f.city} onChange={e => set('city', e.target.value)} placeholder="e.g. Hyderabad" />
-              </Field>
-              <Field label="Native Place / District *" className={s.spanFull}>
-                <input className={s.input} type="text" value={f.nativePlace} onChange={e => set('nativePlace', e.target.value)} placeholder="e.g. Nalgonda, Warangal" />
-              </Field>
-              <Field label="Residential Status" className={s.spanFull}>
-                <select className={s.select} value={f.residentialStatus} onChange={e => set('residentialStatus', e.target.value)}>
-                  {['Permanent Resident','NRI','Student Abroad','Work Visa'].map(v => <option key={v}>{v}</option>)}
-                </select>
-              </Field>
-            </div>
-          </div>
-          <div className={s.navRow}>
-            <button type="button" className={s.btnBack} onClick={() => go('about')}>← Back</button>
-            <button type="button" className={s.btnNext} onClick={() => { if (validateLocation()) go('community') }}>Next: Community →</button>
-          </div>
-        </div>
-      )}
-
-      {/* ── STEP 3: Community ── */}
-      {step === 'community' && (
-        <div className={s.stepScreen}>
-          <div className={s.stepHeader}><h2 className={s.stepTitle}>🕉 Community & Astrology</h2></div>
-          <div className={s.card}>
-            <div className={s.communityPills}>
-              <span className={s.pill}>Hindu</span>
-              <span className={s.pill}>Reddy</span>
-            </div>
-            <p className={s.communityNote}>This bureau is exclusively for Reddy community members of Hindu religion.</p>
-            <div className={s.grid2}>
-              <Field label="Sub-Caste / Gotra *">
-                <input className={s.input} list="gotraList" value={f.gotra} onChange={e => set('gotra', e.target.value)} placeholder="Type or search gotra…" />
-                <datalist id="gotraList">{GOTRAS.map(g => <option key={g}>{g}</option>)}</datalist>
-              </Field>
-              <Field label="Father's Gotra">
-                <input className={s.input} list="fGotraList" value={f.fatherGotra} onChange={e => set('fatherGotra', e.target.value)} placeholder="Type gotra…" />
-                <datalist id="fGotraList">{GOTRAS.map(g => <option key={g}>{g}</option>)}</datalist>
-              </Field>
-              <Field label="Nakshatra *">
-                <select className={s.select} value={f.nakshatra} onChange={e => set('nakshatra', e.target.value)}>
-                  <option value="">Select</option>
-                  {NAKSHATRAS.map(v => <option key={v}>{v}</option>)}
-                </select>
-              </Field>
-              <Field label="Rashi (Moon Sign) *">
-                <select className={s.select} value={f.rashi} onChange={e => set('rashi', e.target.value)}>
-                  <option value="">Select</option>
-                  {RASHIS.map(v => <option key={v}>{v}</option>)}
-                </select>
-              </Field>
-            </div>
-          </div>
-          <div className={s.navRow}>
-            <button type="button" className={s.btnBack} onClick={() => go('location')}>← Back</button>
-            <button type="button" className={s.btnNext} onClick={() => { if (validateCommunity()) go('career') }}>Next: Career →</button>
-          </div>
-        </div>
-      )}
-
-      {/* ── STEP 4: Career ── */}
-      {step === 'career' && (
-        <div className={s.stepScreen}>
-          <div className={s.stepHeader}><h2 className={s.stepTitle}>🎓 Education & Career</h2></div>
-          <div className={s.card}>
-            <div className={s.sectionTitle}>Education</div>
-            <div className={s.grid2}>
-              <Field label="Schooling Board">
-                <select className={s.select} value={f.schoolBoard} onChange={e => set('schoolBoard', e.target.value)}>
-                  <option value="">Select Board</option>
-                  {['SSC','CBSE','ICSE','State Board','Other'].map(v => <option key={v}>{v}</option>)}
-                </select>
-              </Field>
-              <Field label="School Name">
-                <input className={s.input} type="text" value={f.schoolName} onChange={e => set('schoolName', e.target.value)} placeholder="e.g. Delhi Public School" />
-              </Field>
-              <Field label="Intermediate / 12th College" className={s.spanFull}>
-                <input className={s.input} type="text" value={f.interCollege} onChange={e => set('interCollege', e.target.value)} placeholder="e.g. Sri Chaitanya Junior College" />
-              </Field>
-              <Field label="Highest Qualification *" className={s.spanFull}>
-                <select className={s.select} value={f.highestQual} onChange={e => set('highestQual', e.target.value)}>
-                  <option value="">Select</option>
-                  {['10th / SSC','Intermediate / 12th','Diploma','B.Tech / B.E.','B.Sc / B.Com / B.A.','MBBS','LLB','CA / CMA / CS','M.Tech / M.E.','M.Sc / M.Com / M.A.','M.B.A.','MD / MS','MS (USA/UK)','LLM','Ph.D.','Other'].map(v => <option key={v}>{v}</option>)}
-                </select>
-              </Field>
-              <Field label="Degree / Engineering College" className={s.spanFull}>
-                <input className={s.input} type="text" value={f.degreeCollege} onChange={e => set('degreeCollege', e.target.value)} placeholder="e.g. Osmania University, IIT" />
-              </Field>
-              <Field label="PG / Higher Education College" className={s.spanFull}>
-                <input className={s.input} type="text" value={f.pgCollege} onChange={e => set('pgCollege', e.target.value)} placeholder="e.g. UTD Dallas, IIT Bombay" />
-              </Field>
-            </div>
-          </div>
-          <div className={s.card}>
-            <div className={s.sectionTitle}>💼 Career</div>
-            <div className={s.grid2}>
-              <Field label="Employed In *">
-                <select className={s.select} value={f.employedIn} onChange={e => set('employedIn', e.target.value)}>
-                  <option value="">Select</option>
-                  {['Government / PSU','Private Sector','Business / Self-Employed','Defence','Civil Services','IT / Software','Teaching / Professor','Agriculture','Not Working','Other'].map(v => <option key={v}>{v}</option>)}
-                </select>
-              </Field>
-              <Field label="Occupation *">
-                <input className={s.input} type="text" value={f.occupation} onChange={e => set('occupation', e.target.value)} placeholder="e.g. Software Engineer" />
-              </Field>
-              <Field label="Company / Organisation" className={s.spanFull}>
-                <input className={s.input} type="text" value={f.company} onChange={e => set('company', e.target.value)} placeholder="e.g. TCS, Govt of TS" />
-              </Field>
-              <Field label="Work Country" className={s.spanFull}>
-                <select className={s.select} value={f.workCountry} onChange={e => { set('workCountry', e.target.value); set('workState', '') }}>
-                  {['India','United States','United Kingdom','Canada','Australia','UAE','Singapore','Germany','Other'].map(v => <option key={v}>{v}</option>)}
-                </select>
-              </Field>
-              {f.workCountry === 'India' && (
-                <Field label="Work State">
-                  <select className={s.select} value={f.workState} onChange={e => set('workState', e.target.value)}>
-                    <option value="">Select State</option>
-                    {INDIA_STATES.map(v => <option key={v}>{v}</option>)}
-                  </select>
-                </Field>
-              )}
-              <Field label="Work City">
-                <input className={s.input} type="text" value={f.workCity} onChange={e => set('workCity', e.target.value)} placeholder="e.g. Hyderabad, Austin" />
-              </Field>
-              <Field label="Annual Income (₹) *" className={s.spanFull}>
-                <input className={s.input} type="number" min="0" value={f.annualIncome} onChange={e => set('annualIncome', e.target.value)} placeholder="e.g. 600000" />
-              </Field>
-              {f.residentialStatus !== 'Permanent Resident' && (
-                <Field label="Visa Status" className={s.spanFull}>
-                  <input className={s.input} type="text" value={f.visaStatus} onChange={e => set('visaStatus', e.target.value)} placeholder="e.g. H1B, PR, Citizen" />
-                </Field>
-              )}
-            </div>
-          </div>
-          <div className={s.card}>
-            <div className={s.sectionTitle}>🌿 Lifestyle</div>
-            <div className={s.grid3}>
-              <Field label="Diet *">
-                <select className={s.select} value={f.diet} onChange={e => set('diet', e.target.value)}>
-                  <option value="">Select</option>
-                  {['Vegetarian','Non-Vegetarian','Eggetarian','Vegan'].map(v => <option key={v}>{v}</option>)}
-                </select>
-              </Field>
-              <Field label="Smoking">
-                <select className={s.select} value={f.smoking} onChange={e => set('smoking', e.target.value)}>
-                  {['Never','Occasionally','Regularly'].map(v => <option key={v}>{v}</option>)}
-                </select>
-              </Field>
-              <Field label="Drinking">
-                <select className={s.select} value={f.drinking} onChange={e => set('drinking', e.target.value)}>
-                  {['Never','Occasionally','Regularly'].map(v => <option key={v}>{v}</option>)}
-                </select>
-              </Field>
-            </div>
-            <Field label="About Yourself">
-              <textarea className={s.textarea} value={f.aboutYourself} onChange={e => set('aboutYourself', e.target.value)} placeholder="Describe yourself, your interests, hobbies, values and what you seek in a life partner…" rows={4} />
-            </Field>
-          </div>
-          <div className={s.navRow}>
-            <button type="button" className={s.btnBack} onClick={() => go('community')}>← Back</button>
-            <button type="button" className={s.btnNext} onClick={() => { if (validateCareer()) go('family') }}>Next: Family →</button>
-          </div>
-        </div>
-      )}
-
-      {/* ── STEP 5: Family ── */}
-      {step === 'family' && (
-        <div className={s.stepScreen}>
-          <div className={s.stepHeader}><h2 className={s.stepTitle}>🏠 Family Background</h2></div>
-          <div className={s.card}>
-            <div className={s.sectionTitle}>Family Overview</div>
-            <div className={s.grid2}>
-              <Field label="Family Type">
-                <select className={s.select} value={f.familyType} onChange={e => set('familyType', e.target.value)}>
-                  <option>Nuclear Family</option><option>Joint Family</option>
-                </select>
-              </Field>
-              <Field label="Family Values">
-                <select className={s.select} value={f.familyValues} onChange={e => set('familyValues', e.target.value)}>
-                  {['Orthodox','Traditional','Moderate','Liberal'].map(v => <option key={v}>{v}</option>)}
-                </select>
-              </Field>
-              <Field label="Family Status" className={s.spanFull}>
-                <select className={s.select} value={f.familyStatus} onChange={e => set('familyStatus', e.target.value)}>
-                  <option value="">Select</option>
-                  {['Middle Class','Upper Middle Class','Rich / Affluent','Wealthy'].map(v => <option key={v}>{v}</option>)}
-                </select>
-              </Field>
-            </div>
-          </div>
-          <div className={s.card}>
-            <div className={s.sectionTitle}>👨‍👩‍👧 Parents</div>
-            <div className={s.grid2}>
-              <Field label="Father's Name">
-                <input className={s.input} type="text" value={f.fatherName} onChange={e => set('fatherName', e.target.value)} placeholder="Father's full name" />
-              </Field>
-              <Field label="Father's Status">
-                <select className={s.select} value={f.fatherStatus} onChange={e => set('fatherStatus', e.target.value)}>
-                  <option value="">Select</option>
-                  {['Employed','Business','Retired','Farmer','Passed Away'].map(v => <option key={v}>{v}</option>)}
-                </select>
-              </Field>
-              {f.fatherStatus && f.fatherStatus !== 'Passed Away' && (
-                <Field label="Father's Occupation" className={s.spanFull}>
-                  <input className={s.input} type="text" value={f.fatherOcc} onChange={e => set('fatherOcc', e.target.value)} placeholder="e.g. Govt Officer, Business" />
-                </Field>
-              )}
-              <Field label="Mother's Name">
-                <input className={s.input} type="text" value={f.motherName} onChange={e => set('motherName', e.target.value)} placeholder="Mother's full name" />
-              </Field>
-              <Field label="Mother's Status">
-                <select className={s.select} value={f.motherStatus} onChange={e => set('motherStatus', e.target.value)}>
-                  <option value="">Select</option>
-                  {['Homemaker','Employed','Business','Retired','Passed Away'].map(v => <option key={v}>{v}</option>)}
-                </select>
-              </Field>
-              {f.motherStatus && f.motherStatus !== 'Homemaker' && f.motherStatus !== 'Passed Away' && (
-                <Field label="Mother's Occupation" className={s.spanFull}>
-                  <input className={s.input} type="text" value={f.motherOcc} onChange={e => set('motherOcc', e.target.value)} placeholder="e.g. Teacher, Doctor" />
-                </Field>
-              )}
-              <Field label="Parent Mobile 1">
-                <input className={s.input} type="tel" value={f.parentMobile1} onChange={e => set('parentMobile1', e.target.value)} placeholder="+91 98765 43210" />
-              </Field>
-              <Field label={<>Parent Mobile 2 <span className={s.optLabel}>(optional)</span></>}>
-                <input className={s.input} type="tel" value={f.parentMobile2} onChange={e => set('parentMobile2', e.target.value)} placeholder="+91 98765 43210" />
-              </Field>
-            </div>
-          </div>
-          <div className={s.card}>
-            <div className={s.sectionTitle}>👫 Siblings & Property</div>
-            <div className={s.grid2}>
-              <Field label="Brothers">
-                <select className={s.select} value={f.brothers} onChange={e => set('brothers', e.target.value)}>
-                  {['0','1','2','3','4+'].map(v => <option key={v}>{v}</option>)}
-                </select>
-              </Field>
-              <Field label="Brothers Married">
-                <select className={s.select} value={f.brothersMarried} onChange={e => set('brothersMarried', e.target.value)}>
-                  {['0','1','2','3','4+'].map(v => <option key={v}>{v}</option>)}
-                </select>
-              </Field>
-              <Field label="Sisters">
-                <select className={s.select} value={f.sisters} onChange={e => set('sisters', e.target.value)}>
-                  {['0','1','2','3','4+'].map(v => <option key={v}>{v}</option>)}
-                </select>
-              </Field>
-              <Field label="Sisters Married">
-                <select className={s.select} value={f.sistersMarried} onChange={e => set('sistersMarried', e.target.value)}>
-                  {['0','1','2','3','4+'].map(v => <option key={v}>{v}</option>)}
-                </select>
-              </Field>
-              <Field label={<>Total Property Value <span className={s.optLabel}>(optional)</span></>} className={s.spanFull}>
-                <input className={s.input} type="text" value={f.propertyValue} onChange={e => set('propertyValue', e.target.value)} placeholder="e.g. 2 Crores, 50 Lakhs, Agricultural land" />
-              </Field>
-            </div>
-          </div>
-          <div className={s.navRow}>
-            <button type="button" className={s.btnBack} onClick={() => go('career')}>← Back</button>
-            <button type="button" className={s.btnNext} onClick={() => go('partner')}>Next: Partner →</button>
-          </div>
-        </div>
-      )}
-
-      {/* ── STEP 6: Partner Preferences ── */}
-      {step === 'partner' && (
-        <div className={s.stepScreen}>
-          <div className={s.stepHeader}><h2 className={s.stepTitle}>💑 Partner Preferences</h2></div>
-          <div className={s.card}>
-            <div className={s.grid2}>
-              <Field label="Preferred Age From">
-                <input className={s.input} type="number" min="18" max="70" value={f.ppAgeFrom} onChange={e => set('ppAgeFrom', e.target.value)} placeholder="e.g. 22" />
-              </Field>
-              <Field label="Preferred Age To">
-                <input className={s.input} type="number" min="18" max="80" value={f.ppAgeTo} onChange={e => set('ppAgeTo', e.target.value)} placeholder="e.g. 30" />
-              </Field>
-              <Field label="Min Height">
-                <select className={s.select} value={f.ppHeight} onChange={e => set('ppHeight', e.target.value)}>
-                  <option value="">Any</option>
-                  {["4'0\"","4'6\"","4'10\"","5'0\"","5'1\"","5'2\"","5'3\"","5'4\"","5'5\"","5'6\"","5'7\"","5'8\"","5'9\"","5'10\"","5'11\"","6'0\"","6'1\"","6'2\"","6'3\"","6'4\""].map(v => <option key={v}>{v}</option>)}
-                </select>
-              </Field>
-              <Field label="Expected Education">
-                <select className={s.select} value={f.ppEducation} onChange={e => set('ppEducation', e.target.value)}>
-                  <option value="">Any</option>
-                  {['Graduate & Above','Post Graduate','Professional Degree','Doctorate'].map(v => <option key={v}>{v}</option>)}
-                </select>
-              </Field>
-              <Field label="Expected Profession">
-                <input className={s.input} type="text" value={f.ppProfession} onChange={e => set('ppProfession', e.target.value)} placeholder="e.g. Doctor, Engineer, Any" />
-              </Field>
-              <Field label="Expected Income">
-                <select className={s.select} value={f.ppIncome} onChange={e => set('ppIncome', e.target.value)}>
-                  <option value="">Any</option>
-                  {['Below 2 L','2 L+','3 L+','5 L+','7 L+','10 L+','15 L+','20 L+','30 L+','50 L+','75 L+','1 Cr+','2 Cr+','5 Cr+','10 Cr+'].map(v => <option key={v}>{v}</option>)}
-                </select>
-              </Field>
-              <Field label="Preferred Location">
-                <input className={s.input} type="text" value={f.ppLocation} onChange={e => set('ppLocation', e.target.value)} placeholder="e.g. Hyderabad, London, Any" />
-              </Field>
-              <Field label="NRI Acceptable?">
-                <select className={s.select} value={f.ppNRI} onChange={e => set('ppNRI', e.target.value)}>
-                  {['Open to NRI','Prefer India-based','No Preference'].map(v => <option key={v}>{v}</option>)}
-                </select>
-              </Field>
-              <Field label="Other Expectations" className={s.spanFull}>
-                <textarea className={s.textarea} value={f.ppNotes} onChange={e => set('ppNotes', e.target.value)} placeholder="Any specific expectations about partner or family…" rows={3} />
-              </Field>
-            </div>
-          </div>
-          <div className={s.navRow}>
-            <button type="button" className={s.btnBack} onClick={() => go('family')}>← Back</button>
-            <button type="button" className={s.btnNext} onClick={() => go('account')}>Next: Account →</button>
-          </div>
-        </div>
-      )}
-
-      {/* ── STEP 7: Account ── */}
-      {step === 'account' && (
-        <div className={s.stepScreen}>
-          <div className={s.stepHeader}><h2 className={s.stepTitle}>🔐 Your Account</h2></div>
-          <div className={s.card}>
-            <Field label="Mobile Number *">
-              <input className={s.input} type="tel" value={f.mobile} onChange={e => set('mobile', e.target.value)} placeholder="+91 98765 43210" autoComplete="tel" />
-            </Field>
-            <Field label="Username *" hint="Letters, numbers, underscore and dot only">
-              <input className={s.input} type="text" value={f.username} onChange={e => set('username', e.target.value.toLowerCase().replace(/[^a-z0-9_.]/g, ''))} placeholder="Choose a unique username" autoComplete="username" />
-            </Field>
-            <div className={`${s.field} ${s.passwordField}`}>
-              <label className={s.fieldLabel}>Password *</label>
-              <input className={s.inputPassword} type={showPass ? 'text' : 'password'} value={f.password} onChange={e => set('password', e.target.value)} placeholder="Minimum 8 characters" autoComplete="new-password" aria-label="Password" />
-              <button type="button" className={s.eyeBtn} onClick={() => setShowPass(v => !v)} aria-label={showPass ? 'Hide password' : 'Show password'}>
-                {showPass ? '🙈' : '👁'}
-              </button>
-            </div>
-          </div>
-          <div className={s.navRow}>
-            <button type="button" className={s.btnBack} onClick={() => go('partner')}>← Back</button>
-            <button type="button" className={s.btnNext} onClick={handleAccountNext} disabled={loading}>{loading ? 'Checking…' : 'Next: Plan →'}</button>
-          </div>
-        </div>
-      )}
-
-      {/* ── STEP 8: Membership + T&C ── */}
-      {step === 'membership' && (
-        <div className={s.stepScreen}>
-          <div className={s.stepHeader}><h2 className={s.stepTitle}>👑 Select Your Plan</h2></div>
-          <div className={s.card}>
-            <div className={s.tierRow}>
-              {[
-                { id: 'VIP', icon: '👑', price: '₹15,000/yr', post: 'Post-engagement: ₹1,50,000/person' },
-                { id: 'Elite', icon: '🔱', price: '₹1,00,000/yr', post: 'Post-engagement: ₹3,00,000/person', featured: true },
-                { id: 'VVIP', icon: '💎', price: '₹30,000/yr', post: 'Post-engagement: ₹10,00,000/person' },
-              ].map(({ id, icon, price, post, featured }) => (
-                <button type="button" key={id} className={`${s.tierCard} ${f.tier === id ? s.tierCardActive : ''} ${featured ? s.tierFeatured : ''}`} onClick={() => set('tier', id)}>
-                  {featured && <div className={s.tierBadge}>RECOMMENDED</div>}
-                  <div className={s.tierIcon}>{icon}</div>
-                  <div className={s.tierName}>{id}</div>
-                  <div className={s.tierPrice}>{price}</div>
-                  <div className={s.tierNote}>{post}</div>
-                </button>
-              ))}
-            </div>
-          </div>
-          <div className={s.card}>
-            <div className={s.sectionTitle}>📜 Terms & Conditions</div>
-            <div className={s.tcScroll}><pre className={s.tcText}>{TERMS}</pre></div>
-            <label className={s.checkRow}>
-              <input type="checkbox" checked={f.tcAgreed} onChange={e => set('tcAgreed', e.target.checked)} className={s.checkbox} />
-              <span>I agree to all Terms & Conditions. I confirm I belong to the <strong>Reddy community, Hindu religion</strong>. I understand the post-engagement payment and 3-account viewing restriction.</span>
-            </label>
-          </div>
-          <div className={s.navRow}>
-            <button type="button" className={s.btnBack} onClick={() => go('account')}>← Back</button>
-            <button type="button" className={s.btnNext} onClick={handleMembershipNext}>Review My Details →</button>
-          </div>
-        </div>
-      )}
-
-      {/* ── STEP 9: Review ── */}
-      {step === 'review' && (
-        <div className={s.stepScreen}>
-          <div className={s.reviewHeader}>
-            <h2 className={s.reviewTitle}>Review Your Details</h2>
-            <p className={s.reviewSub}>Please verify everything carefully. Tap any section to go back and edit.</p>
-          </div>
-          {[
-            { label: 'Personal', target: 'basics' as const, rows: [['Name', f.name], ['Email', f.email], ['Gender', f.gender], ['Profile For', f.profileFor]] },
-            { label: 'About', target: 'about' as const, rows: [['Marital Status', f.maritalStatus], ['Date of Birth', f.dob], ['Height', f.height], ['Mother Tongue', f.motherTongue], ['Complexion', f.complexion], ['Body Type', f.bodyType], ['Blood Group', f.bloodGroup], ['Place of Birth', f.placeOfBirth]] },
-            { label: 'Location', target: 'location' as const, rows: [['Country', f.country], ['State', f.state], ['City', f.city], ['Native Place', f.nativePlace], ['Residential Status', f.residentialStatus]] },
-            { label: 'Community', target: 'community' as const, rows: [['Gotra', f.gotra], ['Father\'s Gotra', f.fatherGotra], ['Nakshatra', f.nakshatra], ['Rashi', f.rashi]] },
-            { label: 'Career', target: 'career' as const, rows: [['Qualification', f.highestQual], ['Employed In', f.employedIn], ['Occupation', f.occupation], ['Company', f.company], ['Work City', f.workCity], ['Annual Income', f.annualIncome ? `₹${parseInt(f.annualIncome).toLocaleString('en-IN')}` : ''], ['Diet', f.diet]] },
-            { label: 'Family', target: 'family' as const, rows: [['Family Type', f.familyType], ['Family Values', f.familyValues], ['Family Status', f.familyStatus], ['Father', f.fatherName], ['Mother', f.motherName]] },
-            { label: 'Partner Preferences', target: 'partner' as const, rows: [['Age Range', f.ppAgeFrom && f.ppAgeTo ? `${f.ppAgeFrom} – ${f.ppAgeTo} yrs` : ''], ['Min Height', f.ppHeight || 'Any'], ['Education', f.ppEducation || 'Any'], ['Income', f.ppIncome || 'Any'], ['NRI', f.ppNRI]] },
-            { label: 'Account', target: 'account' as const, rows: [['Mobile', f.mobile], ['Username', f.username]] },
-            { label: 'Membership', target: 'membership' as const, rows: [['Selected Plan', f.tier]] },
-          ].map(({ label, target, rows }) => (
-            <div key={label} className={s.reviewCard}>
-              <div className={s.reviewCardHeader}>
-                <span className={s.reviewCardLabel}>{label}</span>
-                <button type="button" className={s.reviewEditBtn} onClick={() => go(target)}>Edit</button>
-              </div>
-              {rows.filter(([, v]) => v).map(([k, v]) => (
-                <div key={k} className={s.reviewRow}>
-                  <span className={s.reviewKey}>{k}</span>
-                  <span className={s.reviewVal}>{v}</span>
-                </div>
-              ))}
-            </div>
-          ))}
-          <div className={s.submitWrap}>
-            <button type="button" className={s.btnSubmit} onClick={doRegister} disabled={loading}>
-              {loading ? 'Creating Your Profile…' : 'Confirm & Complete Registration'}
-            </button>
-            <p className={s.submitNote}>By submitting you agree to all Terms & Conditions. Your profile will be reviewed by our bureau before going live.</p>
-          </div>
-        </div>
-      )}
+      {/* Bottom nav */}
+      <div className={s.bottomNav}>
+        {idx > 0 && (
+          <button type="button" className={s.backBtn} onClick={back} aria-label="Back">←</button>
+        )}
+        {isOptional && !isLast && (
+          <button type="button" className={s.skipBtn} onClick={skip}>Skip</button>
+        )}
+        <button type="button" className={s.nextBtn}
+          disabled={!canProceed() || loading}
+          onClick={isLast ? submit : next}>
+          {isLast ? (loading ? 'Creating…' : 'Create My Profile') : 'Continue →'}
+        </button>
+      </div>
     </div>
   )
 }
 
 export default function MobileSignup() {
   return (
-    <Suspense>
-      <MobileSignupInner />
+    <Suspense fallback={<div className={s.pageLoading} />}>
+      <Inner />
     </Suspense>
   )
 }

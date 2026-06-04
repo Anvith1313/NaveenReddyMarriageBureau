@@ -9,6 +9,8 @@ import { useProfiles } from '@/lib/useProfiles'
 import { Profile, Interest, formatIncome } from '@/lib/types'
 import s from './dashboard.module.css'
 import LottieHeart from '@/components/LottieHeart/LottieHeart'
+import VerifiedBadge from '@/components/VerifiedBadge/VerifiedBadge'
+import { getProfileCompletion, completionMessage } from '@/lib/profileCompletion'
 
 type FanPos = 'left' | 'center' | 'right'
 type FanSlot = 'profile' | 'details' | 'biodata'
@@ -141,14 +143,47 @@ export default function MobileDashboard() {
     )
   }
 
+  const completion = getProfileCompletion(me)
+  const { text: cText, sub: cSub } = completionMessage(completion.pct)
+
   return (
     <div className={s.page}>
       <div className={s.hero}>
         <div className={s.heroWelcomeWrap}>
-          <div className={s.heroWelcome}>Welcome{me?.name ? `, ${(me.name as string).split(' ')[0]}` : ''}</div>
+          <div className={s.heroWelcome}>
+            Welcome{me?.name ? `, ${(me.name as string).split(' ')[0]}` : ''}
+            {me?.verified && <VerifiedBadge size={20} className={s.verifiedBadge} />}
+          </div>
           <div className={s.heroSub}>Discover your destined match below</div>
         </div>
       </div>
+
+      {/* ── Profile completion / verification banner ── */}
+      {!me?.verified && (
+        <div className={completion.canRequestVerification ? s.completionReady : s.completionCard}>
+          <div className={s.completionTop}>
+            <span className={s.completionLabel}>{cText}</span>
+            <span className={s.completionPct}>{completion.pct}%</span>
+          </div>
+          <div className={s.completionBar}>
+            <div
+              className={s.completionFill}
+              style={{ ['--pct' as string]: `${completion.pct}%` }}
+            />
+          </div>
+          <div className={s.completionSub}>{cSub}</div>
+          {completion.canRequestVerification && (
+            <a href="tel:+917207999985" className={s.completionCta}>
+              📞 Call Branch to Get Verified
+            </a>
+          )}
+          {!completion.canRequestVerification && completion.missing.length > 0 && (
+            <button type="button" className={s.completionFillBtn} onClick={() => router.push('/m/edit-profile')}>
+              Complete Profile →
+            </button>
+          )}
+        </div>
+      )}
 
       <div className={s.area}>
         {pool.length === 0 ? (

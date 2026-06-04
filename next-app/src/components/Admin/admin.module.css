@@ -291,6 +291,21 @@
 .formRadioOpt { display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--a-text); }
 .formRadioOpt input { accent-color: var(--a-crimson); width: 16px; height: 16px; cursor: pointer; }
 
+/* Verification toggle */
+.verifyRow {
+  display: flex; align-items: center; gap: 1rem;
+  background: rgba(29,155,240,0.06); border: 1px solid rgba(29,155,240,0.22);
+  border-radius: 10px; padding: 0.85rem 1rem; margin-bottom: 1.2rem;
+}
+.verifyLabel { display: flex; align-items: center; gap: 0.65rem; cursor: pointer; flex: 1; }
+.verifyCheck { width: 18px; height: 18px; accent-color: #1D9BF0; cursor: pointer; flex-shrink: 0; }
+.verifyText { font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; color: var(--a-text); }
+.verifyText strong { color: #1D9BF0; }
+.verifyBadgePreview {
+  font-family: 'Cinzel', serif; font-size: 0.48rem; letter-spacing: 0.1em; text-transform: uppercase;
+  background: #1D9BF0; color: #fff; padding: 0.2rem 0.6rem; border-radius: 20px; flex-shrink: 0;
+}
+
 /* Tier mini selector */
 .tierMiniRow { display: flex; gap: 0.7rem; margin-bottom: 1.4rem; }
 .tierMini { flex: 1; border: 1px solid rgba(184,137,42,.18); padding: 0.7rem 0.5rem; text-align: center; cursor: pointer; transition: all 0.25s; background: #fff; }

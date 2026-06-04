@@ -2,17 +2,19 @@
 
 .hero {
   height: clamp(160px, 24vh, 240px);
-  background-image: url('/Assets/Temple.webp');
-  background-size: cover;
-  background-position: center 40%;
+  background:
+    radial-gradient(ellipse 160% 100% at 50% -15%, rgba(212,175,55,0.22) 0%, transparent 55%),
+    radial-gradient(ellipse 90% 140% at 0% 55%, rgba(155,47,64,0.28) 0%, transparent 50%),
+    radial-gradient(ellipse 90% 140% at 100% 55%, rgba(155,47,64,0.28) 0%, transparent 50%),
+    linear-gradient(158deg, #2D0710 0%, #7B1F2E 42%, #9B2F40 70%, #5A1020 100%);
   display: flex; align-items: center; justify-content: center;
   position: relative; overflow: hidden;
 }
 .hero::before {
   content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 1;
-  background:
-    linear-gradient(to bottom, rgba(12,4,2,0.38) 0%, rgba(12,4,2,0.52) 50%, rgba(12,4,2,0.62) 100%),
-    linear-gradient(to right, rgba(12,4,2,0.25) 0%, transparent 30%, transparent 70%, rgba(12,4,2,0.25) 100%);
+  background-image: radial-gradient(circle, rgba(212,175,55,0.25) 1px, transparent 1px);
+  background-size: 28px 28px;
+  opacity: 0.5;
 }
 .heroInner { position: relative; z-index: 2; text-align: center; padding: 0 1rem; }
 .heroTitle {

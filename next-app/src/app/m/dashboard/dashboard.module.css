@@ -1,15 +1,17 @@
 .page {
   min-height: 100dvh;
   background: var(--bg);
-  padding-bottom: 80px;
+  padding-bottom: calc(80px + var(--safe-b, 0px));
 }
 
 /* ── Hero welcome strip ────────────────────────────── */
 .hero {
   height: 160px;
-  background-image: url('/Assets/Temple.webp');
-  background-size: cover;
-  background-position: center;
+  background:
+    radial-gradient(ellipse 160% 100% at 50% -15%, rgba(212,175,55,0.22) 0%, transparent 55%),
+    radial-gradient(ellipse 90% 140% at 0% 55%, rgba(155,47,64,0.28) 0%, transparent 50%),
+    radial-gradient(ellipse 90% 140% at 100% 55%, rgba(155,47,64,0.28) 0%, transparent 50%),
+    linear-gradient(158deg, #2D0710 0%, #7B1F2E 42%, #9B2F40 70%, #5A1020 100%);
   position: relative;
   overflow: hidden;
   display: flex;
@@ -32,7 +34,114 @@
   position: relative;
   z-index: 2;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
+
+.verifiedBadge { flex-shrink: 0; }
+
+/* ── Profile completion widget ────────────────────── */
+.completionCard {
+  margin: 0.85rem 1rem 0;
+  background: #fff;
+  border: 1px solid rgba(184,137,42,0.2);
+  border-radius: 16px;
+  padding: 0.95rem 1.1rem;
+  box-shadow: 0 2px 12px rgba(123,31,46,0.06);
+}
+
+.completionReady {
+  composes: completionCard;
+  border-color: rgba(123,31,46,0.3);
+  background: linear-gradient(135deg, rgba(123,31,46,0.04) 0%, rgba(184,137,42,0.04) 100%);
+  box-shadow: 0 4px 20px rgba(123,31,46,0.1);
+}
+
+.completionTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.completionLabel {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--crimson);
+  font-weight: 600;
+}
+
+.completionPct {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--crimson);
+}
+
+.completionBar {
+  height: 5px;
+  background: rgba(184,137,42,0.15);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.completionFill {
+  height: 100%;
+  width: var(--pct, 0%);
+  background: linear-gradient(90deg, var(--crimson), var(--gold));
+  border-radius: 3px;
+  transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.completionSub {
+  font-family: 'EB Garamond', serif;
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.55;
+  margin-bottom: 0.6rem;
+}
+
+.completionCta {
+  display: block;
+  width: 100%;
+  padding: 0.65rem;
+  background: linear-gradient(135deg, var(--crimson), #9B2F40);
+  color: #fff8dc;
+  border: none;
+  border-radius: 50px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(123,31,46,0.25);
+  transition: opacity 0.2s;
+}
+.completionCta:hover { opacity: 0.88; }
+
+.completionFillBtn {
+  background: none;
+  border: 1.5px solid rgba(123,31,46,0.25);
+  border-radius: 50px;
+  padding: 0.5rem 1.2rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--crimson);
+  cursor: pointer;
+  transition: background 0.18s;
+  width: 100%;
+}
+.completionFillBtn:hover { background: rgba(123,31,46,0.05); }
 .heroSub {
   font-family: 'Cinzel', serif;
   font-size: 0.6rem;
