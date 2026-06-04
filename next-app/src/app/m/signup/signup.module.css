@@ -58,7 +58,7 @@
 
 /* ── Screen card ──────────────────────────────────── */
 .screen {
-  flex: 1;
+  /* Don't stretch to fill all space — let content size it naturally */
   display: flex;
   flex-direction: column;
   padding: 1.6rem 1.2rem 1.2rem;
@@ -491,7 +491,7 @@
 /* ── Already registered link ─────────────────────── */
 .signInLink {
   text-align: center;
-  margin-top: auto;
+  margin-top: 1.5rem;
   padding-top: 0.5rem;
   font-family: var(--font-body);
   font-size: 0.85rem;

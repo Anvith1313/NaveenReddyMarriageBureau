@@ -480,17 +480,30 @@
 
 .secTitle {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 2.2rem;
-  font-weight: 600;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 400;
   font-style: italic;
   color: var(--primary);
+  line-height: 1.2;
+}
+.secTitle::after {
+  content: '';
+  display: block;
+  width: 52px;
+  height: 2px;
+  margin: 0.55rem auto 0;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
 }
 
 .secSub {
   font-family: 'EB Garamond', serif;
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   color: var(--muted);
-  margin-top: 0.4rem;
+  margin-top: 0.6rem;
+  line-height: 1.9;
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* ── Features section ── */
@@ -562,18 +575,19 @@
 
 .featTitle {
   font-family: 'Cinzel', serif;
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   font-weight: 600;
   color: var(--primary);
-  margin-bottom: 0.6rem;
-  line-height: 1.3;
+  margin-bottom: 0.65rem;
+  line-height: 1.35;
+  letter-spacing: 0.04em;
 }
 
 .featText {
   font-family: 'EB Garamond', serif;
-  font-size: 17px;
-  color: #3D1C0E;
-  line-height: 1.75;
+  font-size: 1rem;
+  color: #2E1208;
+  line-height: 1.85;
 }
 
 /* ── Process section ── */
