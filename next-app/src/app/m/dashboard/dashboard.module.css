@@ -68,7 +68,7 @@
 
 .completionLabel {
   font-family: 'Cinzel', serif;
-  font-size: 0.6rem;
+  font-size: 0.82rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--crimson);
@@ -115,7 +115,7 @@
   border: none;
   border-radius: 50px;
   font-family: 'Cinzel', serif;
-  font-size: 0.58rem;
+  font-size: 0.80rem;
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -133,7 +133,7 @@
   border-radius: 50px;
   padding: 0.5rem 1.2rem;
   font-family: 'Cinzel', serif;
-  font-size: 0.55rem;
+  font-size: 0.78rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--crimson);
@@ -144,7 +144,7 @@
 .completionFillBtn:hover { background: rgba(123,31,46,0.05); }
 .heroSub {
   font-family: 'Cinzel', serif;
-  font-size: 0.6rem;
+  font-size: 0.82rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--muted);
@@ -302,7 +302,7 @@
   z-index: 3;
   background: rgba(123,31,46,0.88);
   font-family: 'EB Garamond', serif;
-  font-size: 0.75rem;
+  font-size: 0.95rem;
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -317,7 +317,7 @@
   z-index: 3;
   background: rgba(27,94,32,0.88);
   font-family: 'EB Garamond', serif;
-  font-size: 0.75rem;
+  font-size: 0.95rem;
   color: #fff;
   padding: 0.18rem 0.5rem;
   border-radius: 20px;
@@ -382,7 +382,7 @@
   background: linear-gradient(90deg, transparent, rgba(184,137,42,0.2), transparent);
 }
 .pcDiv span {
-  font-size: 0.62rem;
+  font-size: 0.82rem;
   color: var(--gold);
   opacity: 0.5;
 }
@@ -394,7 +394,7 @@
 }
 .diL {
   font-family: 'Cinzel', serif;
-  font-size: 0.55rem;
+  font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -416,7 +416,7 @@
   border-radius: 0 8px 8px 0;
   padding: 0.72rem 1rem;
   font-family: 'EB Garamond', serif;
-  font-size: 0.82rem;
+  font-size: 0.98rem;
   font-style: italic;
   color: var(--muted);
   margin-bottom: 1.2rem;
@@ -436,7 +436,7 @@
   border-radius: 50px;
   cursor: pointer;
   font-family: 'Cinzel', serif;
-  font-size: 0.72rem;
+  font-size: 0.92rem;
   font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -456,7 +456,7 @@
   border: 1px solid var(--border);
   border-radius: 50px;
   font-family: 'Cinzel', serif;
-  font-size: 0.72rem;
+  font-size: 0.92rem;
   font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -504,7 +504,7 @@
 .navBtn:hover { border-color: var(--crimson); transform: scale(1.07); box-shadow: 0 4px 18px rgba(123,31,46,0.14); }
 .navCount {
   font-family: var(--font-label);
-  font-size: 0.52rem;
+  font-size: 0.76rem;
   letter-spacing: 0.12em;
   color: var(--muted);
   text-transform: uppercase;
@@ -536,7 +536,7 @@
 }
 .detCardTitle {
   font-family: var(--font-label);
-  font-size: 0.42rem;
+  font-size: 0.72rem;
   letter-spacing: 0.28em;
   text-transform: uppercase;
   color: rgba(212,175,55,0.88);
@@ -550,7 +550,7 @@
 }
 .detSection {
   font-family: var(--font-label);
-  font-size: 0.45rem;
+  font-size: 0.72rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--gold);
@@ -588,7 +588,7 @@
 }
 .bioSub {
   font-family: 'Cambria', serif;
-  font-size: 0.72rem;
+  font-size: 0.92rem;
   color: #555;
   font-style: italic;
 }
@@ -601,7 +601,7 @@
   display: flex;
   align-items: baseline;
   margin-bottom: 0.22rem;
-  font-size: 0.78rem;
+  font-size: 0.96rem;
   font-family: 'Cambria', serif;
   line-height: 1.35;
 }
@@ -611,12 +611,12 @@
   font-weight: 700;
   min-width: 85px;
   flex-shrink: 0;
-  font-size: 0.72rem;
+  font-size: 0.92rem;
 }
 .bioValue {
   color: #111;
   flex: 1;
-  font-size: 0.72rem;
+  font-size: 0.92rem;
   font-style: italic;
 }
 
@@ -660,7 +660,7 @@
   background: rgba(26,10,8,0.85);
   color: var(--gold);
   font-family: var(--font-label);
-  font-size: 0.52rem;
+  font-size: 0.76rem;
   letter-spacing: 0.14em;
   padding: 0.45rem 1.1rem;
   border-radius: 50px;
@@ -704,7 +704,7 @@
   border-radius: 50px;
   cursor: pointer;
   font-family: var(--font-label);
-  font-size: 0.55rem;
+  font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;

@@ -50,7 +50,7 @@
 .loginSub { font-family: 'Cormorant Garamond', serif; font-size: 0.85rem; font-style: italic; color: var(--a-muted); text-align: center; margin-bottom: 1.4rem; }
 
 .inputGroup { margin-bottom: 1.4rem; }
-.inputLabel { display: block; font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--a-gold); margin-bottom: 0.4rem; }
+.inputLabel { display: block; font-family: 'Cinzel', serif; font-size: 0.82rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--a-gold); margin-bottom: 0.4rem; }
 .inputField {
   width: 100%; background: transparent; border: none;
   border-bottom: 1px solid rgba(184, 137, 42, 0.28); outline: none;
@@ -64,14 +64,14 @@
   width: 100%; padding: 1rem;
   background: linear-gradient(135deg, var(--a-crimson), #600000);
   border: none; cursor: pointer;
-  font-family: 'Cinzel', serif; font-size: 0.72rem; font-weight: 600;
+  font-family: 'Cinzel', serif; font-size: 0.92rem; font-weight: 600;
   letter-spacing: 0.26em; text-transform: uppercase;
   color: rgba(255, 248, 220, 0.95);
   box-shadow: 0 6px 24px rgba(123, 31, 46, 0.28);
   transition: all 0.3s;
 }
 .btnLux:hover { box-shadow: 0 10px 36px rgba(123, 31, 46, 0.4); }
-.btnLuxSm { width: auto; padding: 0.45rem 1.2rem; font-size: 0.5rem; }
+.btnLuxSm { width: auto; padding: 0.45rem 1.2rem; font-size: 0.76rem; }
 .loginError { font-family: 'EB Garamond', serif; font-size: 0.85rem; color: var(--a-crimson); text-align: center; margin-top: 0.6rem; }
 
 /* ── LAYOUT ── */
@@ -94,9 +94,9 @@
 
 .sbLogo { display: flex; justify-content: center; margin-bottom: 0.7rem; }
 .sbLogo img { width: 52px; height: 52px; object-fit: contain; }
-.sbBrand { font-family: 'Cinzel', serif; font-size: 0.68rem; font-weight: 600; color: var(--a-crimson); text-align: center; letter-spacing: 0.06em; line-height: 1.4; margin-bottom: 0.25rem; }
-.sbEst { font-family: 'Cormorant Garamond', serif; font-size: 0.72rem; font-style: italic; color: var(--a-muted); text-align: center; margin-bottom: 1.8rem; }
-.sbSectionLabel { font-family: 'Cinzel', serif; font-size: 0.44rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--a-gold); padding: 0.2rem 0.5rem; margin: 0.9rem 0 0.3rem; }
+.sbBrand { font-family: 'Cinzel', serif; font-size: 0.86rem; font-weight: 600; color: var(--a-crimson); text-align: center; letter-spacing: 0.06em; line-height: 1.4; margin-bottom: 0.25rem; }
+.sbEst { font-family: 'Cormorant Garamond', serif; font-size: 0.92rem; font-style: italic; color: var(--a-muted); text-align: center; margin-bottom: 1.8rem; }
+.sbSectionLabel { font-family: 'Cinzel', serif; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--a-gold); padding: 0.2rem 0.5rem; margin: 0.9rem 0 0.3rem; }
 .sbBtn {
   width: 100%; text-align: left; background: none; border: none; cursor: pointer;
   font-family: 'EB Garamond', serif; font-size: 1rem; font-weight: 500;
@@ -107,7 +107,7 @@
 .sbBtn:hover, .sbBtnActive { background: var(--a-crimson); color: #fff; border-left-color: var(--a-crimson); }
 .sbBadge {
   margin-left: auto; background: var(--a-crimson); color: #fff;
-  font-family: 'Cinzel', serif; font-size: 0.44rem; font-weight: 700;
+  font-family: 'Cinzel', serif; font-size: 0.72rem; font-weight: 700;
   padding: 0.12rem 0.5rem; border-radius: 12px;
 }
 .sbBtnActive .sbBadge { background: rgba(255,255,255,0.3); }
@@ -130,7 +130,7 @@
   border-radius: 8px; cursor: pointer; color: var(--a-crimson);
   padding: 0.35rem 0.55rem; font-size: 1.1rem; line-height: 1;
 }
-.mobileBrand { font-family: 'Cinzel', serif; font-size: 0.68rem; font-weight: 600; color: var(--a-crimson); letter-spacing: 0.06em; }
+.mobileBrand { font-family: 'Cinzel', serif; font-size: 0.86rem; font-weight: 600; color: var(--a-crimson); letter-spacing: 0.06em; }
 
 /* ── STATS ── */
 .statsRow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2rem; }
@@ -179,7 +179,7 @@
 .actBtn {
   padding: 0.4rem 1rem; background: transparent;
   border: 1px solid rgba(184, 137, 42, 0.28); border-radius: 20px;
-  cursor: pointer; font-family: 'Cinzel', serif; font-size: 0.48rem;
+  cursor: pointer; font-family: 'Cinzel', serif; font-size: 0.74rem;
   font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
   color: var(--a-muted); transition: all 0.2s;
 }
@@ -252,7 +252,7 @@
 /* ── PROFILE DETAIL GRID ── */
 .profileGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-top: 1rem; }
 .profileChip { border-bottom: 1px solid rgba(184,137,42,.1); padding: 0.5rem 0; }
-.profileChipLabel { font-family: 'Cinzel', serif; font-size: 0.44rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--a-gold); margin-bottom: 0.1rem; }
+.profileChipLabel { font-family: 'Cinzel', serif; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--a-gold); margin-bottom: 0.1rem; }
 .profileChipValue { font-family: 'Cormorant Garamond', serif; font-size: 0.98rem; color: var(--a-text); }
 .profileChipEmpty { color: rgba(107,83,64,.35); font-style: italic; }
 
@@ -260,7 +260,7 @@
 .formGrid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem 2rem; }
 .formGrid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.8rem 1.4rem; }
 .formGroup { margin-bottom: 1rem; }
-.formLabel { display: block; font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--a-gold); margin-bottom: 0.35rem; }
+.formLabel { display: block; font-family: 'Cinzel', serif; font-size: 0.82rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--a-gold); margin-bottom: 0.35rem; }
 .formInput {
   width: 100%; background: transparent; border: none;
   border-bottom: 1px solid rgba(184,137,42,.18); outline: none;
@@ -281,7 +281,7 @@
 }
 .formSelect:focus { border-bottom-color: var(--a-gold2); }
 .formSectionTitle {
-  font-family: 'Cinzel', serif; font-size: 0.5rem; font-weight: 700;
+  font-family: 'Cinzel', serif; font-size: 0.76rem; font-weight: 700;
   letter-spacing: 0.18em; text-transform: uppercase; color: var(--a-crimson);
   border-bottom: 1px solid rgba(184,137,42,.12);
   padding-bottom: 0.4rem; margin: 1.4rem 0 0.9rem;
@@ -302,7 +302,7 @@
 .verifyText { font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; color: var(--a-text); }
 .verifyText strong { color: #1D9BF0; }
 .verifyBadgePreview {
-  font-family: 'Cinzel', serif; font-size: 0.48rem; letter-spacing: 0.1em; text-transform: uppercase;
+  font-family: 'Cinzel', serif; font-size: 0.74rem; letter-spacing: 0.1em; text-transform: uppercase;
   background: #1D9BF0; color: #fff; padding: 0.2rem 0.6rem; border-radius: 20px; flex-shrink: 0;
 }
 
@@ -310,8 +310,8 @@
 .tierMiniRow { display: flex; gap: 0.7rem; margin-bottom: 1.4rem; }
 .tierMini { flex: 1; border: 1px solid rgba(184,137,42,.18); padding: 0.7rem 0.5rem; text-align: center; cursor: pointer; transition: all 0.25s; background: #fff; }
 .tierMini:hover, .tierMiniSel { border-color: var(--a-gold); background: var(--a-gold4); }
-.tierMiniName { font-family: 'Cinzel', serif; font-size: 0.55rem; font-weight: 600; letter-spacing: 0.1em; color: var(--a-crimson); }
-.tierMiniPrice { font-family: 'Cormorant Garamond', serif; font-size: 0.8rem; color: var(--a-gold); margin-top: 0.1rem; }
+.tierMiniName { font-family: 'Cinzel', serif; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.1em; color: var(--a-crimson); }
+.tierMiniPrice { font-family: 'Cormorant Garamond', serif; font-size: 0.96rem; color: var(--a-gold); margin-top: 0.1rem; }
 
 /* ── PHOTO GALLERY ── */
 .photoRow { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 1rem; }
@@ -323,7 +323,7 @@
   cursor: pointer; color: #fff; font-size: 1.2rem;
 }
 .photoThumb:hover .photoThumbDel { display: flex; }
-.photoUpload { display: inline-block; padding: 0.4rem 1rem; border: 1.5px dashed rgba(184,137,42,0.4); cursor: pointer; font-family: 'Cinzel', serif; font-size: 0.5rem; letter-spacing: 0.1em; color: var(--a-gold); transition: border-color 0.2s; }
+.photoUpload { display: inline-block; padding: 0.4rem 1rem; border: 1.5px dashed rgba(184,137,42,0.4); cursor: pointer; font-family: 'Cinzel', serif; font-size: 0.76rem; letter-spacing: 0.1em; color: var(--a-gold); transition: border-color 0.2s; }
 .photoUpload:hover { border-color: var(--a-gold); }
 
 /* ── OFFLINE FORM ── */
@@ -355,7 +355,7 @@
 .actLogMain { flex: 1; min-width: 0; }
 .actLogName { font-family: 'Cormorant Garamond', serif; font-size: 0.98rem; font-weight: 600; color: var(--a-crimson); display: inline; }
 .actLogDesc { font-family: 'EB Garamond', serif; font-size: 0.88rem; color: var(--a-text2); line-height: 1.5; }
-.actLogTime { font-family: 'Cormorant Garamond', serif; font-size: 0.76rem; font-style: italic; color: var(--a-muted); white-space: nowrap; flex-shrink: 0; }
+.actLogTime { font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; font-style: italic; color: var(--a-muted); white-space: nowrap; flex-shrink: 0; }
 .actLogEmpty { font-family: 'EB Garamond', serif; font-size: 0.9rem; font-style: italic; color: var(--a-muted); text-align: center; padding: 2.5rem; }
 .actLogBadge { display: inline-flex; align-items: center; padding: 0.1rem 0.5rem; margin-left: 0.4rem; vertical-align: middle; font-family: 'Cinzel', serif; font-size: 0.38rem; letter-spacing: 0.12em; text-transform: uppercase; border: 1px solid; }
 .badgeSignup { color: #1b5e20; border-color: rgba(27,94,32,.28); background: rgba(27,94,32,.07); }
@@ -367,10 +367,10 @@
 /* ── APPOINTMENT CARD ── */
 .apptCard { background: #fff; border: 1px solid var(--a-border); border-left: 3px solid var(--a-crimson); padding: 1.2rem 1.4rem; margin-bottom: 0.8rem; }
 .apptCardConfirmed { border-left-color: #2e7d32; }
-.apptName { font-family: 'Cinzel', serif; font-size: 0.7rem; font-weight: 600; color: var(--a-text); }
+.apptName { font-family: 'Cinzel', serif; font-size: 0.92rem; font-weight: 600; color: var(--a-text); }
 .apptMeta { font-family: 'EB Garamond', serif; font-size: 0.88rem; color: var(--a-muted); }
 .apptDetail { font-family: 'EB Garamond', serif; font-size: 0.92rem; color: var(--a-text); margin: 0.6rem 0 0.3rem; }
-.apptStatusBadge { font-family: 'Cinzel', serif; font-size: 0.6rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.2rem 0.7rem; border-radius: 20px; }
+.apptStatusBadge { font-family: 'Cinzel', serif; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.2rem 0.7rem; border-radius: 20px; }
 .apptBadgePending { background: rgba(123,31,46,0.08); color: var(--a-crimson); }
 .apptBadgeConfirmed { background: rgba(46,125,50,0.1); color: #2e7d32; }
 .apptActions { display: flex; gap: 0.5rem; margin-top: 0.8rem; flex-wrap: wrap; }
@@ -378,16 +378,16 @@
 /* ── STORY CARD ── */
 .storyCard { background: #fff; border: 1px solid var(--a-border); border-left: 3px solid var(--a-gold2); padding: 1.2rem 1.4rem; margin-bottom: 0.8rem; }
 .storyNames { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 600; color: var(--a-crimson); }
-.storyMeta { font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--a-gold); margin: 0.2rem 0; }
+.storyMeta { font-family: 'Cinzel', serif; font-size: 0.82rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--a-gold); margin: 0.2rem 0; }
 .storyText { font-family: 'EB Garamond', serif; font-size: 0.92rem; color: var(--a-muted); font-style: italic; margin: 0.5rem 0 0.3rem; }
-.storySubmitted { font-family: 'Cinzel', serif; font-size: 0.6rem; color: var(--a-muted); margin-bottom: 0.7rem; }
+.storySubmitted { font-family: 'Cinzel', serif; font-size: 0.82rem; color: var(--a-muted); margin-bottom: 0.7rem; }
 .storyActions { display: flex; gap: 0.5rem; }
 
 /* ── EDIT REQUEST CARD ── */
 .editReqCard { background: #fff; border: 1px solid var(--a-border); padding: 1.2rem 1.4rem; margin-bottom: 0.8rem; }
 .editReqUser { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-weight: 600; color: var(--a-crimson); margin-bottom: 0.6rem; }
 .editReqChanges { font-family: 'EB Garamond', serif; font-size: 0.88rem; color: var(--a-text2); margin-bottom: 0.8rem; line-height: 1.8; }
-.editReqFieldKey { font-family: 'Cinzel', serif; font-size: 0.55rem; text-transform: uppercase; color: var(--a-gold); letter-spacing: 0.1em; }
+.editReqFieldKey { font-family: 'Cinzel', serif; font-size: 0.78rem; text-transform: uppercase; color: var(--a-gold); letter-spacing: 0.1em; }
 .editReqActions { display: flex; gap: 0.5rem; }
 
 /* ── EMPTY STATES ── */
@@ -410,7 +410,7 @@
 
 /* ── CREDENTIALS POPUP ── */
 .credBox { background: rgba(253,246,216,.6); border: 1px solid rgba(184,137,42,.2); padding: 1.2rem; margin-bottom: 1rem; }
-.credTitle { font-family: 'Cinzel', serif; font-size: 0.6rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--a-crimson); margin-bottom: 0.6rem; }
+.credTitle { font-family: 'Cinzel', serif; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--a-crimson); margin-bottom: 0.6rem; }
 .credRow { font-family: 'EB Garamond', serif; font-size: 0.9rem; color: var(--a-text); margin-bottom: 0.3rem; }
 .credVal { font-family: 'Cormorant Garamond', serif; font-weight: 600; color: var(--a-crimson); font-size: 1rem; }
 
@@ -421,5 +421,5 @@
 /* ── IMPORT ZONE ── */
 .importZone { border: 2px dashed rgba(184,137,42,0.35); padding: 1.8rem; text-align: center; background: rgba(253,246,216,0.25); cursor: pointer; transition: all 0.2s; margin-bottom: 1.4rem; }
 .importZone:hover { border-color: var(--a-gold); background: rgba(253,246,216,0.5); }
-.importZoneTitle { font-family: 'Cinzel', serif; font-size: 0.62rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--a-gold); margin-bottom: 0.3rem; }
+.importZoneTitle { font-family: 'Cinzel', serif; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--a-gold); margin-bottom: 0.3rem; }
 .importZoneSub { font-family: 'EB Garamond', serif; font-size: 0.88rem; font-style: italic; color: var(--a-muted); }

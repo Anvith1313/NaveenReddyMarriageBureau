@@ -38,7 +38,7 @@
 
 .imageCaptionSub {
   font-family: var(--font-label);
-  font-size: 0.55rem;
+  font-size: 0.78rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   opacity: 0.75;
@@ -77,7 +77,7 @@
 
 .eyebrow {
   font-family: var(--font-ui);
-  font-size: 0.6rem;
+  font-size: 0.82rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--gold);
@@ -95,7 +95,7 @@
 .subtitle {
   font-family: var(--font-heading);
   font-style: italic;
-  font-size: 0.82rem;
+  font-size: 0.98rem;
   color: var(--muted);
   margin-top: 0.1rem;
 }
@@ -111,7 +111,7 @@
 .fieldLabel {
   display: block;
   font-family: var(--font-label);
-  font-size: 0.65rem;
+  font-size: 0.84rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--primary);
@@ -169,7 +169,7 @@
   border: none;
   border-radius: 50px;
   font-family: var(--font-label);
-  font-size: 0.65rem;
+  font-size: 0.84rem;
   font-weight: 600;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -199,7 +199,7 @@
 .orText {
   font-family: var(--font-heading);
   font-style: italic;
-  font-size: 0.8rem;
+  font-size: 0.96rem;
   color: var(--muted);
 }
 
@@ -211,7 +211,7 @@
   border-radius: 50px;
   cursor: pointer;
   font-family: var(--font-label);
-  font-size: 0.6rem;
+  font-size: 0.82rem;
   font-weight: 600;
   letter-spacing: 0.1em;
   color: #3c4043;
@@ -233,7 +233,7 @@
 
 .createBtn {
   font-family: var(--font-label);
-  font-size: 0.65rem;
+  font-size: 0.84rem;
   font-weight: 600;
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -267,6 +267,6 @@
 .since {
   font-family: var(--font-heading);
   font-style: italic;
-  font-size: 0.78rem;
+  font-size: 0.96rem;
   color: rgba(107,83,64,0.4);
 }

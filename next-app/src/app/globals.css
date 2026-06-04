@@ -6,6 +6,7 @@
   --font-label: var(--font-cinzel), 'Cinzel', serif;
   --font-ui: var(--font-josefin), 'Josefin Sans', sans-serif;
 
+  /* ── Core brand palette ─────────────────────────── */
   --primary: #7B1F2E;
   --primary-hover: #9B2F40;
   --primary-light: #FFF0F2;
@@ -13,6 +14,13 @@
   --crimson2: #9B2F40;
   --primary2: #9B2F40;
 
+  /* Deep maroon for accents — like traditional kumkum red */
+  --maroon: #5A0F1A;
+  /* Saffron/turmeric — South Indian ceremonial yellow-orange */
+  --saffron: #D4773A;
+  --saffron-light: rgba(212,119,58,0.1);
+
+  /* ── Gold family ─────────────────────────────────── */
   --gold: #B8892A;
   --gold-bright: #D4AF37;
   --gold-bg: #FDF3E0;
@@ -21,23 +29,27 @@
   --gold4: #FFF8EC;
   --gold-metal: linear-gradient(135deg,#C9A84C 0%,#E8C96A 28%,#B8892A 55%,#D4AF37 80%,#9A6C1A 100%);
 
-  --bg: #FFFBF5;
-  --bg-warm: #FDF8EF;
-  --bg-champagne: #FAF0E6;
-  --bg-blush: #FFF8F5;
-  --cream: #FDF8EF;
-  --offwhite: #FFFBF5;
+  /* ── Backgrounds — warm parchment tones ─────────── */
+  --bg: #FDF7EE;
+  --bg-warm: #FAF0E2;
+  --bg-champagne: #F5E8D0;
+  --bg-blush: #FFF4F0;
+  --bg-saffron: #FEF5E8;
+  --cream: #FDF7EE;
+  --offwhite: #FDF7EE;
   --white: #FFFFFF;
 
+  /* ── Text ────────────────────────────────────────── */
   --text: #1A0A08;
-  --text-body: #3D1C0E;
+  --text-body: #2E1208;
   --text-sub: #5C2E1A;
   --text-muted: #7A4030;
   --muted: #7A4030;
   --text2: #3D1C0E;
 
-  --border: #E8C98A;
-  --border-light: #F5E4CC;
+  /* ── Borders ─────────────────────────────────────── */
+  --border: #D4A855;
+  --border-light: #EDD898;
 
   --sh-soft: 0 2px 16px rgba(123,31,46,0.07);
   --sh-card: 0 4px 28px rgba(123,31,46,0.10);
@@ -69,13 +81,15 @@ html {
 
 body {
   font-family: var(--font-body);
-  font-size: 18px;
-  line-height: 1.8;
+  /* Fluid scale: 18px on mobile → 20px on large desktop */
+  font-size: clamp(18px, 1.1vw + 16px, 20px);
+  line-height: 1.85;
   background: var(--bg);
   color: var(--text-body);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 /* ── Page enter animation ─────────────────────────── */
@@ -117,4 +131,99 @@ h1, h2, h3, h4, h5, h6 {
 img, video {
   max-width: 100%;
   height: auto;
+}
+
+/* ── Traditional South Indian ornamental utilities ──────── */
+
+/* Gold divider: ─────── ✦ ─────── */
+.trad-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1.5rem 0;
+  color: var(--gold);
+}
+.trad-divider::before,
+.trad-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(184,137,42,0.6), transparent);
+}
+.trad-divider-symbol {
+  font-size: 0.9rem;
+  color: var(--gold);
+  flex-shrink: 0;
+}
+
+/* Traditional double-border card accent */
+.trad-border {
+  border: 1px solid rgba(184,137,42,0.3);
+  box-shadow: inset 0 0 0 3px rgba(184,137,42,0.08);
+}
+
+/* Section tag — uppercase label with gold flanking lines */
+.trad-sec-tag {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  font-family: var(--font-label);
+  font-size: 0.76rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+}
+.trad-sec-tag::before,
+.trad-sec-tag::after {
+  content: '';
+  display: block;
+  width: 28px;
+  height: 1px;
+  background: rgba(184,137,42,0.55);
+}
+
+/* Kolam-inspired background pattern for sections */
+.trad-pattern-bg {
+  background-image:
+    radial-gradient(circle, rgba(184,137,42,0.12) 1px, transparent 1px),
+    radial-gradient(circle, rgba(184,137,42,0.06) 1px, transparent 1px);
+  background-size: 24px 24px, 12px 12px;
+  background-position: 0 0, 6px 6px;
+}
+
+/* Warm saffron section background */
+.trad-saffron-section {
+  background: linear-gradient(180deg, var(--bg-saffron) 0%, var(--bg-warm) 100%);
+}
+
+/* Traditional title with center ornament */
+.trad-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--crimson);
+  text-align: center;
+  line-height: 1.2;
+}
+.trad-title::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 0.6rem auto 0;
+}
+
+/* Bottom gold border for section headers */
+.trad-hdr-border {
+  border-bottom: 2px solid transparent;
+  background-image: linear-gradient(var(--bg), var(--bg)),
+    linear-gradient(90deg, transparent 0%, var(--gold) 30%, var(--gold-bright) 50%, var(--gold) 70%, transparent 100%);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  padding-bottom: 0.75rem;
+  margin-bottom: 1.25rem;
 }

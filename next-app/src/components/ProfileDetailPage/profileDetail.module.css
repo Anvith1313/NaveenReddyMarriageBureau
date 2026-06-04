@@ -31,7 +31,7 @@
 .heroInfo { padding: 1.2rem 1.2rem 0; }
 .pageDesktop .heroInfo { padding: 0; flex: 1; }
 
-.tierBadge { display: inline-block; padding: 0.2rem 0.7rem; background: var(--gold); color: white; font-family: var(--font-label); font-size: 0.6rem; letter-spacing: 0.12em; border-radius: 3px; margin-bottom: 0.6rem; }
+.tierBadge { display: inline-block; padding: 0.2rem 0.7rem; background: var(--gold); color: white; font-family: var(--font-label); font-size: 0.82rem; letter-spacing: 0.12em; border-radius: 3px; margin-bottom: 0.6rem; }
 .tierBadge[data-tier="VVIP"] { background: var(--crimson); }
 .tierBadge[data-tier="Elite"] { background: linear-gradient(135deg, var(--crimson), var(--gold)); }
 
@@ -51,10 +51,10 @@
 .pageDesktop .body { padding: 0; }
 
 .section { margin-bottom: 1.25rem; background: white; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
-.sectionTitle { font-family: var(--font-label); font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); padding: 0.75rem 1rem 0.5rem; border-bottom: 1px solid #f5e8d4; }
+.sectionTitle { font-family: var(--font-label); font-size: 0.82rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); padding: 0.75rem 1rem 0.5rem; border-bottom: 1px solid #f5e8d4; }
 .row { display: flex; justify-content: space-between; align-items: baseline; padding: 0.55rem 1rem; border-bottom: 1px solid #faf4ec; }
 .row:last-child { border-bottom: none; }
-.rowLabel { font-family: var(--font-label); font-size: 0.65rem; letter-spacing: 0.06em; color: var(--muted); }
+.rowLabel { font-family: var(--font-label); font-size: 0.84rem; letter-spacing: 0.06em; color: var(--muted); }
 .rowValue { font-family: var(--font-body); font-size: 0.95rem; color: var(--text); text-align: right; max-width: 60%; }
 .about { font-family: var(--font-body); font-size: 0.95rem; color: var(--text); line-height: 1.65; padding: 0.75rem 1rem; margin: 0; }
 

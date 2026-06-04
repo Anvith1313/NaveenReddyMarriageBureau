@@ -27,7 +27,7 @@
   background: linear-gradient(135deg, var(--crimson), var(--crimson2, #9b2b3f));
   border: none;
   border-radius: 50px; cursor: pointer;
-  font-family: 'Cinzel', serif; font-size: 0.6rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+  font-family: 'Cinzel', serif; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
   color: rgba(255,248,220,0.96);
   box-shadow: 0 4px 14px rgba(123,31,46,0.22);
   transition: opacity 0.18s;
@@ -37,7 +37,7 @@
   padding: 0.6rem 1.4rem;
   background: transparent; border: 1.5px solid rgba(184,137,42,0.35);
   border-radius: 50px; cursor: pointer;
-  font-family: 'Cinzel', serif; font-size: 0.6rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+  font-family: 'Cinzel', serif; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
   color: var(--gold); transition: border-color 0.18s, background 0.18s;
 }
 .btnGold:hover { border-color: var(--gold); background: rgba(184,137,42,0.05); }
@@ -59,20 +59,20 @@
 
 /* ── Profile completeness ──────────────────────────── */
 .complBar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
-.complTitle { font-family: var(--font-label); font-size: 0.52rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.complTitle { font-family: var(--font-label); font-size: 0.76rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
 .complPct { font-family: var(--font-heading); font-size: 1.2rem; color: var(--crimson); }
 .complTrack { height: 6px; background: rgba(184,137,42,0.15); border-radius: 50px; overflow: hidden; margin-bottom: 0.65rem; }
 .complFill { height: 100%; width: var(--compl-pct, 0%); background: linear-gradient(90deg, var(--crimson), var(--gold)); border-radius: 50px; transition: width 0.5s ease; }
 .missingList { display: flex; flex-wrap: wrap; gap: 0.35rem; }
 .missingItem {
-  font-family: var(--font-body); font-size: 0.8rem; color: var(--muted);
+  font-family: var(--font-body); font-size: 0.96rem; color: var(--muted);
   background: rgba(184,137,42,0.07); border: 1px solid rgba(184,137,42,0.18);
   border-radius: 50px; padding: 0.2rem 0.65rem;
 }
 
 /* ── Photos ─────────────────────────────────────────── */
 .secTitle {
-  font-family: var(--font-label); font-size: 0.5rem; letter-spacing: 0.16em; text-transform: uppercase;
+  font-family: var(--font-label); font-size: 0.76rem; letter-spacing: 0.16em; text-transform: uppercase;
   color: var(--gold); border-bottom: 1px solid rgba(184,137,42,0.18); padding-bottom: 0.4rem; margin-bottom: 0.75rem;
 }
 .photosGrid {
@@ -97,15 +97,15 @@
 .profileName { font-family: var(--font-heading); font-size: 1.35rem; color: var(--text); line-height: 1.2; }
 .tierBadge {
   display: inline-block; margin-top: 0.18rem;
-  font-family: var(--font-label); font-size: 0.44rem; letter-spacing: 0.12em; text-transform: uppercase;
+  font-family: var(--font-label); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
   background: rgba(184,137,42,0.1); color: var(--gold); border: 1px solid rgba(184,137,42,0.28);
   border-radius: 50px; padding: 0.18rem 0.65rem;
 }
-.viewCount { font-family: var(--font-body); font-size: 0.82rem; color: var(--muted); font-style: italic; margin-top: 0.2rem; }
+.viewCount { font-family: var(--font-body); font-size: 0.98rem; color: var(--muted); font-style: italic; margin-top: 0.2rem; }
 
 /* ── Data grid ──────────────────────────────────────── */
 .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.55rem 0.5rem; }
 .gridItem {}
-.diL { font-family: var(--font-label); font-size: 0.48rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); }
+.diL { font-family: var(--font-label); font-size: 0.74rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); }
 .diV { font-family: var(--font-body); font-size: 0.9rem; color: var(--text); margin-top: 0.06rem; }
 .diVMuted { color: var(--muted); font-style: italic; }

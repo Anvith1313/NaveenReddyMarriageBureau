@@ -59,7 +59,7 @@
   border-radius: 50px;
   background: transparent;
   font-family: var(--font-label);
-  font-size: 0.52rem;
+  font-size: 0.76rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: rgba(107,83,64,0.7);
@@ -92,7 +92,7 @@
   border: 1px solid rgba(123,31,46,0.18);
   border-radius: 50px;
   font-family: var(--font-label);
-  font-size: 0.46rem;
+  font-size: 0.72rem;
   letter-spacing: 0.08em;
   color: var(--crimson);
   cursor: pointer;
@@ -224,7 +224,7 @@
 }
 .cardCity {
   font-family: var(--font-body);
-  font-size: 0.72rem;
+  font-size: 0.92rem;
   color: rgba(255,255,255,0.78);
 }
 .cardTier {
@@ -232,7 +232,7 @@
   top: 0.4rem;
   left: 0.4rem;
   font-family: var(--font-label);
-  font-size: 0.46rem;
+  font-size: 0.72rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   background: rgba(0,0,0,0.42);
@@ -320,10 +320,10 @@
 .sheetBody { padding: 1rem 1.2rem 1.5rem; }
 
 .sheetGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
-.sheetDiL { font-family: var(--font-label); font-size: 0.5rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); }
+.sheetDiL { font-family: var(--font-label); font-size: 0.76rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); }
 .sheetDiV { font-family: var(--font-body); font-size: 0.92rem; color: var(--text); margin-top: 0.08rem; }
 .sheetSec {
-  font-family: var(--font-label); font-size: 0.48rem; letter-spacing: 0.18em; text-transform: uppercase;
+  font-family: var(--font-label); font-size: 0.74rem; letter-spacing: 0.18em; text-transform: uppercase;
   color: var(--gold); border-bottom: 1px solid rgba(184,137,42,0.18); padding-bottom: 0.25rem;
   margin: 0.9rem 0 0.5rem;
 }
@@ -334,14 +334,14 @@
   flex: 1; padding: 0.7rem;
   background: linear-gradient(135deg, var(--crimson), #9b2b3f); color: #fff8dc;
   border: none; border-radius: 50px;
-  font-family: var(--font-label); font-size: 0.54rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+  font-family: var(--font-label); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
   cursor: pointer; transition: opacity 0.2s;
 }
 .btnInterest:hover { opacity: 0.9; }
 .btnInterestSent {
   flex: 1; padding: 0.7rem; text-align: center;
   background: transparent; color: var(--muted); border: 1px solid var(--border); border-radius: 50px;
-  font-family: var(--font-label); font-size: 0.54rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+  font-family: var(--font-label); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
 }
 .btnWa {
   width: 46px; height: 46px; background: #25d366; border: none; border-radius: 50%;
@@ -442,7 +442,7 @@
   padding: 1rem;
 }
 .fanName { font-family: var(--font-heading); font-size: 1.3rem; font-weight: 400; color: #fff; line-height: 1.2; }
-.fanCity { font-family: var(--font-body); font-size: 0.8rem; color: rgba(255,255,255,0.72); margin-top: 0.2rem; }
+.fanCity { font-family: var(--font-body); font-size: 0.96rem; color: rgba(255,255,255,0.72); margin-top: 0.2rem; }
 .fanTier {
   position: absolute; top: 0.65rem; left: 0.65rem;
   font-family: var(--font-label); font-size: 0.38rem; letter-spacing: 0.14em; text-transform: uppercase;
@@ -454,15 +454,15 @@
 .fanDetails { padding: 1rem 0.85rem; height: 100%; display: flex; flex-direction: column; gap: 0.55rem; overflow: hidden; }
 .fanDetTitle { font-family: var(--font-heading); font-size: 1rem; font-style: italic; color: var(--crimson); border-bottom: 1px solid rgba(184,137,42,0.2); padding-bottom: 0.4rem; }
 .fanDetRow { display: flex; flex-direction: column; gap: 0.04rem; }
-.fanDetLabel { font-family: var(--font-label); font-size: 0.42rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); }
-.fanDetVal { font-family: var(--font-body); font-size: 0.82rem; color: var(--text); }
+.fanDetLabel { font-family: var(--font-label); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); }
+.fanDetVal { font-family: var(--font-body); font-size: 0.98rem; color: var(--text); }
 
 /* ── Right card (actions) ── */
 .fanActions { padding: 1.2rem 0.85rem; height: 100%; display: flex; flex-direction: column; gap: 0.75rem; align-items: stretch; }
 .fanActTitle { font-family: var(--font-heading); font-size: 1rem; font-style: italic; color: rgba(255,248,220,0.9); border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 0.4rem; }
 .fanActBtn {
   padding: 0.65rem 0.8rem; border-radius: 50px; cursor: pointer; text-align: center;
-  font-family: var(--font-label); font-size: 0.48rem; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600;
+  font-family: var(--font-label); font-size: 0.74rem; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600;
   transition: opacity 0.18s, transform 0.15s; border: 1.5px solid transparent;
 }
 .fanActBtn:hover { opacity: 0.85; transform: scale(1.03); }
@@ -470,21 +470,21 @@
 .fanActBtnSecondary { background: transparent; border-color: rgba(255,255,255,0.25); color: rgba(255,255,255,0.75); }
 .fanActBtnSaved { border-color: var(--gold); color: var(--gold); background: rgba(212,175,55,0.1); }
 .fanActBtnSent { background: transparent; border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.5); cursor: default; }
-.fanActHint { font-family: var(--font-body); font-size: 0.72rem; color: rgba(255,255,255,0.4); text-align: center; margin-top: auto; font-style: italic; }
+.fanActHint { font-family: var(--font-body); font-size: 0.92rem; color: rgba(255,255,255,0.4); text-align: center; margin-top: auto; font-style: italic; }
 
 /* ── Nav dots + swipe hint ── */
 .fanNav { display: flex; flex-direction: column; align-items: center; gap: 0.65rem; margin-top: 1.2rem; }
 .fanDots { display: flex; gap: 0.35rem; }
 .fanDot { width: 6px; height: 6px; border-radius: 50%; background: rgba(123,31,46,0.18); transition: background 0.2s, transform 0.2s; }
 .fanDotActive { background: var(--crimson); transform: scale(1.3); }
-.fanHint { font-family: var(--font-body); font-size: 0.75rem; color: var(--muted); font-style: italic; }
+.fanHint { font-family: var(--font-body); font-size: 0.95rem; color: var(--muted); font-style: italic; }
 .fanHintOpen { color: var(--crimson); }
 
 /* ── Double-tap label overlay ── */
 .fanDoubleTapHint {
   position: absolute; bottom: 1rem; left: 50%; transform: translateX(-50%);
   background: rgba(26,10,8,0.6); color: rgba(255,255,255,0.75);
-  font-family: var(--font-label); font-size: 0.42rem; letter-spacing: 0.1em; text-transform: uppercase;
+  font-family: var(--font-label); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
   padding: 0.3rem 0.8rem; border-radius: 50px; pointer-events: none;
   animation: fadeHint 2.5s ease forwards;
 }
@@ -533,7 +533,7 @@
 }
 .filterPopupTitle {
   font-family: var(--font-label);
-  font-size: 0.55rem;
+  font-size: 0.78rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--gold);
@@ -586,7 +586,7 @@
   border: 1.5px solid rgba(184,137,42,0.3);
   border-radius: 50px;
   font-family: var(--font-label);
-  font-size: 0.52rem;
+  font-size: 0.76rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--muted);
@@ -599,7 +599,7 @@
   border: none;
   border-radius: 50px;
   font-family: var(--font-label);
-  font-size: 0.52rem;
+  font-size: 0.76rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: #fff8dc;

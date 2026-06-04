@@ -27,7 +27,7 @@
 }
 .heroTag {
   font-family: 'Josefin Sans', sans-serif;
-  font-size: 0.7rem;
+  font-size: 0.92rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: rgba(255,248,220,0.75);
@@ -68,7 +68,7 @@
 
 .badge {
   position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
-  font-family: var(--font-label); font-size: 0.46rem; letter-spacing: 0.14em; text-transform: uppercase;
+  font-family: var(--font-label); font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
   background: linear-gradient(135deg, var(--gold), #d4af37); color: #1a0a08;
   padding: 0.25rem 0.9rem; border-radius: 50px;
   box-shadow: 0 2px 8px rgba(184,137,42,0.35);
@@ -81,7 +81,7 @@
 }
 .featured .tierName { color: #9a7200; }
 .price { font-family: var(--font-heading); font-size: 2rem; color: var(--text); line-height: 1; }
-.period { font-family: var(--font-body); font-size: 0.82rem; color: var(--muted); margin-top: 0.12rem; margin-bottom: 0.9rem; }
+.period { font-family: var(--font-body); font-size: 0.98rem; color: var(--muted); margin-top: 0.12rem; margin-bottom: 0.9rem; }
 
 .feats { list-style: none; padding: 0; margin: 0 0 0.75rem; text-align: left; }
 .feat {
@@ -91,7 +91,7 @@
 .check { color: var(--crimson); flex-shrink: 0; font-weight: 700; }
 
 .engagement {
-  font-family: var(--font-body); font-size: 0.78rem; color: var(--muted); font-style: italic;
+  font-family: var(--font-body); font-size: 0.96rem; color: var(--muted); font-style: italic;
   border-top: 1px solid rgba(184,137,42,0.15); padding-top: 0.6rem; margin-bottom: 0.9rem;
 }
 
@@ -100,7 +100,7 @@
   background: linear-gradient(135deg, var(--crimson), var(--crimson2));
   color: rgba(255,248,220,0.96);
   border: none; border-radius: 50px;
-  font-family: 'Cinzel', serif; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase;
+  font-family: 'Cinzel', serif; font-size: 0.92rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase;
   cursor: pointer;
   box-shadow: 0 6px 20px rgba(123,31,46,0.2);
   transition: all 0.3s;
@@ -114,6 +114,6 @@
 .btnFeatured:hover { opacity: 0.9; transform: translateY(-1px); }
 
 .note {
-  font-family: var(--font-body); font-size: 0.8rem; color: var(--muted); font-style: italic;
+  font-family: var(--font-body); font-size: 0.96rem; color: var(--muted); font-style: italic;
   text-align: center; padding: 1.5rem 1.5rem 0; line-height: 1.75;
 }

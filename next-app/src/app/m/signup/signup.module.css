@@ -28,7 +28,7 @@
 
 .progressMsg {
   font-family: var(--font-label);
-  font-size: 0.52rem;
+  font-size: 0.76rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--crimson);
@@ -83,7 +83,7 @@
 /* ── Question header ──────────────────────────────── */
 .qNum {
   font-family: var(--font-label);
-  font-size: 0.48rem;
+  font-size: 0.74rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--gold);
@@ -143,7 +143,7 @@
 
 .tileLabel {
   font-family: var(--font-label);
-  font-size: 0.48rem;
+  font-size: 0.74rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--text);
@@ -151,7 +151,7 @@
 
 .tileSub {
   font-family: var(--font-body);
-  font-size: 0.72rem;
+  font-size: 0.92rem;
   color: var(--muted);
 }
 
@@ -162,7 +162,7 @@
 
 .fieldLabel {
   font-family: var(--font-label);
-  font-size: 0.5rem;
+  font-size: 0.76rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--muted);
@@ -279,7 +279,7 @@
 
 .tierCardName {
   font-family: var(--font-label);
-  font-size: 0.58rem;
+  font-size: 0.80rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--crimson);
@@ -295,7 +295,7 @@
 
 .tierCardFeats {
   font-family: var(--font-body);
-  font-size: 0.78rem;
+  font-size: 0.96rem;
   color: var(--muted);
   margin-top: 0.15rem;
   line-height: 1.5;
@@ -353,7 +353,7 @@
   border: none;
   border-radius: 50px;
   font-family: var(--font-label);
-  font-size: 0.65rem;
+  font-size: 0.84rem;
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -368,7 +368,7 @@
   background: none;
   border: none;
   font-family: var(--font-body);
-  font-size: 0.82rem;
+  font-size: 0.98rem;
   color: var(--muted);
   cursor: pointer;
   padding: 0.3rem 0.5rem;
@@ -393,7 +393,7 @@
 
 .summaryKey {
   font-family: var(--font-label);
-  font-size: 0.44rem;
+  font-size: 0.72rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--gold);
@@ -415,7 +415,7 @@
   max-height: 160px;
   overflow-y: auto;
   font-family: var(--font-body);
-  font-size: 0.78rem;
+  font-size: 0.96rem;
   color: var(--muted);
   line-height: 1.65;
   margin-bottom: 0.85rem;
@@ -476,7 +476,7 @@
 
 .draftYes, .draftNo {
   font-family: var(--font-label);
-  font-size: 0.48rem;
+  font-size: 0.74rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   border: none;
@@ -507,7 +507,7 @@
 /* ── OTP / mobile hint ───────────────────────────── */
 .hint {
   font-family: var(--font-body);
-  font-size: 0.78rem;
+  font-size: 0.96rem;
   color: var(--muted);
   font-style: italic;
   margin-top: 0.4rem;
