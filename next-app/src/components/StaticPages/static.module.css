@@ -1,5 +1,17 @@
 /* ── Shared static page styles ──────────────────────── */
-.page { min-height: 100dvh; background: var(--bg); padding-bottom: 80px; }
+.page { min-height: 100dvh; background: var(--bg); padding-bottom: calc(80px + var(--safe-b, 0px)); position: relative; overflow-x: hidden; }
+.page::before {
+  content: '';
+  position: absolute; inset: 0; z-index: 0;
+  opacity: 0.055;
+  background-image: url('/Assets/Doodle.webp');
+  background-size: 680px 680px;
+  background-repeat: repeat;
+  background-position: 0 0;
+  pointer-events: none;
+  filter: grayscale(100%) contrast(1.1) brightness(0.9);
+}
+.page > * { position: relative; z-index: 1; }
 .pageDesktop { padding-bottom: 3rem; }
 
 .hero {

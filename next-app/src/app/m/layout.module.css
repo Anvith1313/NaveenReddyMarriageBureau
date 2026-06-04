@@ -3,6 +3,8 @@
   flex-direction: column;
   min-height: 100svh;
   background: var(--bg);
+  overflow-x: hidden;
+  overscroll-behavior-y: contain;
 }
 
 .shellAuth {
@@ -10,15 +12,19 @@
   flex-direction: column;
   min-height: 100svh;
   background: transparent;
+  overflow-x: hidden;
 }
 
 .main {
   flex: 1;
-  padding-bottom: var(--bottom-nav-h);
+  /* account for fixed bottom nav + iOS home bar */
+  padding-bottom: calc(var(--bottom-nav-h) + var(--safe-b));
+  min-width: 0;
 }
 
 .mainAuth {
   flex: 1;
+  min-width: 0;
 }
 
 .nav {
@@ -26,8 +32,11 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: var(--bottom-nav-h);
+  /* height grows with safe area so items sit above home bar */
+  height: calc(var(--bottom-nav-h) + var(--safe-b));
+  padding-bottom: var(--safe-b);
   background: rgba(255, 251, 245, 0.97);
+  -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
   border-top: 1px solid var(--border-light);
   display: flex;

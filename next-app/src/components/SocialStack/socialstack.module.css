@@ -75,6 +75,11 @@
 
 @media (max-width: 600px) {
   .btn { width: 42px; height: 42px; }
-  .stack { bottom: 82px; right: 14px; gap: 11px; }
+  /* sit above the bottom nav (60px) + iOS home bar + 8px breathing room */
+  .stack {
+    bottom: calc(68px + var(--safe-b, 0px));
+    right: 14px;
+    gap: 11px;
+  }
   .label { font-size: 0.63rem; padding: 0.22rem 0.6rem; }
 }

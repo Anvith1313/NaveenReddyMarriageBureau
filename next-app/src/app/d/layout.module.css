@@ -1,6 +1,7 @@
 .shell {
   min-height: 100vh;
   background: var(--bg);
+  overflow-x: hidden;
 }
 
 .header {
@@ -15,8 +16,9 @@
   box-shadow: var(--sh-soft);
   display: flex;
   align-items: center;
-  padding: 0 2rem;
-  gap: 2rem;
+  padding: 0 clamp(1rem, 3vw, 2.5rem);
+  gap: clamp(0.5rem, 1.5vw, 2rem);
+  min-width: 0;
 }
 
 .logo {
@@ -35,21 +37,23 @@
 
 .brandMain {
   font-family: var(--font-label);
-  font-size: 0.7rem;
+  font-size: clamp(0.58rem, 0.6vw, 0.7rem);
   font-weight: 700;
   color: var(--crimson);
   letter-spacing: 0.06em;
   line-height: 1.3;
+  white-space: nowrap;
 }
 
 .brandSub {
   font-family: var(--font-label);
-  font-size: 0.52rem;
+  font-size: clamp(0.44rem, 0.45vw, 0.52rem);
   font-weight: 400;
   letter-spacing: 0.1em;
   color: var(--gold);
   display: block;
   margin-top: 0;
+  white-space: nowrap;
 }
 
 .nav {
@@ -61,16 +65,17 @@
 
 .navLink {
   font-family: var(--font-label);
-  font-size: 0.78rem;
+  font-size: clamp(0.6rem, 0.7vw, 0.78rem);
   font-weight: 500;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--muted);
   text-decoration: none;
-  padding: 0.5rem 0.9rem;
+  padding: 0.5rem clamp(0.4rem, 0.7vw, 0.9rem);
   position: relative;
   transition: color 0.22s;
   background: transparent;
+  white-space: nowrap;
 }
 .navLink::after {
   content: '';
