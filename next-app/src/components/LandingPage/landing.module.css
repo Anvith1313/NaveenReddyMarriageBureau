@@ -584,6 +584,33 @@
 }
 
 /* ══════════════════════════════════════════════════════════════
+   BUREAU CONTACT — EmailClientCard section
+══════════════════════════════════════════════════════════════ */
+.bureauSection {
+  background: #F8F3EA;
+  padding: 0 0 8.5rem;
+  border-top: 1px solid #E7D9C8;
+}
+.bureauSection::before {
+  /* Gold divider handled by section top border */
+}
+.bureauHeader {
+  text-align: center;
+  padding: 8.5rem 2rem 4.5rem;
+  max-width: 620px;
+  margin: 0 auto;
+}
+.bureauCard {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+@media (max-width: 640px) {
+  .bureauCard { padding: 0 1.25rem; }
+  .bureauHeader { padding: 5.5rem 1.5rem 3rem; }
+}
+
+/* ══════════════════════════════════════════════════════════════
    CTA BAND — primary rose (warm, dignified — the ONLY dark section)
 ══════════════════════════════════════════════════════════════ */
 .ctaBand {

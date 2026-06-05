@@ -12,6 +12,7 @@ import {
 } from 'firebase/auth'
 import { collection, query, where, getDocs, getDoc, doc } from 'firebase/firestore'
 import { auth, db } from '@/lib/firebase'
+import { BorderRotate } from '@/components/ui/animated-gradient-border'
 import s from './login.module.css'
 
 export default function MobileLogin() {
@@ -83,9 +84,17 @@ export default function MobileLogin() {
     <div className={s.page}>
       <div className={s.card}>
         <div className={s.header}>
-          <div className={s.logoRing}>
-            <Image src="/Assets/Logo-transparent.webp" alt="NRMB" width={74} height={74} style={{ objectFit: 'contain', position: 'relative', zIndex: 1 }} />
-          </div>
+          <BorderRotate
+            animationMode="auto-rotate"
+            animationSpeed={8}
+            borderWidth={2}
+            borderRadius={50}
+            backgroundColor="rgba(255,253,248,0.96)"
+            className={s.logoRing}
+            style={{ padding: 4 }}
+          >
+            <Image src="/Assets/Logo-transparent.webp" alt="NRMB" width={68} height={68} style={{ objectFit: 'contain', position: 'relative', zIndex: 1, borderRadius: '50%' }} />
+          </BorderRotate>
           <p className={s.eyebrow}>Welcome Back</p>
           <h1 className={s.title}>Naveen Reddy Marriage Bureau</h1>
           <p className={s.subtitle}>A sacred journey continues here</p>

@@ -3,9 +3,13 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
+import { motion } from 'framer-motion'
 import s from './landing.module.css'
 import { useReveal, useCountUp } from '@/lib/useReveal'
 import { FloatingPaths } from '@/components/ui/background-paths'
+import { BorderRotate } from '@/components/ui/animated-gradient-border'
+import { EmailClientCard } from '@/components/ui/email-client-card'
+import { heroContainer, heroItem, heroFade } from '@/components/ui/animated-hero-section-1'
 
 function VerifiedBadge({ size = 14 }: { size?: number }) {
   return (
@@ -118,38 +122,44 @@ export default function LandingPage({ mobile = false }: { mobile?: boolean }) {
         <div className={s.heroText}>
           <FloatingPaths position={1} />
           <FloatingPaths position={-1} />
-          <div className={s.heroTextInner}>
+          {/* ── Hero text with stagger entrance animation ── */}
+          <motion.div
+            className={s.heroTextInner}
+            variants={heroContainer}
+            initial="hidden"
+            animate="visible"
+          >
 
-            <p className={s.heroEyebrow}>
+            <motion.p className={s.heroEyebrow} variants={heroItem}>
               <span className={s.heroEyebrowRule} />
               Est. 2000 &nbsp;·&nbsp; Exclusively Reddy Community
               <span className={s.heroEyebrowRule} />
-            </p>
+            </motion.p>
 
-            <h1 className={s.heroHeading}>
+            <motion.h1 className={s.heroHeading} variants={heroItem}>
               Naveen<br />Reddy
-            </h1>
+            </motion.h1>
 
-            <div className={s.heroSubRule}>
+            <motion.div className={s.heroSubRule} variants={heroItem}>
               <span className={s.heroSubRuleLine} />
               <span className={s.heroSubRuleText}>Marriage Bureau</span>
               <span className={s.heroSubRuleLine} />
-            </div>
+            </motion.div>
 
-            <p className={s.heroTagline}>
+            <motion.p className={s.heroTagline} variants={heroItem}>
               Where Sacred Traditions<br />Meet Timeless Love
-            </p>
+            </motion.p>
 
-            <div className={s.heroActions}>
+            <motion.div className={s.heroActions} variants={heroItem}>
               <button type="button" className={s.heroBtnPrimary} onClick={() => router.push(signupPath)}>
                 Begin Your Journey
               </button>
               <button type="button" className={s.heroBtnGhost} onClick={() => router.push(loginPath)}>
                 Sign In
               </button>
-            </div>
+            </motion.div>
 
-            <div className={s.heroTrust}>
+            <motion.div className={s.heroTrust} variants={heroFade}>
               <span className={s.heroTrustItem}>
                 <VerifiedBadge size={13} />
                 Verified Profiles
@@ -164,9 +174,9 @@ export default function LandingPage({ mobile = false }: { mobile?: boolean }) {
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                 25+ Years
               </span>
-            </div>
+            </motion.div>
 
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -265,9 +275,26 @@ export default function LandingPage({ mobile = false }: { mobile?: boolean }) {
           {STEPS.map((step, i) => (
             <div key={step.n} className={`${s.processStep} reveal reveal-d${i + 1}`}>
               <div className={s.processCircleWrap}>
-                <div className={s.processCircle}>
+                {/* BorderRotate — animated gold/rose conic border on hover */}
+                <BorderRotate
+                  animationMode="rotate-on-hover"
+                  animationSpeed={7}
+                  borderWidth={2}
+                  borderRadius={50}
+                  backgroundColor="#F8F3EA"
+                  style={{
+                    width: 58,
+                    height: 58,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0,
+                    boxShadow: '0 4px 18px rgba(123,30,60,0.07), 0 0 0 5px rgba(200,162,74,0.06)',
+                    transition: 'box-shadow 0.3s',
+                  }}
+                >
                   {step.icon}
-                </div>
+                </BorderRotate>
                 {i < STEPS.length - 1 && <div className={s.processConnector} />}
               </div>
               <span className={s.processNum}>{step.n}</span>
@@ -308,6 +335,31 @@ export default function LandingPage({ mobile = false }: { mobile?: boolean }) {
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════
+          BUREAU CONTACT — EmailClientCard
+          Shows a warm personal message from the bureau
+          director with a reply input for first contact
+      ══════════════════════════════════════════════ */}
+      <section className={s.bureauSection}>
+        <div className={`${s.bureauHeader} reveal`}>
+          <p className={s.sectionTag}>A Personal Word</p>
+          <h2 className={s.sectionTitle}>From Our Bureau</h2>
+          <p className={s.sectionSub}>We treat every family as our own. Reach out — we respond personally.</p>
+        </div>
+        <div className={`${s.bureauCard} reveal`}>
+          <EmailClientCard
+            avatarSrc="/Assets/Logo-transparent.webp"
+            avatarFallback="NR"
+            senderName="Naveen Reddy Ravula"
+            senderRole="Head of Bureau · Est. 2000"
+            timestamp="Mon – Sat, 10am – 7pm"
+            message="Every family that walks through our door carries a sacred trust — the trust that we will find their son or daughter a partner worthy of their values, their heritage, and their love. In over two decades, we have never taken that responsibility lightly. We would be honoured to begin this journey with your family."
+            replyPlaceholder="Write to the bureau — we respond personally…"
+            onReplyClick={() => router.push(mobile ? '/m/contact' : '/d/contact')}
+          />
         </div>
       </section>
 
