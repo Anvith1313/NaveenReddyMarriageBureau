@@ -1,8 +1,23 @@
 import type { Metadata, Viewport } from 'next'
-import { Cormorant_Garamond, EB_Garamond, Cinzel, Josefin_Sans } from 'next/font/google'
+import { Playfair_Display, Inter, Cormorant_Garamond, EB_Garamond, Cinzel, Josefin_Sans } from 'next/font/google'
 import { AuthProvider } from '@/lib/AuthProvider'
 import SocialStack from '@/components/SocialStack/SocialStack'
 import './globals.css'
+
+const playfair = Playfair_Display({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800', '900'],
+  style: ['normal', 'italic'],
+  variable: '--font-playfair',
+  display: 'swap',
+})
+
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600'],
+  variable: '--font-inter',
+  display: 'swap',
+})
 
 const cormorant = Cormorant_Garamond({
   subsets: ['latin'],
@@ -52,7 +67,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={`${cormorant.variable} ${ebGaramond.variable} ${cinzel.variable} ${josefin.variable}`}
+      className={`${playfair.variable} ${inter.variable} ${cormorant.variable} ${ebGaramond.variable} ${cinzel.variable} ${josefin.variable}`}
     >
       <body><AuthProvider>{children}<SocialStack /></AuthProvider></body>
     </html>

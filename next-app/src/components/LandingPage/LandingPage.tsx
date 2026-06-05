@@ -237,15 +237,15 @@ export default function LandingPage({ mobile = false }: { mobile?: boolean }) {
 
           {/* CTA band */}
           <section className={`${s.ctaBand} reveal`}>
-            <div className={s.ctaBandTag}>Begin Your Story</div>
+            <div className={s.ctaBandTag}>Your Journey Begins Here</div>
             <div className={s.ctaBandH}>Your Perfect Match Awaits</div>
             <p className={s.ctaBandSub}>
-              Join thousands of Reddy families who found lifelong happiness through us.<br />
-              Registration is free and takes less than five minutes.
+              Join an exclusive community of verified Reddy families.<br />
+              Begin with a personal consultation and let us guide your journey.
             </p>
             <div className={s.ctaBandBtnWrap}>
               <button type="button" className={s.ctaBandBtn} onClick={() => router.push(signupPath)}>
-                Create Your Profile
+                Begin Your Journey
               </button>
             </div>
           </section>
