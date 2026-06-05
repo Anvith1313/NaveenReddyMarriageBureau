@@ -40,32 +40,19 @@ const BorderRotate: React.FC<BorderRotateProps> = ({
       ? 'gradient-border-hover'
       : 'gradient-border-stop-hover';
 
+  // Single-line conic-gradient — no newlines in the string (some parsers reject them)
+  const conic = `conic-gradient(from var(--gradient-angle, 0deg), ${gradientColors.primary} 0%, ${gradientColors.secondary} 25%, ${gradientColors.accent} 35%, ${gradientColors.secondary} 45%, ${gradientColors.primary} 55%, ${gradientColors.secondary} 75%, ${gradientColors.accent} 85%, ${gradientColors.secondary} 90%, ${gradientColors.primary} 100%)`
+  const fill = `linear-gradient(${backgroundColor}, ${backgroundColor})`
+
   const combinedStyle: CSSProperties = {
-    '--gradient-primary': gradientColors.primary,
-    '--gradient-secondary': gradientColors.secondary,
-    '--gradient-accent': gradientColors.accent,
-    '--bg-color': backgroundColor,
-    '--border-width': `${borderWidth}px`,
-    '--border-radius': `${borderRadius}px`,
     '--animation-duration': `${animationSpeed}s`,
     border: `${borderWidth}px solid transparent`,
     borderRadius: `${borderRadius}px`,
-    backgroundImage: `
-      linear-gradient(${backgroundColor}, ${backgroundColor}),
-      conic-gradient(
-        from var(--gradient-angle, 0deg),
-        ${gradientColors.primary} 0%,
-        ${gradientColors.secondary} 25%,
-        ${gradientColors.accent}   35%,
-        ${gradientColors.secondary} 45%,
-        ${gradientColors.primary} 55%,
-        ${gradientColors.secondary} 75%,
-        ${gradientColors.accent}   85%,
-        ${gradientColors.secondary} 90%,
-        ${gradientColors.primary} 100%
-      )
-    `,
+    backgroundImage: `${fill}, ${conic}`,
+    /* backgroundClip with two values: first bg clips to padding-box (fill),
+       second bg (the gradient) clips to border-box so it shows through the border */
     backgroundClip: 'padding-box, border-box',
+    WebkitBackgroundClip: 'padding-box, border-box',
     backgroundOrigin: 'padding-box, border-box',
     ...style,
   } as CSSProperties;

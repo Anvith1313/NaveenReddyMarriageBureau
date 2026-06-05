@@ -1,5 +1,39 @@
 @import "tailwindcss";
 
+/* ── @property must be declared at document root level before any rule uses it.
+   This registers --gradient-angle as an animatable <angle> type so browsers
+   can interpolate it inside @keyframes (required for conic-gradient animation). */
+@property --gradient-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+/* ── Hero entrance animation — CSS-only, no hydration flash ──────────────── */
+@keyframes heroSlideIn {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes heroFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* animation-fill-mode: backwards applies the 'from' frame before the delay,
+   keeping elements invisible until their personal delay fires — no flash. */
+.hero-anim {
+  animation: heroSlideIn 0.68s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+.hero-fade {
+  animation: heroFadeIn 0.9s ease backwards;
+}
+.hero-d1 { animation-delay: 0.08s; }
+.hero-d2 { animation-delay: 0.20s; }
+.hero-d3 { animation-delay: 0.32s; }
+.hero-d4 { animation-delay: 0.44s; }
+.hero-d5 { animation-delay: 0.56s; }
+.hero-d6 { animation-delay: 0.80s; }
+
 :root {
   /* ── Typography system
        Headings:  Playfair Display  — editorial, dignified
@@ -288,15 +322,8 @@ img, video {
   margin-bottom: 1.25rem;
 }
 
-/* ── Animated Gradient Border — @property for conic-gradient animation ──
-   Required for BorderRotate component. @property registers the CSS custom
-   property as an <angle> type so browsers can interpolate it in @keyframes. */
-@property --gradient-angle {
-  syntax: '<angle>';
-  initial-value: 0deg;
-  inherits: false;
-}
-
+/* @property --gradient-angle is declared at the top of this file (after @import).
+   Only the @keyframes + utility classes are needed here. */
 @keyframes gradient-rotate {
   from { --gradient-angle: 0deg; }
   to   { --gradient-angle: 360deg; }

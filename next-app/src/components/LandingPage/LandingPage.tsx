@@ -3,13 +3,12 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
-import { motion } from 'framer-motion'
 import s from './landing.module.css'
 import { useReveal, useCountUp } from '@/lib/useReveal'
 import { FloatingPaths } from '@/components/ui/background-paths'
 import { BorderRotate } from '@/components/ui/animated-gradient-border'
 import { EmailClientCard } from '@/components/ui/email-client-card'
-import { heroContainer, heroItem, heroFade } from '@/components/ui/animated-hero-section-1'
+import { SplashScreen } from '@/components/ui/splash-screen'
 
 function VerifiedBadge({ size = 14 }: { size?: number }) {
   return (
@@ -74,6 +73,9 @@ export default function LandingPage({ mobile = false }: { mobile?: boolean }) {
   return (
     <div className={s.root}>
 
+      {/* Splash screen — logo drop entrance, slides up after 3.4s */}
+      <SplashScreen />
+
       {/* ── Mobile nav ─────────────────────────────── */}
       {mobile && (
         <nav className={s.mobileNav}>
@@ -122,44 +124,39 @@ export default function LandingPage({ mobile = false }: { mobile?: boolean }) {
         <div className={s.heroText}>
           <FloatingPaths position={1} />
           <FloatingPaths position={-1} />
-          {/* ── Hero text with stagger entrance animation ── */}
-          <motion.div
-            className={s.heroTextInner}
-            variants={heroContainer}
-            initial="hidden"
-            animate="visible"
-          >
+          {/* ── Hero text — CSS keyframe animations, no framer-motion hydration flash ── */}
+          <div className={s.heroTextInner}>
 
-            <motion.p className={s.heroEyebrow} variants={heroItem}>
+            <p className={`${s.heroEyebrow} hero-anim hero-d1`}>
               <span className={s.heroEyebrowRule} />
               Est. 2000 &nbsp;·&nbsp; Exclusively Reddy Community
               <span className={s.heroEyebrowRule} />
-            </motion.p>
+            </p>
 
-            <motion.h1 className={s.heroHeading} variants={heroItem}>
+            <h1 className={`${s.heroHeading} hero-anim hero-d2`}>
               Naveen<br />Reddy
-            </motion.h1>
+            </h1>
 
-            <motion.div className={s.heroSubRule} variants={heroItem}>
+            <div className={`${s.heroSubRule} hero-anim hero-d3`}>
               <span className={s.heroSubRuleLine} />
               <span className={s.heroSubRuleText}>Marriage Bureau</span>
               <span className={s.heroSubRuleLine} />
-            </motion.div>
+            </div>
 
-            <motion.p className={s.heroTagline} variants={heroItem}>
+            <p className={`${s.heroTagline} hero-anim hero-d4`}>
               Where Sacred Traditions<br />Meet Timeless Love
-            </motion.p>
+            </p>
 
-            <motion.div className={s.heroActions} variants={heroItem}>
+            <div className={`${s.heroActions} hero-anim hero-d5`}>
               <button type="button" className={s.heroBtnPrimary} onClick={() => router.push(signupPath)}>
                 Begin Your Journey
               </button>
               <button type="button" className={s.heroBtnGhost} onClick={() => router.push(loginPath)}>
                 Sign In
               </button>
-            </motion.div>
+            </div>
 
-            <motion.div className={s.heroTrust} variants={heroFade}>
+            <div className={`${s.heroTrust} hero-fade hero-d6`}>
               <span className={s.heroTrustItem}>
                 <VerifiedBadge size={13} />
                 Verified Profiles
@@ -174,9 +171,9 @@ export default function LandingPage({ mobile = false }: { mobile?: boolean }) {
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                 25+ Years
               </span>
-            </motion.div>
+            </div>
 
-          </motion.div>
+          </div>
         </div>
       </section>
 
