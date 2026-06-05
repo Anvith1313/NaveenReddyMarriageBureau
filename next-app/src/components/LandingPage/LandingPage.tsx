@@ -26,8 +26,8 @@ function VerifiedBadge({ size = 14, className = '' }: { size?: number; className
 export default function LandingPage({ mobile = false }: { mobile?: boolean }) {
   const router = useRouter()
   const [menuOpen, setMenuOpen] = useState(false)
-  const signupPath = '/m/signup'
-  const loginPath = mobile ? '/m/login' : '/d/login'
+  const signupPath = mobile ? '/m/signup' : '/d/signup'
+  const loginPath  = mobile ? '/m/login'  : '/d/login'
 
   useReveal()
   const refMembers = useCountUp(10,   1800, 'K+')
