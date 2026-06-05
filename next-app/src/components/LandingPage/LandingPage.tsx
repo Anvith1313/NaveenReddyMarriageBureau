@@ -10,8 +10,8 @@ function VerifiedBadge({ size = 14 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-label="Verified">
       <path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
-        fill="rgba(196,30,58,0.12)" stroke="#C41E3A" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M9 12l2 2 4-4" stroke="#C41E3A" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+        fill="rgba(123,30,60,0.12)" stroke="#7B1E3C" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M9 12l2 2 4-4" stroke="#7B1E3C" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
     </svg>
   )
 }
@@ -19,33 +19,33 @@ function VerifiedBadge({ size = 14 }: { size?: number }) {
 const FEATURES = [
   { n: '01', title: 'Complete Privacy',
     text: 'Contact details are never shared without mutual interest and bureau approval. Your privacy is our highest commitment.',
-    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="rgba(196,30,58,0.08)" stroke="#C41E3A" strokeWidth="1.6" strokeLinejoin="round"/><path d="M9 12l2 2 4-4" stroke="#F5A624" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg> },
+    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="rgba(123,30,60,0.08)" stroke="#7B1E3C" strokeWidth="1.6" strokeLinejoin="round"/><path d="M9 12l2 2 4-4" stroke="#C8A24A" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg> },
   { n: '02', title: '100% Verified',
     text: 'Every single profile is personally screened and approved by our bureau team before it becomes visible to other members.',
-    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" fill="rgba(245,166,36,0.1)" stroke="#F5A624" strokeWidth="1.6"/><path d="M9 12l2 2 4-4" stroke="#C41E3A" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg> },
+    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" fill="rgba(200,162,74,0.1)" stroke="#C8A24A" strokeWidth="1.6"/><path d="M9 12l2 2 4-4" stroke="#7B1E3C" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg> },
   { n: '03', title: 'Community Exclusive',
     text: 'Serving exclusively the Reddy community of Hindu religion, ensuring deep cultural, traditional and family value alignment.',
-    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" fill="rgba(196,30,58,0.07)" stroke="#C41E3A" strokeWidth="1.6" strokeLinejoin="round"/><rect x="9" y="14" width="6" height="8" rx="1" fill="rgba(245,166,36,0.15)" stroke="#F5A624" strokeWidth="1.3"/></svg> },
+    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" fill="rgba(123,30,60,0.07)" stroke="#7B1E3C" strokeWidth="1.6" strokeLinejoin="round"/><rect x="9" y="14" width="6" height="8" rx="1" fill="rgba(200,162,74,0.15)" stroke="#C8A24A" strokeWidth="1.3"/></svg> },
   { n: '04', title: 'Family Conversation',
     text: 'Once mutual interest is confirmed, families connect through our secure, personally supervised bureau channel.',
-    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" fill="rgba(196,30,58,0.07)" stroke="#C41E3A" strokeWidth="1.6" strokeLinejoin="round"/><line x1="8" y1="9" x2="16" y2="9" stroke="#F5A624" strokeWidth="1.6" strokeLinecap="round"/><line x1="8" y1="13" x2="13" y2="13" stroke="#F5A624" strokeWidth="1.6" strokeLinecap="round"/></svg> },
+    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" fill="rgba(123,30,60,0.07)" stroke="#7B1E3C" strokeWidth="1.6" strokeLinejoin="round"/><line x1="8" y1="9" x2="16" y2="9" stroke="#C8A24A" strokeWidth="1.6" strokeLinecap="round"/><line x1="8" y1="13" x2="13" y2="13" stroke="#C8A24A" strokeWidth="1.6" strokeLinecap="round"/></svg> },
   { n: '05', title: 'NRI Profiles',
     text: 'Extensive curated database of NRI Reddy profiles from USA, UK, Canada, Australia, UAE and across the globe.',
-    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" fill="rgba(196,30,58,0.06)" stroke="#C41E3A" strokeWidth="1.6"/><ellipse cx="12" cy="12" rx="3.5" ry="9" fill="rgba(245,166,36,0.1)" stroke="#F5A624" strokeWidth="1.3"/><line x1="3" y1="12" x2="21" y2="12" stroke="#C41E3A" strokeWidth="1.3"/></svg> },
+    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" fill="rgba(123,30,60,0.06)" stroke="#7B1E3C" strokeWidth="1.6"/><ellipse cx="12" cy="12" rx="3.5" ry="9" fill="rgba(200,162,74,0.1)" stroke="#C8A24A" strokeWidth="1.3"/><line x1="3" y1="12" x2="21" y2="12" stroke="#7B1E3C" strokeWidth="1.3"/></svg> },
   { n: '06', title: 'Personal Service',
     text: 'Dedicated relationship managers guide your family personally through every step of the journey, from registration to engagement.',
-    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" stroke="#C41E3A" strokeWidth="1.6" strokeLinecap="round"/><circle cx="9" cy="7" r="4" fill="rgba(196,30,58,0.08)" stroke="#C41E3A" strokeWidth="1.6"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke="#F5A624" strokeWidth="1.6" strokeLinecap="round"/></svg> },
+    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" stroke="#7B1E3C" strokeWidth="1.6" strokeLinecap="round"/><circle cx="9" cy="7" r="4" fill="rgba(123,30,60,0.08)" stroke="#7B1E3C" strokeWidth="1.6"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke="#C8A24A" strokeWidth="1.6" strokeLinecap="round"/></svg> },
 ]
 
 const STEPS = [
   { n: '01', title: 'Begin Your Story',    text: 'Create your profile — we guide you through every detail with care and precision.',
-    icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="7" r="4" fill="rgba(196,30,58,0.1)" stroke="#C41E3A" strokeWidth="1.6"/><path d="M3 21v-2a4 4 0 014-4h4a4 4 0 014 4v2" stroke="#C41E3A" strokeWidth="1.6" strokeLinecap="round"/></svg> },
+    icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="7" r="4" fill="rgba(123,30,60,0.1)" stroke="#7B1E3C" strokeWidth="1.6"/><path d="M3 21v-2a4 4 0 014-4h4a4 4 0 014 4v2" stroke="#7B1E3C" strokeWidth="1.6" strokeLinecap="round"/></svg> },
   { n: '02', title: 'Bureau Verifies You', text: 'Our team personally reviews your profile before it becomes visible to other members.',
-    icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3L4 6.5v5c0 4.8 3.5 9.3 8 10.5 4.5-1.2 8-5.7 8-10.5v-5L12 3z" fill="rgba(196,30,58,0.08)" stroke="#C41E3A" strokeWidth="1.6" strokeLinejoin="round"/><path d="M9 12l2 2 4-4" stroke="#F5A624" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg> },
+    icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3L4 6.5v5c0 4.8 3.5 9.3 8 10.5 4.5-1.2 8-5.7 8-10.5v-5L12 3z" fill="rgba(123,30,60,0.08)" stroke="#7B1E3C" strokeWidth="1.6" strokeLinejoin="round"/><path d="M9 12l2 2 4-4" stroke="#C8A24A" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg> },
   { n: '03', title: 'Meet Our Members',   text: 'Browse verified profiles privately. Express genuine interest in those who meet your expectations.',
-    icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" fill="rgba(196,30,58,0.07)" stroke="#C41E3A" strokeWidth="1.6"/><line x1="16.5" y1="16.5" x2="21" y2="21" stroke="#F5A624" strokeWidth="2.2" strokeLinecap="round"/></svg> },
+    icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" fill="rgba(123,30,60,0.07)" stroke="#7B1E3C" strokeWidth="1.6"/><line x1="16.5" y1="16.5" x2="21" y2="21" stroke="#C8A24A" strokeWidth="2.2" strokeLinecap="round"/></svg> },
   { n: '04', title: 'Begin Your Journey', text: 'When both families show interest, our bureau facilitates the warm, personal introduction.',
-    icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" fill="rgba(245,166,36,0.12)" stroke="#F5A624" strokeWidth="1.6" strokeLinejoin="round"/></svg> },
+    icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" fill="rgba(200,162,74,0.12)" stroke="#C8A24A" strokeWidth="1.6" strokeLinejoin="round"/></svg> },
 ]
 
 const STORIES = [

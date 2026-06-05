@@ -17,7 +17,7 @@
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background: rgba(0,0,0,0.22);
+  background: rgba(58,43,35,0.18);
 }
 
 .card {
@@ -151,7 +151,7 @@
   overflow: hidden;
   width: 100%;
   padding: 0.75rem;
-  background: linear-gradient(135deg, #9B2F40 0%, #7B1F2E 60%, #5A1520 100%);
+  background: linear-gradient(135deg, #8f2347 0%, #7B1E3C 60%, #5A1228 100%);
   color: #fff;
   border: none;
   border-radius: 50px;

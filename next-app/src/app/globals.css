@@ -1,61 +1,70 @@
 @import "tailwindcss";
 
 :root {
-  --font-heading: var(--font-cormorant), 'Cormorant Garamond', serif;
-  --font-body: var(--font-eb-garamond), 'EB Garamond', serif;
+  /* ── Typography system
+       Headings:  Playfair Display  — editorial, dignified
+       Body:      Inter             — clean, readable, modern
+       Accent:    Cormorant Garamond — for quotes, taglines, ornamental text
+       Label:     Cinzel            — for form labels, tags
+  ─────────────────────────────────────────────────────── */
+  --font-heading: var(--font-playfair), 'Playfair Display', serif;
+  --font-body: var(--font-inter), 'Inter', sans-serif;
+  --font-accent: var(--font-cormorant), 'Cormorant Garamond', serif;
   --font-label: var(--font-cinzel), 'Cinzel', serif;
   --font-ui: var(--font-josefin), 'Josefin Sans', sans-serif;
 
-  /* ── Core brand palette ─────────────────────────── */
-  --primary: #7B1F2E;
-  --primary-hover: #9B2F40;
-  --primary-light: #FFF0F2;
-  --crimson: #7B1F2E;
-  --crimson2: #9B2F40;
-  --primary2: #9B2F40;
+  /* ── Core brand palette
+       Inspired by: Taj Falaknuma · luxury wedding invitation · heritage jewellery
+  ─────────────────────────────────────────────────────── */
+  --primary: #7B1E3C;
+  --primary-hover: #8f2347;
+  --primary-light: #FDF0F3;
+  --crimson: #7B1E3C;
+  --crimson2: #8f2347;
+  --primary2: #8f2347;
 
-  /* Deep maroon for accents — like traditional kumkum red */
-  --maroon: #5A0F1A;
-  /* Saffron/turmeric — South Indian ceremonial yellow-orange */
+  --maroon: #5A1228;
   --saffron: #D4773A;
   --saffron-light: rgba(212,119,58,0.1);
 
-  /* ── Gold family ─────────────────────────────────── */
-  --gold: #B8892A;
+  /* ── Gold — champagne warmth ─────────────────────── */
+  --gold: #C8A24A;
   --gold-bright: #D4AF37;
-  --gold-bg: #FDF3E0;
-  --gold2: #8B5E3C;
-  --gold3: #E8C4A0;
-  --gold4: #FFF8EC;
-  --gold-metal: linear-gradient(135deg,#C9A84C 0%,#E8C96A 28%,#B8892A 55%,#D4AF37 80%,#9A6C1A 100%);
+  --gold-bg: #FDF6E8;
+  --gold2: #A07830;
+  --gold3: #E8C88A;
+  --gold4: #FFFBEF;
+  --gold-metal: linear-gradient(135deg,#C8A24A 0%,#E8C96A 28%,#C8A24A 55%,#D4AF37 80%,#A07830 100%);
 
-  /* ── Backgrounds — warm parchment tones ─────────── */
-  --bg: #FDF7EE;
-  --bg-warm: #FAF0E2;
-  --bg-champagne: #F5E8D0;
+  /* ── Backgrounds — warm parchment hierarchy ─────── */
+  --bg: #FFFDF8;
+  --bg-section: #F8F3EA;
+  --bg-warm: #F8F3EA;
+  --bg-champagne: #F0E8D8;
   --bg-blush: #FFF4F0;
   --bg-saffron: #FEF5E8;
-  --cream: #FDF7EE;
-  --offwhite: #FDF7EE;
+  --cream: #FFFDF8;
+  --offwhite: #FFFDF8;
   --white: #FFFFFF;
 
-  /* ── Text ────────────────────────────────────────── */
-  --text: #1A0A08;
-  --text-body: #2E1208;
-  --text-sub: #5C2E1A;
-  --text-muted: #7A4030;
-  --muted: #7A4030;
-  --text2: #3D1C0E;
+  /* ── Text — warm brown family ────────────────────── */
+  --text: #3A2B23;
+  --text-body: #3A2B23;
+  --text-sub: #4E3828;
+  --text-muted: #6B5C52;
+  --muted: #6B5C52;
+  --text2: #4E3828;
 
-  /* ── Borders ─────────────────────────────────────── */
-  --border: #D4A855;
-  --border-light: #EDD898;
+  /* ── Borders — warm parchment ────────────────────── */
+  --border: #E7D9C8;
+  --border-light: #EDE3D4;
 
-  --sh-soft: 0 2px 16px rgba(123,31,46,0.07);
-  --sh-card: 0 4px 28px rgba(123,31,46,0.10);
-  --sh-hover: 0 12px 44px rgba(123,31,46,0.18);
-  --sh-gold: 0 8px 32px rgba(184,137,42,0.22);
-  --sh-cta: 0 6px 24px rgba(123,31,46,0.30);
+  /* ── Shadows — softer, warmer ────────────────────── */
+  --sh-soft: 0 2px 16px rgba(123,30,60,0.05);
+  --sh-card: 0 4px 24px rgba(123,30,60,0.08);
+  --sh-hover: 0 10px 40px rgba(123,30,60,0.13);
+  --sh-gold: 0 6px 28px rgba(200,162,74,0.18);
+  --sh-cta: 0 6px 24px rgba(123,30,60,0.26);
 
   --nav-h: 80px;
   --bottom-nav-h: 60px;
@@ -171,7 +180,7 @@ main {
 
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(184,137,42,0.3); border-radius: 2px; }
+::-webkit-scrollbar-thumb { background: rgba(200,162,74,0.35); border-radius: 2px; }
 
 /* ── Global text quality ─────────────────────────────── */
 h1, h2, h3, h4, h5, h6 {
