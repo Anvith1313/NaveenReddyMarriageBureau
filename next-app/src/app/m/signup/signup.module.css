@@ -504,6 +504,11 @@
   font-weight: 600;
 }
 
+/* avoid SocialStack floating buttons overlapping Continue button */
+@media (max-width: 600px) {
+  .bottomNav { padding-right: calc(1.2rem + 60px); }
+}
+
 /* ── OTP / mobile hint ───────────────────────────── */
 .hint {
   font-family: var(--font-body);
