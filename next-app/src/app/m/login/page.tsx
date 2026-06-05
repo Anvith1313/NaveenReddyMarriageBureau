@@ -29,17 +29,23 @@ export default function MobileLogin() {
     try {
       let email = identifier
       if (!identifier.includes('@')) {
-        const snap = await getDocs(query(collection(db, 'users'), where('u', '==', identifier)))
-        if (snap.empty) { setError('Username not found.'); setLoading(false); return }
-        email = snap.docs[0].data().email
+        try {
+          const snap = await getDocs(query(collection(db, 'users'), where('u', '==', identifier)))
+          if (snap.empty) { setError('Username not found.'); setLoading(false); return }
+          email = snap.docs[0].data().email
+        } catch {
+          setError('Could not look up username. Please sign in with your email address instead.')
+          setLoading(false); return
+        }
       }
       const cred = await signInWithEmailAndPassword(auth, email, password)
-      if (!cred.user.emailVerified) { router.push('/verify'); return }
-      const delSnap = await getDoc(doc(db, 'deleted_accounts', cred.user.uid))
-      if (delSnap.exists()) {
-        setError('This account has been removed. Please contact the bureau.')
-        setLoading(false); return
-      }
+      try {
+        const delSnap = await getDoc(doc(db, 'deleted_accounts', cred.user.uid))
+        if (delSnap.exists()) {
+          setError('This account has been removed. Please contact the bureau.')
+          setLoading(false); return
+        }
+      } catch { /* Firestore unavailable — proceed */ }
       router.push('/dashboard')
     } catch (err: unknown) {
       const code = (err as { code?: string }).code

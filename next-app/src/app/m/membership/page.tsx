@@ -45,25 +45,27 @@ export default function MobileMembership() {
 
       <div className={s.cards}>
         {PLANS.map(plan => (
-          <div key={plan.tier} className={`${s.card} ${plan.featured ? s.featured : ''}`}>
-            {plan.featured && <div className={s.badge}>Most Popular</div>}
-            <div className={s.icon}>{plan.icon}</div>
-            <div className={s.tierName}>{plan.tier}</div>
-            <div className={s.price}>{plan.price}</div>
-            <div className={s.period}>{plan.period}</div>
-            <ul className={s.feats}>
-              {plan.features.map(f => (
-                <li key={f} className={s.feat}><span className={s.check}>✓</span>{f}</li>
-              ))}
-            </ul>
-            <div className={s.engagement}>{plan.engagement}</div>
-            <button
-              type="button"
-              className={`${s.btn} ${plan.featured ? s.btnFeatured : ''}`}
-              onClick={() => handleJoin(plan.tier)}
-            >
-              Join {plan.tier}
-            </button>
+          <div key={plan.tier} className={`${s.shineWrap} ${plan.featured ? s.shineWrapFeatured : ''}`}>
+            <div className={`${s.card} ${plan.featured ? s.featured : ''}`}>
+              {plan.featured && <div className={s.badge}>Most Popular</div>}
+              <div className={s.icon}>{plan.icon}</div>
+              <div className={s.tierName}>{plan.tier}</div>
+              <div className={s.price}>{plan.price}</div>
+              <div className={s.period}>{plan.period}</div>
+              <ul className={s.feats}>
+                {plan.features.map(f => (
+                  <li key={f} className={s.feat}><span className={s.check}>✓</span>{f}</li>
+                ))}
+              </ul>
+              <div className={s.engagement}>{plan.engagement}</div>
+              <button
+                type="button"
+                className={`${s.btn} ${plan.featured ? s.btnFeatured : ''}`}
+                onClick={() => handleJoin(plan.tier)}
+              >
+                Join {plan.tier}
+              </button>
+            </div>
           </div>
         ))}
       </div>

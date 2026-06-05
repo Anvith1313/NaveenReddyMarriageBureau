@@ -57,7 +57,7 @@
   --sh-gold: 0 8px 32px rgba(184,137,42,0.22);
   --sh-cta: 0 6px 24px rgba(123,31,46,0.30);
 
-  --nav-h: 72px;
+  --nav-h: 80px;
   --bottom-nav-h: 60px;
 
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
@@ -100,6 +100,57 @@ body {
 
 main {
   animation: pageEnter 0.22s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ── Scroll-reveal system ─────────────────────────── */
+/* Add class="reveal" to any element; JS adds "revealed" when it enters viewport */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+.reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-left  { transform: translateX(-32px); }
+.reveal-right { transform: translateX(32px); }
+.reveal-left.revealed,
+.reveal-right.revealed { transform: translateX(0); opacity: 1; }
+
+.reveal-d1 { transition-delay: 0.1s; }
+.reveal-d2 { transition-delay: 0.2s; }
+.reveal-d3 { transition-delay: 0.3s; }
+.reveal-d4 { transition-delay: 0.4s; }
+.reveal-d5 { transition-delay: 0.5s; }
+.reveal-d6 { transition-delay: 0.6s; }
+
+/* ── Floating pulse (for trust icons) ────────────── */
+@keyframes floatIcon {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-6px); }
+}
+.float-anim { animation: floatIcon 3s ease-in-out infinite; }
+.float-anim-d1 { animation-delay: 0.4s; }
+.float-anim-d2 { animation-delay: 0.8s; }
+.float-anim-d3 { animation-delay: 1.2s; }
+
+/* ── Shimmer on gold borders ──────────────────────── */
+@keyframes shimmerGold {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+.shimmer-border {
+  background: linear-gradient(90deg,
+    rgba(184,137,42,0.25) 0%,
+    rgba(212,175,55,0.7)  40%,
+    rgba(184,137,42,0.25) 60%,
+    rgba(212,175,55,0.7)  100%
+  );
+  background-size: 200% auto;
+  animation: shimmerGold 3s linear infinite;
 }
 
 /* Instant on back/forward swipe so it doesn't look doubled */

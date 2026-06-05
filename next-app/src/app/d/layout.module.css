@@ -8,12 +8,12 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  height: var(--nav-h);
-  background: rgba(255, 251, 245, 0.96);
+  height: 80px;
+  background: rgba(253, 247, 238, 0.97);
   -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border-light);
-  box-shadow: var(--sh-soft);
+  border-bottom: 2px solid rgba(184,137,42,0.18);
+  box-shadow: 0 2px 20px rgba(123,31,46,0.08);
   display: flex;
   align-items: center;
   padding: 0 clamp(1rem, 3vw, 2.5rem);
@@ -37,23 +37,24 @@
 
 .brandMain {
   font-family: var(--font-label);
-  font-size: clamp(0.58rem, 0.6vw, 0.7rem);
+  font-size: clamp(0.9rem, 1.05vw, 1.15rem);
   font-weight: 700;
   color: var(--crimson);
-  letter-spacing: 0.06em;
-  line-height: 1.3;
+  letter-spacing: 0.05em;
+  line-height: 1.25;
   white-space: nowrap;
 }
 
 .brandSub {
   font-family: var(--font-label);
-  font-size: clamp(0.44rem, 0.45vw, 0.52rem);
+  font-size: clamp(0.62rem, 0.68vw, 0.74rem);
   font-weight: 400;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.14em;
   color: var(--gold);
   display: block;
-  margin-top: 0;
+  margin-top: 0.1rem;
   white-space: nowrap;
+  text-transform: uppercase;
 }
 
 .nav {
@@ -65,7 +66,7 @@
 
 .navLink {
   font-family: var(--font-label);
-  font-size: clamp(0.6rem, 0.7vw, 0.78rem);
+  font-size: clamp(0.72rem, 0.78vw, 0.86rem);
   font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;

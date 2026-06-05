@@ -15,7 +15,7 @@
 
 /* ── Controls (outside sheet) ── */
 .controls { display: flex; justify-content: flex-start; align-items: center; margin-bottom: 1rem; max-width: 840px; margin-left: auto; margin-right: auto; }
-.btnBack { padding: 0.55rem 1.8rem; background: transparent; border: 1.5px solid #E60000; color: #E60000; cursor: pointer; font-family: 'Cinzel', serif; font-size: 0.58rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; }
+.btnBack { padding: 0.55rem 1.8rem; background: transparent; border: 1.5px solid #E60000; color: #E60000; cursor: pointer; font-family: 'Cinzel', serif; font-size: 0.80rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; }
 
 /* ── A4 Sheet — exact original dimensions ── */
 .sheet {
@@ -146,7 +146,7 @@
   color: #E60000;
   cursor: pointer;
   font-family: 'Cinzel', serif;
-  font-size: 0.58rem;
+  font-size: 0.80rem;
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;

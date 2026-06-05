@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
+import { useState, useEffect } from 'react'
+import { collection, addDoc, serverTimestamp, getDocs, query, where, orderBy } from 'firebase/firestore'
 import { db } from '@/lib/firebase'
 import s from './static.module.css'
 
@@ -14,7 +14,10 @@ const STATIC_STORIES = [
   { names: 'Roja & Naresh Reddy', year: 'Married · June 2023 · USA', text: '"Two Telangana families in the USA, united by NRMB. A beautifully bridged distance."' },
 ]
 
+interface Story { names: string; year: string; text: string }
+
 export default function StoriesPage({ desktop = false }: { desktop?: boolean }) {
+  const [dynamicStories, setDynamicStories] = useState<Story[]>([])
   const [n1, setN1] = useState('')
   const [n2, setN2] = useState('')
   const [yr, setYr] = useState('')
@@ -23,6 +26,22 @@ export default function StoriesPage({ desktop = false }: { desktop?: boolean }) 
   const [contact, setContact] = useState('')
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    getDocs(query(collection(db, 'stories'), where('status', '==', 'approved'), orderBy('createdAt', 'desc')))
+      .then(snap => {
+        const loaded = snap.docs.map(d => {
+          const data = d.data()
+          return {
+            names: data.names ?? '',
+            year: data.year ? `Married · ${data.year}${data.location ? ` · ${data.location}` : ''}` : '',
+            text: data.text ?? '',
+          } as Story
+        })
+        setDynamicStories(loaded)
+      })
+      .catch(() => {/* silent */})
+  }, [])
 
   async function submit() {
     if (!n1.trim() || !n2.trim() || !yr || !msg.trim()) return
@@ -59,8 +78,8 @@ export default function StoriesPage({ desktop = false }: { desktop?: boolean }) 
         </div>
 
         <div className={`${s.storiesGrid} ${desktop ? s.storiesGridDesktop : ''}`}>
-          {STATIC_STORIES.map(st => (
-            <div key={st.names} className={s.storyCard}>
+          {[...dynamicStories, ...STATIC_STORIES].map((st, i) => (
+            <div key={`${st.names}-${i}`} className={s.storyCard}>
               <div className={s.storyNames}>{st.names}</div>
               <div className={s.storyMeta}>{st.year}</div>
               <div className={s.storyText}>{st.text}</div>
