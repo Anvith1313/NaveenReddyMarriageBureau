@@ -8,6 +8,7 @@ import { db } from '@/lib/firebase'
 import { useAuth } from '@/lib/AuthProvider'
 import { Profile, formatIncome } from '@/lib/types'
 import s from './profileDetail.module.css'
+import { SlideButton } from '@/components/ui/slide-button'
 
 function Row({ label, value }: { label: string; value?: string | number }) {
   if (!value && value !== 0) return null
@@ -150,9 +151,11 @@ export default function ProfileDetailPage({ uid, desktop = false }: { uid: strin
 
           {!isMe && (
             <div className={s.actions}>
-              <button className={`${s.btnInterest} ${interestSent ? s.btnInterestSent : ''}`} onClick={sendInterest} disabled={interestSent}>
-                {interestSent ? '✓ Interest Sent' : '💌 Send Interest'}
-              </button>
+              {interestSent ? (
+                <div className={s.interestSentBadge}>✓ Interest Sent</div>
+              ) : (
+                <SlideButton onComplete={sendInterest} label="Slide to Send Interest" />
+              )}
               <button className={`${s.btnSave} ${saved ? s.btnSaveSaved : ''}`} onClick={toggleSave} aria-label={saved ? 'Unsave' : 'Save'}>
                 {saved ? '♥' : '♡'}
               </button>
@@ -205,9 +208,11 @@ export default function ProfileDetailPage({ uid, desktop = false }: { uid: strin
 
         {!isMe && (
           <div className={s.bottomActions}>
-            <button className={`${s.btnInterestLg} ${interestSent ? s.btnInterestSentLg : ''}`} onClick={sendInterest} disabled={interestSent}>
-              {interestSent ? '✓ Interest Sent' : '💌 Send Interest'}
-            </button>
+            {interestSent ? (
+              <div className={s.interestSentBadge}>✓ Interest Sent</div>
+            ) : (
+              <SlideButton onComplete={sendInterest} label="Slide to Express Interest" />
+            )}
             <button className={`${s.btnSaveLg} ${saved ? s.btnSaveSavedLg : ''}`} onClick={toggleSave}>
               {saved ? '♥ Saved' : '♡ Save Profile'}
             </button>

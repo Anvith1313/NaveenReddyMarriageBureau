@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth'
 import { doc, setDoc, getDoc, deleteDoc, collection, query, where, getDocs } from 'firebase/firestore'
 import { auth, db } from '@/lib/firebase'
+import { RichSelect } from '@/components/ui/rich-select'
 import {
   useSignupForm,
   INDIA_STATES, HEIGHTS, GOTRAS, NAKSHATRAS, RASHIS,
@@ -366,10 +367,7 @@ function Inner() {
         <div className={s.qText}>A bit about your appearance</div>
         <div className={s.field}>
           <label className={s.fieldLabel}>Height *</label>
-          <select className={s.select} aria-label="Height" value={f.height} onChange={e => set('height', e.target.value)}>
-            <option value="">Select height</option>
-            {HEIGHTS.map(h => <option key={h}>{h}</option>)}
-          </select>
+          <RichSelect options={HEIGHTS} value={f.height} onChange={v => set('height', v)} placeholder="Select height" ariaLabel="Height" />
         </div>
         <div className={s.field}>
           <label className={s.fieldLabel}>Complexion</label>
@@ -400,18 +398,11 @@ function Inner() {
         <div className={s.fieldGrid2}>
           <div className={s.field}>
             <label className={s.fieldLabel}>State *</label>
-            <select className={s.select} aria-label="State" value={f.state} onChange={e => set('state', e.target.value)}>
-              <option value="">Select</option>
-              {INDIA_STATES.map(st => <option key={st}>{st}</option>)}
-            </select>
+            <RichSelect options={INDIA_STATES} value={f.state} onChange={v => set('state', v)} placeholder="Select state" ariaLabel="State" />
           </div>
           <div className={s.field}>
             <label className={s.fieldLabel}>Country</label>
-            <select className={s.select} aria-label="Country" value={f.country} onChange={e => set('country', e.target.value)}>
-              {['India','USA','UK','UAE','Canada','Australia','Singapore','Other'].map(c => (
-                <option key={c}>{c}</option>
-              ))}
-            </select>
+            <RichSelect options={['India','USA','UK','UAE','Canada','Australia','Singapore','Other']} value={f.country} onChange={v => set('country', v)} placeholder="Select country" ariaLabel="Country" />
           </div>
         </div>
       </>)
@@ -442,31 +433,19 @@ function Inner() {
         <div className={s.fieldGrid2}>
           <div className={s.field}>
             <label className={s.fieldLabel}>Gotra</label>
-            <select className={s.select} aria-label="Gotra" value={f.gotra} onChange={e => set('gotra', e.target.value)}>
-              <option value="">Select</option>
-              {GOTRAS.map(g => <option key={g}>{g}</option>)}
-            </select>
+            <RichSelect options={GOTRAS} value={f.gotra} onChange={v => set('gotra', v)} placeholder="Select gotra" ariaLabel="Gotra" />
           </div>
           <div className={s.field}>
             <label className={s.fieldLabel}>Father&apos;s Gotra</label>
-            <select className={s.select} aria-label="Father's Gotra" value={f.fatherGotra} onChange={e => set('fatherGotra', e.target.value)}>
-              <option value="">Select</option>
-              {GOTRAS.map(g => <option key={g}>{g}</option>)}
-            </select>
+            <RichSelect options={GOTRAS} value={f.fatherGotra} onChange={v => set('fatherGotra', v)} placeholder="Select gotra" ariaLabel="Father's Gotra" />
           </div>
           <div className={s.field}>
             <label className={s.fieldLabel}>Nakshatra</label>
-            <select className={s.select} aria-label="Nakshatra" value={f.nakshatra} onChange={e => set('nakshatra', e.target.value)}>
-              <option value="">Select</option>
-              {NAKSHATRAS.map(n => <option key={n}>{n}</option>)}
-            </select>
+            <RichSelect options={NAKSHATRAS} value={f.nakshatra} onChange={v => set('nakshatra', v)} placeholder="Select nakshatra" ariaLabel="Nakshatra" />
           </div>
           <div className={s.field}>
             <label className={s.fieldLabel}>Rashi</label>
-            <select className={s.select} aria-label="Rashi" value={f.rashi} onChange={e => set('rashi', e.target.value)}>
-              <option value="">Select</option>
-              {RASHIS.map(r => <option key={r}>{r}</option>)}
-            </select>
+            <RichSelect options={RASHIS} value={f.rashi} onChange={v => set('rashi', v)} placeholder="Select rashi" ariaLabel="Rashi" />
           </div>
         </div>
       </>)
@@ -476,12 +455,11 @@ function Inner() {
         <div className={s.qText}>What is your highest qualification?</div>
         <div className={s.field}>
           <label className={s.fieldLabel}>Qualification *</label>
-          <select className={s.select} aria-label="Highest Qualification" value={f.highestQual} onChange={e => set('highestQual', e.target.value)}>
-            <option value="">Select</option>
-            {['High School','Diploma','B.A.','B.Com','B.Sc','B.Tech / B.E.','MBBS','BDS',
-              'LLB','M.A.','M.Com','M.Sc','M.Tech / M.E.','MBA','MCA','MD / MS',
-              'CA / ICAI','Ph.D','Other'].map(q => <option key={q}>{q}</option>)}
-          </select>
+          <RichSelect
+            options={['High School','Diploma','B.A.','B.Com','B.Sc','B.Tech / B.E.','MBBS','BDS','LLB','M.A.','M.Com','M.Sc','M.Tech / M.E.','MBA','MCA','MD / MS','CA / ICAI','Ph.D','Other']}
+            value={f.highestQual} onChange={v => set('highestQual', v)}
+            placeholder="Select qualification" ariaLabel="Highest Qualification"
+          />
         </div>
         <div className={s.field}>
           <label className={s.fieldLabel}>College / University</label>
@@ -509,11 +487,7 @@ function Inner() {
         <div className={s.fieldGrid2}>
           <div className={s.field}>
             <label className={s.fieldLabel}>Annual Income</label>
-            <select className={s.select} aria-label="Annual Income" value={f.annualIncome} onChange={e => set('annualIncome', e.target.value)}>
-              <option value="">Select</option>
-              {['Below 3 Lakhs','3–5 Lakhs','5–10 Lakhs','10–20 Lakhs',
-                '20–50 Lakhs','50L–1 Crore','1 Crore+'].map(i => <option key={i}>{i}</option>)}
-            </select>
+            <RichSelect options={['Below 3 Lakhs','3–5 Lakhs','5–10 Lakhs','10–20 Lakhs','20–50 Lakhs','50L–1 Crore','1 Crore+']} value={f.annualIncome} onChange={v => set('annualIncome', v)} placeholder="Select income range" ariaLabel="Annual Income" />
           </div>
           <div className={s.field}>
             <label className={s.fieldLabel}>Work City</label>
@@ -562,10 +536,7 @@ function Inner() {
           </div>
           <div className={s.field}>
             <label className={s.fieldLabel}>Father&apos;s Status</label>
-            <select className={s.select} aria-label="Father's Status" value={f.fatherStatus} onChange={e => set('fatherStatus', e.target.value)}>
-              <option value="">Select</option>
-              {['Employed','Business','Retired','Expired'].map(v => <option key={v}>{v}</option>)}
-            </select>
+            <RichSelect options={['Employed','Business','Retired','Expired']} value={f.fatherStatus} onChange={v => set('fatherStatus', v)} placeholder="Select status" ariaLabel="Father's Status" />
           </div>
           <div className={s.field}>
             <label className={s.fieldLabel}>Mother&apos;s Name</label>
@@ -573,10 +544,7 @@ function Inner() {
           </div>
           <div className={s.field}>
             <label className={s.fieldLabel}>Mother&apos;s Status</label>
-            <select className={s.select} aria-label="Mother's Status" value={f.motherStatus} onChange={e => set('motherStatus', e.target.value)}>
-              <option value="">Select</option>
-              {['Homemaker','Working','Retired','Expired'].map(v => <option key={v}>{v}</option>)}
-            </select>
+            <RichSelect options={['Homemaker','Working','Retired','Expired']} value={f.motherStatus} onChange={v => set('motherStatus', v)} placeholder="Select status" ariaLabel="Mother's Status" />
           </div>
         </div>
       </>)
@@ -599,12 +567,7 @@ function Inner() {
         </div>
         <div className={s.field}>
           <label className={s.fieldLabel}>Preferred Income</label>
-          <select className={s.select} aria-label="Preferred Income" value={f.ppIncome} onChange={e => set('ppIncome', e.target.value)}>
-            <option value="">Any</option>
-            {['3–5 Lakhs','5–10 Lakhs','10–20 Lakhs','20–50 Lakhs','50L–1 Crore','1 Crore+'].map(i => (
-              <option key={i}>{i}</option>
-            ))}
-          </select>
+          <RichSelect options={['Any','3–5 Lakhs','5–10 Lakhs','10–20 Lakhs','20–50 Lakhs','50L–1 Crore','1 Crore+']} value={f.ppIncome || 'Any'} onChange={v => set('ppIncome', v === 'Any' ? '' : v)} placeholder="Any" ariaLabel="Preferred Income" />
         </div>
         <div className={s.field}>
           <label className={s.fieldLabel}>NRI Preference</label>

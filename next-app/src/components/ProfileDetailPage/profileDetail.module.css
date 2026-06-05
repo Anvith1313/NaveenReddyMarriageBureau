@@ -43,6 +43,7 @@
 .btnInterest { flex: 1; padding: 0.75rem; background: var(--crimson); color: white; border: none; border-radius: 8px; font-family: var(--font-body); font-size: 0.95rem; cursor: pointer; transition: opacity 0.2s; }
 .btnInterest:hover:not(:disabled) { opacity: 0.85; }
 .btnInterestSent { background: var(--border); color: var(--muted); cursor: default; }
+.interestSentBadge { flex: 1; padding: 0.75rem; background: rgba(123,30,60,0.08); color: var(--crimson); border: 1px solid rgba(123,30,60,0.2); border-radius: 8px; font-family: var(--font-inter), 'Inter', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; text-align: center; }
 .btnSave { width: 48px; padding: 0.75rem; background: white; color: var(--crimson); border: 1.5px solid var(--border); border-radius: 8px; font-size: 1.3rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 .btnSaveSaved { border-color: var(--crimson); background: #FFF0F2; }
 
