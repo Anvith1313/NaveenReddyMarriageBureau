@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import s from './landing.module.css'
 import { useReveal, useCountUp } from '@/lib/useReveal'
+import { FloatingPaths } from '@/components/ui/background-paths'
 
 function VerifiedBadge({ size = 14 }: { size?: number }) {
   return (
@@ -113,8 +114,10 @@ export default function LandingPage({ mobile = false }: { mobile?: boolean }) {
           <div className={s.heroPhotoVignette} />
         </div>
 
-        {/* Text panel */}
+        {/* Text panel — animated path background */}
         <div className={s.heroText}>
+          <FloatingPaths position={1} />
+          <FloatingPaths position={-1} />
           <div className={s.heroTextInner}>
 
             <p className={s.heroEyebrow}>
@@ -194,6 +197,31 @@ export default function LandingPage({ mobile = false }: { mobile?: boolean }) {
         <div className={s.statItem}>
           <span className={s.statN}><span ref={refDistr}>50+</span></span>
           <span className={s.statL}>Districts Covered</span>
+        </div>
+      </div>
+
+      {/* ══════════════════════════════════════════════
+          PHILOSOPHY INTERLUDE — animated paths
+          Full-width section with NRMB brand tagline
+      ══════════════════════════════════════════════ */}
+      <div className={s.philosophySection}>
+        <div className={s.philosophyPaths}>
+          <FloatingPaths position={1} />
+          <FloatingPaths position={-1} />
+        </div>
+        <div className={s.philosophyInner}>
+          <p className={s.philosophyEyebrow}>
+            <span className={s.philosophyRule} />
+            Our Promise
+            <span className={s.philosophyRule} />
+          </p>
+          <blockquote className={s.philosophyQuote}>
+            &ldquo;We do not simply match profiles.<br />
+            We unite families, honour traditions,<br />
+            and protect the sacred trust<br />
+            you place in us.&rdquo;
+          </blockquote>
+          <p className={s.philosophyAttrib}>— Mr. Naveen Reddy Ravula, Founder &amp; Head of Bureau</p>
         </div>
       </div>
 

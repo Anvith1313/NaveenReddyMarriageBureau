@@ -336,6 +336,77 @@
 .sectionSubLight { composes: sectionSub; }
 
 /* ══════════════════════════════════════════════════════════════
+   PHILOSOPHY INTERLUDE — animated paths section
+══════════════════════════════════════════════════════════════ */
+.philosophySection {
+  position: relative;
+  background: #FFFDF8;
+  padding: 7rem 2rem;
+  text-align: center;
+  overflow: hidden;
+  border-top: 1px solid #E7D9C8;
+  border-bottom: 1px solid #E7D9C8;
+}
+.philosophySection::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(200,162,74,0.45), transparent);
+}
+
+.philosophyPaths {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.55;
+}
+
+.philosophyInner {
+  position: relative;
+  z-index: 1;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.philosophyEyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  font-family: var(--font-inter), 'Inter', sans-serif;
+  font-size: 0.58rem; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase;
+  color: #C8A24A;
+  margin-bottom: 2.5rem;
+}
+.philosophyRule {
+  display: block; width: 32px; height: 1px;
+  background: rgba(200,162,74,0.5);
+}
+
+.philosophyQuote {
+  font-family: var(--font-cormorant), 'Cormorant Garamond', serif;
+  font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+  font-weight: 400;
+  font-style: italic;
+  color: #3A2B23;
+  line-height: 1.65;
+  letter-spacing: 0.01em;
+  margin: 0 0 2rem;
+  border: none;
+  padding: 0;
+}
+
+.philosophyAttrib {
+  font-family: var(--font-inter), 'Inter', sans-serif;
+  font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+  color: #6B5C52;
+}
+
+@media (max-width: 640px) {
+  .philosophySection { padding: 5rem 1.5rem; }
+  .philosophyQuote { font-size: clamp(1.35rem, 5.5vw, 1.8rem); }
+}
+
+/* ══════════════════════════════════════════════════════════════
    FEATURES — editorial list, no boxes
    Background: warm parchment
 ══════════════════════════════════════════════════════════════ */
