@@ -1,5 +1,36 @@
 @import "tailwindcss";
 
+/* ── Splash screen CSS ───────────────────────────────────────────────────── */
+@keyframes splashDrop {
+  from { opacity: 0; transform: translateY(-80px) scale(0.9); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes splashFade {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes splashLine {
+  from { transform: scaleX(0); opacity: 0; }
+  to   { transform: scaleX(1); opacity: 1; }
+}
+
+.splash-overlay {
+  position: fixed; inset: 0; z-index: 9999;
+  background: #FFFDF8;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  transform: translateY(0);
+  transition: transform 0.85s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+.splash-exit { transform: translateY(-100%); }
+
+/* Individual element animations — all use 'backwards' so they're invisible before delay */
+.splash-logo  { animation: splashDrop 0.75s cubic-bezier(0.34, 1.2, 0.64, 1) 0.1s backwards; }
+.splash-title { animation: splashFade 0.65s ease-out 0.65s backwards; }
+.splash-sub   { animation: splashFade 0.6s ease-out 0.85s backwards; }
+.splash-tag   { animation: splashFade 0.6s ease-out 1.05s backwards; }
+.splash-line  { animation: splashLine 0.7s ease-out 0.3s backwards; transform-origin: center; }
+
 /* ── @property must be declared at document root level before any rule uses it.
    This registers --gradient-angle as an animatable <angle> type so browsers
    can interpolate it inside @keyframes (required for conic-gradient animation). */
