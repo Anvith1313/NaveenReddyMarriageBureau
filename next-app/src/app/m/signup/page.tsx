@@ -82,6 +82,34 @@ const SCREENS = [
 type ScreenId = typeof SCREENS[number]
 const OPTIONAL: ScreenId[] = ['native', 'community', 'family', 'partner']
 
+// Category labels — replaces "Step X of Y"
+const SCREEN_LABELS: Record<ScreenId, string> = {
+  for: 'Your Profile', rel: 'Your Status', name: 'About You', dob: 'Your Birthday',
+  height: 'Your Appearance', location: 'Where You Live', native: 'Your Roots',
+  community: 'Your Community', education: 'Education', career: 'Career',
+  lifestyle: 'Your Lifestyle', family: 'Your Family', partner: 'Partner Preferences',
+  account: 'Your Account', tier: 'Membership', review: 'Almost Done',
+}
+
+const LS_KEY = 'nrmb_signup_v1'
+
+function saveLocal(f: SignupFormState, idx: number) {
+  try {
+    const d: Record<string, unknown> = { __idx: idx }
+    DRAFT_FIELDS.forEach(k => { if (f[k]) d[k] = f[k] })
+    localStorage.setItem(LS_KEY, JSON.stringify(d))
+  } catch {}
+}
+
+function loadLocal(): { data: Record<string, unknown>; idx: number } | null {
+  try {
+    const raw = localStorage.getItem(LS_KEY)
+    if (!raw) return null
+    const d = JSON.parse(raw) as Record<string, unknown>
+    return { data: d, idx: typeof d.__idx === 'number' ? d.__idx : 0 }
+  } catch { return null }
+}
+
 // ── Main ──────────────────────────────────────────────────────────────────────
 function Inner() {
   const router = useRouter()
@@ -92,6 +120,8 @@ function Inner() {
   const [showPass, setShowPass] = useState(false)
   const [draftData, setDraftData] = useState<Record<string, unknown> | null>(null)
   const [showDraft, setShowDraft] = useState(false)
+  const [showLocalDraft, setShowLocalDraft] = useState(false)
+  const localDraftRef = useRef<{ data: Record<string, unknown>; idx: number } | null>(null)
   const refCode = searchParams.get('ref') ?? ''
   const draftSaved = useRef(false)
   const progressFillRef = useRef<HTMLDivElement>(null)
@@ -100,7 +130,16 @@ function Inner() {
   const pct = Math.round((idx / (total - 1)) * 100)
   const screen: ScreenId = SCREENS[idx]
 
-  // Set progress width via ref to avoid JSX inline style lint warning
+  // On mount: check localStorage for a saved draft
+  useEffect(() => {
+    const local = loadLocal()
+    if (local && Object.keys(local.data).length > 1) {
+      localDraftRef.current = local
+      setShowLocalDraft(true)
+    }
+  }, [])
+
+  // Progress bar width via ref
   useEffect(() => {
     if (progressFillRef.current) {
       progressFillRef.current.style.width = `${pct}%`
@@ -108,6 +147,14 @@ function Inner() {
   }, [pct])
 
   function err(m: string) { setError(m); if (typeof window !== 'undefined') window.scrollTo(0, 0) }
+
+  function restoreLocalDraft() {
+    const local = localDraftRef.current
+    if (!local) return
+    DRAFT_FIELDS.forEach(k => { if (local.data[k] !== undefined) set(k, local.data[k] as never) })
+    setIdx(local.idx)
+    setShowLocalDraft(false)
+  }
 
   async function checkDraft() {
     const email = f.email.trim().toLowerCase()
@@ -137,12 +184,25 @@ function Inner() {
   function next() {
     setError('')
     saveDraft()
+    saveLocal(f, Math.min(idx + 1, total - 1))
     setDir('fwd')
     setIdx(i => Math.min(i + 1, total - 1))
     window.scrollTo(0, 0)
   }
-  function back() { setError(''); setDir('bck'); setIdx(i => Math.max(i - 1, 0)); window.scrollTo(0, 0) }
-  function skip() { setError(''); setDir('fwd'); setIdx(i => Math.min(i + 1, total - 1)); window.scrollTo(0, 0) }
+  function back() {
+    setError('')
+    saveLocal(f, Math.max(idx - 1, 0))
+    setDir('bck')
+    setIdx(i => Math.max(i - 1, 0))
+    window.scrollTo(0, 0)
+  }
+  function skip() {
+    setError('')
+    saveLocal(f, Math.min(idx + 1, total - 1))
+    setDir('fwd')
+    setIdx(i => Math.min(i + 1, total - 1))
+    window.scrollTo(0, 0)
+  }
 
   function canProceed() {
     switch (screen) {
@@ -206,12 +266,18 @@ function Inner() {
         ...(refCode ? { referredBy: refCode } : {}),
       })
       deleteDoc(doc(db, 'drafts', f.email.trim().toLowerCase())).catch(() => {})
-      router.push('/verify')
+      try { localStorage.removeItem(LS_KEY) } catch {}
+      router.push('/m/verify')
     } catch (e: unknown) {
       const code = (e as { code?: string }).code
-      err(code === 'auth/email-already-in-use' ? 'This email is already registered. Please sign in.' :
-          code === 'auth/weak-password' ? 'Password too weak. Use at least 6 characters.' :
-          'Registration failed. Please try again.')
+      const msg = code === 'auth/email-already-in-use'
+        ? 'This email is already registered. Go back to step "About You" and sign in instead.'
+        : code === 'auth/weak-password'
+        ? 'Password too weak. Go back and choose a password with at least 6 characters.'
+        : code === 'auth/invalid-email'
+        ? 'The email address is invalid. Please go back and correct it.'
+        : `Registration could not be completed (${code ?? 'unknown error'}). Please try again or contact support.`
+      err(msg)
     }
     setLoading(false)
   }
@@ -222,7 +288,7 @@ function Inner() {
     switch (screen) {
 
       case 'for': return (<>
-        <div className={s.qNum}>Step {n} of {total}</div>
+        <div className={s.qNum}>{SCREEN_LABELS[screen]}</div>
         <div className={s.qText}>Creating a profile for…</div>
         <div className={s.qDetail}>Who is this matrimony profile for?</div>
         <div className={s.tileGrid}>
@@ -241,7 +307,7 @@ function Inner() {
       </>)
 
       case 'rel': return (<>
-        <div className={s.qNum}>Step {n} of {total}</div>
+        <div className={s.qNum}>{SCREEN_LABELS[screen]}</div>
         <div className={s.qText}>Current relationship status?</div>
         <div className={s.radioRow}>
           {['Never Married','Divorced','Widowed','Separated'].map(v => (
@@ -252,7 +318,7 @@ function Inner() {
       </>)
 
       case 'name': return (<>
-        <div className={s.qNum}>Step {n} of {total}</div>
+        <div className={s.qNum}>{SCREEN_LABELS[screen]}</div>
         <div className={s.qText}>What is your full name?</div>
         {showDraft && (
           <div className={s.draftBanner}>
@@ -284,7 +350,7 @@ function Inner() {
       </>)
 
       case 'dob': return (<>
-        <div className={s.qNum}>Step {n} of {total}</div>
+        <div className={s.qNum}>{SCREEN_LABELS[screen]}</div>
         <div className={s.qText}>When were you born?</div>
         <div className={s.qDetail}>Your age is shown publicly, not the exact date. Min age: 21 (Male), 18 (Female).</div>
         <div className={s.field}>
@@ -296,7 +362,7 @@ function Inner() {
       </>)
 
       case 'height': return (<>
-        <div className={s.qNum}>Step {n} of {total}</div>
+        <div className={s.qNum}>{SCREEN_LABELS[screen]}</div>
         <div className={s.qText}>A bit about your appearance</div>
         <div className={s.field}>
           <label className={s.fieldLabel}>Height *</label>
@@ -324,7 +390,7 @@ function Inner() {
       </>)
 
       case 'location': return (<>
-        <div className={s.qNum}>Step {n} of {total}</div>
+        <div className={s.qNum}>{SCREEN_LABELS[screen]}</div>
         <div className={s.qText}>Where do you currently live?</div>
         <div className={s.field}>
           <label className={s.fieldLabel}>City *</label>
@@ -351,7 +417,7 @@ function Inner() {
       </>)
 
       case 'native': return (<>
-        <div className={s.qNum}>Step {n} of {total}</div>
+        <div className={s.qNum}>{SCREEN_LABELS[screen]}</div>
         <div className={s.qText}>Where are you originally from?</div>
         <div className={s.field}>
           <label className={s.fieldLabel}>Native Place</label>
@@ -370,7 +436,7 @@ function Inner() {
       </>)
 
       case 'community': return (<>
-        <div className={s.qNum}>Step {n} of {total}</div>
+        <div className={s.qNum}>{SCREEN_LABELS[screen]}</div>
         <div className={s.qText}>Your community details</div>
         <div className={s.qDetail}>Helps us find the most compatible Reddy matches.</div>
         <div className={s.fieldGrid2}>
@@ -406,7 +472,7 @@ function Inner() {
       </>)
 
       case 'education': return (<>
-        <div className={s.qNum}>Step {n} of {total}</div>
+        <div className={s.qNum}>{SCREEN_LABELS[screen]}</div>
         <div className={s.qText}>What is your highest qualification?</div>
         <div className={s.field}>
           <label className={s.fieldLabel}>Qualification *</label>
@@ -425,7 +491,7 @@ function Inner() {
       </>)
 
       case 'career': return (<>
-        <div className={s.qNum}>Step {n} of {total}</div>
+        <div className={s.qNum}>{SCREEN_LABELS[screen]}</div>
         <div className={s.qText}>What do you do for work?</div>
         <div className={s.field}>
           <label className={s.fieldLabel}>Employed In *</label>
@@ -458,7 +524,7 @@ function Inner() {
       </>)
 
       case 'lifestyle': return (<>
-        <div className={s.qNum}>Step {n} of {total}</div>
+        <div className={s.qNum}>{SCREEN_LABELS[screen]}</div>
         <div className={s.qText}>Tell us about your lifestyle</div>
         <div className={s.field}>
           <label className={s.fieldLabel}>Diet *</label>
@@ -478,7 +544,7 @@ function Inner() {
       </>)
 
       case 'family': return (<>
-        <div className={s.qNum}>Step {n} of {total}</div>
+        <div className={s.qNum}>{SCREEN_LABELS[screen]}</div>
         <div className={s.qText}>A little about your family</div>
         <div className={s.qDetail}>Family background matters in our community. You can update these later too.</div>
         <div className={s.field}>
@@ -516,7 +582,7 @@ function Inner() {
       </>)
 
       case 'partner': return (<>
-        <div className={s.qNum}>Step {n} of {total}</div>
+        <div className={s.qNum}>{SCREEN_LABELS[screen]}</div>
         <div className={s.qText}>What are you looking for in a partner?</div>
         <div className={s.qDetail}>These are preferences — just a starting point. You can refine later.</div>
         <div className={s.fieldGrid2}>
@@ -551,13 +617,13 @@ function Inner() {
       </>)
 
       case 'account': return (<>
-        <div className={s.qNum}>Step {n} of {total}</div>
+        <div className={s.qNum}>{SCREEN_LABELS[screen]}</div>
         <div className={s.qText}>Set up your account</div>
         <div className={s.qDetail}>Choose a unique username — this is your identity on the platform.</div>
         <div className={s.field}>
           <label className={s.fieldLabel}>Username *</label>
           <input className={s.input} placeholder="e.g. kavya_r" value={f.username}
-            onChange={e => set('username', e.target.value.toLowerCase().replace(/\s/g, ''))}
+            onChange={e => set('username', e.target.value.toLowerCase().replace(/[^a-z0-9_]/g, ''))}
             autoComplete="username" />
           <div className={s.hint}>Letters, numbers and underscores only.</div>
         </div>
@@ -581,7 +647,7 @@ function Inner() {
       </>)
 
       case 'tier': return (<>
-        <div className={s.qNum}>Step {n} of {total}</div>
+        <div className={s.qNum}>{SCREEN_LABELS[screen]}</div>
         <div className={s.qText}>Choose your membership plan</div>
         <div className={s.qDetail}>All plans include full access. You can upgrade anytime from your profile.</div>
         <div className={s.tierGrid}>
@@ -605,7 +671,7 @@ function Inner() {
       </>)
 
       case 'review': return (<>
-        <div className={s.qNum}>Final Step</div>
+        <div className={s.qNum}>Almost Done</div>
         <div className={s.qText}>Almost done! Review your profile</div>
         <div className={s.qDetail}>A quick look at what you&apos;ve shared. You can always edit after registering.</div>
         <div className={s.summaryGrid}>
@@ -644,6 +710,15 @@ function Inner() {
           <div ref={progressFillRef} className={s.progressFill} />
         </div>
       </div>
+
+      {/* Local draft restore banner */}
+      {showLocalDraft && (
+        <div className={s.draftBanner}>
+          <span className={s.draftText}>Welcome back — you have an unfinished profile. Continue where you left off?</span>
+          <button type="button" className={s.draftYes} onClick={restoreLocalDraft}>Continue</button>
+          <button type="button" className={s.draftNo} onClick={() => { setShowLocalDraft(false); localStorage.removeItem(LS_KEY) }}>Start fresh</button>
+        </div>
+      )}
 
       {/* Screen */}
       <div key={`${screen}-${dir}`} className={`${s.screen} ${dir === 'bck' ? s.screenBack : ''}`}>

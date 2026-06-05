@@ -58,10 +58,9 @@
 
 /* ── Screen card ──────────────────────────────────── */
 .screen {
-  /* Don't stretch to fill all space — let content size it naturally */
   display: flex;
   flex-direction: column;
-  padding: 1.6rem 1.2rem 1.2rem;
+  padding: 1.6rem 1.4rem 1.2rem;
   will-change: transform, opacity;
   animation: slideIn 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
@@ -82,30 +81,41 @@
 
 /* ── Question header ──────────────────────────────── */
 .qNum {
-  font-family: var(--font-label);
-  font-size: 0.74rem;
-  letter-spacing: 0.18em;
+  font-family: var(--font-inter), 'Inter', sans-serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 0.5rem;
+  color: #C8A24A;
+  margin-bottom: 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.qNum::before {
+  content: '';
+  display: block;
+  width: 20px;
+  height: 1px;
+  background: rgba(200,162,74,0.5);
+  flex-shrink: 0;
 }
 
 .qText {
-  font-family: var(--font-heading);
-  font-size: clamp(1.5rem, 5vw, 2rem);
-  font-weight: 300;
+  font-family: var(--font-playfair), 'Playfair Display', serif;
+  font-size: clamp(1.45rem, 5vw, 2rem);
+  font-weight: 700;
   font-style: italic;
-  color: var(--crimson);
-  line-height: 1.25;
-  margin-bottom: 0.4rem;
+  color: #7B1E3C;
+  line-height: 1.2;
+  margin-bottom: 0.35rem;
 }
 
 .qDetail {
-  font-family: var(--font-body);
-  font-size: 0.88rem;
-  color: var(--muted);
-  line-height: 1.65;
-  margin-bottom: 1.4rem;
+  font-family: var(--font-inter), 'Inter', sans-serif;
+  font-size: 0.84rem;
+  color: #6B5C52;
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
 }
 
 /* ── Tile grid (for who/relationship/etc choices) ─── */
@@ -155,92 +165,120 @@
   color: var(--muted);
 }
 
-/* ── Form fields ──────────────────────────────────── */
+/* ── Form fields — underline style, compact ───────── */
 .field {
-  margin-bottom: 1.1rem;
+  margin-bottom: 1.4rem;
 }
 
 .fieldLabel {
   font-family: var(--font-label);
-  font-size: 0.76rem;
-  letter-spacing: 0.14em;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: #C8A24A;
   display: block;
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.35rem;
 }
 
+/* Underline input — clean, elegant, compact */
 .input {
   width: 100%;
-  padding: 0.8rem 0.9rem;
-  border: 1.5px solid rgba(184,137,42,0.25);
-  border-radius: 12px;
+  padding: 0.5rem 0.1rem;
+  background: transparent;
+  border: none;
+  border-bottom: 1.5px solid #E7D9C8;
+  border-radius: 0;
   font-family: var(--font-body);
-  font-size: 1rem;
-  color: var(--text);
-  background: #fff;
+  font-size: 0.975rem;
+  color: #3A2B23;
   outline: none;
-  transition: border-color 0.18s;
+  transition: border-color 0.2s;
   box-sizing: border-box;
 }
+.input:focus { border-bottom-color: #7B1E3C; }
+.input::placeholder { color: rgba(107,92,82,0.38); }
 
-.input:focus { border-color: var(--crimson); }
+.inputError { border-bottom-color: #c0392b !important; }
 
-.inputError { border-color: #c0392b !important; }
-
+/* Select — underline style matching input */
 .select {
-  composes: input;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23B8892A'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 0.9rem center;
-  padding-right: 2.2rem;
+  width: 100%;
+  padding: 0.5rem 1.8rem 0.5rem 0.1rem;
+  background: transparent;
+  border: none;
+  border-bottom: 1.5px solid #E7D9C8;
+  border-radius: 0;
+  font-family: var(--font-body);
+  font-size: 0.975rem;
+  color: #3A2B23;
+  outline: none;
   cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23C8A24A'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.1rem center;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
 }
+.select:focus { border-bottom-color: #7B1E3C; }
 
+/* Textarea — slightly different, keeps some structure */
 .textarea {
-  composes: input;
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  background: rgba(255,253,248,0.8);
+  border: 1px solid #E7D9C8;
+  border-radius: 6px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: #3A2B23;
+  outline: none;
+  transition: border-color 0.2s;
   resize: vertical;
-  min-height: 100px;
+  min-height: 90px;
   line-height: 1.65;
+  box-sizing: border-box;
 }
+.textarea:focus { border-color: #7B1E3C; }
+.textarea::placeholder { color: rgba(107,92,82,0.38); }
 
 .fieldGrid2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0.75rem;
+  gap: 0 1.25rem;
 }
 
 /* ── Radio row ───────────────────────────────────── */
 .radioRow {
   display: flex;
-  gap: 0.65rem;
+  gap: 0.5rem;
   flex-wrap: wrap;
-  margin-bottom: 1.1rem;
+  margin-bottom: 1.4rem;
 }
 
 .radioOpt {
   display: flex;
   align-items: center;
-  gap: 0.45rem;
+  gap: 0.35rem;
   cursor: pointer;
-  border: 1.5px solid rgba(184,137,42,0.25);
-  border-radius: 50px;
-  padding: 0.5rem 1rem;
-  background: #fff;
+  border: 1px solid #E7D9C8;
+  border-radius: 4px;
+  padding: 0.42rem 0.9rem;
+  background: #FFFFFF;
   transition: all 0.18s;
-  font-family: var(--font-body);
-  font-size: 0.92rem;
-  color: var(--text);
+  font-family: var(--font-inter), 'Inter', sans-serif;
+  font-size: 0.84rem;
+  color: #6B5C52;
 }
+.radioOpt:hover { border-color: rgba(123,30,60,0.3); color: #3A2B23; }
 
 .radioOpt input { display: none; }
 
 .radioOptSelected {
   composes: radioOpt;
-  border-color: var(--crimson);
-  background: rgba(123,31,46,0.06);
-  color: var(--crimson);
+  border-color: #7B1E3C;
+  background: rgba(123,30,60,0.05);
+  color: #7B1E3C;
   font-weight: 600;
 }
 

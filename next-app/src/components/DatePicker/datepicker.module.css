@@ -76,7 +76,49 @@
   padding: 0 0.5rem;
   background: #fffcf8;
   position: relative;
+  height: 220px;
 }
+
+/* Injected wheel elements use raw class names (not CSS Modules),
+   so must be :global — otherwise the module renames them and styles
+   never apply, making the scroll columns invisible. */
+:global(.dwp-col) {
+  flex: 1;
+  height: 220px;
+  overflow: hidden;
+  position: relative;
+  cursor: grab;
+  -webkit-user-select: none;
+  user-select: none;
+}
+:global(.dwp-col):active { cursor: grabbing; }
+:global(.dwp-track) { will-change: transform; position: relative; }
+:global(.dwp-item) {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading), 'Playfair Display', serif;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+:global(.dwp-sel-bar) {
+  position: absolute;
+  left: 4px; right: 4px;
+  top: 50%; height: 44px; margin-top: -22px;
+  background: rgba(123,30,60,0.06);
+  border-top: 1px solid rgba(123,30,60,0.14);
+  border-bottom: 1px solid rgba(123,30,60,0.14);
+  border-radius: 4px;
+  pointer-events: none; z-index: 1;
+}
+:global(.dwp-mask-t),
+:global(.dwp-mask-b) {
+  position: absolute; left: 0; right: 0; height: 88px;
+  pointer-events: none; z-index: 2;
+}
+:global(.dwp-mask-t) { top: 0; background: linear-gradient(to bottom, #fffcf8, transparent); }
+:global(.dwp-mask-b) { bottom: 0; background: linear-gradient(to top, #fffcf8, transparent); }
 
 /* ── Actions ──────────────────────────────────────── */
 .actions {
