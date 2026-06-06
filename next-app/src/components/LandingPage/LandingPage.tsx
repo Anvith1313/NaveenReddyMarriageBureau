@@ -53,9 +53,9 @@ const STEPS = [
 ]
 
 const STORIES = [
-  { names: 'Priya & Rahul Reddy',  year: 'December 2023 · Hyderabad', text: '"NRMB\'s personal attention made all the difference. Within just a few weeks we found the most perfect match our family could have hoped for."' },
-  { names: 'Ananya & Kiran Reddy', year: 'March 2024 · Bangalore',    text: '"The verification process gave our families complete confidence. We are truly and forever grateful for this beautiful blessing in our lives."' },
-  { names: 'Deepa & Vivek Reddy',  year: 'August 2023 · London',      text: '"As NRI members, the Elite service exceeded every single expectation. Truly a premium, personal experience unlike anything else we tried."' },
+  { names: 'Priya & Rahul Reddy',  year: 'December 2023 · Hyderabad', photo: '/Assets/couple-story-1.jpg', text: '"NRMB\'s personal attention made all the difference. Within just a few weeks we found the most perfect match our family could have hoped for."' },
+  { names: 'Ananya & Kiran Reddy', year: 'March 2024 · Bangalore',    photo: '/Assets/couple-story-2.jpg', text: '"The verification process gave our families complete confidence. We are truly and forever grateful for this beautiful blessing in our lives."' },
+  { names: 'Deepa & Vivek Reddy',  year: 'August 2023 · London',      photo: '/Assets/couple-story-3.jpg', text: '"As NRI members, the Elite service exceeded every single expectation. Truly a premium, personal experience unlike anything else we tried."' },
 ]
 
 export default function LandingPage({ mobile = false }: { mobile?: boolean }) {
@@ -242,6 +242,11 @@ export default function LandingPage({ mobile = false }: { mobile?: boolean }) {
           <p className={s.sectionSub}>Serving the Reddy community with privacy, dignity and personal attention for over two decades</p>
         </div>
 
+        <div className={s.featPhotoBreak}>
+          <Image src="/Assets/features-bg.jpg" alt="" fill priority={false}
+            style={{ objectFit: 'cover', objectPosition: 'center 40%' }} />
+        </div>
+
         <div className={s.featList}>
           {FEATURES.map((f, i) => (
             <div key={f.n} className={`${s.featRow} reveal`} style={{ transitionDelay: `${i * 0.06}s` }}>
@@ -319,10 +324,13 @@ export default function LandingPage({ mobile = false }: { mobile?: boolean }) {
               <div className={s.storyBody}>
                 <p className={s.storyText}>{st.text}</p>
                 <div className={s.storyMeta}>
-                  <div className={s.storyBadge} aria-label="Verified">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none">
-                      <path d="M9 12l2 2 4-4" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
+                  <div className={s.storyPortrait}>
+                    <Image src={st.photo} alt={st.names} fill style={{ objectFit: 'cover' }} />
+                    <div className={s.storyPortraitCheck}>
+                      <svg width="8" height="8" viewBox="0 0 24 24" fill="none">
+                        <path d="M9 12l2 2 4-4" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </div>
                   </div>
                   <div>
                     <div className={s.storyNames}>{st.names}</div>
