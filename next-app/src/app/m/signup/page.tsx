@@ -301,7 +301,6 @@ function Inner() {
               onClick={() => {
                 set('profileFor', label)
                 if (g) set('gender', g)
-                setTimeout(() => next(), 350)
               }} />
           ))}
         </div>
@@ -313,7 +312,7 @@ function Inner() {
         <div className={s.radioRow}>
           {['Never Married','Divorced','Widowed','Separated'].map(v => (
             <Pill key={v} label={v} selected={f.maritalStatus === v}
-              onClick={() => { set('maritalStatus', v); set('relationship', v); setTimeout(() => next(), 350) }} />
+              onClick={() => { set('maritalStatus', v); set('relationship', v) }} />
           ))}
         </div>
       </>)
@@ -621,7 +620,7 @@ function Inner() {
           ] as const).map(t => (
             <button key={t.v} type="button"
               className={f.tier === t.v ? s.tierCardSelected : s.tierCard}
-              onClick={() => { set('tier', t.v); setTimeout(() => next(), 400) }}>
+              onClick={() => { set('tier', t.v) }}>
               <span className={s.tierCardIcon}>{t.icon}</span>
               <span className={s.tierCardInfo}>
                 <span className={s.tierCardName}>{t.v}</span>
