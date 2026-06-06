@@ -9,6 +9,8 @@ import { FloatingPaths } from '@/components/ui/background-paths'
 import { BorderRotate } from '@/components/ui/animated-gradient-border'
 import { EmailClientCard } from '@/components/ui/email-client-card'
 import { SplashScreen } from '@/components/ui/splash-screen'
+import { auth } from '@/lib/firebase'
+import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
 
 function VerifiedBadge({ size = 14 }: { size?: number }) {
   return (
@@ -64,6 +66,14 @@ export default function LandingPage({ mobile = false }: { mobile?: boolean }) {
   const signupPath = mobile ? '/m/signup' : '/d/signup'
   const loginPath  = mobile ? '/m/login'  : '/d/login'
 
+  async function handleGoogle() {
+    try {
+      await signInWithPopup(auth, new GoogleAuthProvider())
+      setMenuOpen(false)
+      router.push(mobile ? '/m/dashboard' : '/d/dashboard')
+    } catch {}
+  }
+
   useReveal()
   const refMembers = useCountUp(10,   1800, 'K+')
   const refMatches = useCountUp(4500, 1800, '+')
@@ -79,7 +89,7 @@ export default function LandingPage({ mobile = false }: { mobile?: boolean }) {
       {/* ── Mobile nav ─────────────────────────────── */}
       {mobile && (
         <nav className={s.mobileNav}>
-          <div className={s.mobileNavLeft} onClick={() => router.push('/m')}>
+          <div className={s.mobileNavLeft} onClick={() => { setMenuOpen(false); router.push('/m') }}>
             <Image src="/Assets/Logo-transparent.webp" alt="NRMB" width={36} height={36} style={{ objectFit: 'contain' }} />
             <div className={s.mobileNavBrand}>
               <span className={s.mobileNavMain}>Naveen Reddy Marriage Bureau</span>
@@ -100,6 +110,11 @@ export default function LandingPage({ mobile = false }: { mobile?: boolean }) {
                 <button key={href} type="button" className={s.menuLink} onClick={() => { router.push(href); setMenuOpen(false) }}>{label}</button>
               ))}
             </div>
+            <div className={s.menuDivider} />
+            <button type="button" className={s.menuBtnGoogle} onClick={handleGoogle}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+              Continue with Google
+            </button>
             <div className={s.menuBtns}>
               <button type="button" className={s.menuBtnOutline} onClick={() => { router.push(loginPath); setMenuOpen(false) }}>Login</button>
               <button type="button" className={s.menuBtnSolid} onClick={() => { router.push(signupPath); setMenuOpen(false) }}>Sign Up</button>
@@ -151,9 +166,11 @@ export default function LandingPage({ mobile = false }: { mobile?: boolean }) {
               <button type="button" className={s.heroBtnPrimary} onClick={() => router.push(signupPath)}>
                 Begin Your Journey
               </button>
-              <button type="button" className={s.heroBtnGhost} onClick={() => router.push(loginPath)}>
-                Sign In
-              </button>
+              <BorderRotate animationMode="auto-rotate" animationSpeed={5} borderWidth={1.5} borderRadius={3} backgroundColor="transparent">
+                <button type="button" className={s.heroBtnGhost} onClick={() => router.push(loginPath)}>
+                  Sign In
+                </button>
+              </BorderRotate>
             </div>
 
             <div className={`${s.heroTrust} hero-fade hero-d6`}>
@@ -242,11 +259,6 @@ export default function LandingPage({ mobile = false }: { mobile?: boolean }) {
           <p className={s.sectionSub}>Serving the Reddy community with privacy, dignity and personal attention for over two decades</p>
         </div>
 
-        <div className={s.featPhotoBreak}>
-          <Image src="/Assets/features-bg.jpg" alt="" fill priority={false}
-            style={{ objectFit: 'cover', objectPosition: 'center 40%' }} />
-        </div>
-
         <div className={s.featList}>
           {FEATURES.map((f, i) => (
             <div key={f.n} className={`${s.featRow} reveal`} style={{ transitionDelay: `${i * 0.06}s` }}>
@@ -277,31 +289,23 @@ export default function LandingPage({ mobile = false }: { mobile?: boolean }) {
           {STEPS.map((step, i) => (
             <div key={step.n} className={`${s.processStep} reveal reveal-d${i + 1}`}>
               <div className={s.processCircleWrap}>
-                {/* BorderRotate — animated gold/rose conic border on hover */}
                 <BorderRotate
                   animationMode="rotate-on-hover"
                   animationSpeed={7}
                   borderWidth={2}
                   borderRadius={50}
                   backgroundColor="#F8F3EA"
-                  style={{
-                    width: 58,
-                    height: 58,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flexShrink: 0,
-                    boxShadow: '0 4px 18px rgba(123,30,60,0.07), 0 0 0 5px rgba(200,162,74,0.06)',
-                    transition: 'box-shadow 0.3s',
-                  }}
+                  style={{ width: 58, height: 58, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}
                 >
                   {step.icon}
                 </BorderRotate>
                 {i < STEPS.length - 1 && <div className={s.processConnector} />}
               </div>
-              <span className={s.processNum}>{step.n}</span>
-              <h3 className={s.processTitle}>{step.title}</h3>
-              <p className={s.processText}>{step.text}</p>
+              <div className={s.processStepBody}>
+                <span className={s.processNum}>{step.n}</span>
+                <h3 className={s.processTitle}>{step.title}</h3>
+                <p className={s.processText}>{step.text}</p>
+              </div>
             </div>
           ))}
         </div>
