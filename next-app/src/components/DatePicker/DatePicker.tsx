@@ -203,6 +203,7 @@ interface Props {
   placeholder?: string
   minYear?: number
   maxYear?: number
+  dark?: boolean
 }
 
 export default function DatePicker({
@@ -212,6 +213,7 @@ export default function DatePicker({
   placeholder = 'Select date',
   minYear = 1940,
   maxYear = new Date().getFullYear() - 18,
+  dark = false,
 }: Props) {
   const [open, setOpen] = useState(false)
 
@@ -284,9 +286,18 @@ export default function DatePicker({
         onClick={() => setOpen(o => !o)}
         aria-haspopup="dialog"
         aria-expanded={open ? 'true' : 'false'}
+        style={dark ? {
+          borderBottomColor: 'rgba(200,162,74,0.22)',
+          fontFamily: "var(--font-heading), 'Cormorant Garamond', serif",
+        } : undefined}
       >
-        <span className={s.triggerText}>{displayVal || placeholder}</span>
-        <svg className={s.triggerIcon} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+        <span className={s.triggerText} style={dark ? {
+          fontFamily: "var(--font-heading), 'Cormorant Garamond', serif",
+          fontSize: '1.25rem',
+          color: value ? '#F5EDD8' : 'rgba(245,237,216,0.22)',
+          fontStyle: value ? 'normal' : 'italic',
+        } : undefined}>{displayVal || placeholder}</span>
+        <svg className={s.triggerIcon} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={dark ? 'rgba(200,162,74,0.5)' : 'currentColor'} strokeWidth="1.8" strokeLinecap="round">
           <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
         </svg>
       </button>

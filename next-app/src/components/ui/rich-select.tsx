@@ -13,6 +13,8 @@ interface RichSelectProps {
   disabled?: boolean;
   /** aria-label for accessibility */
   ariaLabel?: string;
+  /** Dark theme for use on dark backgrounds */
+  dark?: boolean;
 }
 
 const listVariants = {
@@ -48,6 +50,7 @@ export function RichSelect({
   label,
   disabled = false,
   ariaLabel,
+  dark = false,
 }: RichSelectProps) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
@@ -106,14 +109,18 @@ export function RichSelect({
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          padding: "0.5rem 0.1rem",
+          padding: "0.65rem 0.1rem",
           background: "transparent",
           border: "none",
-          borderBottom: `1.5px solid ${open ? "#7B1E3C" : "#E7D9C8"}`,
+          borderBottom: dark
+            ? `1px solid ${open ? "#C8A24A" : "rgba(200,162,74,0.22)"}`
+            : `1.5px solid ${open ? "#7B1E3C" : "#E7D9C8"}`,
           borderRadius: 0,
-          fontFamily: "var(--font-inter), 'Inter', sans-serif",
-          fontSize: "0.975rem",
-          color: value ? "#3A2B23" : "rgba(107,92,82,0.38)",
+          fontFamily: dark ? "var(--font-heading), 'Cormorant Garamond', serif" : "var(--font-inter), 'Inter', sans-serif",
+          fontSize: dark ? "1.25rem" : "0.975rem",
+          color: dark
+            ? (value ? "#F5EDD8" : "rgba(245,237,216,0.22)")
+            : (value ? "#3A2B23" : "rgba(107,92,82,0.38)"),
           cursor: disabled ? "not-allowed" : "pointer",
           textAlign: "left",
           outline: "none",
@@ -145,10 +152,12 @@ export function RichSelect({
               top: "calc(100% + 4px)",
               left: 0,
               right: 0,
-              background: "#FFFFFF",
-              border: "1px solid #E7D9C8",
-              borderRadius: 8,
-              boxShadow: "0 8px 32px rgba(123,30,60,0.1), 0 2px 8px rgba(123,30,60,0.06)",
+              background: dark ? "#1A0A10" : "#FFFFFF",
+              border: dark ? "1px solid rgba(200,162,74,0.2)" : "1px solid #E7D9C8",
+              borderRadius: 12,
+              boxShadow: dark
+                ? "0 16px 48px rgba(0,0,0,0.6), 0 4px 16px rgba(0,0,0,0.4)"
+                : "0 8px 32px rgba(123,30,60,0.1), 0 2px 8px rgba(123,30,60,0.06)",
               zIndex: 200,
               overflow: "hidden",
               transformOrigin: "top",
@@ -159,14 +168,14 @@ export function RichSelect({
               <div
                 style={{
                   padding: "0.5rem 0.75rem",
-                  borderBottom: "1px solid #E7D9C8",
+                  borderBottom: dark ? "1px solid rgba(200,162,74,0.15)" : "1px solid #E7D9C8",
                   display: "flex",
                   alignItems: "center",
                   gap: "0.5rem",
-                  background: "#FFFDF8",
+                  background: dark ? "#130810" : "#FFFDF8",
                 }}
               >
-                <Search size={13} style={{ color: "#6B5C52", flexShrink: 0 }} />
+                <Search size={13} style={{ color: dark ? "rgba(200,162,74,0.5)" : "#6B5C52", flexShrink: 0 }} />
                 <input
                   ref={inputRef}
                   type="text"
@@ -182,7 +191,7 @@ export function RichSelect({
                     outline: "none",
                     fontFamily: "var(--font-inter), 'Inter', sans-serif",
                     fontSize: "0.82rem",
-                    color: "#3A2B23",
+                    color: dark ? "rgba(245,237,216,0.75)" : "#3A2B23",
                   }}
                 />
               </div>
@@ -204,19 +213,29 @@ export function RichSelect({
                   animate="show"
                   onClick={() => select(opt)}
                   style={{
-                    padding: "0.5rem 0.9rem",
+                    padding: "0.55rem 0.9rem",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "space-between",
                     cursor: "pointer",
                     fontSize: "0.875rem",
                     fontWeight: opt === value ? 600 : 400,
-                    color: opt === value ? "#7B1E3C" : "#3A2B23",
-                    background: opt === value ? "rgba(123,30,60,0.04)" : "transparent",
+                    color: dark
+                      ? (opt === value ? "#EDD898" : "rgba(245,237,216,0.72)")
+                      : (opt === value ? "#7B1E3C" : "#3A2B23"),
+                    background: dark
+                      ? (opt === value ? "rgba(200,162,74,0.12)" : "transparent")
+                      : (opt === value ? "rgba(123,30,60,0.04)" : "transparent"),
                     transition: "background 0.14s",
                   }}
-                  onMouseEnter={e => { if (opt !== value) e.currentTarget.style.background = "#F8F3EA"; }}
-                  onMouseLeave={e => { e.currentTarget.style.background = opt === value ? "rgba(123,30,60,0.04)" : "transparent"; }}
+                  onMouseEnter={e => {
+                    if (opt !== value) e.currentTarget.style.background = dark ? "rgba(200,162,74,0.07)" : "#F8F3EA";
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.background = opt === value
+                      ? (dark ? "rgba(200,162,74,0.12)" : "rgba(123,30,60,0.04)")
+                      : "transparent";
+                  }}
                 >
                   {opt}
                   {opt === value && <Check size={13} style={{ color: "#C8A24A", flexShrink: 0 }} />}

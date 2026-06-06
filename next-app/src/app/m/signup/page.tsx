@@ -356,7 +356,7 @@ function Inner() {
         <div className={s.qDetail}>Your age is shown publicly, not the exact date. Min age: 21 (Male), 18 (Female).</div>
         <div className={s.field}>
           <label className={s.fieldLabel}>Date of Birth *</label>
-          <DatePicker value={f.dob} onChange={v => set('dob', v)}
+          <DatePicker dark value={f.dob} onChange={v => set('dob', v)}
             placeholder="Select date of birth"
             maxYear={new Date().getFullYear() - (f.gender === 'Female' ? 18 : 21)} />
         </div>
@@ -367,7 +367,7 @@ function Inner() {
         <div className={s.qText}>A bit about your appearance</div>
         <div className={s.field}>
           <label className={s.fieldLabel}>Height *</label>
-          <RichSelect options={HEIGHTS} value={f.height} onChange={v => set('height', v)} placeholder="Select height" ariaLabel="Height" />
+          <RichSelect dark options={HEIGHTS} value={f.height} onChange={v => set('height', v)} placeholder="Select height" ariaLabel="Height" />
         </div>
         <div className={s.field}>
           <label className={s.fieldLabel}>Complexion</label>
@@ -398,11 +398,11 @@ function Inner() {
         <div className={s.fieldGrid2}>
           <div className={s.field}>
             <label className={s.fieldLabel}>State *</label>
-            <RichSelect options={INDIA_STATES} value={f.state} onChange={v => set('state', v)} placeholder="Select state" ariaLabel="State" />
+            <RichSelect dark options={INDIA_STATES} value={f.state} onChange={v => set('state', v)} placeholder="Select state" ariaLabel="State" />
           </div>
           <div className={s.field}>
             <label className={s.fieldLabel}>Country</label>
-            <RichSelect options={['India','USA','UK','UAE','Canada','Australia','Singapore','Other']} value={f.country} onChange={v => set('country', v)} placeholder="Select country" ariaLabel="Country" />
+            <RichSelect dark options={['India','USA','UK','UAE','Canada','Australia','Singapore','Other']} value={f.country} onChange={v => set('country', v)} placeholder="Select country" ariaLabel="Country" />
           </div>
         </div>
       </>)
@@ -433,19 +433,19 @@ function Inner() {
         <div className={s.fieldGrid2}>
           <div className={s.field}>
             <label className={s.fieldLabel}>Gotra</label>
-            <RichSelect options={GOTRAS} value={f.gotra} onChange={v => set('gotra', v)} placeholder="Select gotra" ariaLabel="Gotra" />
+            <RichSelect dark options={GOTRAS} value={f.gotra} onChange={v => set('gotra', v)} placeholder="Select gotra" ariaLabel="Gotra" />
           </div>
           <div className={s.field}>
             <label className={s.fieldLabel}>Father&apos;s Gotra</label>
-            <RichSelect options={GOTRAS} value={f.fatherGotra} onChange={v => set('fatherGotra', v)} placeholder="Select gotra" ariaLabel="Father's Gotra" />
+            <RichSelect dark options={GOTRAS} value={f.fatherGotra} onChange={v => set('fatherGotra', v)} placeholder="Select gotra" ariaLabel="Father's Gotra" />
           </div>
           <div className={s.field}>
             <label className={s.fieldLabel}>Nakshatra</label>
-            <RichSelect options={NAKSHATRAS} value={f.nakshatra} onChange={v => set('nakshatra', v)} placeholder="Select nakshatra" ariaLabel="Nakshatra" />
+            <RichSelect dark options={NAKSHATRAS} value={f.nakshatra} onChange={v => set('nakshatra', v)} placeholder="Select nakshatra" ariaLabel="Nakshatra" />
           </div>
           <div className={s.field}>
             <label className={s.fieldLabel}>Rashi</label>
-            <RichSelect options={RASHIS} value={f.rashi} onChange={v => set('rashi', v)} placeholder="Select rashi" ariaLabel="Rashi" />
+            <RichSelect dark options={RASHIS} value={f.rashi} onChange={v => set('rashi', v)} placeholder="Select rashi" ariaLabel="Rashi" />
           </div>
         </div>
       </>)
@@ -487,7 +487,7 @@ function Inner() {
         <div className={s.fieldGrid2}>
           <div className={s.field}>
             <label className={s.fieldLabel}>Annual Income</label>
-            <RichSelect options={['Below 3 Lakhs','3–5 Lakhs','5–10 Lakhs','10–20 Lakhs','20–50 Lakhs','50L–1 Crore','1 Crore+']} value={f.annualIncome} onChange={v => set('annualIncome', v)} placeholder="Select income range" ariaLabel="Annual Income" />
+            <RichSelect dark options={['Below 3 Lakhs','3–5 Lakhs','5–10 Lakhs','10–20 Lakhs','20–50 Lakhs','50L–1 Crore','1 Crore+']} value={f.annualIncome} onChange={v => set('annualIncome', v)} placeholder="Select income range" ariaLabel="Annual Income" />
           </div>
           <div className={s.field}>
             <label className={s.fieldLabel}>Work City</label>
@@ -536,7 +536,7 @@ function Inner() {
           </div>
           <div className={s.field}>
             <label className={s.fieldLabel}>Father&apos;s Status</label>
-            <RichSelect options={['Employed','Business','Retired','Expired']} value={f.fatherStatus} onChange={v => set('fatherStatus', v)} placeholder="Select status" ariaLabel="Father's Status" />
+            <RichSelect dark options={['Employed','Business','Retired','Expired']} value={f.fatherStatus} onChange={v => set('fatherStatus', v)} placeholder="Select status" ariaLabel="Father's Status" />
           </div>
           <div className={s.field}>
             <label className={s.fieldLabel}>Mother&apos;s Name</label>
@@ -544,7 +544,7 @@ function Inner() {
           </div>
           <div className={s.field}>
             <label className={s.fieldLabel}>Mother&apos;s Status</label>
-            <RichSelect options={['Homemaker','Working','Retired','Expired']} value={f.motherStatus} onChange={v => set('motherStatus', v)} placeholder="Select status" ariaLabel="Mother's Status" />
+            <RichSelect dark options={['Homemaker','Working','Retired','Expired']} value={f.motherStatus} onChange={v => set('motherStatus', v)} placeholder="Select status" ariaLabel="Mother's Status" />
           </div>
         </div>
       </>)
@@ -567,7 +567,7 @@ function Inner() {
         </div>
         <div className={s.field}>
           <label className={s.fieldLabel}>Preferred Income</label>
-          <RichSelect options={['Any','3–5 Lakhs','5–10 Lakhs','10–20 Lakhs','20–50 Lakhs','50L–1 Crore','1 Crore+']} value={f.ppIncome || 'Any'} onChange={v => set('ppIncome', v === 'Any' ? '' : v)} placeholder="Any" ariaLabel="Preferred Income" />
+          <RichSelect dark options={['Any','3–5 Lakhs','5–10 Lakhs','10–20 Lakhs','20–50 Lakhs','50L–1 Crore','1 Crore+']} value={f.ppIncome || 'Any'} onChange={v => set('ppIncome', v === 'Any' ? '' : v)} placeholder="Any" ariaLabel="Preferred Income" />
         </div>
         <div className={s.field}>
           <label className={s.fieldLabel}>NRI Preference</label>
